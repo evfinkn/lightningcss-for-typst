@@ -376,7 +376,7 @@ impl<'i> ToTypst for Keyframe<'i> {
       selector.to_typst(dest)?;
     }
 
-    self.declarations.to_css_block(dest)
+    self.declarations.to_typst_dict(dest)
   }
 }
 

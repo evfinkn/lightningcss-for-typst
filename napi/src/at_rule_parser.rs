@@ -178,7 +178,7 @@ impl<'i> ToTypst for AtRule<'i> {
     if let Some(body) = &self.body {
       match body {
         AtRuleBody::DeclarationList(decls) => {
-          decls.to_css_block(dest)?;
+          decls.to_typst_dict(dest)?;
         }
         AtRuleBody::RuleList(rules) => {
           dest.whitespace()?;

@@ -41,6 +41,6 @@ impl<'i> ToTypst for ViewportRule<'i> {
     dest.write_char('@')?;
     self.vendor_prefix.to_typst(dest)?;
     dest.write_str("viewport")?;
-    self.declarations.to_css_block(dest)
+    self.declarations.to_typst_dict(dest)
   }
 }

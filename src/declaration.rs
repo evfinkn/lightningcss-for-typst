@@ -150,12 +150,12 @@ impl<'i> ToTypst for DeclarationBlock<'i> {
 
 impl<'i> DeclarationBlock<'i> {
   /// Writes the declarations to a CSS block, including starting and ending braces.
-  pub fn to_css_block<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  pub fn to_typst_dict<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     dest.whitespace()?;
-    dest.write_char('{')?;
+    dest.write_char('(')?;
     dest.indent();
 
     let mut i = 0;
@@ -167,7 +167,7 @@ impl<'i> DeclarationBlock<'i> {
           dest.newline()?;
           decl.to_css(dest, $important)?;
           if i != len - 1 || !dest.minify {
-            dest.write_char(';')?;
+            dest.write_char(',')?;
           }
           i += 1;
         }
@@ -179,7 +179,7 @@ impl<'i> DeclarationBlock<'i> {
 
     dest.dedent();
     dest.newline()?;
-    dest.write_char('}')
+    dest.write_char(')')
   }
 }
 

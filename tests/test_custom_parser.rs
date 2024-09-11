@@ -133,7 +133,7 @@ impl<'i> ToTypst for AtRule<'i> {
       AtRule::Block(rule) => {
         dest.write_str("@block ")?;
         rule.name.to_typst(dest)?;
-        rule.declarations.to_css_block(dest)
+        rule.declarations.to_typst_dict(dest)
       }
       AtRule::Inline(rule) => {
         dest.write_str("@inline ")?;

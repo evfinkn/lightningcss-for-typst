@@ -149,7 +149,7 @@ impl<'i> ToTypst for PageMarginRule<'i> {
     dest.add_mapping(self.loc);
     dest.write_char('@')?;
     self.margin_box.to_typst(dest)?;
-    self.declarations.to_css_block(dest)
+    self.declarations.to_typst_dict(dest)
   }
 }
 

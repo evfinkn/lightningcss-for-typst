@@ -36,6 +36,6 @@ impl<'i> ToTypst for CounterStyleRule<'i> {
     dest.add_mapping(self.loc);
     dest.write_str("@counter-style ")?;
     self.name.to_typst(dest)?;
-    self.declarations.to_css_block(dest)
+    self.declarations.to_typst_dict(dest)
   }
 }
