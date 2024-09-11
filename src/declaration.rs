@@ -35,7 +35,7 @@ use crate::properties::{
   ui::ColorSchemeHandler,
 };
 use crate::properties::{Property, PropertyId};
-use crate::traits::{PropertyHandler, ToCss};
+use crate::traits::{PropertyHandler, ToTypst};
 use crate::values::ident::DashedIdent;
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
@@ -121,7 +121,7 @@ impl<'i> DeclarationBlock<'i> {
   }
 }
 
-impl<'i> ToCss for DeclarationBlock<'i> {
+impl<'i> ToTypst for DeclarationBlock<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

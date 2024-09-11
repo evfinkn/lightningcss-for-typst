@@ -8,7 +8,7 @@ macro_rules! enum_property {
       )+
     }
   ) => {
-    #[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+    #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
     #[cfg_attr(feature = "visitor", derive(Visit))]
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(rename_all = "kebab-case"))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
@@ -82,7 +82,7 @@ macro_rules! enum_property {
       }
     }
 
-    impl ToCss for $name {
+    impl ToTypst for $name {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         dest.write_str(self.as_str())
       }
@@ -151,7 +151,7 @@ macro_rules! shorthand_property {
       }
     }
 
-    impl$(<$l>)? ToCss for $name$(<$l>)? {
+    impl$(<$l>)? ToTypst for $name$(<$l>)? {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         let mut needs_space = false;
         macro_rules! print_one {
@@ -754,7 +754,7 @@ macro_rules! rect_shorthand {
       }
     }
 
-    impl ToCss for $name {
+    impl ToTypst for $name {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
@@ -797,7 +797,7 @@ macro_rules! size_shorthand {
       }
     }
 
-    impl ToCss for $name {
+    impl ToTypst for $name {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,

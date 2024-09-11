@@ -7,7 +7,7 @@ use crate::{
   error::{ParserError, PrinterError},
   printer::Printer,
   properties::custom::TokenList,
-  traits::{Parse, ToCss},
+  traits::{Parse, ToTypst},
   values::{
     ident::DashedIdent,
     syntax::{ParsedComponent, SyntaxString},
@@ -109,7 +109,7 @@ impl<'i> PropertyRule<'i> {
   }
 }
 
-impl<'i> ToCss for PropertyRule<'i> {
+impl<'i> ToTypst for PropertyRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

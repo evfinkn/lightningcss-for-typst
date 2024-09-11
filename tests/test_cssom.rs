@@ -2,7 +2,7 @@ use lightningcss::{
   declaration::DeclarationBlock,
   properties::{Property, PropertyId},
   stylesheet::{ParserOptions, PrinterOptions},
-  traits::ToCss,
+  traits::ToTypst,
   vendor_prefix::VendorPrefix,
 };
 

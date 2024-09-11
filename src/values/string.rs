@@ -1,6 +1,6 @@
 //! Types used to represent strings.
 
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::{Visit, VisitTypes, Visitor};
 use cssparser::{serialize_string, CowRcStr};
@@ -337,7 +337,7 @@ impl<'i> Parse<'i> for CSSString<'i> {
   }
 }
 
-impl<'i> ToCss for CSSString<'i> {
+impl<'i> ToTypst for CSSString<'i> {
   fn to_typst<W>(&self, dest: &mut crate::printer::Printer<W>) -> Result<(), crate::error::PrinterError>
   where
     W: std::fmt::Write,

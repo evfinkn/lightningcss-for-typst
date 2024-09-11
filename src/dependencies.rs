@@ -11,7 +11,7 @@
 use crate::css_modules::hash;
 use crate::printer::PrinterOptions;
 use crate::rules::import::ImportRule;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::values::url::Url;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;

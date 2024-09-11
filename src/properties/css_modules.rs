@@ -3,7 +3,7 @@
 use crate::dependencies::Location;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::ident::{CustomIdent, CustomIdentList};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
@@ -86,7 +86,7 @@ fn parse_one_ident<'i, 't>(
   Ok(name)
 }
 
-impl ToCss for Composes<'_> {
+impl ToTypst for Composes<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -121,7 +121,7 @@ impl<'i> Parse<'i> for Specifier<'i> {
   }
 }
 
-impl<'i> ToCss for Specifier<'i> {
+impl<'i> ToTypst for Specifier<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

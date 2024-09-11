@@ -3,7 +3,7 @@
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, ToCss, Zero};
+use crate::traits::{FallbackValues, IsCompatible, Parse, ToTypst, Zero};
 use crate::values::color::ColorFallbackKind;
 use crate::values::{angle::Angle, color::CssColor, length::Length, percentage::NumberOrPercentage, url::Url};
 #[cfg(feature = "visitor")]
@@ -114,7 +114,7 @@ impl<'i> Parse<'i> for Filter<'i> {
   }
 }
 
-impl<'i> ToCss for Filter<'i> {
+impl<'i> ToTypst for Filter<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -276,7 +276,7 @@ impl<'i> Parse<'i> for DropShadow {
   }
 }
 
-impl ToCss for DropShadow {
+impl ToTypst for DropShadow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -342,7 +342,7 @@ impl<'i> Parse<'i> for FilterList<'i> {
   }
 }
 
-impl<'i> ToCss for FilterList<'i> {
+impl<'i> ToTypst for FilterList<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -13,7 +13,7 @@ use crate::printer::Printer;
 use crate::properties::PropertyId;
 use crate::rules::supports::SupportsCondition;
 use crate::targets::{should_compile, Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::{Visit, VisitTypes, Visitor};
 use bitflags::bitflags;
@@ -520,7 +520,7 @@ impl<'i> Parse<'i> for CssColor {
   }
 }
 
-impl ToCss for CssColor {
+impl ToTypst for CssColor {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -3580,7 +3580,7 @@ impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for RGB
   }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[css(case = lower)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(

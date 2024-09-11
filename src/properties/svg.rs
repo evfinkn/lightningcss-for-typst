@@ -4,7 +4,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::printer::Printer;
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, ToTypst};
 use crate::values::length::LengthPercentage;
 use crate::values::{color::CssColor, url::Url};
 #[cfg(feature = "visitor")]
@@ -13,7 +13,7 @@ use cssparser::*;
 
 /// An SVG [`<paint>`](https://www.w3.org/TR/SVG2/painting.html#SpecifyingPaint) value
 /// used in the `fill` and `stroke` properties.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(
@@ -45,7 +45,7 @@ pub enum SVGPaint<'i> {
 /// A fallback for an SVG paint in case a paint server `url()` cannot be resolved.
 ///
 /// See [SVGPaint](SVGPaint).
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -168,7 +168,7 @@ impl<'i> Parse<'i> for StrokeDasharray {
   }
 }
 
-impl ToCss for StrokeDasharray {
+impl ToTypst for StrokeDasharray {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -192,7 +192,7 @@ impl ToCss for StrokeDasharray {
 }
 
 /// A value for the [marker](https://www.w3.org/TR/SVG2/painting.html#VertexMarkerProperties) properties.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(
@@ -210,7 +210,7 @@ pub enum Marker<'i> {
 }
 
 /// A value for the [color-interpolation](https://www.w3.org/TR/SVG2/painting.html#ColorInterpolation) property.
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -229,7 +229,7 @@ pub enum ColorInterpolation {
 }
 
 /// A value for the [color-rendering](https://www.w3.org/TR/SVG2/painting.html#ColorRendering) property.
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -248,7 +248,7 @@ pub enum ColorRendering {
 }
 
 /// A value for the [shape-rendering](https://www.w3.org/TR/SVG2/painting.html#ShapeRendering) property.
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -269,7 +269,7 @@ pub enum ShapeRendering {
 }
 
 /// A value for the [text-rendering](https://www.w3.org/TR/SVG2/painting.html#TextRendering) property.
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -290,7 +290,7 @@ pub enum TextRendering {
 }
 
 /// A value for the [image-rendering](https://www.w3.org/TR/SVG2/painting.html#ImageRendering) property.
-#[derive(Debug, Clone, Copy, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",

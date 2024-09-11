@@ -8,7 +8,7 @@ use crate::macros::{define_shorthand, enum_property, shorthand_property};
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId};
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::color::CssColor;
 use crate::values::number::CSSNumber;
 use crate::values::string::CowArcStr;
@@ -70,7 +70,7 @@ impl<'i> Parse<'i> for CursorImage<'i> {
   }
 }
 
-impl<'i> ToCss for CursorImage<'i> {
+impl<'i> ToTypst for CursorImage<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -165,7 +165,7 @@ impl<'i> Parse<'i> for Cursor<'i> {
   }
 }
 
-impl<'i> ToCss for Cursor<'i> {
+impl<'i> ToTypst for Cursor<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -179,7 +179,7 @@ impl<'i> ToCss for Cursor<'i> {
 }
 
 /// A value for the [caret-color](https://www.w3.org/TR/2021/WD-css-ui-4-20210316/#caret-color) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -367,7 +367,7 @@ impl<'i> Parse<'i> for Appearance<'i> {
   }
 }
 
-impl<'i> ToCss for Appearance<'i> {
+impl<'i> ToTypst for Appearance<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -464,7 +464,7 @@ impl<'i> Parse<'i> for ColorScheme {
   }
 }
 
-impl ToCss for ColorScheme {
+impl ToTypst for ColorScheme {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -6,7 +6,7 @@ use crate::declaration::DeclarationList;
 use crate::error::{ParserError, PrinterError};
 use crate::prefixes::Feature;
 use crate::printer::Printer;
-use crate::traits::{Parse, PropertyHandler, ToCss};
+use crate::traits::{Parse, PropertyHandler, ToTypst};
 use crate::values::number::CSSInteger;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -54,7 +54,7 @@ impl<'i> Parse<'i> for Position {
   }
 }
 
-impl ToCss for Position {
+impl ToTypst for Position {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -73,7 +73,7 @@ impl ToCss for Position {
 }
 
 /// A value for the [z-index](https://drafts.csswg.org/css2/#z-index) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",

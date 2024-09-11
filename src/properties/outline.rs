@@ -8,14 +8,14 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::{impl_shorthand, shorthand_handler};
 use crate::printer::Printer;
 use crate::targets::Browsers;
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::color::CssColor;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
 
 /// A value for the [outline-style](https://drafts.csswg.org/css-ui/#outline-style) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",

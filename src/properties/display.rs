@@ -8,7 +8,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::prefixes::{is_flex_2009, Feature};
 use crate::printer::Printer;
-use crate::traits::{Parse, PropertyHandler, ToCss};
+use crate::traits::{Parse, PropertyHandler, ToTypst};
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -66,7 +66,7 @@ impl<'i> Parse<'i> for DisplayInside {
   }
 }
 
-impl ToCss for DisplayInside {
+impl ToTypst for DisplayInside {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -225,7 +225,7 @@ impl<'i> Parse<'i> for DisplayPair {
   }
 }
 
-impl ToCss for DisplayPair {
+impl ToTypst for DisplayPair {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -327,7 +327,7 @@ enum_property! {
 }
 
 /// A value for the [display](https://drafts.csswg.org/css-display-3/#the-display-properties) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",

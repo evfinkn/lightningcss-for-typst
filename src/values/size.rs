@@ -2,7 +2,7 @@
 
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{IsCompatible, Parse, ToCss};
+use crate::traits::{IsCompatible, Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -28,9 +28,9 @@ where
   }
 }
 
-impl<T> ToCss for Size2D<T>
+impl<T> ToTypst for Size2D<T>
 where
-  T: ToCss + PartialEq,
+  T: ToTypst + PartialEq,
 {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where

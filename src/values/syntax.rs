@@ -6,7 +6,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::properties::custom::TokenList;
 use crate::stylesheet::ParserOptions;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -389,7 +389,7 @@ impl<'i> Parse<'i> for SyntaxString {
   }
 }
 
-impl ToCss for SyntaxString {
+impl ToTypst for SyntaxString {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -415,7 +415,7 @@ impl ToCss for SyntaxString {
   }
 }
 
-impl ToCss for SyntaxComponent {
+impl ToTypst for SyntaxComponent {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -429,7 +429,7 @@ impl ToCss for SyntaxComponent {
   }
 }
 
-impl ToCss for SyntaxComponentKind {
+impl ToTypst for SyntaxComponentKind {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -456,7 +456,7 @@ impl ToCss for SyntaxComponentKind {
   }
 }
 
-impl<'i> ToCss for ParsedComponent<'i> {
+impl<'i> ToTypst for ParsedComponent<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

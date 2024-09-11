@@ -3,7 +3,7 @@
 use crate::dependencies::{Dependency, Location, UrlDependency};
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -38,7 +38,7 @@ impl<'i> Parse<'i> for Url<'i> {
   }
 }
 
-impl<'i> ToCss for Url<'i> {
+impl<'i> ToTypst for Url<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -63,7 +63,6 @@ impl<'i> ToCss for Url<'i> {
       return Ok(());
     }
 
-    use cssparser::ToCss;
     if dest.minify {
       let mut buf = String::new();
       Token::UnquotedUrl(CowRcStr::from(self.url.as_ref())).to_css(&mut buf)?;

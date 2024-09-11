@@ -4,7 +4,7 @@ use lightningcss::{
   error::{ParserError, PrinterError},
   printer::Printer,
   stylesheet::{ParserOptions, PrinterOptions, StyleSheet},
-  traits::{AtRuleParser, Parse, ToCss},
+  traits::{AtRuleParser, Parse, ToTypst},
   values::ident::Ident,
 };
 
@@ -127,7 +127,7 @@ impl<'i> AtRuleParser<'i> for TestAtRuleParser {
   }
 }
 
-impl<'i> ToCss for AtRule<'i> {
+impl<'i> ToTypst for AtRule<'i> {
   fn to_typst<W: std::fmt::Write>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> {
     match self {
       AtRule::Block(rule) => {

@@ -6,7 +6,7 @@ use crate::macros::enum_property;
 use crate::printer::Printer;
 use crate::targets::{should_compile, Browsers};
 use crate::traits::private::AddInternal;
-use crate::traits::{IsCompatible, Parse, Sign, ToCss, TryMap, TryOp, TrySign};
+use crate::traits::{IsCompatible, Parse, Sign, ToTypst, TryMap, TryOp, TrySign};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -122,7 +122,7 @@ fn modulo(a: f32, b: f32) -> f32 {
   ((a % b) + b) % b
 }
 
-impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToCss for MathFunction<V> {
+impl<V: ToTypst + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToTypst for MathFunction<V> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -917,7 +917,7 @@ impl<V: AddInternal + std::convert::Into<Calc<V>> + std::convert::From<Calc<V>> 
   }
 }
 
-impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToCss for Calc<V> {
+impl<V: ToTypst + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToTypst for Calc<V> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

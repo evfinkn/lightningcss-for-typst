@@ -9,7 +9,7 @@ use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
 use crate::properties::PropertyId;
 use crate::targets::Targets;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::string::CowArcStr;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -47,7 +47,7 @@ impl<'i, T: Clone> SupportsRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for SupportsRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for SupportsRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -312,7 +312,7 @@ impl<'i> SupportsCondition<'i> {
   }
 }
 
-impl<'i> ToCss for SupportsCondition<'i> {
+impl<'i> ToTypst for SupportsCondition<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

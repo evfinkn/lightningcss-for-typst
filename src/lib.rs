@@ -59,7 +59,7 @@ mod tests {
   use crate::rules::Location;
   use crate::stylesheet::*;
   use crate::targets::{Browsers, Features, Targets};
-  use crate::traits::{Parse, ToCss};
+  use crate::traits::{Parse, ToTypst};
   use crate::values::color::CssColor;
   use crate::vendor_prefix::VendorPrefix;
   use cssparser::SourceLocation;
@@ -19392,7 +19392,7 @@ mod tests {
     );
 
     fn canonicalize(s: &str) -> String {
-      use crate::traits::{Parse, ToCss};
+      use crate::traits::{Parse, ToTypst};
       use crate::values::color::CssColor;
       use cssparser::{Parser, ParserInput};
 

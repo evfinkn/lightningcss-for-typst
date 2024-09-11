@@ -8,7 +8,7 @@ use crate::macros::enum_property;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::stylesheet::PrinterOptions;
-use crate::traits::{Parse, PropertyHandler, ToCss, Zero};
+use crate::traits::{Parse, PropertyHandler, ToTypst, Zero};
 use crate::values::{
   angle::Angle,
   length::{Length, LengthPercentage},
@@ -47,7 +47,7 @@ impl<'i> Parse<'i> for TransformList {
   }
 }
 
-impl ToCss for TransformList {
+impl ToTypst for TransformList {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1030,7 +1030,7 @@ impl<'i> Parse<'i> for Transform {
   }
 }
 
-impl ToCss for Transform {
+impl ToTypst for Transform {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1413,7 +1413,7 @@ enum_property! {
 }
 
 /// A value for the [perspective](https://drafts.csswg.org/css-transforms-2/#perspective-property) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -1477,7 +1477,7 @@ impl<'i> Parse<'i> for Translate {
   }
 }
 
-impl ToCss for Translate {
+impl ToTypst for Translate {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1568,7 +1568,7 @@ impl<'i> Parse<'i> for Rotate {
   }
 }
 
-impl ToCss for Rotate {
+impl ToTypst for Rotate {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1650,7 +1650,7 @@ impl<'i> Parse<'i> for Scale {
   }
 }
 
-impl ToCss for Scale {
+impl ToTypst for Scale {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -6,7 +6,7 @@ use crate::error::{MinifyError, PrinterError};
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
 use crate::selector::{is_pure_css_modules_selector, SelectorList};
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 
@@ -63,7 +63,7 @@ impl<'i, T: Clone> ScopeRule<'i, T> {
   }
 }
 
-impl<'i, T: ToCss> ToCss for ScopeRule<'i, T> {
+impl<'i, T: ToTypst> ToTypst for ScopeRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -3,7 +3,7 @@
 use super::Location;
 use crate::error::PrinterError;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::values::ident::Ident;
 use crate::values::string::CSSString;
 #[cfg(feature = "visitor")]
@@ -29,7 +29,7 @@ pub struct NamespaceRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for NamespaceRule<'i> {
+impl<'i> ToTypst for NamespaceRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

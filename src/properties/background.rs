@@ -8,7 +8,7 @@ use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId, VendorPrefix};
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::color::ColorFallbackKind;
 use crate::values::image::ImageFallback;
 use crate::values::{color::CssColor, image::Image, length::LengthPercentageOrAuto, position::*};
@@ -72,7 +72,7 @@ impl<'i> Parse<'i> for BackgroundSize {
   }
 }
 
-impl ToCss for BackgroundSize {
+impl ToTypst for BackgroundSize {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -165,7 +165,7 @@ impl<'i> Parse<'i> for BackgroundRepeat {
   }
 }
 
-impl ToCss for BackgroundRepeat {
+impl ToTypst for BackgroundRepeat {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -312,7 +312,7 @@ impl<'i> Parse<'i> for BackgroundPosition {
   }
 }
 
-impl ToCss for BackgroundPosition {
+impl ToTypst for BackgroundPosition {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -440,7 +440,7 @@ impl<'i> Parse<'i> for Background<'i> {
   }
 }
 
-impl<'i> ToCss for Background<'i> {
+impl<'i> ToTypst for Background<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

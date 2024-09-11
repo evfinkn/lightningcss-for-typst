@@ -15,7 +15,7 @@ use crate::properties::{Property, PropertyId};
 #[cfg(feature = "serde")]
 use crate::serialization::ValueWrapper;
 use crate::targets::{Features, Targets};
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::ident::CustomIdent;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -202,7 +202,7 @@ impl<'i> Parse<'i> for ContainerCondition<'i> {
   }
 }
 
-impl<'i> ToCss for ContainerCondition<'i> {
+impl<'i> ToTypst for ContainerCondition<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -226,7 +226,7 @@ impl<'i> ToCss for ContainerCondition<'i> {
   }
 }
 
-impl<'i> ToCss for StyleQuery<'i> {
+impl<'i> ToTypst for StyleQuery<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -263,7 +263,7 @@ impl<'i> Parse<'i> for ContainerName<'i> {
   }
 }
 
-impl<'i> ToCss for ContainerName<'i> {
+impl<'i> ToTypst for ContainerName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -283,7 +283,7 @@ impl<'i, T: Clone> ContainerRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for ContainerRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for ContainerRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

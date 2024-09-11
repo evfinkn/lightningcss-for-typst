@@ -9,7 +9,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::*;
 use crate::prefixes::{is_flex_2009, Feature};
 use crate::printer::Printer;
-use crate::traits::{FromStandard, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FromStandard, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::length::LengthPercentage;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -57,7 +57,7 @@ impl<'i> Parse<'i> for BaselinePosition {
   }
 }
 
-impl ToCss for BaselinePosition {
+impl ToTypst for BaselinePosition {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -112,7 +112,7 @@ enum_property! {
 }
 
 /// A value for the [align-content](https://www.w3.org/TR/css-align-3/#propdef-align-content) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -204,7 +204,7 @@ impl<'i> Parse<'i> for JustifyContent {
   }
 }
 
-impl ToCss for JustifyContent {
+impl ToTypst for JustifyContent {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -278,7 +278,7 @@ impl<'i> Parse<'i> for PlaceContent {
   }
 }
 
-impl ToCss for PlaceContent {
+impl ToTypst for PlaceContent {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -325,7 +325,7 @@ enum_property! {
 }
 
 /// A value for the [align-self](https://www.w3.org/TR/css-align-3/#align-self-property) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -427,7 +427,7 @@ impl<'i> Parse<'i> for JustifySelf {
   }
 }
 
-impl ToCss for JustifySelf {
+impl ToTypst for JustifySelf {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -499,7 +499,7 @@ impl<'i> Parse<'i> for PlaceSelf {
   }
 }
 
-impl ToCss for PlaceSelf {
+impl ToTypst for PlaceSelf {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -528,7 +528,7 @@ impl ToCss for PlaceSelf {
 }
 
 /// A value for the [align-items](https://www.w3.org/TR/css-align-3/#align-items-property) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -608,7 +608,7 @@ impl<'i> Parse<'i> for LegacyJustify {
   }
 }
 
-impl ToCss for LegacyJustify {
+impl ToTypst for LegacyJustify {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -697,7 +697,7 @@ impl<'i> Parse<'i> for JustifyItems {
   }
 }
 
-impl ToCss for JustifyItems {
+impl ToTypst for JustifyItems {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -768,7 +768,7 @@ impl<'i> Parse<'i> for PlaceItems {
   }
 }
 
-impl ToCss for PlaceItems {
+impl ToTypst for PlaceItems {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -797,7 +797,7 @@ impl ToCss for PlaceItems {
 
 /// A [gap](https://www.w3.org/TR/css-align-3/#column-row-gap) value, as used in the
 /// `column-gap` and `row-gap` properties.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -831,7 +831,7 @@ impl<'i> Parse<'i> for Gap {
   }
 }
 
-impl ToCss for Gap {
+impl ToTypst for Gap {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

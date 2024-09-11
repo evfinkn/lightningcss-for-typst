@@ -16,7 +16,7 @@ use crate::selector::{
   downlevel_selectors, get_prefix, is_compatible, is_pure_css_modules_selector, is_unused, SelectorList,
 };
 use crate::targets::{should_compile, Targets};
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -211,7 +211,7 @@ where
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for StyleRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for StyleRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -239,7 +239,7 @@ impl<'a, 'i, T: ToCss> ToCss for StyleRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> StyleRule<'i, T> {
+impl<'a, 'i, T: ToTypst> StyleRule<'i, T> {
   fn to_css_base<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -71,7 +71,7 @@ use crate::rules::keyframes::KeyframesName;
 use crate::selector::{is_compatible, is_equivalent, Component, Selector, SelectorList};
 use crate::stylesheet::ParserOptions;
 use crate::targets::Targets;
-use crate::traits::{AtRuleParser, ToCss};
+use crate::traits::{AtRuleParser, ToTypst};
 use crate::values::string::CowArcStr;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -332,7 +332,7 @@ impl<'i, 'de: 'i, R: serde::Deserialize<'de>> serde::Deserialize<'de> for CssRul
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for CssRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for CssRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -951,7 +951,7 @@ fn merge_style_rules<'i, T>(
   false
 }
 
-impl<'a, 'i, T: ToCss> ToCss for CssRuleList<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for CssRuleList<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

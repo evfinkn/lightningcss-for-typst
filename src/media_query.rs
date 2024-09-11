@@ -10,7 +10,7 @@ use crate::rules::custom_media::CustomMediaRule;
 use crate::rules::Location;
 use crate::stylesheet::ParserOptions;
 use crate::targets::{should_compile, Targets};
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::ident::{DashedIdent, Ident};
 use crate::values::number::{CSSInteger, CSSNumber};
 use crate::values::string::CowArcStr;
@@ -152,7 +152,7 @@ impl<'i> MediaList<'i> {
   }
 }
 
-impl<'i> ToCss for MediaList<'i> {
+impl<'i> ToTypst for MediaList<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -399,7 +399,7 @@ impl<'i> MediaQuery<'i> {
   }
 }
 
-impl<'i> ToCss for MediaQuery<'i> {
+impl<'i> ToTypst for MediaQuery<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -726,7 +726,7 @@ fn parse_paren_block<'t, 'i, P: QueryCondition<'i>>(
   })
 }
 
-pub(crate) fn to_css_with_parens_if_needed<V: ToCss, W>(
+pub(crate) fn to_css_with_parens_if_needed<V: ToTypst, W>(
   value: V,
   dest: &mut Printer<W>,
   needs_parens: bool,
@@ -744,7 +744,7 @@ where
   Ok(())
 }
 
-pub(crate) fn operation_to_css<'i, V: ToCss + QueryCondition<'i>, W>(
+pub(crate) fn operation_to_css<'i, V: ToTypst + QueryCondition<'i>, W>(
   operator: Operator,
   conditions: &Vec<V>,
   dest: &mut Printer<W>,
@@ -765,7 +765,7 @@ where
   Ok(())
 }
 
-impl<'i> ToCss for MediaCondition<'i> {
+impl<'i> ToTypst for MediaCondition<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -807,7 +807,7 @@ pub enum MediaFeatureComparison {
   LessThanEqual,
 }
 
-impl ToCss for MediaFeatureComparison {
+impl ToTypst for MediaFeatureComparison {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1023,7 +1023,7 @@ where
   }
 }
 
-impl<'i, FeatureId: FeatureToCss> ToCss for QueryFeature<'i, FeatureId> {
+impl<'i, FeatureId: FeatureToCss> ToTypst for QueryFeature<'i, FeatureId> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1155,7 +1155,7 @@ impl<'i, FeatureId: ValueType> ValueType for MediaFeatureName<'i, FeatureId> {
   }
 }
 
-impl<'i, FeatureId: FeatureToCss> ToCss for MediaFeatureName<'i, FeatureId> {
+impl<'i, FeatureId: FeatureToCss> ToTypst for MediaFeatureName<'i, FeatureId> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1347,7 +1347,7 @@ define_query_features! {
   }
 }
 
-pub(crate) trait FeatureToCss: ToCss {
+pub(crate) trait FeatureToCss: ToTypst {
   fn to_css_with_prefix<W>(&self, prefix: &str, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write;
@@ -1533,7 +1533,7 @@ impl<'i> MediaFeatureValue<'i> {
   }
 }
 
-impl<'i> ToCss for MediaFeatureValue<'i> {
+impl<'i> ToTypst for MediaFeatureValue<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

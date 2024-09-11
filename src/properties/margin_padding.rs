@@ -6,7 +6,7 @@ use crate::logical::PropertyCategory;
 use crate::macros::{define_shorthand, rect_shorthand, size_shorthand};
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId};
-use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::{length::LengthPercentageOrAuto, rect::Rect, size::Size2D};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;

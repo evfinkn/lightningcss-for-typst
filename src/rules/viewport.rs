@@ -4,7 +4,7 @@ use super::Location;
 use crate::declaration::DeclarationBlock;
 use crate::error::PrinterError;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -31,7 +31,7 @@ pub struct ViewportRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for ViewportRule<'i> {
+impl<'i> ToTypst for ViewportRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

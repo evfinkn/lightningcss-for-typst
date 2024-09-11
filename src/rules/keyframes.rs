@@ -12,7 +12,7 @@ use crate::properties::animation::TimelineRangeName;
 use crate::properties::custom::{CustomProperty, UnparsedProperty};
 use crate::properties::Property;
 use crate::targets::Targets;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::color::ColorFallbackKind;
 use crate::values::ident::CustomIdent;
 use crate::values::percentage::Percentage;
@@ -88,7 +88,7 @@ impl<'i> Parse<'i> for KeyframesName<'i> {
   }
 }
 
-impl<'i> ToCss for KeyframesName<'i> {
+impl<'i> ToTypst for KeyframesName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -214,7 +214,7 @@ impl<'i> KeyframesRule<'i> {
   }
 }
 
-impl<'i> ToCss for KeyframesRule<'i> {
+impl<'i> ToTypst for KeyframesRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -313,7 +313,7 @@ pub enum KeyframeSelector {
   TimelineRangePercentage(TimelineRangePercentage),
 }
 
-impl ToCss for KeyframeSelector {
+impl ToTypst for KeyframeSelector {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -362,7 +362,7 @@ pub struct Keyframe<'i> {
   pub declarations: DeclarationBlock<'i>,
 }
 
-impl<'i> ToCss for Keyframe<'i> {
+impl<'i> ToTypst for Keyframe<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

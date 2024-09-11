@@ -4,7 +4,7 @@
 
 use crate::error::PrinterError;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 #[cfg(feature = "visitor")]
 use crate::visitor::{Visit, VisitTypes, Visitor};
 use bitflags::bitflags;
@@ -68,7 +68,7 @@ impl VendorPrefix {
   }
 }
 
-impl ToCss for VendorPrefix {
+impl ToTypst for VendorPrefix {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

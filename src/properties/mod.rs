@@ -129,7 +129,7 @@ use crate::parser::ParserOptions;
 use crate::prefixes::Feature;
 use crate::printer::{Printer, PrinterOptions};
 use crate::targets::Targets;
-use crate::traits::{Parse, ParseWithOptions, Shorthand, ToCss};
+use crate::traits::{Parse, ParseWithOptions, Shorthand, ToTypst};
 use crate::values::number::{CSSInteger, CSSNumber};
 use crate::values::string::CowArcStr;
 use crate::values::{
@@ -246,7 +246,7 @@ macro_rules! define_properties {
       }
     }
 
-    impl<'i> ToCss for PropertyId<'i> {
+    impl<'i> ToTypst for PropertyId<'i> {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         let mut first = true;
         macro_rules! delim {
@@ -1663,7 +1663,7 @@ impl<'i, T: smallvec::Array<Item = V>, V: Parse<'i>> Parse<'i> for SmallVec<T> {
   }
 }
 
-impl<T: smallvec::Array<Item = V>, V: ToCss> ToCss for SmallVec<T> {
+impl<T: smallvec::Array<Item = V>, V: ToTypst> ToTypst for SmallVec<T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1685,7 +1685,7 @@ impl<'i, T: Parse<'i>> Parse<'i> for Vec<T> {
   }
 }
 
-impl<T: ToCss> ToCss for Vec<T> {
+impl<T: ToTypst> ToTypst for Vec<T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

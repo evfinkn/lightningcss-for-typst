@@ -9,7 +9,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::prefixes::{is_webkit_gradient, Feature};
 use crate::printer::Printer;
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, ToTypst};
 use crate::values::string::CowArcStr;
 use crate::values::url::Url;
 use crate::vendor_prefix::VendorPrefix;
@@ -19,7 +19,7 @@ use cssparser::*;
 use smallvec::SmallVec;
 
 /// A CSS [`<image>`](https://www.w3.org/TR/css-images-3/#image-values) value.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_image, IMAGES))]
@@ -367,7 +367,7 @@ impl<'i> Parse<'i> for ImageSet<'i> {
   }
 }
 
-impl<'i> ToCss for ImageSet<'i> {
+impl<'i> ToTypst for ImageSet<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

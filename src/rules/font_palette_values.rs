@@ -8,7 +8,7 @@ use crate::properties::custom::CustomProperty;
 use crate::properties::font::FontFamily;
 use crate::stylesheet::ParserOptions;
 use crate::targets::Targets;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::color::{ColorFallbackKind, CssColor};
 use crate::values::ident::DashedIdent;
 use crate::values::number::CSSInteger;
@@ -200,7 +200,7 @@ impl<'i> Parse<'i> for BasePalette {
   }
 }
 
-impl ToCss for BasePalette {
+impl ToTypst for BasePalette {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -232,7 +232,7 @@ impl<'i> Parse<'i> for OverrideColors {
   }
 }
 
-impl ToCss for OverrideColors {
+impl ToTypst for OverrideColors {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -356,7 +356,7 @@ impl<'i> FontPaletteValuesRule<'i> {
   }
 }
 
-impl<'i> ToCss for FontPaletteValuesRule<'i> {
+impl<'i> ToTypst for FontPaletteValuesRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -382,7 +382,7 @@ impl<'i> ToCss for FontPaletteValuesRule<'i> {
   }
 }
 
-impl<'i> ToCss for FontPaletteValuesProperty<'i> {
+impl<'i> ToTypst for FontPaletteValuesProperty<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

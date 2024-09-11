@@ -8,7 +8,7 @@ use crate::logical::PropertyCategory;
 use crate::macros::{enum_property, property_bitflags};
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId};
-use crate::traits::{IsCompatible, Parse, PropertyHandler, ToCss};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, ToTypst};
 use crate::values::length::LengthPercentage;
 use crate::values::ratio::Ratio;
 use crate::vendor_prefix::VendorPrefix;
@@ -94,7 +94,7 @@ impl<'i> Parse<'i> for Size {
   }
 }
 
-impl ToCss for Size {
+impl ToTypst for Size {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -228,7 +228,7 @@ impl<'i> Parse<'i> for MaxSize {
   }
 }
 
-impl ToCss for MaxSize {
+impl ToTypst for MaxSize {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -338,7 +338,7 @@ impl<'i> Parse<'i> for AspectRatio {
   }
 }
 
-impl ToCss for AspectRatio {
+impl ToTypst for AspectRatio {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

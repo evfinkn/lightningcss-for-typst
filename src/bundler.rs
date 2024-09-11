@@ -37,7 +37,7 @@ use crate::{
     layer::{LayerBlockRule, LayerName},
     Location,
   },
-  traits::{AtRuleParser, ToCss},
+  traits::{AtRuleParser, ToTypst},
   values::ident::DashedIdentReference,
 };
 use crate::{
@@ -218,7 +218,7 @@ impl<'a, 'o, 's, P: SourceProvider> Bundler<'a, 'o, 's, P, DefaultAtRuleParser> 
 
 impl<'a, 'o, 's, P: SourceProvider, T: AtRuleParser<'a> + Clone + Sync + Send> Bundler<'a, 'o, 's, P, T>
 where
-  T::AtRule: Sync + Send + ToCss + Clone,
+  T::AtRule: Sync + Send + ToTypst + Clone,
 {
   /// Creates a new Bundler using the given source provider.
   /// If a source map is given, the content of each source file included in the bundle will

@@ -5,7 +5,7 @@ use super::calc::Calc;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::traits::private::AddInternal;
-use crate::traits::{Map, Op, Parse, Sign, ToCss, Zero};
+use crate::traits::{Map, Op, Parse, Sign, ToTypst, Zero};
 use cssparser::*;
 
 /// A CSS [`<number>`](https://www.w3.org/TR/css-values-4/#numbers) value.
@@ -29,7 +29,7 @@ impl<'i> Parse<'i> for CSSNumber {
   }
 }
 
-impl ToCss for CSSNumber {
+impl ToTypst for CSSNumber {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -121,7 +121,7 @@ impl<'i> Parse<'i> for CSSInteger {
   }
 }
 
-impl ToCss for CSSInteger {
+impl ToTypst for CSSInteger {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

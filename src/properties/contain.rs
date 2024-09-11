@@ -16,7 +16,7 @@ use crate::{
   properties::{Property, PropertyId},
   rules::container::ContainerName as ContainerIdent,
   targets::Browsers,
-  traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToCss},
+  traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst},
 };
 
 enum_property! {
@@ -88,7 +88,7 @@ impl<'i> Parse<'i> for ContainerNameList<'i> {
   }
 }
 
-impl<'i> ToCss for ContainerNameList<'i> {
+impl<'i> ToTypst for ContainerNameList<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -140,7 +140,7 @@ impl<'i> Parse<'i> for Container<'i> {
   }
 }
 
-impl<'i> ToCss for Container<'i> {
+impl<'i> ToTypst for Container<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

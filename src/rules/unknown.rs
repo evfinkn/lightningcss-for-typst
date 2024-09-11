@@ -4,7 +4,7 @@ use super::Location;
 use crate::error::PrinterError;
 use crate::printer::Printer;
 use crate::properties::custom::TokenList;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -29,7 +29,7 @@ pub struct UnknownAtRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for UnknownAtRule<'i> {
+impl<'i> ToTypst for UnknownAtRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

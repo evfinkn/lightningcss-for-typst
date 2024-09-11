@@ -11,7 +11,7 @@ use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::Property;
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::image::ImageFallback;
 use crate::values::length::LengthOrNumber;
 use crate::values::rect::Rect;
@@ -104,7 +104,7 @@ impl Default for GeometryBox {
 }
 
 /// A value for the [mask-clip](https://www.w3.org/TR/css-masking-1/#the-mask-clip) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -309,7 +309,7 @@ impl<'i> Parse<'i> for Mask<'i> {
   }
 }
 
-impl<'i> ToCss for Mask<'i> {
+impl<'i> ToTypst for Mask<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -426,7 +426,7 @@ impl<'i> Parse<'i> for ClipPath<'i> {
   }
 }
 
-impl<'i> ToCss for ClipPath<'i> {
+impl<'i> ToTypst for ClipPath<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -515,7 +515,7 @@ impl<'i> Parse<'i> for MaskBorder<'i> {
   }
 }
 
-impl<'i> ToCss for MaskBorder<'i> {
+impl<'i> ToTypst for MaskBorder<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

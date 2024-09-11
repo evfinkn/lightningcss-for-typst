@@ -4,7 +4,7 @@ use super::{CssRuleList, Location, MinifyContext};
 use crate::error::{MinifyError, ParserError, PrinterError};
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -60,7 +60,7 @@ impl<'i> Parse<'i> for LayerName<'i> {
   }
 }
 
-impl<'i> ToCss for LayerName<'i> {
+impl<'i> ToTypst for LayerName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -98,7 +98,7 @@ pub struct LayerStatementRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for LayerStatementRule<'i> {
+impl<'i> ToTypst for LayerStatementRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -141,7 +141,7 @@ impl<'i, T: Clone> LayerBlockRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for LayerBlockRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for LayerBlockRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -11,7 +11,7 @@ use crate::macros::{define_shorthand, enum_property};
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::targets::{should_compile, Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss, Zero};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst, Zero};
 use crate::values::calc::{Calc, MathFunction};
 use crate::values::color::{ColorFallbackKind, CssColor};
 use crate::values::length::{Length, LengthPercentage, LengthValue};
@@ -75,7 +75,7 @@ impl<'i> Parse<'i> for TextTransformOther {
   }
 }
 
-impl ToCss for TextTransformOther {
+impl ToTypst for TextTransformOther {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -195,7 +195,7 @@ impl<'i> Parse<'i> for TextTransform {
   }
 }
 
-impl ToCss for TextTransform {
+impl ToTypst for TextTransform {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -348,7 +348,7 @@ enum_property! {
 
 /// A value for the [word-spacing](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#word-spacing-property)
 /// and [letter-spacing](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#letter-spacing-property) properties.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -426,7 +426,7 @@ impl<'i> Parse<'i> for TextIndent {
   }
 }
 
-impl ToCss for TextIndent {
+impl ToTypst for TextIndent {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -443,7 +443,7 @@ impl ToCss for TextIndent {
 }
 
 /// A value for the [text-size-adjust](https://w3c.github.io/csswg-drafts/css-size-adjust/#adjustment-control) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -530,7 +530,7 @@ impl<'i> Parse<'i> for TextDecorationLine {
   }
 }
 
-impl ToCss for TextDecorationLine {
+impl ToTypst for TextDecorationLine {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -698,7 +698,7 @@ impl Default for TextDecorationStyle {
 }
 
 /// A value for the [text-decoration-thickness](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-decoration-width-property) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -771,7 +771,7 @@ impl<'i> Parse<'i> for TextDecoration {
   }
 }
 
-impl ToCss for TextDecoration {
+impl ToTypst for TextDecoration {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -919,7 +919,7 @@ impl<'i> Parse<'i> for TextEmphasisStyle<'i> {
   }
 }
 
-impl<'i> ToCss for TextEmphasisStyle<'i> {
+impl<'i> ToTypst for TextEmphasisStyle<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -987,7 +987,7 @@ impl<'i> Parse<'i> for TextEmphasis<'i> {
   }
 }
 
-impl<'i> ToCss for TextEmphasis<'i> {
+impl<'i> ToTypst for TextEmphasis<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1082,7 +1082,7 @@ impl Default for BoxDecorationBreak {
   }
 }
 
-impl ToCss for TextEmphasisPosition {
+impl ToTypst for TextEmphasisPosition {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1420,7 +1420,7 @@ impl<'i> Parse<'i> for TextShadow {
   }
 }
 
-impl ToCss for TextShadow {
+impl ToTypst for TextShadow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

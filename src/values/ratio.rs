@@ -3,7 +3,7 @@
 use super::number::CSSNumber;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -41,7 +41,7 @@ impl Ratio {
   }
 }
 
-impl ToCss for Ratio {
+impl ToTypst for Ratio {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

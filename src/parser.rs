@@ -95,7 +95,7 @@ impl<'i> crate::traits::AtRuleParser<'i> for DefaultAtRuleParser {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DefaultAtRule;
-impl crate::traits::ToCss for DefaultAtRule {
+impl crate::traits::ToTypst for DefaultAtRule {
   fn to_typst<W: std::fmt::Write>(&self, _: &mut Printer<W>) -> Result<(), PrinterError> {
     Err(PrinterError {
       kind: crate::error::PrinterErrorKind::FmtError,

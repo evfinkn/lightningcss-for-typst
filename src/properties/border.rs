@@ -13,7 +13,7 @@ use crate::properties::custom::UnparsedProperty;
 use crate::properties::{Property, PropertyId};
 use crate::targets::Browsers;
 use crate::targets::Targets;
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::color::{ColorFallbackKind, CssColor};
 use crate::values::length::*;
 use crate::values::rect::Rect;
@@ -23,7 +23,7 @@ use crate::visitor::Visit;
 use cssparser::*;
 
 /// A value for the [border-width](https://www.w3.org/TR/css-backgrounds-3/#border-width) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -177,7 +177,7 @@ impl<'i, S: Parse<'i> + Default, const P: u8> Parse<'i> for GenericBorder<S, P> 
   }
 }
 
-impl<S: ToCss + Default + PartialEq, const P: u8> ToCss for GenericBorder<S, P> {
+impl<S: ToTypst + Default + PartialEq, const P: u8> ToTypst for GenericBorder<S, P> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

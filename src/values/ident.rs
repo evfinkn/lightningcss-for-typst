@@ -3,7 +3,7 @@
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::properties::css_modules::Specifier;
-use crate::traits::{Parse, ParseWithOptions, ToCss};
+use crate::traits::{Parse, ParseWithOptions, ToTypst};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -44,7 +44,7 @@ impl<'i> Parse<'i> for CustomIdent<'i> {
   }
 }
 
-impl<'i> ToCss for CustomIdent<'i> {
+impl<'i> ToTypst for CustomIdent<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -99,7 +99,7 @@ impl<'i> Parse<'i> for DashedIdent<'i> {
   }
 }
 
-impl<'i> ToCss for DashedIdent<'i> {
+impl<'i> ToTypst for DashedIdent<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -166,7 +166,7 @@ impl<'i> ParseWithOptions<'i> for DashedIdentReference<'i> {
   }
 }
 
-impl<'i> ToCss for DashedIdentReference<'i> {
+impl<'i> ToTypst for DashedIdentReference<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -201,7 +201,7 @@ impl<'i> Parse<'i> for Ident<'i> {
   }
 }
 
-impl<'i> ToCss for Ident<'i> {
+impl<'i> ToTypst for Ident<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -6,7 +6,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::printer::Printer;
 use crate::stylesheet::ParserOptions;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -140,7 +140,7 @@ pub struct PageMarginRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for PageMarginRule<'i> {
+impl<'i> ToTypst for PageMarginRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -208,7 +208,7 @@ impl<'i> PageRule<'i> {
   }
 }
 
-impl<'i> ToCss for PageRule<'i> {
+impl<'i> ToTypst for PageRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -281,7 +281,7 @@ impl<'i> ToCss for PageRule<'i> {
   }
 }
 
-impl<'i> ToCss for PageSelector<'i> {
+impl<'i> ToTypst for PageSelector<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

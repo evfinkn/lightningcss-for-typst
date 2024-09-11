@@ -4,7 +4,7 @@ use super::Location;
 use crate::error::PrinterError;
 use crate::media_query::MediaList;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::values::ident::DashedIdent;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -26,7 +26,7 @@ pub struct CustomMediaRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for CustomMediaRule<'i> {
+impl<'i> ToTypst for CustomMediaRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

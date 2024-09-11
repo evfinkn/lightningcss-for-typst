@@ -12,7 +12,7 @@ use crate::parser::{DefaultAtRule, DefaultAtRuleParser, TopLevelRuleParser};
 use crate::printer::Printer;
 use crate::rules::{CssRule, CssRuleList, MinifyContext};
 use crate::targets::{should_compile, Targets};
-use crate::traits::{AtRuleParser, ToCss};
+use crate::traits::{AtRuleParser, ToTypst};
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::{Visit, VisitTypes, Visitor};
@@ -127,7 +127,7 @@ impl<'i, 'o> StyleSheet<'i, 'o, DefaultAtRule> {
 
 impl<'i, 'o, T> StyleSheet<'i, 'o, T>
 where
-  T: ToCss + Clone,
+  T: ToTypst + Clone,
 {
   /// Creates a new style sheet with the given source filenames and rules.
   pub fn new(

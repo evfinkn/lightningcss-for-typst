@@ -10,7 +10,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::*;
 use crate::printer::Printer;
 use crate::targets::should_compile;
-use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::length::LengthValue;
 use crate::values::number::CSSNumber;
 use crate::values::string::CowArcStr;
@@ -20,7 +20,7 @@ use crate::visitor::Visit;
 use cssparser::*;
 
 /// A value for the [font-weight](https://www.w3.org/TR/css-fonts-4/#font-weight-prop) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -80,7 +80,7 @@ impl Default for AbsoluteFontWeight {
   }
 }
 
-impl ToCss for AbsoluteFontWeight {
+impl ToTypst for AbsoluteFontWeight {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -147,7 +147,7 @@ enum_property! {
 }
 
 /// A value for the [font-size](https://www.w3.org/TR/css-fonts-4/#font-size-prop) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -261,7 +261,7 @@ impl Into<Percentage> for &FontStretch {
   }
 }
 
-impl ToCss for FontStretch {
+impl ToTypst for FontStretch {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -384,7 +384,7 @@ impl<'i> Parse<'i> for FontFamily<'i> {
   }
 }
 
-impl<'i> ToCss for FontFamily<'i> {
+impl<'i> ToTypst for FontFamily<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -476,7 +476,7 @@ impl<'i> Parse<'i> for FontStyle {
   }
 }
 
-impl ToCss for FontStyle {
+impl ToTypst for FontStyle {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -554,7 +554,7 @@ impl IsCompatible for FontVariantCaps {
 }
 
 /// A value for the [line-height](https://www.w3.org/TR/2020/WD-css-inline-3-20200827/#propdef-line-height) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -611,7 +611,7 @@ enum_property! {
 
 /// A value for the [vertical align](https://drafts.csswg.org/css2/#propdef-vertical-align) property.
 // TODO: there is a more extensive spec in CSS3 but it doesn't seem any browser implements it? https://www.w3.org/TR/css-inline-3/#transverse-alignment
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -724,7 +724,7 @@ impl<'i> Parse<'i> for Font<'i> {
   }
 }
 
-impl<'i> ToCss for Font<'i> {
+impl<'i> ToTypst for Font<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

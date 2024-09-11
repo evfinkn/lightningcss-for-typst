@@ -9,7 +9,7 @@ use crate::macros::define_shorthand;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId, VendorPrefix};
-use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToCss, Zero};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst, Zero};
 use crate::values::length::*;
 use crate::values::rect::Rect;
 use crate::values::size::Size2D;
@@ -61,7 +61,7 @@ impl<'i> Parse<'i> for BorderRadius {
   }
 }
 
-impl ToCss for BorderRadius {
+impl ToTypst for BorderRadius {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

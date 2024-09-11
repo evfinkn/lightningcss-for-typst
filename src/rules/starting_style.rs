@@ -5,7 +5,7 @@ use super::{CssRuleList, MinifyContext};
 use crate::error::{MinifyError, PrinterError};
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 
@@ -35,7 +35,7 @@ impl<'i, T: Clone> StartingStyleRule<'i, T> {
   }
 }
 
-impl<'i, T: ToCss> ToCss for StartingStyleRule<'i, T> {
+impl<'i, T: ToTypst> ToTypst for StartingStyleRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

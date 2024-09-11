@@ -9,7 +9,7 @@ use crate::printer::Printer;
 use crate::traits::{
   impl_op,
   private::{AddInternal, TryAdd},
-  Map, Op, Parse, Sign, ToCss, Zero,
+  Map, Op, Parse, Sign, ToTypst, Zero,
 };
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -101,7 +101,7 @@ impl<'i> TryFrom<&Token<'i>> for Angle {
   }
 }
 
-impl ToCss for Angle {
+impl ToTypst for Angle {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

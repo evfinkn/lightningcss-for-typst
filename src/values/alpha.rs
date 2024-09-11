@@ -3,7 +3,7 @@
 use super::percentage::NumberOrPercentage;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -28,7 +28,7 @@ impl<'i> Parse<'i> for AlphaValue {
   }
 }
 
-impl ToCss for AlphaValue {
+impl ToTypst for AlphaValue {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

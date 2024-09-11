@@ -5,7 +5,7 @@ use super::number::CSSNumber;
 use crate::compat::Feature;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -64,7 +64,7 @@ impl<'i> TryFrom<&Token<'i>> for Resolution {
   }
 }
 
-impl ToCss for Resolution {
+impl ToTypst for Resolution {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

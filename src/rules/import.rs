@@ -7,7 +7,7 @@ use crate::dependencies::{Dependency, ImportDependency};
 use crate::error::PrinterError;
 use crate::media_query::MediaList;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 use crate::values::string::CowArcStr;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -37,7 +37,7 @@ pub struct ImportRule<'i> {
   pub loc: Location,
 }
 
-impl<'i> ToCss for ImportRule<'i> {
+impl<'i> ToTypst for ImportRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

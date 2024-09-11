@@ -10,7 +10,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::*;
 use crate::prefixes::{is_flex_2009, Feature};
 use crate::printer::Printer;
-use crate::traits::{FromStandard, Parse, PropertyHandler, Shorthand, ToCss, Zero};
+use crate::traits::{FromStandard, Parse, PropertyHandler, Shorthand, ToTypst, Zero};
 use crate::values::number::{CSSInteger, CSSNumber};
 use crate::values::{
   length::{LengthPercentage, LengthPercentageOrAuto},
@@ -102,7 +102,7 @@ impl<'i> Parse<'i> for FlexFlow {
   }
 }
 
-impl ToCss for FlexFlow {
+impl ToTypst for FlexFlow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -179,7 +179,7 @@ impl<'i> Parse<'i> for Flex {
   }
 }
 
-impl ToCss for Flex {
+impl ToTypst for Flex {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

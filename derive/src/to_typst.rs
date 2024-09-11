@@ -6,7 +6,7 @@ use syn::{parse_macro_input, Data, DataEnum, DeriveInput, Fields, Ident, Type};
 
 use crate::parse::CssOptions;
 
-pub fn derive_to_css(input: TokenStream) -> TokenStream {
+pub fn derive_to_typst(input: TokenStream) -> TokenStream {
   let DeriveInput {
     ident,
     data,
@@ -24,7 +24,7 @@ pub fn derive_to_css(input: TokenStream) -> TokenStream {
   };
 
   let output = quote! {
-    impl #impl_generics ToCss for #ident #ty_generics #where_clause {
+    impl #impl_generics ToTypst for #ident #ty_generics #where_clause {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,

@@ -7,7 +7,7 @@ use crate::printer::Printer;
 use crate::properties::custom::CustomProperty;
 use crate::properties::font::{FontFamily, FontStretch, FontStyle as FontStyleProperty, FontWeight};
 use crate::stylesheet::ParserOptions;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 use crate::values::angle::Angle;
 use crate::values::size::Size2D;
 use crate::values::string::CowArcStr;
@@ -100,7 +100,7 @@ impl<'i> Parse<'i> for Source<'i> {
   }
 }
 
-impl<'i> ToCss for Source<'i> {
+impl<'i> ToTypst for Source<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -153,7 +153,7 @@ impl<'i> Parse<'i> for UrlSource<'i> {
   }
 }
 
-impl<'i> ToCss for UrlSource<'i> {
+impl<'i> ToTypst for UrlSource<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -226,7 +226,7 @@ impl<'i> Parse<'i> for FontFormat<'i> {
   }
 }
 
-impl<'i> ToCss for FontFormat<'i> {
+impl<'i> ToTypst for FontFormat<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -318,7 +318,7 @@ impl<'i> Parse<'i> for UnicodeRange {
   }
 }
 
-impl ToCss for UnicodeRange {
+impl ToTypst for UnicodeRange {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -419,7 +419,7 @@ impl<'i> Parse<'i> for FontStyle {
   }
 }
 
-impl ToCss for FontStyle {
+impl ToTypst for FontStyle {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -508,7 +508,7 @@ impl<'i> RuleBodyItemParser<'i, FontFaceProperty<'i>, ParserError<'i>> for FontF
   }
 }
 
-impl<'i> ToCss for FontFaceRule<'i> {
+impl<'i> ToTypst for FontFaceRule<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -533,7 +533,7 @@ impl<'i> ToCss for FontFaceRule<'i> {
   }
 }
 
-impl<'i> ToCss for FontFaceProperty<'i> {
+impl<'i> ToTypst for FontFaceProperty<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

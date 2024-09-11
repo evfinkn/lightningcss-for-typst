@@ -10,7 +10,7 @@ use lightningcss::{
   selector::{Component, Selector},
   stylesheet::{ParserOptions, PrinterOptions, StyleSheet},
   targets::Browsers,
-  traits::{AtRuleParser, ToCss},
+  traits::{AtRuleParser, ToTypst},
   values::{
     color::{CssColor, RGBA},
     length::LengthValue,
@@ -290,7 +290,7 @@ impl<'i, V: Visitor<'i, AtRule>> Visit<'i, AtRule, V> for AtRule {
   }
 }
 
-impl ToCss for AtRule {
+impl ToTypst for AtRule {
   fn to_typst<W: std::fmt::Write>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> {
     match self {
       AtRule::Tailwind(rule) => {

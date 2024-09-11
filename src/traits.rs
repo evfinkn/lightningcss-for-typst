@@ -74,7 +74,7 @@ impl<'i, T: Parse<'i>> ParseWithOptions<'i> for T {
 }
 
 /// Trait for things the can serialize themselves in CSS syntax.
-pub trait ToCss {
+pub trait ToTypst {
   /// Serialize `self` in CSS syntax, writing to `dest`.
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
@@ -92,11 +92,11 @@ pub trait ToCss {
   }
 }
 
-pub(crate) use lightningcss_derive::ToCss;
+pub(crate) use lightningcss_derive::ToTypst;
 
-impl<'a, T> ToCss for &'a T
+impl<'a, T> ToTypst for &'a T
 where
-  T: ToCss + ?Sized,
+  T: ToTypst + ?Sized,
 {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
@@ -106,7 +106,7 @@ where
   }
 }
 
-impl<T: ToCss> ToCss for Box<T> {
+impl<T: ToTypst> ToTypst for Box<T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -115,7 +115,7 @@ impl<T: ToCss> ToCss for Box<T> {
   }
 }
 
-impl<T: ToCss> ToCss for Option<T> {
+impl<T: ToTypst> ToTypst for Option<T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

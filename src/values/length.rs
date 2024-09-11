@@ -9,7 +9,7 @@ use crate::printer::Printer;
 use crate::targets::Browsers;
 use crate::traits::{
   private::{AddInternal, TryAdd},
-  Map, Parse, Sign, ToCss, TryMap, TryOp, Zero,
+  Map, Parse, Sign, ToTypst, TryMap, TryOp, Zero,
 };
 use crate::traits::{IsCompatible, TrySign};
 #[cfg(feature = "visitor")]
@@ -49,7 +49,7 @@ impl IsCompatible for LengthPercentage {
 }
 
 /// Either a [`<length-percentage>`](https://www.w3.org/TR/css-values-4/#typedef-length-percentage), or the `auto` keyword.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -454,7 +454,7 @@ define_length_units! {
   Cqmax / ContainerQueryLengthUnits,
 }
 
-impl ToCss for LengthValue {
+impl ToTypst for LengthValue {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -487,7 +487,6 @@ pub(crate) fn serialize_dimension<W>(value: f32, unit: &str, dest: &mut Printer<
 where
   W: std::fmt::Write,
 {
-  use cssparser::ToCss;
   let int_value = if value.fract() == 0.0 { Some(value as i32) } else { None };
   let token = Token::Dimension {
     has_sign: value < 0.0,
@@ -559,7 +558,7 @@ impl<'i> Parse<'i> for Length {
   }
 }
 
-impl ToCss for Length {
+impl ToTypst for Length {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -803,7 +802,7 @@ impl TrySign for Length {
 impl_try_from_angle!(Length);
 
 /// Either a [`<length>`](https://www.w3.org/TR/css-values-4/#lengths) or a [`<number>`](https://www.w3.org/TR/css-values-4/#numbers).
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",

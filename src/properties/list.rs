@@ -7,7 +7,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::{define_shorthand, enum_property, shorthand_handler, shorthand_property};
 use crate::printer::Printer;
 use crate::targets::{Browsers, Targets};
-use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{FallbackValues, IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::string::CSSString;
 use crate::values::{ident::CustomIdent, image::Image};
 #[cfg(feature = "visitor")]
@@ -15,7 +15,7 @@ use crate::visitor::Visit;
 use cssparser::*;
 
 /// A value for the [list-style-type](https://www.w3.org/TR/2020/WD-css-lists-3-20201117/#text-markers) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(
@@ -212,7 +212,7 @@ impl<'i> Parse<'i> for CounterStyle<'i> {
   }
 }
 
-impl ToCss for CounterStyle<'_> {
+impl ToTypst for CounterStyle<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -281,7 +281,7 @@ impl Default for SymbolsType {
 /// `symbols()` function.
 ///
 /// See [CounterStyle](CounterStyle).
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(

@@ -13,7 +13,7 @@ use crate::macros::enum_property;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::targets::{should_compile, Browsers, Targets};
-use crate::traits::{IsCompatible, Parse, ToCss, TrySign, Zero};
+use crate::traits::{IsCompatible, Parse, ToTypst, TrySign, Zero};
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
@@ -179,7 +179,7 @@ impl<'i> Parse<'i> for Gradient {
   }
 }
 
-impl ToCss for Gradient {
+impl ToTypst for Gradient {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -380,7 +380,7 @@ impl<'i> RadialGradient {
   }
 }
 
-impl ToCss for RadialGradient {
+impl ToTypst for RadialGradient {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -533,7 +533,7 @@ impl LineDirection {
 /// A `radial-gradient()` [ending shape](https://www.w3.org/TR/css-images-3/#valdef-radial-gradient-ending-shape).
 ///
 /// See [RadialGradient](RadialGradient).
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -605,7 +605,7 @@ impl<'i> Parse<'i> for Circle {
   }
 }
 
-impl ToCss for Circle {
+impl ToTypst for Circle {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -685,7 +685,7 @@ impl<'i> Parse<'i> for Ellipse {
   }
 }
 
-impl ToCss for Ellipse {
+impl ToTypst for Ellipse {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -760,7 +760,7 @@ impl ConicGradient {
   }
 }
 
-impl ToCss for ConicGradient {
+impl ToTypst for ConicGradient {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -825,7 +825,7 @@ impl<'i, D: Parse<'i>> Parse<'i> for ColorStop<D> {
   }
 }
 
-impl<D: ToCss> ToCss for ColorStop<D> {
+impl<D: ToTypst> ToTypst for ColorStop<D> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -865,7 +865,7 @@ pub enum GradientItem<D> {
   Hint(D),
 }
 
-impl<D: ToCss> ToCss for GradientItem<D> {
+impl<D: ToTypst> ToTypst for GradientItem<D> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -952,7 +952,7 @@ fn parse_items<'i, 't, D: Parse<'i>>(
 }
 
 fn serialize_items<
-  D: ToCss + std::cmp::PartialEq<D> + std::ops::Mul<f32, Output = D> + TrySign + Clone + std::fmt::Debug,
+  D: ToTypst + std::cmp::PartialEq<D> + std::ops::Mul<f32, Output = D> + TrySign + Clone + std::fmt::Debug,
   W,
 >(
   items: &Vec<GradientItem<DimensionPercentage<D>>>,
@@ -1081,7 +1081,7 @@ impl<'i> Parse<'i> for WebKitGradient {
   }
 }
 
-impl ToCss for WebKitGradient {
+impl ToTypst for WebKitGradient {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1184,7 +1184,7 @@ impl<'i> Parse<'i> for WebKitColorStop {
   }
 }
 
-impl ToCss for WebKitColorStop {
+impl ToTypst for WebKitColorStop {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1235,7 +1235,7 @@ impl<'i> Parse<'i> for WebKitGradientPoint {
   }
 }
 
-impl ToCss for WebKitGradientPoint {
+impl ToTypst for WebKitGradientPoint {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1280,7 +1280,7 @@ impl<'i, S: Parse<'i>> Parse<'i> for WebKitGradientPointComponent<S> {
   }
 }
 
-impl<S: ToCss + Clone + Into<LengthPercentage>> ToCss for WebKitGradientPointComponent<S> {
+impl<S: ToTypst + Clone + Into<LengthPercentage>> ToTypst for WebKitGradientPointComponent<S> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

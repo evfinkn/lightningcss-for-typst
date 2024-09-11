@@ -8,7 +8,7 @@ use crate::properties::PropertyId;
 use crate::rules::supports::SupportsCondition;
 use crate::stylesheet::ParserOptions;
 use crate::targets::{should_compile, Targets};
-use crate::traits::{Parse, ParseWithOptions, ToCss};
+use crate::traits::{Parse, ParseWithOptions, ToTypst};
 use crate::values::angle::Angle;
 use crate::values::color::{
   parse_hsl_hwb_components, parse_rgb_components, ColorFallbackKind, ComponentParser, CssColor, LightDarkColor,
@@ -99,7 +99,7 @@ impl<'i> AsRef<str> for CustomPropertyName<'i> {
   }
 }
 
-impl<'i> ToCss for CustomPropertyName<'i> {
+impl<'i> ToTypst for CustomPropertyName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -936,13 +936,12 @@ impl<'a> From<&cssparser::Token<'a>> for Token<'a> {
   }
 }
 
-impl<'a> ToCss for Token<'a> {
+impl<'a> ToTypst for Token<'a> {
   #[inline]
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    use cssparser::ToCss;
     match self {
       Token::Ident(x) => cssparser::Token::Ident(x.as_ref().into()).to_css(dest)?,
       Token::AtKeyword(x) => cssparser::Token::AtKeyword(x.as_ref().into()).to_css(dest)?,
@@ -1379,7 +1378,7 @@ impl<'i> Parse<'i> for EnvironmentVariableName<'i> {
   }
 }
 
-impl<'i> ToCss for EnvironmentVariableName<'i> {
+impl<'i> ToTypst for EnvironmentVariableName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

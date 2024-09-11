@@ -6,7 +6,7 @@ use lightningcss::{
   error::ParserError,
   rules::{CssRuleList, Location},
   stylesheet::ParserOptions,
-  traits::{AtRuleParser, ToCss},
+  traits::{AtRuleParser, ToTypst},
   values::{
     string::CowArcStr,
     syntax::{ParsedComponent, SyntaxString},
@@ -160,7 +160,7 @@ impl<'i> AtRuleParser<'i> for CustomAtRuleParser {
   }
 }
 
-impl<'i> ToCss for AtRule<'i> {
+impl<'i> ToTypst for AtRule<'i> {
   fn to_typst<W>(
     &self,
     dest: &mut lightningcss::printer::Printer<W>,

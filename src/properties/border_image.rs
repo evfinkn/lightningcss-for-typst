@@ -7,7 +7,7 @@ use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId, VendorPrefix};
 use crate::targets::{Browsers, Targets};
-use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::image::Image;
 use crate::values::number::CSSNumber;
 use crate::values::rect::Rect;
@@ -81,7 +81,7 @@ impl<'i> Parse<'i> for BorderImageRepeat {
   }
 }
 
-impl ToCss for BorderImageRepeat {
+impl ToTypst for BorderImageRepeat {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -102,7 +102,7 @@ impl IsCompatible for BorderImageRepeat {
 }
 
 /// A value for the [border-image-width](https://www.w3.org/TR/css-backgrounds-3/#border-image-width) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -168,7 +168,7 @@ impl<'i> Parse<'i> for BorderImageSlice {
   }
 }
 
-impl ToCss for BorderImageSlice {
+impl ToTypst for BorderImageSlice {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -333,7 +333,7 @@ impl<'i> BorderImage<'i> {
   }
 }
 
-impl<'i> ToCss for BorderImage<'i> {
+impl<'i> ToTypst for BorderImage<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

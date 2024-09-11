@@ -6,7 +6,7 @@ use super::number::CSSNumber;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::traits::private::AddInternal;
-use crate::traits::{impl_op, private::TryAdd, Op, Parse, Sign, ToCss, TryMap, TryOp, TrySign, Zero};
+use crate::traits::{impl_op, private::TryAdd, Op, Parse, Sign, ToTypst, TryMap, TryOp, TrySign, Zero};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -36,12 +36,11 @@ impl<'i> Parse<'i> for Percentage {
   }
 }
 
-impl ToCss for Percentage {
+impl ToTypst for Percentage {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    use cssparser::ToCss;
     let int_value = if (self.0 * 100.0).fract() == 0.0 {
       Some(self.0 as i32)
     } else {
@@ -144,7 +143,7 @@ impl_op!(Percentage, std::ops::Add, add);
 impl_try_from_angle!(Percentage);
 
 /// Either a `<number>` or `<percentage>`.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -458,7 +457,7 @@ impl<D: TrySign> TrySign for DimensionPercentage<D> {
   }
 }
 
-impl<D: ToCss + std::ops::Mul<CSSNumber, Output = D> + TrySign + Clone + std::fmt::Debug> ToCss
+impl<D: ToTypst + std::ops::Mul<CSSNumber, Output = D> + TrySign + Clone + std::fmt::Debug> ToTypst
   for DimensionPercentage<D>
 {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>

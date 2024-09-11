@@ -9,7 +9,7 @@ use crate::macros::define_list_shorthand;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::masking::get_webkit_mask_property;
-use crate::traits::{Parse, PropertyHandler, Shorthand, ToCss, Zero};
+use crate::traits::{Parse, PropertyHandler, Shorthand, ToTypst, Zero};
 use crate::values::{easing::EasingFunction, time::Time};
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -81,7 +81,7 @@ impl<'i> Parse<'i> for Transition<'i> {
   }
 }
 
-impl<'i> ToCss for Transition<'i> {
+impl<'i> ToTypst for Transition<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

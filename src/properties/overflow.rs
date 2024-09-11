@@ -7,7 +7,7 @@ use crate::declaration::{DeclarationBlock, DeclarationList};
 use crate::error::{ParserError, PrinterError};
 use crate::macros::{define_shorthand, enum_property};
 use crate::printer::Printer;
-use crate::traits::{Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{Parse, PropertyHandler, Shorthand, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -47,7 +47,7 @@ impl<'i> Parse<'i> for Overflow {
   }
 }
 
-impl ToCss for Overflow {
+impl ToTypst for Overflow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

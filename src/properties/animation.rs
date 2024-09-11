@@ -9,7 +9,7 @@ use crate::macros::*;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId, TokenOrValue, VendorPrefix};
-use crate::traits::{Parse, PropertyHandler, Shorthand, ToCss, Zero};
+use crate::traits::{Parse, PropertyHandler, Shorthand, ToTypst, Zero};
 use crate::values::ident::DashedIdent;
 use crate::values::number::CSSNumber;
 use crate::values::percentage::Percentage;
@@ -45,7 +45,7 @@ pub enum AnimationName<'i> {
   String(CSSString<'i>),
 }
 
-impl<'i> ToCss for AnimationName<'i> {
+impl<'i> ToTypst for AnimationName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -89,7 +89,7 @@ impl<'i> ToCss for AnimationName<'i> {
 pub type AnimationNameList<'i> = SmallVec<[AnimationName<'i>; 1]>;
 
 /// A value for the [animation-iteration-count](https://drafts.csswg.org/css-animations/#animation-iteration-count) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -180,7 +180,7 @@ enum_property! {
 }
 
 /// A value for the [animation-timeline](https://drafts.csswg.org/css-animations-2/#animation-timeline) property.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -250,7 +250,7 @@ impl<'i> Parse<'i> for ScrollTimeline {
   }
 }
 
-impl ToCss for ScrollTimeline {
+impl ToTypst for ScrollTimeline {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -353,7 +353,7 @@ impl<'i> Parse<'i> for ViewTimeline {
   }
 }
 
-impl ToCss for ViewTimeline {
+impl ToTypst for ViewTimeline {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -377,7 +377,7 @@ impl ToCss for ViewTimeline {
 }
 
 /// A [view progress timeline range](https://drafts.csswg.org/scroll-animations/#view-timelines-ranges)
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -482,7 +482,7 @@ impl<'i> Parse<'i> for AnimationRangeStart {
   }
 }
 
-impl ToCss for AnimationRangeStart {
+impl ToTypst for AnimationRangeStart {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -506,7 +506,7 @@ impl<'i> Parse<'i> for AnimationRangeEnd {
   }
 }
 
-impl ToCss for AnimationRangeEnd {
+impl ToTypst for AnimationRangeEnd {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -551,7 +551,7 @@ impl<'i> Parse<'i> for AnimationRange {
   }
 }
 
-impl ToCss for AnimationRange {
+impl ToTypst for AnimationRange {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -652,7 +652,7 @@ impl<'i> Parse<'i> for Animation<'i> {
   }
 }
 
-impl<'i> ToCss for Animation<'i> {
+impl<'i> ToTypst for Animation<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

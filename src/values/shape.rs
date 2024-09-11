@@ -7,7 +7,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::printer::Printer;
 use crate::properties::border_radius::BorderRadius;
-use crate::traits::{Parse, ToCss};
+use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -59,7 +59,7 @@ pub struct Circle {
 
 /// A [`<shape-radius>`](https://www.w3.org/TR/css-shapes-1/#typedef-shape-radius) value
 /// that defines the radius of a `circle()` or `ellipse()` shape.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -233,7 +233,7 @@ impl<'i> Parse<'i> for Point {
   }
 }
 
-impl ToCss for BasicShape {
+impl ToTypst for BasicShape {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -263,7 +263,7 @@ impl ToCss for BasicShape {
   }
 }
 
-impl ToCss for InsetRect {
+impl ToTypst for InsetRect {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -277,7 +277,7 @@ impl ToCss for InsetRect {
   }
 }
 
-impl ToCss for Circle {
+impl ToTypst for Circle {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -300,7 +300,7 @@ impl ToCss for Circle {
   }
 }
 
-impl ToCss for Ellipse {
+impl ToTypst for Ellipse {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -325,7 +325,7 @@ impl ToCss for Ellipse {
   }
 }
 
-impl ToCss for Polygon {
+impl ToTypst for Polygon {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -349,7 +349,7 @@ impl ToCss for Polygon {
   }
 }
 
-impl ToCss for Point {
+impl ToTypst for Point {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -6,7 +6,7 @@ use crate::error::{MinifyError, PrinterError};
 use crate::media_query::MediaList;
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 
@@ -44,7 +44,7 @@ impl<'i, T: Clone> MediaRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for MediaRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for MediaRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

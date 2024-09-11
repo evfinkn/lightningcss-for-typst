@@ -6,7 +6,7 @@ use super::number::CSSNumber;
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::traits::private::AddInternal;
-use crate::traits::{impl_op, Map, Op, Parse, Sign, ToCss, Zero};
+use crate::traits::{impl_op, Map, Op, Parse, Sign, ToTypst, Zero};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -94,7 +94,7 @@ impl<'i> TryFrom<&Token<'i>> for Time {
   }
 }
 
-impl ToCss for Time {
+impl ToTypst for Time {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

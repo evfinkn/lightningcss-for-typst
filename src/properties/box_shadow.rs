@@ -8,7 +8,7 @@ use crate::prefixes::Feature;
 use crate::printer::Printer;
 use crate::properties::Property;
 use crate::targets::Browsers;
-use crate::traits::{IsCompatible, Parse, PropertyHandler, ToCss, Zero};
+use crate::traits::{IsCompatible, Parse, PropertyHandler, ToTypst, Zero};
 use crate::values::color::{ColorFallbackKind, CssColor};
 use crate::values::length::Length;
 use crate::vendor_prefix::VendorPrefix;
@@ -93,7 +93,7 @@ impl<'i> Parse<'i> for BoxShadow {
   }
 }
 
-impl ToCss for BoxShadow {
+impl ToTypst for BoxShadow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

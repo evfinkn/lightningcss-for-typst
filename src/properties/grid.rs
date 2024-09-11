@@ -8,7 +8,7 @@ use crate::error::{Error, ErrorLocation, ParserError, PrinterError, PrinterError
 use crate::macros::{define_shorthand, impl_shorthand};
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId};
-use crate::traits::{Parse, PropertyHandler, Shorthand, ToCss};
+use crate::traits::{Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::ident::CustomIdent;
 use crate::values::length::serialize_dimension;
 use crate::values::number::{CSSInteger, CSSNumber};
@@ -24,7 +24,7 @@ use crate::serialization::ValueWrapper;
 
 /// A [track sizing](https://drafts.csswg.org/css-grid-2/#track-sizing) value
 /// for the `grid-template-rows` and `grid-template-columns` properties.
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(
@@ -178,7 +178,7 @@ pub struct TrackRepeat<'i> {
 /// used in the `repeat()` function.
 ///
 /// See [TrackRepeat](TrackRepeat).
-#[derive(Debug, Clone, PartialEq, Parse, ToCss)]
+#[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(
   feature = "serde",
@@ -219,7 +219,7 @@ impl<'i> Parse<'i> for TrackSize {
   }
 }
 
-impl ToCss for TrackSize {
+impl ToTypst for TrackSize {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -286,7 +286,7 @@ impl TrackBreadth {
   }
 }
 
-impl ToCss for TrackBreadth {
+impl ToTypst for TrackBreadth {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -332,7 +332,7 @@ impl<'i> Parse<'i> for TrackRepeat<'i> {
   }
 }
 
-impl<'i> ToCss for TrackRepeat<'i> {
+impl<'i> ToTypst for TrackRepeat<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -448,7 +448,7 @@ impl<'i> Parse<'i> for TrackList<'i> {
   }
 }
 
-impl<'i> ToCss for TrackList<'i> {
+impl<'i> ToTypst for TrackList<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -510,7 +510,7 @@ impl<'i> Parse<'i> for TrackSizeList {
   }
 }
 
-impl ToCss for TrackSizeList {
+impl ToTypst for TrackSizeList {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -623,7 +623,7 @@ fn is_name_code_point(c: char) -> bool {
   c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '\u{80}' || c == '_' || c >= '0' && c <= '9' || c == '-'
 }
 
-impl ToCss for GridTemplateAreas {
+impl ToTypst for GridTemplateAreas {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -800,7 +800,7 @@ impl<'i> Parse<'i> for GridTemplate<'i> {
   }
 }
 
-impl ToCss for GridTemplate<'_> {
+impl ToTypst for GridTemplate<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1074,7 +1074,7 @@ impl<'i> Parse<'i> for GridAutoFlow {
   }
 }
 
-impl ToCss for GridAutoFlow {
+impl ToTypst for GridAutoFlow {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1190,7 +1190,7 @@ fn parse_grid_auto_flow<'i, 't>(
   }
 }
 
-impl ToCss for Grid<'_> {
+impl ToTypst for Grid<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1373,7 +1373,7 @@ impl<'i> Parse<'i> for GridLine<'i> {
   }
 }
 
-impl ToCss for GridLine<'_> {
+impl ToTypst for GridLine<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1442,7 +1442,7 @@ macro_rules! impl_grid_placement {
       }
     }
 
-    impl ToCss for $name<'_> {
+    impl ToTypst for $name<'_> {
       fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
@@ -1548,7 +1548,7 @@ impl<'i> Parse<'i> for GridArea<'i> {
   }
 }
 
-impl ToCss for GridArea<'_> {
+impl ToTypst for GridArea<'_> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

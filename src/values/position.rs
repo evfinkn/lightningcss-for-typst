@@ -6,7 +6,7 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::printer::Printer;
 use crate::targets::Browsers;
-use crate::traits::{IsCompatible, Parse, ToCss, Zero};
+use crate::traits::{IsCompatible, Parse, ToTypst, Zero};
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 use cssparser::*;
@@ -167,7 +167,7 @@ impl<'i> Parse<'i> for Position {
   }
 }
 
-impl ToCss for Position {
+impl ToTypst for Position {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -338,7 +338,7 @@ impl<'i, S: Parse<'i>> Parse<'i> for PositionComponent<S> {
   }
 }
 
-impl<S: ToCss> ToCss for PositionComponent<S> {
+impl<S: ToTypst> ToTypst for PositionComponent<S> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

@@ -6,7 +6,7 @@ use super::MinifyContext;
 use crate::error::{MinifyError, PrinterError};
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
-use crate::traits::ToCss;
+use crate::traits::ToTypst;
 #[cfg(feature = "visitor")]
 use crate::visitor::Visit;
 /// A [@nest](https://www.w3.org/TR/css-nesting-1/#at-nest) rule.
@@ -34,7 +34,7 @@ impl<'i, T: Clone> NestingRule<'i, T> {
   }
 }
 
-impl<'a, 'i, T: ToCss> ToCss for NestingRule<'i, T> {
+impl<'a, 'i, T: ToTypst> ToTypst for NestingRule<'i, T> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,

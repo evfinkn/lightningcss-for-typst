@@ -8,7 +8,7 @@ use crate::properties::custom::TokenList;
 use crate::rules::StyleContext;
 use crate::stylesheet::{ParserOptions, PrinterOptions};
 use crate::targets::{should_compile, Targets};
-use crate::traits::{Parse, ParseWithOptions, ToCss};
+use crate::traits::{Parse, ParseWithOptions, ToTypst};
 use crate::values::ident::{CustomIdent, Ident};
 use crate::values::string::CSSString;
 use crate::vendor_prefix::VendorPrefix;
@@ -1029,7 +1029,7 @@ impl<'i> Parse<'i> for ViewTransitionPartName<'i> {
   }
 }
 
-impl<'i> ToCss for ViewTransitionPartName<'i> {
+impl<'i> ToTypst for ViewTransitionPartName<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
@@ -1252,7 +1252,7 @@ impl<'i> PseudoElement<'i> {
   }
 }
 
-impl<'a, 'i> ToCss for SelectorList<'i> {
+impl<'a, 'i> ToTypst for SelectorList<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
@@ -1261,7 +1261,7 @@ impl<'a, 'i> ToCss for SelectorList<'i> {
   }
 }
 
-impl ToCss for Combinator {
+impl ToTypst for Combinator {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
@@ -1283,7 +1283,7 @@ impl ToCss for Combinator {
 }
 
 // Copied from the selectors crate and modified to override to_css implementation.
-impl<'a, 'i> ToCss for Selector<'i> {
+impl<'a, 'i> ToTypst for Selector<'i> {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
