@@ -82,14 +82,14 @@ impl<'i> Parse<'i> for BorderImageRepeat {
 }
 
 impl ToCss for BorderImageRepeat {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.horizontal.to_css(dest)?;
+    self.horizontal.to_typst(dest)?;
     if self.horizontal != self.vertical {
       dest.write_str(" ")?;
-      self.vertical.to_css(dest)?;
+      self.vertical.to_typst(dest)?;
     }
     Ok(())
   }
@@ -169,11 +169,11 @@ impl<'i> Parse<'i> for BorderImageSlice {
 }
 
 impl ToCss for BorderImageSlice {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.offsets.to_css(dest)?;
+    self.offsets.to_typst(dest)?;
     if self.fill {
       dest.write_str(" fill")?;
     }
@@ -303,30 +303,30 @@ impl<'i> BorderImage<'i> {
     W: std::fmt::Write,
   {
     if *source != Image::default() {
-      source.to_css(dest)?;
+      source.to_typst(dest)?;
     }
     let has_slice = *slice != BorderImageSlice::default();
     let has_width = *width != Rect::all(BorderImageSideWidth::default());
     let has_outset = *outset != Rect::all(LengthOrNumber::Number(0.0));
     if has_slice || has_width || has_outset {
       dest.write_str(" ")?;
-      slice.to_css(dest)?;
+      slice.to_typst(dest)?;
       if has_width || has_outset {
         dest.delim('/', true)?;
       }
       if has_width {
-        width.to_css(dest)?;
+        width.to_typst(dest)?;
       }
 
       if has_outset {
         dest.delim('/', true)?;
-        outset.to_css(dest)?;
+        outset.to_typst(dest)?;
       }
     }
 
     if *repeat != BorderImageRepeat::default() {
       dest.write_str(" ")?;
-      repeat.to_css(dest)?;
+      repeat.to_typst(dest)?;
     }
 
     Ok(())
@@ -334,7 +334,7 @@ impl<'i> BorderImage<'i> {
 }
 
 impl<'i> ToCss for BorderImage<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

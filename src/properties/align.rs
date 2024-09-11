@@ -58,7 +58,7 @@ impl<'i> Parse<'i> for BaselinePosition {
 }
 
 impl ToCss for BaselinePosition {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -205,24 +205,24 @@ impl<'i> Parse<'i> for JustifyContent {
 }
 
 impl ToCss for JustifyContent {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       JustifyContent::Normal => dest.write_str("normal"),
-      JustifyContent::ContentDistribution(value) => value.to_css(dest),
+      JustifyContent::ContentDistribution(value) => value.to_typst(dest),
       JustifyContent::ContentPosition { overflow, value } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
-        value.to_css(dest)
+        value.to_typst(dest)
       }
       JustifyContent::Left { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -230,7 +230,7 @@ impl ToCss for JustifyContent {
       }
       JustifyContent::Right { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -279,11 +279,11 @@ impl<'i> Parse<'i> for PlaceContent {
 }
 
 impl ToCss for PlaceContent {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.align.to_css(dest)?;
+    self.align.to_typst(dest)?;
     let is_equal = match self.justify {
       JustifyContent::Normal if self.align == AlignContent::Normal => true,
       JustifyContent::ContentDistribution(d) if matches!(self.align, AlignContent::ContentDistribution(d2) if d == d2) => {
@@ -297,7 +297,7 @@ impl ToCss for PlaceContent {
 
     if !is_equal {
       dest.write_str(" ")?;
-      self.justify.to_css(dest)?;
+      self.justify.to_typst(dest)?;
     }
 
     Ok(())
@@ -428,7 +428,7 @@ impl<'i> Parse<'i> for JustifySelf {
 }
 
 impl ToCss for JustifySelf {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -436,18 +436,18 @@ impl ToCss for JustifySelf {
       JustifySelf::Auto => dest.write_str("auto"),
       JustifySelf::Normal => dest.write_str("normal"),
       JustifySelf::Stretch => dest.write_str("stretch"),
-      JustifySelf::BaselinePosition(val) => val.to_css(dest),
+      JustifySelf::BaselinePosition(val) => val.to_typst(dest),
       JustifySelf::SelfPosition { overflow, value } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
-        value.to_css(dest)
+        value.to_typst(dest)
       }
       JustifySelf::Left { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -455,7 +455,7 @@ impl ToCss for JustifySelf {
       }
       JustifySelf::Right { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -500,11 +500,11 @@ impl<'i> Parse<'i> for PlaceSelf {
 }
 
 impl ToCss for PlaceSelf {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.align.to_css(dest)?;
+    self.align.to_typst(dest)?;
     let is_equal = match &self.justify {
       JustifySelf::Auto => true,
       JustifySelf::Normal => self.align == AlignSelf::Normal,
@@ -520,7 +520,7 @@ impl ToCss for PlaceSelf {
 
     if !is_equal {
       dest.write_str(" ")?;
-      self.justify.to_css(dest)?;
+      self.justify.to_typst(dest)?;
     }
 
     Ok(())
@@ -609,7 +609,7 @@ impl<'i> Parse<'i> for LegacyJustify {
 }
 
 impl ToCss for LegacyJustify {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -698,26 +698,26 @@ impl<'i> Parse<'i> for JustifyItems {
 }
 
 impl ToCss for JustifyItems {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       JustifyItems::Normal => dest.write_str("normal"),
       JustifyItems::Stretch => dest.write_str("stretch"),
-      JustifyItems::BaselinePosition(val) => val.to_css(dest),
-      JustifyItems::Legacy(val) => val.to_css(dest),
+      JustifyItems::BaselinePosition(val) => val.to_typst(dest),
+      JustifyItems::Legacy(val) => val.to_typst(dest),
       JustifyItems::SelfPosition { overflow, value } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
-        value.to_css(dest)
+        value.to_typst(dest)
       }
       JustifyItems::Left { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -725,7 +725,7 @@ impl ToCss for JustifyItems {
       }
       JustifyItems::Right { overflow } => {
         if let Some(overflow) = overflow {
-          overflow.to_css(dest)?;
+          overflow.to_typst(dest)?;
           dest.write_str(" ")?;
         }
 
@@ -769,11 +769,11 @@ impl<'i> Parse<'i> for PlaceItems {
 }
 
 impl ToCss for PlaceItems {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.align.to_css(dest)?;
+    self.align.to_typst(dest)?;
     let is_equal = match &self.justify {
       JustifyItems::Normal => self.align == AlignItems::Normal,
       JustifyItems::Stretch => self.align == AlignItems::Normal,
@@ -788,7 +788,7 @@ impl ToCss for PlaceItems {
 
     if !is_equal {
       dest.write_str(" ")?;
-      self.justify.to_css(dest)?;
+      self.justify.to_typst(dest)?;
     }
 
     Ok(())
@@ -832,14 +832,14 @@ impl<'i> Parse<'i> for Gap {
 }
 
 impl ToCss for Gap {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.row.to_css(dest)?;
+    self.row.to_typst(dest)?;
     if self.column != self.row {
       dest.write_str(" ")?;
-      self.column.to_css(dest)?;
+      self.column.to_typst(dest)?;
     }
     Ok(())
   }

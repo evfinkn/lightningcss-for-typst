@@ -370,7 +370,7 @@ fn set_test(orig: &str, property: &str, value: &str, important: bool, expected: 
     Property::parse_string(property.into(), value, ParserOptions::default()).unwrap(),
     important,
   );
-  assert_eq!(decls.to_css_string(PrinterOptions::default()).unwrap(), expected);
+  assert_eq!(decls.to_typst_string(PrinterOptions::default()).unwrap(), expected);
 }
 
 #[test]
@@ -463,7 +463,7 @@ fn test_set() {
 fn remove_test(orig: &str, property_id: PropertyId, expected: &str) {
   let mut decls = DeclarationBlock::parse_string(orig, ParserOptions::default()).unwrap();
   decls.remove(&property_id);
-  assert_eq!(decls.to_css_string(PrinterOptions::default()).unwrap(), expected);
+  assert_eq!(decls.to_typst_string(PrinterOptions::default()).unwrap(), expected);
 }
 
 #[test]

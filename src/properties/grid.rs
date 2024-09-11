@@ -220,22 +220,22 @@ impl<'i> Parse<'i> for TrackSize {
 }
 
 impl ToCss for TrackSize {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      TrackSize::TrackBreadth(breadth) => breadth.to_css(dest),
+      TrackSize::TrackBreadth(breadth) => breadth.to_typst(dest),
       TrackSize::MinMax { min, max } => {
         dest.write_str("minmax(")?;
-        min.to_css(dest)?;
+        min.to_typst(dest)?;
         dest.delim(',', false)?;
-        max.to_css(dest)?;
+        max.to_typst(dest)?;
         dest.write_char(')')
       }
       TrackSize::FitContent(len) => {
         dest.write_str("fit-content(")?;
-        len.to_css(dest)?;
+        len.to_typst(dest)?;
         dest.write_char(')')
       }
     }
@@ -287,7 +287,7 @@ impl TrackBreadth {
 }
 
 impl ToCss for TrackBreadth {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -295,7 +295,7 @@ impl ToCss for TrackBreadth {
       TrackBreadth::Auto => dest.write_str("auto"),
       TrackBreadth::MinContent => dest.write_str("min-content"),
       TrackBreadth::MaxContent => dest.write_str("max-content"),
-      TrackBreadth::Length(len) => len.to_css(dest),
+      TrackBreadth::Length(len) => len.to_typst(dest),
       TrackBreadth::Flex(flex) => serialize_dimension(*flex, "fr", dest),
     }
   }
@@ -333,12 +333,12 @@ impl<'i> Parse<'i> for TrackRepeat<'i> {
 }
 
 impl<'i> ToCss for TrackRepeat<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     dest.write_str("repeat(")?;
-    self.count.to_css(dest)?;
+    self.count.to_typst(dest)?;
     dest.delim(',', false)?;
 
     let mut track_sizes_iter = self.track_sizes.iter();
@@ -355,7 +355,7 @@ impl<'i> ToCss for TrackRepeat<'i> {
         } else if !first {
           dest.write_char(' ')?;
         }
-        size.to_css(dest)?;
+        size.to_typst(dest)?;
       }
 
       first = false;
@@ -449,7 +449,7 @@ impl<'i> Parse<'i> for TrackList<'i> {
 }
 
 impl<'i> ToCss for TrackList<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -470,8 +470,8 @@ impl<'i> ToCss for TrackList<'i> {
           dest.write_char(' ')?;
         }
         match item {
-          TrackListItem::TrackRepeat(repeat) => repeat.to_css(dest)?,
-          TrackListItem::TrackSize(size) => size.to_css(dest)?,
+          TrackListItem::TrackRepeat(repeat) => repeat.to_typst(dest)?,
+          TrackListItem::TrackSize(size) => size.to_typst(dest)?,
         };
       }
 
@@ -511,7 +511,7 @@ impl<'i> Parse<'i> for TrackSizeList {
 }
 
 impl ToCss for TrackSizeList {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -526,7 +526,7 @@ impl ToCss for TrackSizeList {
       } else {
         dest.write_char(' ')?;
       }
-      item.to_css(dest)?;
+      item.to_typst(dest)?;
     }
     Ok(())
   }
@@ -624,7 +624,7 @@ fn is_name_code_point(c: char) -> bool {
 }
 
 impl ToCss for GridTemplateAreas {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -801,7 +801,7 @@ impl<'i> Parse<'i> for GridTemplate<'i> {
 }
 
 impl ToCss for GridTemplate<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -819,9 +819,9 @@ impl GridTemplate<'_> {
         if self.rows == TrackSizing::None && self.columns == TrackSizing::None {
           dest.write_str("none")?;
         } else {
-          self.rows.to_css(dest)?;
+          self.rows.to_typst(dest)?;
           dest.delim('/', true)?;
-          self.columns.to_css(dest)?;
+          self.columns.to_typst(dest)?;
         }
       }
       GridTemplateAreas::Areas { areas, .. } => {
@@ -878,7 +878,7 @@ impl GridTemplate<'_> {
             if *item != TrackListItem::TrackSize(TrackSize::default()) {
               dest.whitespace()?;
               match item {
-                TrackListItem::TrackSize(size) => size.to_css(dest)?,
+                TrackListItem::TrackSize(size) => size.to_typst(dest)?,
                 _ => unreachable!(),
               }
             }
@@ -897,7 +897,7 @@ impl GridTemplate<'_> {
         if let TrackSizing::TrackList(track_list) = &self.columns {
           dest.newline()?;
           dest.delim('/', false)?;
-          track_list.to_css(dest)?;
+          track_list.to_typst(dest)?;
         }
 
         if indented {
@@ -1075,7 +1075,7 @@ impl<'i> Parse<'i> for GridAutoFlow {
 }
 
 impl ToCss for GridAutoFlow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1191,7 +1191,7 @@ fn parse_grid_auto_flow<'i, 't>(
 }
 
 impl ToCss for Grid<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1216,7 +1216,7 @@ impl ToCss for Grid<'_> {
       if self.columns != TrackSizing::None || self.auto_rows != TrackSizeList::default() {
         unreachable!("invalid grid shorthand: mixed implicit and explicit values");
       }
-      self.rows.to_css(dest)?;
+      self.rows.to_typst(dest)?;
       dest.delim('/', true)?;
       dest.write_str("auto-flow")?;
       if self.auto_flow.contains(GridAutoFlow::Dense) {
@@ -1224,7 +1224,7 @@ impl ToCss for Grid<'_> {
       }
       if self.auto_columns != TrackSizeList::default() {
         dest.write_char(' ')?;
-        self.auto_columns.to_css(dest)?;
+        self.auto_columns.to_typst(dest)?;
       }
     } else {
       if self.rows != TrackSizing::None || self.auto_columns != TrackSizeList::default() {
@@ -1236,10 +1236,10 @@ impl ToCss for Grid<'_> {
       }
       if self.auto_rows != TrackSizeList::default() {
         dest.write_char(' ')?;
-        self.auto_rows.to_css(dest)?;
+        self.auto_rows.to_typst(dest)?;
       }
       dest.delim('/', true)?;
-      self.columns.to_css(dest)?;
+      self.columns.to_typst(dest)?;
     }
 
     Ok(())
@@ -1374,7 +1374,7 @@ impl<'i> Parse<'i> for GridLine<'i> {
 }
 
 impl ToCss for GridLine<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1382,7 +1382,7 @@ impl ToCss for GridLine<'_> {
       GridLine::Auto => dest.write_str("auto"),
       GridLine::Area { name } => write_ident(&name.0, dest),
       GridLine::Line { index, name } => {
-        index.to_css(dest)?;
+        index.to_typst(dest)?;
         if let Some(id) = name {
           dest.write_char(' ')?;
           write_ident(&id.0, dest)?;
@@ -1392,7 +1392,7 @@ impl ToCss for GridLine<'_> {
       GridLine::Span { index, name } => {
         dest.write_str("span ")?;
         if *index != 1 || name.is_none() {
-          index.to_css(dest)?;
+          index.to_typst(dest)?;
           if name.is_some() {
             dest.write_char(' ')?;
           }
@@ -1443,15 +1443,15 @@ macro_rules! impl_grid_placement {
     }
 
     impl ToCss for $name<'_> {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
       {
-        self.start.to_css(dest)?;
+        self.start.to_typst(dest)?;
 
         if !self.start.can_omit_end(&self.end) {
           dest.delim('/', true)?;
-          self.end.to_css(dest)?;
+          self.end.to_typst(dest)?;
         }
         Ok(())
       }
@@ -1549,11 +1549,11 @@ impl<'i> Parse<'i> for GridArea<'i> {
 }
 
 impl ToCss for GridArea<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.row_start.to_css(dest)?;
+    self.row_start.to_typst(dest)?;
 
     let can_omit_column_end = self.column_start.can_omit_end(&self.column_end);
     let can_omit_row_end = can_omit_column_end && self.row_start.can_omit_end(&self.row_end);
@@ -1561,17 +1561,17 @@ impl ToCss for GridArea<'_> {
 
     if !can_omit_column_start {
       dest.delim('/', true)?;
-      self.column_start.to_css(dest)?;
+      self.column_start.to_typst(dest)?;
     }
 
     if !can_omit_row_end {
       dest.delim('/', true)?;
-      self.row_end.to_css(dest)?;
+      self.row_end.to_typst(dest)?;
     }
 
     if !can_omit_column_end {
       dest.delim('/', true)?;
-      self.column_end.to_css(dest)?;
+      self.column_end.to_typst(dest)?;
     }
 
     Ok(())

@@ -76,7 +76,7 @@ impl<'i> Parse<'i> for TextTransformOther {
 }
 
 impl ToCss for TextTransformOther {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -196,13 +196,13 @@ impl<'i> Parse<'i> for TextTransform {
 }
 
 impl ToCss for TextTransform {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let mut needs_space = false;
     if self.case != TextTransformCase::None || self.other.is_empty() {
-      self.case.to_css(dest)?;
+      self.case.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -210,7 +210,7 @@ impl ToCss for TextTransform {
       if needs_space {
         dest.write_char(' ')?;
       }
-      self.other.to_css(dest)?;
+      self.other.to_typst(dest)?;
     }
     Ok(())
   }
@@ -427,11 +427,11 @@ impl<'i> Parse<'i> for TextIndent {
 }
 
 impl ToCss for TextIndent {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.value.to_css(dest)?;
+    self.value.to_typst(dest)?;
     if self.hanging {
       dest.write_str(" hanging")?;
     }
@@ -531,7 +531,7 @@ impl<'i> Parse<'i> for TextDecorationLine {
 }
 
 impl ToCss for TextDecorationLine {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -772,11 +772,11 @@ impl<'i> Parse<'i> for TextDecoration {
 }
 
 impl ToCss for TextDecoration {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.line.to_css(dest)?;
+    self.line.to_typst(dest)?;
     if self.line.is_empty() {
       return Ok(());
     }
@@ -784,7 +784,7 @@ impl ToCss for TextDecoration {
     let mut needs_space = true;
     if self.thickness != TextDecorationThickness::default() {
       dest.write_char(' ')?;
-      self.thickness.to_css(dest)?;
+      self.thickness.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -792,7 +792,7 @@ impl ToCss for TextDecoration {
       if needs_space {
         dest.write_char(' ')?;
       }
-      self.style.to_css(dest)?;
+      self.style.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -800,7 +800,7 @@ impl ToCss for TextDecoration {
       if needs_space {
         dest.write_char(' ')?;
       }
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
 
     Ok(())
@@ -920,17 +920,17 @@ impl<'i> Parse<'i> for TextEmphasisStyle<'i> {
 }
 
 impl<'i> ToCss for TextEmphasisStyle<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       TextEmphasisStyle::None => dest.write_str("none"),
-      TextEmphasisStyle::String(s) => s.to_css(dest),
+      TextEmphasisStyle::String(s) => s.to_typst(dest),
       TextEmphasisStyle::Keyword { fill, shape } => {
         let mut needs_space = false;
         if *fill != TextEmphasisFillMode::Filled || shape.is_none() {
-          fill.to_css(dest)?;
+          fill.to_typst(dest)?;
           needs_space = true;
         }
 
@@ -938,7 +938,7 @@ impl<'i> ToCss for TextEmphasisStyle<'i> {
           if needs_space {
             dest.write_char(' ')?;
           }
-          shape.to_css(dest)?;
+          shape.to_typst(dest)?;
         }
         Ok(())
       }
@@ -988,15 +988,15 @@ impl<'i> Parse<'i> for TextEmphasis<'i> {
 }
 
 impl<'i> ToCss for TextEmphasis<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.style.to_css(dest)?;
+    self.style.to_typst(dest)?;
 
     if self.style != TextEmphasisStyle::None && self.color != CssColor::current_color() {
       dest.write_char(' ')?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
 
     Ok(())
@@ -1083,14 +1083,14 @@ impl Default for BoxDecorationBreak {
 }
 
 impl ToCss for TextEmphasisPosition {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.vertical.to_css(dest)?;
+    self.vertical.to_typst(dest)?;
     if self.horizontal != TextEmphasisPositionHorizontal::Right {
       dest.write_char(' ')?;
-      self.horizontal.to_css(dest)?;
+      self.horizontal.to_typst(dest)?;
     }
     Ok(())
   }
@@ -1421,27 +1421,27 @@ impl<'i> Parse<'i> for TextShadow {
 }
 
 impl ToCss for TextShadow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.x_offset.to_css(dest)?;
+    self.x_offset.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.y_offset.to_css(dest)?;
+    self.y_offset.to_typst(dest)?;
 
     if self.blur != Length::zero() || self.spread != Length::zero() {
       dest.write_char(' ')?;
-      self.blur.to_css(dest)?;
+      self.blur.to_typst(dest)?;
 
       if self.spread != Length::zero() {
         dest.write_char(' ')?;
-        self.spread.to_css(dest)?;
+        self.spread.to_typst(dest)?;
       }
     }
 
     if self.color != CssColor::current_color() {
       dest.write_char(' ')?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
 
     Ok(())

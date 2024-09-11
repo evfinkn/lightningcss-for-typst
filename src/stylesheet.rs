@@ -296,7 +296,7 @@ where
         &self.content_hashes,
       ));
 
-      self.rules.to_css(&mut printer)?;
+      self.rules.to_typst(&mut printer)?;
       printer.newline()?;
 
       Ok(ToCssResult {
@@ -308,7 +308,7 @@ where
         references: Some(references),
       })
     } else {
-      self.rules.to_css(&mut printer)?;
+      self.rules.to_typst(&mut printer)?;
       printer.newline()?;
 
       Ok(ToCssResult {
@@ -409,7 +409,7 @@ impl<'i> StyleAttribute<'i> {
     let mut printer = Printer::new(&mut dest, options);
     printer.sources = Some(&self.sources);
 
-    self.declarations.to_css(&mut printer)?;
+    self.declarations.to_typst(&mut printer)?;
 
     Ok(ToCssResult {
       dependencies: printer.dependencies,

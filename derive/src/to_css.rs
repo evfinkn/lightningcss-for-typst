@@ -25,7 +25,7 @@ pub fn derive_to_css(input: TokenStream) -> TokenStream {
 
   let output = quote! {
     impl #impl_generics ToCss for #ident #ty_generics #where_clause {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
       {
@@ -93,7 +93,7 @@ fn derive_enum(data: &DataEnum, opts: &CssOptions) -> TokenStream2 {
             quote! {
               if let Some(v) = #name {
                 #space
-                v.to_css(dest)?;
+                v.to_typst(dest)?;
                 #after_space
               }
             }
@@ -101,11 +101,11 @@ fn derive_enum(data: &DataEnum, opts: &CssOptions) -> TokenStream2 {
             needs_space = NeedsSpace::Yes;
             quote! {
               #space
-              #name.to_css(dest)?;
+              #name.to_typst(dest)?;
             }
           }
         } else {
-          quote! { #name.to_css(dest) }
+          quote! { #name.to_typst(dest) }
         });
       }
 

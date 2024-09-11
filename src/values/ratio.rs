@@ -42,14 +42,14 @@ impl Ratio {
 }
 
 impl ToCss for Ratio {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.0.to_css(dest)?;
+    self.0.to_typst(dest)?;
     if self.1 != 1.0 {
       dest.delim('/', true)?;
-      self.1.to_css(dest)?;
+      self.1.to_typst(dest)?;
     }
     Ok(())
   }

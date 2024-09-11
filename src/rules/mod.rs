@@ -333,33 +333,33 @@ impl<'i, 'de: 'i, R: serde::Deserialize<'de>> serde::Deserialize<'de> for CssRul
 }
 
 impl<'a, 'i, T: ToCss> ToCss for CssRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      CssRule::Media(media) => media.to_css(dest),
-      CssRule::Import(import) => import.to_css(dest),
-      CssRule::Style(style) => style.to_css(dest),
-      CssRule::Keyframes(keyframes) => keyframes.to_css(dest),
-      CssRule::FontFace(font_face) => font_face.to_css(dest),
-      CssRule::FontPaletteValues(f) => f.to_css(dest),
-      CssRule::Page(font_face) => font_face.to_css(dest),
-      CssRule::Supports(supports) => supports.to_css(dest),
-      CssRule::CounterStyle(counter_style) => counter_style.to_css(dest),
-      CssRule::Namespace(namespace) => namespace.to_css(dest),
-      CssRule::MozDocument(document) => document.to_css(dest),
-      CssRule::Nesting(nesting) => nesting.to_css(dest),
-      CssRule::Viewport(viewport) => viewport.to_css(dest),
-      CssRule::CustomMedia(custom_media) => custom_media.to_css(dest),
-      CssRule::LayerStatement(layer) => layer.to_css(dest),
-      CssRule::LayerBlock(layer) => layer.to_css(dest),
-      CssRule::Property(property) => property.to_css(dest),
-      CssRule::StartingStyle(rule) => rule.to_css(dest),
-      CssRule::Container(container) => container.to_css(dest),
-      CssRule::Scope(scope) => scope.to_css(dest),
-      CssRule::Unknown(unknown) => unknown.to_css(dest),
-      CssRule::Custom(rule) => rule.to_css(dest).map_err(|_| PrinterError {
+      CssRule::Media(media) => media.to_typst(dest),
+      CssRule::Import(import) => import.to_typst(dest),
+      CssRule::Style(style) => style.to_typst(dest),
+      CssRule::Keyframes(keyframes) => keyframes.to_typst(dest),
+      CssRule::FontFace(font_face) => font_face.to_typst(dest),
+      CssRule::FontPaletteValues(f) => f.to_typst(dest),
+      CssRule::Page(font_face) => font_face.to_typst(dest),
+      CssRule::Supports(supports) => supports.to_typst(dest),
+      CssRule::CounterStyle(counter_style) => counter_style.to_typst(dest),
+      CssRule::Namespace(namespace) => namespace.to_typst(dest),
+      CssRule::MozDocument(document) => document.to_typst(dest),
+      CssRule::Nesting(nesting) => nesting.to_typst(dest),
+      CssRule::Viewport(viewport) => viewport.to_typst(dest),
+      CssRule::CustomMedia(custom_media) => custom_media.to_typst(dest),
+      CssRule::LayerStatement(layer) => layer.to_typst(dest),
+      CssRule::LayerBlock(layer) => layer.to_typst(dest),
+      CssRule::Property(property) => property.to_typst(dest),
+      CssRule::StartingStyle(rule) => rule.to_typst(dest),
+      CssRule::Container(container) => container.to_typst(dest),
+      CssRule::Scope(scope) => scope.to_typst(dest),
+      CssRule::Unknown(unknown) => unknown.to_typst(dest),
+      CssRule::Custom(rule) => rule.to_typst(dest).map_err(|_| PrinterError {
         kind: PrinterErrorKind::FmtError,
         loc: None,
       }),
@@ -952,7 +952,7 @@ fn merge_style_rules<'i, T>(
 }
 
 impl<'a, 'i, T: ToCss> ToCss for CssRuleList<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -994,7 +994,7 @@ impl<'a, 'i, T: ToCss> ToCss for CssRuleList<'i, T> {
         }
         dest.newline()?;
       }
-      rule.to_css(dest)?;
+      rule.to_typst(dest)?;
       last_without_block = matches!(
         rule,
         CssRule::Import(..) | CssRule::Namespace(..) | CssRule::LayerStatement(..)

@@ -35,7 +35,7 @@ impl<'i, T: Clone> NestingRule<'i, T> {
 }
 
 impl<'a, 'i, T: ToCss> ToCss for NestingRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -44,6 +44,6 @@ impl<'a, 'i, T: ToCss> ToCss for NestingRule<'i, T> {
     if dest.context().is_none() {
       dest.write_str("@nest ")?;
     }
-    self.style.to_css(dest)
+    self.style.to_typst(dest)
   }
 }

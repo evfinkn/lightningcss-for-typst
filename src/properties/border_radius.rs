@@ -62,7 +62,7 @@ impl<'i> Parse<'i> for BorderRadius {
 }
 
 impl ToCss for BorderRadius {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -79,10 +79,10 @@ impl ToCss for BorderRadius {
       &self.bottom_left.1,
     );
 
-    widths.to_css(dest)?;
+    widths.to_typst(dest)?;
     if widths != heights {
       dest.delim('/', true)?;
-      heights.to_css(dest)?;
+      heights.to_typst(dest)?;
     }
 
     Ok(())

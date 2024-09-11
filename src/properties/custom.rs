@@ -100,13 +100,13 @@ impl<'i> AsRef<str> for CustomPropertyName<'i> {
 }
 
 impl<'i> ToCss for CustomPropertyName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      CustomPropertyName::Custom(c) => c.to_css(dest),
-      CustomPropertyName::Unknown(u) => u.to_css(dest),
+      CustomPropertyName::Custom(c) => c.to_typst(dest),
+      CustomPropertyName::Unknown(u) => u.to_typst(dest),
     }
   }
 }
@@ -540,7 +540,7 @@ impl<'i> TokenList<'i> {
     for (i, token_or_value) in self.0.iter().enumerate() {
       has_whitespace = match token_or_value {
         TokenOrValue::Color(color) => {
-          color.to_css(dest)?;
+          color.to_typst(dest)?;
           false
         }
         TokenOrValue::UnresolvedColor(color) => {
@@ -556,7 +556,7 @@ impl<'i> TokenList<'i> {
               url.loc,
             ));
           }
-          url.to_css(dest)?;
+          url.to_typst(dest)?;
           false
         }
         TokenOrValue::Var(var) => {
@@ -578,23 +578,23 @@ impl<'i> TokenList<'i> {
           false
         }
         TokenOrValue::Angle(v) => {
-          v.to_css(dest)?;
+          v.to_typst(dest)?;
           false
         }
         TokenOrValue::Time(v) => {
-          v.to_css(dest)?;
+          v.to_typst(dest)?;
           false
         }
         TokenOrValue::Resolution(v) => {
-          v.to_css(dest)?;
+          v.to_typst(dest)?;
           false
         }
         TokenOrValue::DashedIdent(v) => {
-          v.to_css(dest)?;
+          v.to_typst(dest)?;
           false
         }
         TokenOrValue::AnimationName(v) => {
-          v.to_css(dest)?;
+          v.to_typst(dest)?;
           false
         }
         TokenOrValue::Token(token) => match token {
@@ -614,7 +614,7 @@ impl<'i> TokenList<'i> {
             true
           }
           Token::CloseParenthesis | Token::CloseSquareBracket | Token::CloseCurlyBracket => {
-            token.to_css(dest)?;
+            token.to_typst(dest)?;
             self.write_whitespace_if_needed(i, dest)?
           }
           Token::Dimension { value, unit, .. } => {
@@ -622,11 +622,11 @@ impl<'i> TokenList<'i> {
             false
           }
           Token::Number { value, .. } => {
-            value.to_css(dest)?;
+            value.to_typst(dest)?;
             false
           }
           _ => {
-            token.to_css(dest)?;
+            token.to_typst(dest)?;
             matches!(token, Token::WhiteSpace(..))
           }
         },
@@ -643,7 +643,7 @@ impl<'i> TokenList<'i> {
     for token_or_value in &self.0 {
       match token_or_value {
         TokenOrValue::Token(token) => {
-          token.to_css(dest)?;
+          token.to_typst(dest)?;
         }
         _ => {
           return Err(PrinterError {
@@ -938,7 +938,7 @@ impl<'a> From<&cssparser::Token<'a>> for Token<'a> {
 
 impl<'a> ToCss for Token<'a> {
   #[inline]
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1263,7 +1263,7 @@ impl<'i> Variable<'i> {
     W: std::fmt::Write,
   {
     dest.write_str("var(")?;
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     if let Some(fallback) = &self.fallback {
       dest.delim(',', false)?;
       fallback.to_css(dest, is_custom_property)?;
@@ -1380,14 +1380,14 @@ impl<'i> Parse<'i> for EnvironmentVariableName<'i> {
 }
 
 impl<'i> ToCss for EnvironmentVariableName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      EnvironmentVariableName::UA(ua) => ua.to_css(dest),
-      EnvironmentVariableName::Custom(custom) => custom.to_css(dest),
-      EnvironmentVariableName::Unknown(unknown) => unknown.to_css(dest),
+      EnvironmentVariableName::UA(ua) => ua.to_typst(dest),
+      EnvironmentVariableName::Custom(custom) => custom.to_typst(dest),
+      EnvironmentVariableName::Unknown(unknown) => unknown.to_typst(dest),
     }
   }
 }
@@ -1431,11 +1431,11 @@ impl<'i> EnvironmentVariable<'i> {
     W: std::fmt::Write,
   {
     dest.write_str("env(")?;
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
 
     for item in &self.indices {
       dest.write_char(' ')?;
-      item.to_css(dest)?;
+      item.to_typst(dest)?;
     }
 
     if let Some(fallback) = &self.fallback {
@@ -1474,7 +1474,7 @@ impl<'i> Function<'i> {
   where
     W: std::fmt::Write,
   {
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     dest.write_char('(')?;
     self.arguments.to_css(dest, is_custom_property)?;
     dest.write_char(')')
@@ -1607,11 +1607,11 @@ impl<'i> UnresolvedColor<'i> {
       UnresolvedColor::RGB { r, g, b, alpha } => {
         if should_compile!(dest.targets, SpaceSeparatedColorNotation) {
           dest.write_str("rgba(")?;
-          c(r).to_css(dest)?;
+          c(r).to_typst(dest)?;
           dest.delim(',', false)?;
-          c(g).to_css(dest)?;
+          c(g).to_typst(dest)?;
           dest.delim(',', false)?;
-          c(b).to_css(dest)?;
+          c(b).to_typst(dest)?;
           dest.delim(',', false)?;
           alpha.to_css(dest, is_custom_property)?;
           dest.write_char(')')?;
@@ -1619,11 +1619,11 @@ impl<'i> UnresolvedColor<'i> {
         }
 
         dest.write_str("rgb(")?;
-        c(r).to_css(dest)?;
+        c(r).to_typst(dest)?;
         dest.write_char(' ')?;
-        c(g).to_css(dest)?;
+        c(g).to_typst(dest)?;
         dest.write_char(' ')?;
-        c(b).to_css(dest)?;
+        c(b).to_typst(dest)?;
         dest.delim('/', true)?;
         alpha.to_css(dest, is_custom_property)?;
         dest.write_char(')')
@@ -1631,11 +1631,11 @@ impl<'i> UnresolvedColor<'i> {
       UnresolvedColor::HSL { h, s, l, alpha } => {
         if should_compile!(dest.targets, SpaceSeparatedColorNotation) {
           dest.write_str("hsla(")?;
-          h.to_css(dest)?;
+          h.to_typst(dest)?;
           dest.delim(',', false)?;
-          Percentage(*s).to_css(dest)?;
+          Percentage(*s).to_typst(dest)?;
           dest.delim(',', false)?;
-          Percentage(*l).to_css(dest)?;
+          Percentage(*l).to_typst(dest)?;
           dest.delim(',', false)?;
           alpha.to_css(dest, is_custom_property)?;
           dest.write_char(')')?;
@@ -1643,11 +1643,11 @@ impl<'i> UnresolvedColor<'i> {
         }
 
         dest.write_str("hsl(")?;
-        h.to_css(dest)?;
+        h.to_typst(dest)?;
         dest.write_char(' ')?;
-        Percentage(*s).to_css(dest)?;
+        Percentage(*s).to_typst(dest)?;
         dest.write_char(' ')?;
-        Percentage(*l).to_css(dest)?;
+        Percentage(*l).to_typst(dest)?;
         dest.delim('/', true)?;
         alpha.to_css(dest, is_custom_property)?;
         dest.write_char(')')

@@ -46,7 +46,7 @@ pub enum AnimationName<'i> {
 }
 
 impl<'i> ToCss for AnimationName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -251,7 +251,7 @@ impl<'i> Parse<'i> for ScrollTimeline {
 }
 
 impl ToCss for ScrollTimeline {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -259,7 +259,7 @@ impl ToCss for ScrollTimeline {
 
     let mut needs_space = false;
     if self.scroller != Scroller::default() {
-      self.scroller.to_css(dest)?;
+      self.scroller.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -267,7 +267,7 @@ impl ToCss for ScrollTimeline {
       if needs_space {
         dest.write_char(' ')?;
       }
-      self.axis.to_css(dest)?;
+      self.axis.to_typst(dest)?;
     }
 
     dest.write_char(')')
@@ -354,14 +354,14 @@ impl<'i> Parse<'i> for ViewTimeline {
 }
 
 impl ToCss for ViewTimeline {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     dest.write_str("view(")?;
     let mut needs_space = false;
     if self.axis != ScrollAxis::default() {
-      self.axis.to_css(dest)?;
+      self.axis.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -369,7 +369,7 @@ impl ToCss for ViewTimeline {
       if needs_space {
         dest.write_char(' ')?;
       }
-      self.inset.to_css(dest)?;
+      self.inset.to_typst(dest)?;
     }
 
     dest.write_char(')')
@@ -448,12 +448,12 @@ impl<'i> AnimationAttachmentRange {
   {
     match self {
       Self::Normal => dest.write_str("normal"),
-      Self::LengthPercentage(val) => val.to_css(dest),
+      Self::LengthPercentage(val) => val.to_typst(dest),
       Self::TimelineRange { name, offset } => {
-        name.to_css(dest)?;
+        name.to_typst(dest)?;
         if *offset != LengthPercentage::Percentage(Percentage(default)) {
           dest.write_char(' ')?;
-          offset.to_css(dest)?;
+          offset.to_typst(dest)?;
         }
         Ok(())
       }
@@ -483,7 +483,7 @@ impl<'i> Parse<'i> for AnimationRangeStart {
 }
 
 impl ToCss for AnimationRangeStart {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -507,7 +507,7 @@ impl<'i> Parse<'i> for AnimationRangeEnd {
 }
 
 impl ToCss for AnimationRangeEnd {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -552,11 +552,11 @@ impl<'i> Parse<'i> for AnimationRange {
 }
 
 impl ToCss for AnimationRange {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.start.to_css(dest)?;
+    self.start.to_typst(dest)?;
 
     let omit_end = match (&self.start.0, &self.end.0) {
       (
@@ -571,7 +571,7 @@ impl ToCss for AnimationRange {
 
     if !omit_end {
       dest.write_char(' ')?;
-      self.end.to_css(dest)?;
+      self.end.to_typst(dest)?;
     }
     Ok(())
   }
@@ -653,7 +653,7 @@ impl<'i> Parse<'i> for Animation<'i> {
 }
 
 impl<'i> ToCss for Animation<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -661,39 +661,39 @@ impl<'i> ToCss for Animation<'i> {
       AnimationName::None => {}
       AnimationName::Ident(CustomIdent(name)) | AnimationName::String(CSSString(name)) => {
         if !self.duration.is_zero() || !self.delay.is_zero() {
-          self.duration.to_css(dest)?;
+          self.duration.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if !self.timing_function.is_ease() || EasingFunction::is_ident(&name) {
-          self.timing_function.to_css(dest)?;
+          self.timing_function.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if !self.delay.is_zero() {
-          self.delay.to_css(dest)?;
+          self.delay.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if self.iteration_count != AnimationIterationCount::default() || name.as_ref() == "infinite" {
-          self.iteration_count.to_css(dest)?;
+          self.iteration_count.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if self.direction != AnimationDirection::default() || AnimationDirection::parse_string(&name).is_ok() {
-          self.direction.to_css(dest)?;
+          self.direction.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if self.fill_mode != AnimationFillMode::default()
           || (!name.eq_ignore_ascii_case("none") && AnimationFillMode::parse_string(&name).is_ok())
         {
-          self.fill_mode.to_css(dest)?;
+          self.fill_mode.to_typst(dest)?;
           dest.write_char(' ')?;
         }
 
         if self.play_state != AnimationPlayState::default() || AnimationPlayState::parse_string(&name).is_ok() {
-          self.play_state.to_css(dest)?;
+          self.play_state.to_typst(dest)?;
           dest.write_char(' ')?;
         }
       }
@@ -701,11 +701,11 @@ impl<'i> ToCss for Animation<'i> {
 
     // Eventually we could output a string here to avoid duplicating some properties above.
     // Chrome does not yet support strings, however.
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
 
     if self.name != AnimationName::None && self.timeline != AnimationTimeline::default() {
       dest.write_char(' ')?;
-      self.timeline.to_css(dest)?;
+      self.timeline.to_typst(dest)?;
     }
 
     Ok(())

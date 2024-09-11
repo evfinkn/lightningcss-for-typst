@@ -64,7 +64,7 @@ impl<'i, T: Clone> ScopeRule<'i, T> {
 }
 
 impl<'i, T: ToCss> ToCss for ScopeRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -74,7 +74,7 @@ impl<'i, T: ToCss> ToCss for ScopeRule<'i, T> {
     dest.whitespace()?;
     if let Some(scope_start) = &self.scope_start {
       dest.write_char('(')?;
-      scope_start.to_css(dest)?;
+      scope_start.to_typst(dest)?;
       dest.write_char(')')?;
       dest.whitespace()?;
     }
@@ -86,9 +86,9 @@ impl<'i, T: ToCss> ToCss for ScopeRule<'i, T> {
       // <scope-start> is treated as an ancestor of scope end.
       // https://drafts.csswg.org/css-nesting/#nesting-at-scope
       if let Some(scope_start) = &self.scope_start {
-        dest.with_context(scope_start, |dest| scope_end.to_css(dest))?;
+        dest.with_context(scope_start, |dest| scope_end.to_typst(dest))?;
       } else {
-        scope_end.to_css(dest)?;
+        scope_end.to_typst(dest)?;
       }
       dest.write_char(')')?;
       dest.whitespace()?;
@@ -99,7 +99,7 @@ impl<'i, T: ToCss> ToCss for ScopeRule<'i, T> {
     // Nested style rules within @scope are implicitly relative to the <scope-start>
     // so clear our style context while printing them to avoid replacing & ourselves.
     // https://drafts.csswg.org/css-cascade-6/#scoped-rules
-    dest.with_cleared_context(|dest| self.rules.to_css(dest))?;
+    dest.with_cleared_context(|dest| self.rules.to_typst(dest))?;
     dest.dedent();
     dest.newline()?;
     dest.write_char('}')

@@ -115,7 +115,7 @@ impl<'i> Parse<'i> for Filter<'i> {
 }
 
 impl<'i> ToCss for Filter<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -123,7 +123,7 @@ impl<'i> ToCss for Filter<'i> {
       Filter::Blur(val) => {
         dest.write_str("blur(")?;
         if *val != Length::zero() {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -131,7 +131,7 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("brightness(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -139,7 +139,7 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("contrast(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -147,14 +147,14 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("grayscale(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
       Filter::HueRotate(val) => {
         dest.write_str("hue-rotate(")?;
         if !val.is_zero() {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -162,7 +162,7 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("invert(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -170,7 +170,7 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("opacity(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -178,7 +178,7 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("saturate(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -186,16 +186,16 @@ impl<'i> ToCss for Filter<'i> {
         dest.write_str("sepia(")?;
         let v: f32 = val.into();
         if v != 1.0 {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
         }
         dest.write_char(')')
       }
       Filter::DropShadow(val) => {
         dest.write_str("drop-shadow(")?;
-        val.to_css(dest)?;
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
-      Filter::Url(url) => url.to_css(dest),
+      Filter::Url(url) => url.to_typst(dest),
     }
   }
 }
@@ -277,22 +277,22 @@ impl<'i> Parse<'i> for DropShadow {
 }
 
 impl ToCss for DropShadow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.x_offset.to_css(dest)?;
+    self.x_offset.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.y_offset.to_css(dest)?;
+    self.y_offset.to_typst(dest)?;
 
     if self.blur != Length::zero() {
       dest.write_char(' ')?;
-      self.blur.to_css(dest)?;
+      self.blur.to_typst(dest)?;
     }
 
     if self.color != CssColor::current_color() {
       dest.write_char(' ')?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
 
     Ok(())
@@ -343,7 +343,7 @@ impl<'i> Parse<'i> for FilterList<'i> {
 }
 
 impl<'i> ToCss for FilterList<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -357,7 +357,7 @@ impl<'i> ToCss for FilterList<'i> {
           } else {
             dest.whitespace()?;
           }
-          filter.to_css(dest)?;
+          filter.to_typst(dest)?;
         }
         Ok(())
       }

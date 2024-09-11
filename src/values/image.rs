@@ -368,11 +368,11 @@ impl<'i> Parse<'i> for ImageSet<'i> {
 }
 
 impl<'i> ToCss for ImageSet<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.vendor_prefix.to_css(dest)?;
+    self.vendor_prefix.to_typst(dest)?;
     dest.write_str("image-set(")?;
     let mut first = true;
     for option in &self.options {
@@ -467,7 +467,7 @@ impl<'i> ImageSetOption<'i> {
           serialize_string(&url.url, dest)?;
         }
       }
-      _ => self.image.to_css(dest)?,
+      _ => self.image.to_typst(dest)?,
     }
 
     // TODO: Throwing an error when `self.resolution = Resolution::Dppx(0.0)`
@@ -479,7 +479,7 @@ impl<'i> ImageSetOption<'i> {
     // In other places, x was added as an alias later.
     // Temporarily ignore the targets while printing here.
     let targets = std::mem::take(&mut dest.targets);
-    self.resolution.to_css(dest)?;
+    self.resolution.to_typst(dest)?;
     dest.targets = targets;
 
     if let Some(file_type) = &self.file_type {

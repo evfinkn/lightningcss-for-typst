@@ -45,25 +45,25 @@ impl<'i, T: Clone> MediaRule<'i, T> {
 }
 
 impl<'a, 'i, T: ToCss> ToCss for MediaRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     // If the media query always matches, we can just output the nested rules.
     if dest.minify && self.query.always_matches() {
-      self.rules.to_css(dest)?;
+      self.rules.to_typst(dest)?;
       return Ok(());
     }
 
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@media ")?;
-    self.query.to_css(dest)?;
+    self.query.to_typst(dest)?;
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
     dest.newline()?;
-    self.rules.to_css(dest)?;
+    self.rules.to_typst(dest)?;
     dest.dedent();
     dest.newline()?;
     dest.write_char('}')

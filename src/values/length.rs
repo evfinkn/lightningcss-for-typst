@@ -33,7 +33,7 @@ impl LengthPercentage {
   {
     match self {
       DimensionPercentage::Dimension(d) => d.to_css_unitless(dest),
-      _ => self.to_css(dest),
+      _ => self.to_typst(dest),
     }
   }
 }
@@ -455,7 +455,7 @@ define_length_units! {
 }
 
 impl ToCss for LengthValue {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -477,8 +477,8 @@ impl LengthValue {
     W: std::fmt::Write,
   {
     match self {
-      LengthValue::Px(value) => value.to_css(dest),
-      _ => self.to_css(dest),
+      LengthValue::Px(value) => value.to_typst(dest),
+      _ => self.to_typst(dest),
     }
   }
 }
@@ -560,13 +560,13 @@ impl<'i> Parse<'i> for Length {
 }
 
 impl ToCss for Length {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      Length::Value(a) => a.to_css(dest),
-      Length::Calc(c) => c.to_css(dest),
+      Length::Value(a) => a.to_typst(dest),
+      Length::Calc(c) => c.to_typst(dest),
     }
   }
 }

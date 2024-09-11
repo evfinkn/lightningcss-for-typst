@@ -110,7 +110,7 @@ impl<'i> Parse<'i> for EasingFunction {
 }
 
 impl ToCss for EasingFunction {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -153,13 +153,13 @@ impl ToCss for EasingFunction {
       }
       EasingFunction::CubicBezier { x1, y1, x2, y2 } => {
         dest.write_str("cubic-bezier(")?;
-        x1.to_css(dest)?;
+        x1.to_typst(dest)?;
         dest.delim(',', false)?;
-        y1.to_css(dest)?;
+        y1.to_typst(dest)?;
         dest.delim(',', false)?;
-        x2.to_css(dest)?;
+        x2.to_typst(dest)?;
         dest.delim(',', false)?;
-        y2.to_css(dest)?;
+        y2.to_typst(dest)?;
         dest.write_char(')')
       }
       EasingFunction::Steps {
@@ -174,7 +174,7 @@ impl ToCss for EasingFunction {
         dest.write_str("steps(")?;
         write!(dest, "{}", count)?;
         dest.delim(',', false)?;
-        position.to_css(dest)?;
+        position.to_typst(dest)?;
         dest.write_char(')')
       }
     }

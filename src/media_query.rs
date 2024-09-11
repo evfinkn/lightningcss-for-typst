@@ -153,7 +153,7 @@ impl<'i> MediaList<'i> {
 }
 
 impl<'i> ToCss for MediaList<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -168,7 +168,7 @@ impl<'i> ToCss for MediaList<'i> {
         dest.delim(',', false)?;
       }
       first = false;
-      query.to_css(dest)?;
+      query.to_typst(dest)?;
     }
     Ok(())
   }
@@ -400,12 +400,12 @@ impl<'i> MediaQuery<'i> {
 }
 
 impl<'i> ToCss for MediaQuery<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if let Some(qual) = self.qualifier {
-      qual.to_css(dest)?;
+      qual.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
@@ -737,7 +737,7 @@ where
   if needs_parens {
     dest.write_char('(')?;
   }
-  value.to_css(dest)?;
+  value.to_typst(dest)?;
   if needs_parens {
     dest.write_char(')')?;
   }
@@ -757,7 +757,7 @@ where
   to_css_with_parens_if_needed(first, dest, first.needs_parens(Some(operator), &dest.targets))?;
   for item in iter {
     dest.write_char(' ')?;
-    operator.to_css(dest)?;
+    operator.to_typst(dest)?;
     dest.write_char(' ')?;
     to_css_with_parens_if_needed(item, dest, item.needs_parens(Some(operator), &dest.targets))?;
   }
@@ -766,12 +766,12 @@ where
 }
 
 impl<'i> ToCss for MediaCondition<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match *self {
-      MediaCondition::Feature(ref f) => f.to_css(dest),
+      MediaCondition::Feature(ref f) => f.to_typst(dest),
       MediaCondition::Not(ref c) => {
         dest.write_str("not ")?;
         to_css_with_parens_if_needed(&**c, dest, c.needs_parens(None, &dest.targets))
@@ -808,7 +808,7 @@ pub enum MediaFeatureComparison {
 }
 
 impl ToCss for MediaFeatureComparison {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1024,7 +1024,7 @@ where
 }
 
 impl<'i, FeatureId: FeatureToCss> ToCss for QueryFeature<'i, FeatureId> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1032,12 +1032,12 @@ impl<'i, FeatureId: FeatureToCss> ToCss for QueryFeature<'i, FeatureId> {
 
     match self {
       QueryFeature::Boolean { name } => {
-        name.to_css(dest)?;
+        name.to_typst(dest)?;
       }
       QueryFeature::Plain { name, value } => {
-        name.to_css(dest)?;
+        name.to_typst(dest)?;
         dest.delim(':', false)?;
-        value.to_css(dest)?;
+        value.to_typst(dest)?;
       }
       QueryFeature::Range { name, operator, value } => {
         // If range syntax is unsupported, use min/max prefix if possible.
@@ -1045,9 +1045,9 @@ impl<'i, FeatureId: FeatureToCss> ToCss for QueryFeature<'i, FeatureId> {
           return write_min_max(operator, name, value, dest);
         }
 
-        name.to_css(dest)?;
-        operator.to_css(dest)?;
-        value.to_css(dest)?;
+        name.to_typst(dest)?;
+        operator.to_typst(dest)?;
+        value.to_typst(dest)?;
       }
       QueryFeature::Interval {
         name,
@@ -1062,11 +1062,11 @@ impl<'i, FeatureId: FeatureToCss> ToCss for QueryFeature<'i, FeatureId> {
           return write_min_max(end_operator, name, end, dest);
         }
 
-        start.to_css(dest)?;
-        start_operator.to_css(dest)?;
-        name.to_css(dest)?;
-        end_operator.to_css(dest)?;
-        end.to_css(dest)?;
+        start.to_typst(dest)?;
+        start_operator.to_typst(dest)?;
+        name.to_typst(dest)?;
+        end_operator.to_typst(dest)?;
+        end.to_typst(dest)?;
       }
     }
 
@@ -1156,14 +1156,14 @@ impl<'i, FeatureId: ValueType> ValueType for MediaFeatureName<'i, FeatureId> {
 }
 
 impl<'i, FeatureId: FeatureToCss> ToCss for MediaFeatureName<'i, FeatureId> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      Self::Standard(v) => v.to_css(dest),
-      Self::Custom(v) => v.to_css(dest),
-      Self::Unknown(v) => v.to_css(dest),
+      Self::Standard(v) => v.to_typst(dest),
+      Self::Custom(v) => v.to_typst(dest),
+      Self::Unknown(v) => v.to_typst(dest),
     }
   }
 }
@@ -1177,11 +1177,11 @@ impl<'i, FeatureId: FeatureToCss> FeatureToCss for MediaFeatureName<'i, FeatureI
       Self::Standard(v) => v.to_css_with_prefix(prefix, dest),
       Self::Custom(v) => {
         dest.write_str(prefix)?;
-        v.to_css(dest)
+        v.to_typst(dest)
       }
       Self::Unknown(v) => {
         dest.write_str(prefix)?;
-        v.to_css(dest)
+        v.to_typst(dest)
       }
     }
   }
@@ -1366,7 +1366,7 @@ impl FeatureToCss for MediaFeatureId {
       }
       _ => {
         dest.write_str(prefix)?;
-        self.to_css(dest)
+        self.to_typst(dest)
       }
     }
   }
@@ -1391,7 +1391,7 @@ where
   if let Some(prefix) = prefix {
     name.to_css_with_prefix(prefix, dest)?;
   } else {
-    name.to_css(dest)?;
+    name.to_typst(dest)?;
   }
 
   dest.delim(':', false)?;
@@ -1403,9 +1403,9 @@ where
   };
 
   if let Some(value) = adjusted {
-    value.to_css(dest)?;
+    value.to_typst(dest)?;
   } else {
-    value.to_css(dest)?;
+    value.to_typst(dest)?;
   }
 
   dest.write_char(')')?;
@@ -1534,14 +1534,14 @@ impl<'i> MediaFeatureValue<'i> {
 }
 
 impl<'i> ToCss for MediaFeatureValue<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      MediaFeatureValue::Length(len) => len.to_css(dest),
-      MediaFeatureValue::Number(num) => num.to_css(dest),
-      MediaFeatureValue::Integer(num) => num.to_css(dest),
+      MediaFeatureValue::Length(len) => len.to_typst(dest),
+      MediaFeatureValue::Number(num) => num.to_typst(dest),
+      MediaFeatureValue::Integer(num) => num.to_typst(dest),
       MediaFeatureValue::Boolean(b) => {
         if *b {
           dest.write_char('1')
@@ -1549,10 +1549,10 @@ impl<'i> ToCss for MediaFeatureValue<'i> {
           dest.write_char('0')
         }
       }
-      MediaFeatureValue::Resolution(res) => res.to_css(dest),
-      MediaFeatureValue::Ratio(ratio) => ratio.to_css(dest),
+      MediaFeatureValue::Resolution(res) => res.to_typst(dest),
+      MediaFeatureValue::Ratio(ratio) => ratio.to_typst(dest),
       MediaFeatureValue::Ident(id) => {
-        id.to_css(dest)?;
+        id.to_typst(dest)?;
         Ok(())
       }
       MediaFeatureValue::Env(env) => env.to_css(dest, false),
@@ -1766,7 +1766,7 @@ mod tests {
     let mut a = parse(a);
     let b = parse(b);
     a.and(&b).unwrap();
-    a.to_css_string(PrinterOptions::default()).unwrap()
+    a.to_typst_string(PrinterOptions::default()).unwrap()
   }
 
   #[test]
@@ -1816,7 +1816,7 @@ mod tests {
       ..Default::default()
     };
     assert_eq!(
-      media_query.to_css_string(printer_options).unwrap(),
+      media_query.to_typst_string(printer_options).unwrap(),
       "screen and not ((min-width: 200px) and (max-width: 499.999px))"
     );
   }

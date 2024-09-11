@@ -32,14 +32,14 @@ impl<T> ToCss for Size2D<T>
 where
   T: ToCss + PartialEq,
 {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.0.to_css(dest)?;
+    self.0.to_typst(dest)?;
     if self.1 != self.0 {
       dest.write_str(" ")?;
-      self.1.to_css(dest)?;
+      self.1.to_typst(dest)?;
     }
     Ok(())
   }

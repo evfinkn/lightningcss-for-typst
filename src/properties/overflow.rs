@@ -48,14 +48,14 @@ impl<'i> Parse<'i> for Overflow {
 }
 
 impl ToCss for Overflow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.x.to_css(dest)?;
+    self.x.to_typst(dest)?;
     if self.y != self.x {
       dest.write_char(' ')?;
-      self.y.to_css(dest)?;
+      self.y.to_typst(dest)?;
     }
     Ok(())
   }

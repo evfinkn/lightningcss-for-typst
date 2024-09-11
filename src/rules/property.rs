@@ -110,14 +110,14 @@ impl<'i> PropertyRule<'i> {
 }
 
 impl<'i> ToCss for PropertyRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@property ")?;
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
@@ -125,7 +125,7 @@ impl<'i> ToCss for PropertyRule<'i> {
 
     dest.write_str("syntax:")?;
     dest.whitespace()?;
-    self.syntax.to_css(dest)?;
+    self.syntax.to_typst(dest)?;
     dest.write_char(';')?;
     dest.newline()?;
 
@@ -142,7 +142,7 @@ impl<'i> ToCss for PropertyRule<'i> {
 
       dest.write_str("initial-value:")?;
       dest.whitespace()?;
-      initial_value.to_css(dest)?;
+      initial_value.to_typst(dest)?;
 
       if !dest.minify {
         dest.write_char(';')?;

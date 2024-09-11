@@ -247,7 +247,7 @@ macro_rules! define_properties {
     }
 
     impl<'i> ToCss for PropertyId<'i> {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         let mut first = true;
         macro_rules! delim {
           () => {
@@ -263,7 +263,7 @@ macro_rules! define_properties {
         let name = self.name();
         for p in self.prefix().or_none() {
           delim!();
-          p.to_css(dest)?;
+          p.to_typst(dest)?;
           dest.write_str(name)?;
         }
 
@@ -781,10 +781,10 @@ macro_rules! define_properties {
           $(
             $(#[$meta])*
             $property(val, $(vp_name!($vp, _p))?) => {
-              val.to_css(dest)
+              val.to_typst(dest)
             }
           )+
-          All(keyword) => keyword.to_css(dest),
+          All(keyword) => keyword.to_typst(dest),
           Unparsed(unparsed) => {
             unparsed.value.to_css(dest, false)
           }
@@ -853,7 +853,7 @@ macro_rules! define_properties {
             (unparsed.property_id.name(), prefix)
           },
           Custom(custom) => {
-            custom.name.to_css(dest)?;
+            custom.name.to_typst(dest)?;
             dest.delim(':', false)?;
             self.value_to_css(dest)?;
             write_important!();
@@ -862,7 +862,7 @@ macro_rules! define_properties {
         };
         for p in prefix {
           start!();
-          p.to_css(dest)?;
+          p.to_typst(dest)?;
           dest.write_str(name)?;
           dest.delim(':', false)?;
           self.value_to_css(dest)?;
@@ -1664,13 +1664,13 @@ impl<'i, T: smallvec::Array<Item = V>, V: Parse<'i>> Parse<'i> for SmallVec<T> {
 }
 
 impl<T: smallvec::Array<Item = V>, V: ToCss> ToCss for SmallVec<T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let len = self.len();
     for (idx, val) in self.iter().enumerate() {
-      val.to_css(dest)?;
+      val.to_typst(dest)?;
       if idx < len - 1 {
         dest.delim(',', false)?;
       }
@@ -1686,13 +1686,13 @@ impl<'i, T: Parse<'i>> Parse<'i> for Vec<T> {
 }
 
 impl<T: ToCss> ToCss for Vec<T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let len = self.len();
     for (idx, val) in self.iter().enumerate() {
-      val.to_css(dest)?;
+      val.to_typst(dest)?;
       if idx < len - 1 {
         dest.delim(',', false)?;
       }

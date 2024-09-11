@@ -390,7 +390,7 @@ impl<'i> Parse<'i> for SyntaxString {
 }
 
 impl ToCss for SyntaxString {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -406,7 +406,7 @@ impl ToCss for SyntaxString {
             dest.delim('|', true)?;
           }
 
-          component.to_css(dest)?;
+          component.to_typst(dest)?;
         }
       }
     }
@@ -416,11 +416,11 @@ impl ToCss for SyntaxString {
 }
 
 impl ToCss for SyntaxComponent {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.kind.to_css(dest)?;
+    self.kind.to_typst(dest)?;
     match self.multiplier {
       Multiplier::None => Ok(()),
       Multiplier::Comma => dest.write_char('#'),
@@ -430,7 +430,7 @@ impl ToCss for SyntaxComponent {
 }
 
 impl ToCss for SyntaxComponentKind {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -457,27 +457,27 @@ impl ToCss for SyntaxComponentKind {
 }
 
 impl<'i> ToCss for ParsedComponent<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     use ParsedComponent::*;
     match self {
-      Length(v) => v.to_css(dest),
-      Number(v) => v.to_css(dest),
-      Percentage(v) => v.to_css(dest),
-      LengthPercentage(v) => v.to_css(dest),
-      Color(v) => v.to_css(dest),
-      Image(v) => v.to_css(dest),
-      Url(v) => v.to_css(dest),
-      Integer(v) => v.to_css(dest),
-      Angle(v) => v.to_css(dest),
-      Time(v) => v.to_css(dest),
-      Resolution(v) => v.to_css(dest),
-      TransformFunction(v) => v.to_css(dest),
-      TransformList(v) => v.to_css(dest),
-      CustomIdent(v) => v.to_css(dest),
-      Literal(v) => v.to_css(dest),
+      Length(v) => v.to_typst(dest),
+      Number(v) => v.to_typst(dest),
+      Percentage(v) => v.to_typst(dest),
+      LengthPercentage(v) => v.to_typst(dest),
+      Color(v) => v.to_typst(dest),
+      Image(v) => v.to_typst(dest),
+      Url(v) => v.to_typst(dest),
+      Integer(v) => v.to_typst(dest),
+      Angle(v) => v.to_typst(dest),
+      Time(v) => v.to_typst(dest),
+      Resolution(v) => v.to_typst(dest),
+      TransformFunction(v) => v.to_typst(dest),
+      TransformList(v) => v.to_typst(dest),
+      CustomIdent(v) => v.to_typst(dest),
+      Literal(v) => v.to_typst(dest),
       Repeated { components, multiplier } => {
         let mut first = true;
         for component in components {
@@ -491,7 +491,7 @@ impl<'i> ToCss for ParsedComponent<'i> {
             }
           }
 
-          component.to_css(dest)?;
+          component.to_typst(dest)?;
         }
         Ok(())
       }

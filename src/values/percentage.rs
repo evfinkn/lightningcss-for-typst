@@ -37,7 +37,7 @@ impl<'i> Parse<'i> for Percentage {
 }
 
 impl ToCss for Percentage {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -461,14 +461,14 @@ impl<D: TrySign> TrySign for DimensionPercentage<D> {
 impl<D: ToCss + std::ops::Mul<CSSNumber, Output = D> + TrySign + Clone + std::fmt::Debug> ToCss
   for DimensionPercentage<D>
 {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      DimensionPercentage::Dimension(length) => length.to_css(dest),
-      DimensionPercentage::Percentage(percent) => percent.to_css(dest),
-      DimensionPercentage::Calc(calc) => calc.to_css(dest),
+      DimensionPercentage::Dimension(length) => length.to_typst(dest),
+      DimensionPercentage::Percentage(percent) => percent.to_typst(dest),
+      DimensionPercentage::Calc(calc) => calc.to_typst(dest),
     }
   }
 }

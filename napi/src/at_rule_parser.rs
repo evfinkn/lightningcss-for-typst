@@ -161,7 +161,7 @@ impl<'i> AtRuleParser<'i> for CustomAtRuleParser {
 }
 
 impl<'i> ToCss for AtRule<'i> {
-  fn to_css<W>(
+  fn to_typst<W>(
     &self,
     dest: &mut lightningcss::printer::Printer<W>,
   ) -> Result<(), lightningcss::error::PrinterError>
@@ -172,7 +172,7 @@ impl<'i> ToCss for AtRule<'i> {
     serialize_identifier(&self.name, dest)?;
     if let Some(prelude) = &self.prelude {
       dest.write_char(' ')?;
-      prelude.to_css(dest)?;
+      prelude.to_typst(dest)?;
     }
 
     if let Some(body) = &self.body {
@@ -185,7 +185,7 @@ impl<'i> ToCss for AtRule<'i> {
           dest.write_char('{')?;
           dest.indent();
           dest.newline()?;
-          rules.to_css(dest)?;
+          rules.to_typst(dest)?;
           dest.dedent();
           dest.newline()?;
           dest.write_char('}')?;

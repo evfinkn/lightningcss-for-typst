@@ -103,13 +103,13 @@ impl<'i> Parse<'i> for FlexFlow {
 }
 
 impl ToCss for FlexFlow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let mut needs_space = false;
     if self.direction != FlexDirection::default() || self.wrap == FlexWrap::default() {
-      self.direction.to_css(dest)?;
+      self.direction.to_typst(dest)?;
       needs_space = true;
     }
 
@@ -117,7 +117,7 @@ impl ToCss for FlexFlow {
       if needs_space {
         dest.write_str(" ")?;
       }
-      self.wrap.to_css(dest)?;
+      self.wrap.to_typst(dest)?;
     }
 
     Ok(())
@@ -180,7 +180,7 @@ impl<'i> Parse<'i> for Flex {
 }
 
 impl ToCss for Flex {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -208,10 +208,10 @@ impl ToCss for Flex {
     };
 
     if self.grow != 1.0 || self.shrink != 1.0 || basis_kind != ZeroKind::NonZero {
-      self.grow.to_css(dest)?;
+      self.grow.to_typst(dest)?;
       if self.shrink != 1.0 || basis_kind == ZeroKind::Length {
         dest.write_str(" ")?;
-        self.shrink.to_css(dest)?;
+        self.shrink.to_typst(dest)?;
       }
     }
 
@@ -219,7 +219,7 @@ impl ToCss for Flex {
       if self.grow != 1.0 || self.shrink != 1.0 || basis_kind == ZeroKind::Length {
         dest.write_str(" ")?;
       }
-      self.basis.to_css(dest)?;
+      self.basis.to_typst(dest)?;
     }
 
     Ok(())

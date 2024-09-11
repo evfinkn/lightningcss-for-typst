@@ -310,45 +310,45 @@ impl<'i> Parse<'i> for Mask<'i> {
 }
 
 impl<'i> ToCss for Mask<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.image.to_css(dest)?;
+    self.image.to_typst(dest)?;
 
     if self.position != Position::default() || self.size != BackgroundSize::default() {
       dest.write_char(' ')?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
 
       if self.size != BackgroundSize::default() {
         dest.delim('/', true)?;
-        self.size.to_css(dest)?;
+        self.size.to_typst(dest)?;
       }
     }
 
     if self.repeat != BackgroundRepeat::default() {
       dest.write_char(' ')?;
-      self.repeat.to_css(dest)?;
+      self.repeat.to_typst(dest)?;
     }
 
     if self.origin != GeometryBox::BorderBox || self.clip != GeometryBox::BorderBox.into() {
       dest.write_char(' ')?;
-      self.origin.to_css(dest)?;
+      self.origin.to_typst(dest)?;
 
       if self.clip != self.origin.into() {
         dest.write_char(' ')?;
-        self.clip.to_css(dest)?;
+        self.clip.to_typst(dest)?;
       }
     }
 
     if self.composite != MaskComposite::default() {
       dest.write_char(' ')?;
-      self.composite.to_css(dest)?;
+      self.composite.to_typst(dest)?;
     }
 
     if self.mode != MaskMode::default() {
       dest.write_char(' ')?;
-      self.mode.to_css(dest)?;
+      self.mode.to_typst(dest)?;
     }
 
     Ok(())
@@ -427,25 +427,25 @@ impl<'i> Parse<'i> for ClipPath<'i> {
 }
 
 impl<'i> ToCss for ClipPath<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       ClipPath::None => dest.write_str("none"),
-      ClipPath::Url(url) => url.to_css(dest),
+      ClipPath::Url(url) => url.to_typst(dest),
       ClipPath::Shape {
         shape,
         reference_box: b,
       } => {
-        shape.to_css(dest)?;
+        shape.to_typst(dest)?;
         if *b != GeometryBox::default() {
           dest.write_char(' ')?;
-          b.to_css(dest)?;
+          b.to_typst(dest)?;
         }
         Ok(())
       }
-      ClipPath::Box(b) => b.to_css(dest),
+      ClipPath::Box(b) => b.to_typst(dest),
     }
   }
 }
@@ -516,14 +516,14 @@ impl<'i> Parse<'i> for MaskBorder<'i> {
 }
 
 impl<'i> ToCss for MaskBorder<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     BorderImage::to_css_internal(&self.source, &self.slice, &self.width, &self.outset, &self.repeat, dest)?;
     if self.mode != MaskBorderMode::default() {
       dest.write_char(' ')?;
-      self.mode.to_css(dest)?;
+      self.mode.to_typst(dest)?;
     }
     Ok(())
   }

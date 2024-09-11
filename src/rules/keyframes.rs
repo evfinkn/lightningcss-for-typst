@@ -89,7 +89,7 @@ impl<'i> Parse<'i> for KeyframesName<'i> {
 }
 
 impl<'i> ToCss for KeyframesName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -215,7 +215,7 @@ impl<'i> KeyframesRule<'i> {
 }
 
 impl<'i> ToCss for KeyframesRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -235,9 +235,9 @@ impl<'i> ToCss for KeyframesRule<'i> {
             dest.newline()?;
           }
           dest.write_char('@')?;
-          VendorPrefix::$prefix.to_css(dest)?;
+          VendorPrefix::$prefix.to_typst(dest)?;
           dest.write_str("keyframes ")?;
-          self.name.to_css(dest)?;
+          self.name.to_typst(dest)?;
           dest.whitespace()?;
           dest.write_char('{')?;
           dest.indent();
@@ -249,7 +249,7 @@ impl<'i> ToCss for KeyframesRule<'i> {
               dest.write_char('\n')?; // no indent
             }
             dest.newline()?;
-            keyframe.to_css(dest)?;
+            keyframe.to_typst(dest)?;
           }
           dest.dedent();
           dest.newline()?;
@@ -314,7 +314,7 @@ pub enum KeyframeSelector {
 }
 
 impl ToCss for KeyframeSelector {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -323,7 +323,7 @@ impl ToCss for KeyframeSelector {
         if dest.minify && *p == Percentage(1.0) {
           dest.write_str("to")
         } else {
-          p.to_css(dest)
+          p.to_typst(dest)
         }
       }
       KeyframeSelector::From => {
@@ -338,9 +338,9 @@ impl ToCss for KeyframeSelector {
         name: timeline_range_name,
         percentage,
       }) => {
-        timeline_range_name.to_css(dest)?;
+        timeline_range_name.to_typst(dest)?;
         dest.write_char(' ')?;
-        percentage.to_css(dest)
+        percentage.to_typst(dest)
       }
     }
   }
@@ -363,7 +363,7 @@ pub struct Keyframe<'i> {
 }
 
 impl<'i> ToCss for Keyframe<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -373,7 +373,7 @@ impl<'i> ToCss for Keyframe<'i> {
         dest.delim(',', false)?;
       }
       first = false;
-      selector.to_css(dest)?;
+      selector.to_typst(dest)?;
     }
 
     self.declarations.to_css_block(dest)

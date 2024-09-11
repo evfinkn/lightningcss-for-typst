@@ -646,7 +646,7 @@ where
     }
     Dir { direction: dir } => {
       dest.write_str(":dir(")?;
-      dir.to_css(dest)?;
+      dir.to_typst(dest)?;
       return dest.write_str(")");
     }
     _ => {}
@@ -661,7 +661,7 @@ where
       } else {
         *$prefix
       };
-      vp.to_css(dest)?;
+      vp.to_typst(dest)?;
       dest.write_str($val)
     }};
   }
@@ -713,7 +713,7 @@ where
       } else {
         *prefix
       };
-      vp.to_css(dest)?;
+      vp.to_typst(dest)?;
       if vp == VendorPrefix::WebKit || vp == VendorPrefix::Moz {
         dest.write_str("full-screen")
       } else {
@@ -1030,13 +1030,13 @@ impl<'i> Parse<'i> for ViewTransitionPartName<'i> {
 }
 
 impl<'i> ToCss for ViewTransitionPartName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       ViewTransitionPartName::All => dest.write_char('*'),
-      ViewTransitionPartName::Name(name) => name.to_css(dest),
+      ViewTransitionPartName::Name(name) => name.to_typst(dest),
     }
   }
 }
@@ -1072,7 +1072,7 @@ where
       } else {
         *$prefix
       };
-      vp.to_css(dest)?;
+      vp.to_typst(dest)?;
       vp
     }};
   }
@@ -1140,22 +1140,22 @@ where
     ViewTransition => dest.write_str("::view-transition"),
     ViewTransitionGroup { part_name } => {
       dest.write_str("::view-transition-group(")?;
-      part_name.to_css(dest)?;
+      part_name.to_typst(dest)?;
       dest.write_char(')')
     }
     ViewTransitionImagePair { part_name } => {
       dest.write_str("::view-transition-image-pair(")?;
-      part_name.to_css(dest)?;
+      part_name.to_typst(dest)?;
       dest.write_char(')')
     }
     ViewTransitionOld { part_name } => {
       dest.write_str("::view-transition-old(")?;
-      part_name.to_css(dest)?;
+      part_name.to_typst(dest)?;
       dest.write_char(')')
     }
     ViewTransitionNew { part_name } => {
       dest.write_str("::view-transition-new(")?;
-      part_name.to_css(dest)?;
+      part_name.to_typst(dest)?;
       dest.write_char(')')
     }
     Custom { name: val } => {
@@ -1253,7 +1253,7 @@ impl<'i> PseudoElement<'i> {
 }
 
 impl<'a, 'i> ToCss for SelectorList<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
   {
@@ -1262,7 +1262,7 @@ impl<'a, 'i> ToCss for SelectorList<'i> {
 }
 
 impl ToCss for Combinator {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
   {
@@ -1284,7 +1284,7 @@ impl ToCss for Combinator {
 
 // Copied from the selectors crate and modified to override to_css implementation.
 impl<'a, 'i> ToCss for Selector<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: fmt::Write,
   {
@@ -1326,7 +1326,7 @@ where
     // Skip implicit :scope in relative selectors (e.g. :has(:scope > foo) -> :has(> foo))
     if is_relative && matches!(compound.get(0), Some(Component::Scope)) {
       if let Some(combinator) = combinators.next() {
-        combinator.to_css(dest)?;
+        combinator.to_typst(dest)?;
       }
       compound = &compound[1..];
       is_relative = false;
@@ -1446,7 +1446,7 @@ where
     //    single SPACE (U+0020) if the combinator was not whitespace, to
     //    s.
     match next_combinator {
-      Some(c) => c.to_css(dest)?,
+      Some(c) => c.to_typst(dest)?,
       None => combinators_exhausted = true,
     };
 
@@ -1469,7 +1469,7 @@ where
   W: fmt::Write,
 {
   match component {
-    Component::Combinator(ref c) => c.to_css(dest),
+    Component::Combinator(ref c) => c.to_typst(dest),
     Component::AttributeInNoNamespace {
       ref local_name,
       operator,
@@ -1486,7 +1486,7 @@ where
         let mut id = String::new();
         serialize_identifier(&value, &mut id)?;
 
-        let s = value.to_css_string(Default::default())?;
+        let s = value.to_typst_string(Default::default())?;
 
         if id.len() > 0 && id.len() < s.len() {
           dest.write_str(&id)?;
@@ -1494,7 +1494,7 @@ where
           dest.write_str(&s)?;
         }
       } else {
-        value.to_css(dest)?;
+        value.to_typst(dest)?;
       }
 
       match case_sensitivity {
@@ -1521,7 +1521,7 @@ where
           let vp = dest.vendor_prefix;
           if vp.intersects(VendorPrefix::WebKit | VendorPrefix::Moz) {
             dest.write_char(':')?;
-            vp.to_css(dest)?;
+            vp.to_typst(dest)?;
             dest.write_str("any(")?;
           } else {
             dest.write_str(":is(")?;
@@ -1534,7 +1534,7 @@ where
           let vp = dest.vendor_prefix.or(prefix);
           if vp.intersects(VendorPrefix::WebKit | VendorPrefix::Moz) {
             dest.write_char(':')?;
-            vp.to_css(dest)?;
+            vp.to_typst(dest)?;
             dest.write_str("any(")?;
           } else {
             dest.write_str(":is(")?;
@@ -1565,14 +1565,14 @@ where
       dest.write_str(":host")?;
       if let Some(ref selector) = *selector {
         dest.write_char('(')?;
-        selector.to_css(dest)?;
+        selector.to_typst(dest)?;
         dest.write_char(')')?;
       }
       Ok(())
     }
     Component::Slotted(ref selector) => {
       dest.write_str("::slotted(")?;
-      selector.to_css(dest)?;
+      selector.to_typst(dest)?;
       dest.write_char(')')
     }
     _ => {

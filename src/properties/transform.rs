@@ -48,7 +48,7 @@ impl<'i> Parse<'i> for TransformList {
 }
 
 impl ToCss for TransformList {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -142,7 +142,7 @@ impl TransformList {
     W: std::fmt::Write,
   {
     for item in &self.0 {
-      item.to_css(dest)?;
+      item.to_typst(dest)?;
     }
     Ok(())
   }
@@ -1031,7 +1031,7 @@ impl<'i> Parse<'i> for Transform {
 }
 
 impl ToCss for Transform {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1040,54 +1040,54 @@ impl ToCss for Transform {
       Translate(x, y) => {
         if dest.minify && x.is_zero() && !y.is_zero() {
           dest.write_str("translateY(")?;
-          y.to_css(dest)?
+          y.to_typst(dest)?
         } else {
           dest.write_str("translate(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           if !y.is_zero() {
             dest.delim(',', false)?;
-            y.to_css(dest)?;
+            y.to_typst(dest)?;
           }
         }
         dest.write_char(')')
       }
       TranslateX(x) => {
         dest.write_str(if dest.minify { "translate(" } else { "translateX(" })?;
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         dest.write_char(')')
       }
       TranslateY(y) => {
         dest.write_str("translateY(")?;
-        y.to_css(dest)?;
+        y.to_typst(dest)?;
         dest.write_char(')')
       }
       TranslateZ(z) => {
         dest.write_str("translateZ(")?;
-        z.to_css(dest)?;
+        z.to_typst(dest)?;
         dest.write_char(')')
       }
       Translate3d(x, y, z) => {
         if dest.minify && !x.is_zero() && y.is_zero() && z.is_zero() {
           dest.write_str("translate(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
         } else if dest.minify && x.is_zero() && !y.is_zero() && z.is_zero() {
           dest.write_str("translateY(")?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         } else if dest.minify && x.is_zero() && y.is_zero() && !z.is_zero() {
           dest.write_str("translateZ(")?;
-          z.to_css(dest)?;
+          z.to_typst(dest)?;
         } else if dest.minify && z.is_zero() {
           dest.write_str("translate(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.delim(',', false)?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         } else {
           dest.write_str("translate3d(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.delim(',', false)?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
           dest.delim(',', false)?;
-          z.to_css(dest)?;
+          z.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -1096,33 +1096,33 @@ impl ToCss for Transform {
         let y: f32 = y.into();
         if dest.minify && x == 1.0 && y != 1.0 {
           dest.write_str("scaleY(")?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         } else if dest.minify && x != 1.0 && y == 1.0 {
           dest.write_str("scaleX(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
         } else {
           dest.write_str("scale(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           if y != x {
             dest.delim(',', false)?;
-            y.to_css(dest)?;
+            y.to_typst(dest)?;
           }
         }
         dest.write_char(')')
       }
       ScaleX(x) => {
         dest.write_str("scaleX(")?;
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         dest.write_char(')')
       }
       ScaleY(y) => {
         dest.write_str("scaleY(")?;
-        y.to_css(dest)?;
+        y.to_typst(dest)?;
         dest.write_char(')')
       }
       ScaleZ(z) => {
         dest.write_str("scaleZ(")?;
-        z.to_css(dest)?;
+        z.to_typst(dest)?;
         dest.write_char(')')
       }
       Scale3d(x, y, z) => {
@@ -1132,32 +1132,32 @@ impl ToCss for Transform {
         if dest.minify && z == 1.0 && x == y {
           // scale3d(x, x, 1) => scale(x)
           dest.write_str("scale(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
         } else if dest.minify && x != 1.0 && y == 1.0 && z == 1.0 {
           // scale3d(x, 1, 1) => scaleX(x)
           dest.write_str("scaleX(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
         } else if dest.minify && x == 1.0 && y != 1.0 && z == 1.0 {
           // scale3d(1, y, 1) => scaleY(y)
           dest.write_str("scaleY(")?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         } else if dest.minify && x == 1.0 && y == 1.0 && z != 1.0 {
           // scale3d(1, 1, z) => scaleZ(z)
           dest.write_str("scaleZ(")?;
-          z.to_css(dest)?;
+          z.to_typst(dest)?;
         } else if dest.minify && z == 1.0 {
           // scale3d(x, y, 1) => scale(x, y)
           dest.write_str("scale(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.delim(',', false)?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         } else {
           dest.write_str("scale3d(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.delim(',', false)?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
           dest.delim(',', false)?;
-          z.to_css(dest)?;
+          z.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -1196,11 +1196,11 @@ impl ToCss for Transform {
           angle.to_css_with_unitless_zero(dest)?;
         } else {
           dest.write_str("rotate3d(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.delim(',', false)?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
           dest.delim(',', false)?;
-          z.to_css(dest)?;
+          z.to_typst(dest)?;
           dest.delim(',', false)?;
           angle.to_css_with_unitless_zero(dest)?;
         }
@@ -1212,7 +1212,7 @@ impl ToCss for Transform {
           y.to_css_with_unitless_zero(dest)?
         } else {
           dest.write_str("skew(")?;
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           if !y.is_zero() {
             dest.delim(',', false)?;
             y.to_css_with_unitless_zero(dest)?;
@@ -1232,22 +1232,22 @@ impl ToCss for Transform {
       }
       Perspective(len) => {
         dest.write_str("perspective(")?;
-        len.to_css(dest)?;
+        len.to_typst(dest)?;
         dest.write_char(')')
       }
       Matrix(super::transform::Matrix { a, b, c, d, e, f }) => {
         dest.write_str("matrix(")?;
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         dest.delim(',', false)?;
-        b.to_css(dest)?;
+        b.to_typst(dest)?;
         dest.delim(',', false)?;
-        c.to_css(dest)?;
+        c.to_typst(dest)?;
         dest.delim(',', false)?;
-        d.to_css(dest)?;
+        d.to_typst(dest)?;
         dest.delim(',', false)?;
-        e.to_css(dest)?;
+        e.to_typst(dest)?;
         dest.delim(',', false)?;
-        f.to_css(dest)?;
+        f.to_typst(dest)?;
         dest.write_char(')')
       }
       Matrix3d(super::transform::Matrix3d {
@@ -1269,37 +1269,37 @@ impl ToCss for Transform {
         m44,
       }) => {
         dest.write_str("matrix3d(")?;
-        m11.to_css(dest)?;
+        m11.to_typst(dest)?;
         dest.delim(',', false)?;
-        m12.to_css(dest)?;
+        m12.to_typst(dest)?;
         dest.delim(',', false)?;
-        m13.to_css(dest)?;
+        m13.to_typst(dest)?;
         dest.delim(',', false)?;
-        m14.to_css(dest)?;
+        m14.to_typst(dest)?;
         dest.delim(',', false)?;
-        m21.to_css(dest)?;
+        m21.to_typst(dest)?;
         dest.delim(',', false)?;
-        m22.to_css(dest)?;
+        m22.to_typst(dest)?;
         dest.delim(',', false)?;
-        m23.to_css(dest)?;
+        m23.to_typst(dest)?;
         dest.delim(',', false)?;
-        m24.to_css(dest)?;
+        m24.to_typst(dest)?;
         dest.delim(',', false)?;
-        m31.to_css(dest)?;
+        m31.to_typst(dest)?;
         dest.delim(',', false)?;
-        m32.to_css(dest)?;
+        m32.to_typst(dest)?;
         dest.delim(',', false)?;
-        m33.to_css(dest)?;
+        m33.to_typst(dest)?;
         dest.delim(',', false)?;
-        m34.to_css(dest)?;
+        m34.to_typst(dest)?;
         dest.delim(',', false)?;
-        m41.to_css(dest)?;
+        m41.to_typst(dest)?;
         dest.delim(',', false)?;
-        m42.to_css(dest)?;
+        m42.to_typst(dest)?;
         dest.delim(',', false)?;
-        m43.to_css(dest)?;
+        m43.to_typst(dest)?;
         dest.delim(',', false)?;
-        m44.to_css(dest)?;
+        m44.to_typst(dest)?;
         dest.write_char(')')
       }
     }
@@ -1478,7 +1478,7 @@ impl<'i> Parse<'i> for Translate {
 }
 
 impl ToCss for Translate {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1487,13 +1487,13 @@ impl ToCss for Translate {
         dest.write_str("none")?;
       }
       Translate::XYZ { x, y, z } => {
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         if !y.is_zero() || !z.is_zero() {
           dest.write_char(' ')?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
           if !z.is_zero() {
             dest.write_char(' ')?;
-            z.to_css(dest)?;
+            z.to_typst(dest)?;
           }
         }
       }
@@ -1569,7 +1569,7 @@ impl<'i> Parse<'i> for Rotate {
 }
 
 impl ToCss for Rotate {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1583,15 +1583,15 @@ impl ToCss for Rotate {
     } else if self.x == 0.0 && self.y == 1.0 && self.z == 0.0 {
       dest.write_str("y ")?;
     } else if !(self.x == 0.0 && self.y == 0.0 && self.z == 1.0) {
-      self.x.to_css(dest)?;
+      self.x.to_typst(dest)?;
       dest.write_char(' ')?;
-      self.y.to_css(dest)?;
+      self.y.to_typst(dest)?;
       dest.write_char(' ')?;
-      self.z.to_css(dest)?;
+      self.z.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
-    self.angle.to_css(dest)
+    self.angle.to_typst(dest)
   }
 }
 
@@ -1651,7 +1651,7 @@ impl<'i> Parse<'i> for Scale {
 }
 
 impl ToCss for Scale {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1660,14 +1660,14 @@ impl ToCss for Scale {
         dest.write_str("none")?;
       }
       Scale::XYZ { x, y, z } => {
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         let zv: f32 = z.into();
         if y != x || zv != 1.0 {
           dest.write_char(' ')?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
           if zv != 1.0 {
             dest.write_char(' ')?;
-            z.to_css(dest)?;
+            z.to_typst(dest)?;
           }
         }
       }

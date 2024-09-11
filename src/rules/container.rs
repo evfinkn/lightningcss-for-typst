@@ -97,7 +97,7 @@ impl FeatureToCss for ContainerSizeFeatureId {
     W: std::fmt::Write,
   {
     dest.write_str(prefix)?;
-    self.to_css(dest)
+    self.to_typst(dest)
   }
 }
 
@@ -203,12 +203,12 @@ impl<'i> Parse<'i> for ContainerCondition<'i> {
 }
 
 impl<'i> ToCss for ContainerCondition<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match *self {
-      ContainerCondition::Feature(ref f) => f.to_css(dest),
+      ContainerCondition::Feature(ref f) => f.to_typst(dest),
       ContainerCondition::Not(ref c) => {
         dest.write_str("not ")?;
         to_css_with_parens_if_needed(&**c, dest, c.needs_parens(None, &dest.targets))
@@ -219,7 +219,7 @@ impl<'i> ToCss for ContainerCondition<'i> {
       } => operation_to_css(operator, conditions, dest),
       ContainerCondition::Style(ref query) => {
         dest.write_str("style(")?;
-        query.to_css(dest)?;
+        query.to_typst(dest)?;
         dest.write_char(')')
       }
     }
@@ -227,7 +227,7 @@ impl<'i> ToCss for ContainerCondition<'i> {
 }
 
 impl<'i> ToCss for StyleQuery<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -264,11 +264,11 @@ impl<'i> Parse<'i> for ContainerName<'i> {
 }
 
 impl<'i> ToCss for ContainerName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.0.to_css(dest)
+    self.0.to_typst(dest)
   }
 }
 
@@ -284,7 +284,7 @@ impl<'i, T: Clone> ContainerRule<'i, T> {
 }
 
 impl<'a, 'i, T: ToCss> ToCss for ContainerRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -292,21 +292,21 @@ impl<'a, 'i, T: ToCss> ToCss for ContainerRule<'i, T> {
     dest.add_mapping(self.loc);
     dest.write_str("@container ")?;
     if let Some(name) = &self.name {
-      name.to_css(dest)?;
+      name.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
     // Don't downlevel range syntax in container queries.
     let exclude = dest.targets.exclude;
     dest.targets.exclude.insert(Features::MediaQueries);
-    self.condition.to_css(dest)?;
+    self.condition.to_typst(dest)?;
     dest.targets.exclude = exclude;
 
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
     dest.newline()?;
-    self.rules.to_css(dest)?;
+    self.rules.to_typst(dest)?;
     dest.dedent();
     dest.newline()?;
     dest.write_char('}')

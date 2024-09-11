@@ -45,7 +45,7 @@ impl<'i> Parse<'i> for CustomIdent<'i> {
 }
 
 impl<'i> ToCss for CustomIdent<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -100,7 +100,7 @@ impl<'i> Parse<'i> for DashedIdent<'i> {
 }
 
 impl<'i> ToCss for DashedIdent<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -167,7 +167,7 @@ impl<'i> ParseWithOptions<'i> for DashedIdentReference<'i> {
 }
 
 impl<'i> ToCss for DashedIdentReference<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -202,7 +202,7 @@ impl<'i> Parse<'i> for Ident<'i> {
 }
 
 impl<'i> ToCss for Ident<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

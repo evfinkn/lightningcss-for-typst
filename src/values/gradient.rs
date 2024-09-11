@@ -180,7 +180,7 @@ impl<'i> Parse<'i> for Gradient {
 }
 
 impl ToCss for Gradient {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -195,7 +195,7 @@ impl ToCss for Gradient {
     };
 
     if let Some(prefix) = prefix {
-      prefix.to_css(dest)?;
+      prefix.to_typst(dest)?;
     }
 
     dest.write_str(f)?;
@@ -204,9 +204,9 @@ impl ToCss for Gradient {
       Gradient::Linear(linear) | Gradient::RepeatingLinear(linear) => {
         linear.to_css(dest, linear.vendor_prefix != VendorPrefix::None)?
       }
-      Gradient::Radial(radial) | Gradient::RepeatingRadial(radial) => radial.to_css(dest)?,
-      Gradient::Conic(conic) | Gradient::RepeatingConic(conic) => conic.to_css(dest)?,
-      Gradient::WebKitGradient(g) => g.to_css(dest)?,
+      Gradient::Radial(radial) | Gradient::RepeatingRadial(radial) => radial.to_typst(dest)?,
+      Gradient::Conic(conic) | Gradient::RepeatingConic(conic) => conic.to_typst(dest)?,
+      Gradient::WebKitGradient(g) => g.to_typst(dest)?,
     }
 
     dest.write_char(')')
@@ -381,12 +381,12 @@ impl<'i> RadialGradient {
 }
 
 impl ToCss for RadialGradient {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if self.shape != EndingShape::default() {
-      self.shape.to_css(dest)?;
+      self.shape.to_typst(dest)?;
       if self.position.is_center() {
         dest.delim(',', false)?;
       } else {
@@ -396,7 +396,7 @@ impl ToCss for RadialGradient {
 
     if !self.position.is_center() {
       dest.write_str("at ")?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
       dest.delim(',', false)?;
     }
 
@@ -491,7 +491,7 @@ impl LineDirection {
     W: std::fmt::Write,
   {
     match self {
-      LineDirection::Angle(angle) => angle.to_css(dest),
+      LineDirection::Angle(angle) => angle.to_typst(dest),
       LineDirection::Horizontal(k) => {
         if dest.minify {
           match k {
@@ -502,7 +502,7 @@ impl LineDirection {
           if !is_prefixed {
             dest.write_str("to ")?;
           }
-          k.to_css(dest)
+          k.to_typst(dest)
         }
       }
       LineDirection::Vertical(k) => {
@@ -515,16 +515,16 @@ impl LineDirection {
           if !is_prefixed {
             dest.write_str("to ")?;
           }
-          k.to_css(dest)
+          k.to_typst(dest)
         }
       }
       LineDirection::Corner { horizontal, vertical } => {
         if !is_prefixed {
           dest.write_str("to ")?;
         }
-        vertical.to_css(dest)?;
+        vertical.to_typst(dest)?;
         dest.write_char(' ')?;
-        horizontal.to_css(dest)
+        horizontal.to_typst(dest)
       }
     }
   }
@@ -606,17 +606,17 @@ impl<'i> Parse<'i> for Circle {
 }
 
 impl ToCss for Circle {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      Circle::Radius(r) => r.to_css(dest),
+      Circle::Radius(r) => r.to_typst(dest),
       Circle::Extent(extent) => {
         dest.write_str("circle")?;
         if *extent != ShapeExtent::FarthestCorner {
           dest.write_char(' ')?;
-          extent.to_css(dest)?;
+          extent.to_typst(dest)?;
         }
         Ok(())
       }
@@ -686,18 +686,18 @@ impl<'i> Parse<'i> for Ellipse {
 }
 
 impl ToCss for Ellipse {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     // The `ellipse` keyword is optional, so we don't emit it.
     match self {
       Ellipse::Size { x, y } => {
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         dest.write_char(' ')?;
-        y.to_css(dest)
+        y.to_typst(dest)
       }
-      Ellipse::Extent(extent) => extent.to_css(dest),
+      Ellipse::Extent(extent) => extent.to_typst(dest),
     }
   }
 }
@@ -761,13 +761,13 @@ impl ConicGradient {
 }
 
 impl ToCss for ConicGradient {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if !self.angle.is_zero() {
       dest.write_str("from ")?;
-      self.angle.to_css(dest)?;
+      self.angle.to_typst(dest)?;
 
       if self.position.is_center() {
         dest.delim(',', false)?;
@@ -778,7 +778,7 @@ impl ToCss for ConicGradient {
 
     if !self.position.is_center() {
       dest.write_str("at ")?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
       dest.delim(',', false)?;
     }
 
@@ -826,14 +826,14 @@ impl<'i, D: Parse<'i>> Parse<'i> for ColorStop<D> {
 }
 
 impl<D: ToCss> ToCss for ColorStop<D> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.color.to_css(dest)?;
+    self.color.to_typst(dest)?;
     if let Some(position) = &self.position {
       dest.write_char(' ')?;
-      position.to_css(dest)?;
+      position.to_typst(dest)?;
     }
     Ok(())
   }
@@ -866,13 +866,13 @@ pub enum GradientItem<D> {
 }
 
 impl<D: ToCss> ToCss for GradientItem<D> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      GradientItem::ColorStop(stop) => stop.to_css(dest),
-      GradientItem::Hint(hint) => hint.to_css(dest),
+      GradientItem::ColorStop(stop) => stop.to_typst(dest),
+      GradientItem::Hint(hint) => hint.to_typst(dest),
     }
   }
 }
@@ -984,7 +984,7 @@ where
             }),
           ) if ca == cb => {
             dest.write_char(' ')?;
-            p.to_css(dest)?;
+            p.to_typst(dest)?;
             last = None;
             continue;
           }
@@ -998,7 +998,7 @@ where
     } else {
       dest.delim(',', false)?;
     }
-    item.to_css(dest)?;
+    item.to_typst(dest)?;
     last = Some(item)
   }
   Ok(())
@@ -1082,7 +1082,7 @@ impl<'i> Parse<'i> for WebKitGradient {
 }
 
 impl ToCss for WebKitGradient {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1090,12 +1090,12 @@ impl ToCss for WebKitGradient {
       WebKitGradient::Linear { from, to, stops } => {
         dest.write_str("linear")?;
         dest.delim(',', false)?;
-        from.to_css(dest)?;
+        from.to_typst(dest)?;
         dest.delim(',', false)?;
-        to.to_css(dest)?;
+        to.to_typst(dest)?;
         for stop in stops {
           dest.delim(',', false)?;
-          stop.to_css(dest)?;
+          stop.to_typst(dest)?;
         }
         Ok(())
       }
@@ -1108,16 +1108,16 @@ impl ToCss for WebKitGradient {
       } => {
         dest.write_str("radial")?;
         dest.delim(',', false)?;
-        from.to_css(dest)?;
+        from.to_typst(dest)?;
         dest.delim(',', false)?;
-        r0.to_css(dest)?;
+        r0.to_typst(dest)?;
         dest.delim(',', false)?;
-        to.to_css(dest)?;
+        to.to_typst(dest)?;
         dest.delim(',', false)?;
-        r1.to_css(dest)?;
+        r1.to_typst(dest)?;
         for stop in stops {
           dest.delim(',', false)?;
-          stop.to_css(dest)?;
+          stop.to_typst(dest)?;
         }
         Ok(())
       }
@@ -1185,21 +1185,21 @@ impl<'i> Parse<'i> for WebKitColorStop {
 }
 
 impl ToCss for WebKitColorStop {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if self.position == 0.0 {
       dest.write_str("from(")?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     } else if self.position == 1.0 {
       dest.write_str("to(")?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     } else {
       dest.write_str("color-stop(")?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
       dest.delim(',', false)?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
     dest.write_char(')')
   }
@@ -1236,13 +1236,13 @@ impl<'i> Parse<'i> for WebKitGradientPoint {
 }
 
 impl ToCss for WebKitGradientPoint {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.x.to_css(dest)?;
+    self.x.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.y.to_css(dest)
+    self.y.to_typst(dest)
   }
 }
 
@@ -1281,7 +1281,7 @@ impl<'i, S: Parse<'i>> Parse<'i> for WebKitGradientPointComponent<S> {
 }
 
 impl<S: ToCss + Clone + Into<LengthPercentage>> ToCss for WebKitGradientPointComponent<S> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -1298,15 +1298,15 @@ impl<S: ToCss + Clone + Into<LengthPercentage>> ToCss for WebKitGradientPointCom
         if matches!(lp, NumberOrPercentage::Percentage(Percentage(p)) if *p == 0.0) {
           dest.write_char('0')
         } else {
-          lp.to_css(dest)
+          lp.to_typst(dest)
         }
       }
       Side(s) => {
         if dest.minify {
           let lp: LengthPercentage = s.clone().into();
-          lp.to_css(dest)?;
+          lp.to_typst(dest)?;
         } else {
-          s.to_css(dest)?;
+          s.to_typst(dest)?;
         }
         Ok(())
       }

@@ -48,19 +48,19 @@ impl<'i, T: Clone> SupportsRule<'i, T> {
 }
 
 impl<'a, 'i, T: ToCss> ToCss for SupportsRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@supports ")?;
-    self.condition.to_css(dest)?;
+    self.condition.to_typst(dest)?;
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
     dest.newline()?;
-    self.rules.to_css(dest)?;
+    self.rules.to_typst(dest)?;
     dest.dedent();
     dest.newline()?;
     dest.write_char('}')
@@ -304,7 +304,7 @@ impl<'i> SupportsCondition<'i> {
     if needs_parens {
       dest.write_char('(')?;
     }
-    self.to_css(dest)?;
+    self.to_typst(dest)?;
     if needs_parens {
       dest.write_char(')')?;
     }
@@ -313,7 +313,7 @@ impl<'i> SupportsCondition<'i> {
 }
 
 impl<'i> ToCss for SupportsCondition<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -363,7 +363,7 @@ impl<'i> ToCss for SupportsCondition<'i> {
             dest.write_str(") or (")?;
           }
 
-          p.to_css(dest)?;
+          p.to_typst(dest)?;
           serialize_name(name, dest)?;
           dest.delim(':', false)?;
           dest.write_str(value)?;

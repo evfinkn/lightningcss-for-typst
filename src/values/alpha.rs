@@ -29,10 +29,10 @@ impl<'i> Parse<'i> for AlphaValue {
 }
 
 impl ToCss for AlphaValue {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.0.to_css(dest)
+    self.0.to_typst(dest)
   }
 }

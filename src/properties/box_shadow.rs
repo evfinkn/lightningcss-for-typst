@@ -94,7 +94,7 @@ impl<'i> Parse<'i> for BoxShadow {
 }
 
 impl ToCss for BoxShadow {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -102,23 +102,23 @@ impl ToCss for BoxShadow {
       dest.write_str("inset ")?;
     }
 
-    self.x_offset.to_css(dest)?;
+    self.x_offset.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.y_offset.to_css(dest)?;
+    self.y_offset.to_typst(dest)?;
 
     if self.blur != Length::zero() || self.spread != Length::zero() {
       dest.write_char(' ')?;
-      self.blur.to_css(dest)?;
+      self.blur.to_typst(dest)?;
 
       if self.spread != Length::zero() {
         dest.write_char(' ')?;
-        self.spread.to_css(dest)?;
+        self.spread.to_typst(dest)?;
       }
     }
 
     if self.color != CssColor::current_color() {
       dest.write_char(' ')?;
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
 
     Ok(())

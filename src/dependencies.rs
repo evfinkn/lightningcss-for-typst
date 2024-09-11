@@ -60,14 +60,14 @@ impl ImportDependency {
   /// Creates a new dependency from an `@import` rule.
   pub fn new(rule: &ImportRule, filename: &str) -> ImportDependency {
     let supports = if let Some(supports) = &rule.supports {
-      let s = supports.to_css_string(PrinterOptions::default()).unwrap();
+      let s = supports.to_typst_string(PrinterOptions::default()).unwrap();
       Some(s)
     } else {
       None
     };
 
     let media = if !rule.media.media_queries.is_empty() {
-      let s = rule.media.to_css_string(PrinterOptions::default()).unwrap();
+      let s = rule.media.to_typst_string(PrinterOptions::default()).unwrap();
       Some(s)
     } else {
       None

@@ -95,28 +95,28 @@ impl<T> ToCss for Rect<T>
 where
   T: PartialEq + ToCss,
 {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.0.to_css(dest)?;
+    self.0.to_typst(dest)?;
     let same_vertical = self.0 == self.2;
     let same_horizontal = self.1 == self.3;
     if same_vertical && same_horizontal && self.0 == self.1 {
       return Ok(());
     }
     dest.write_str(" ")?;
-    self.1.to_css(dest)?;
+    self.1.to_typst(dest)?;
     if same_vertical && same_horizontal {
       return Ok(());
     }
     dest.write_str(" ")?;
-    self.2.to_css(dest)?;
+    self.2.to_typst(dest)?;
     if same_horizontal {
       return Ok(());
     }
     dest.write_str(" ")?;
-    self.3.to_css(dest)
+    self.3.to_typst(dest)
   }
 }
 

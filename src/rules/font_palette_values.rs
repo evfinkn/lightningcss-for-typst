@@ -201,14 +201,14 @@ impl<'i> Parse<'i> for BasePalette {
 }
 
 impl ToCss for BasePalette {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       BasePalette::Light => dest.write_str("light"),
       BasePalette::Dark => dest.write_str("dark"),
-      BasePalette::Integer(i) => (*i as CSSInteger).to_css(dest),
+      BasePalette::Integer(i) => (*i as CSSInteger).to_typst(dest),
     }
   }
 }
@@ -233,13 +233,13 @@ impl<'i> Parse<'i> for OverrideColors {
 }
 
 impl ToCss for OverrideColors {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    (self.index as CSSInteger).to_css(dest)?;
+    (self.index as CSSInteger).to_typst(dest)?;
     dest.write_char(' ')?;
-    self.color.to_css(dest)
+    self.color.to_typst(dest)
   }
 }
 
@@ -357,21 +357,21 @@ impl<'i> FontPaletteValuesRule<'i> {
 }
 
 impl<'i> ToCss for FontPaletteValuesRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@font-palette-values ")?;
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
     let len = self.properties.len();
     for (i, prop) in self.properties.iter().enumerate() {
       dest.newline()?;
-      prop.to_css(dest)?;
+      prop.to_typst(dest)?;
       if i != len - 1 || !dest.minify {
         dest.write_char(';')?;
       }
@@ -383,7 +383,7 @@ impl<'i> ToCss for FontPaletteValuesRule<'i> {
 }
 
 impl<'i> ToCss for FontPaletteValuesProperty<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -391,7 +391,7 @@ impl<'i> ToCss for FontPaletteValuesProperty<'i> {
       ($prop: literal, $value: expr) => {{
         dest.write_str($prop)?;
         dest.delim(':', false)?;
-        $value.to_css(dest)
+        $value.to_typst(dest)
       }};
     }
 

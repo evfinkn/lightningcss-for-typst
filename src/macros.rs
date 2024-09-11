@@ -83,7 +83,7 @@ macro_rules! enum_property {
     }
 
     impl ToCss for $name {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         dest.write_str(self.as_str())
       }
     }
@@ -152,7 +152,7 @@ macro_rules! shorthand_property {
     }
 
     impl$(<$l>)? ToCss for $name$(<$l>)? {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> where W: std::fmt::Write {
         let mut needs_space = false;
         macro_rules! print_one {
           ($k: ident, $t: ty) => {
@@ -160,7 +160,7 @@ macro_rules! shorthand_property {
               if needs_space {
                 dest.write_char(' ')?;
               }
-              self.$k.to_css(dest)?;
+              self.$k.to_typst(dest)?;
               needs_space = true;
             }
           };
@@ -171,7 +171,7 @@ macro_rules! shorthand_property {
           print_one!($key, $type);
         )*
         if !needs_space {
-          self.$first_key.to_css(dest)?;
+          self.$first_key.to_typst(dest)?;
         }
         Ok(())
       }
@@ -755,11 +755,11 @@ macro_rules! rect_shorthand {
     }
 
     impl ToCss for $name {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
       {
-        Rect::new(&self.top, &self.right, &self.bottom, &self.left).to_css(dest)
+        Rect::new(&self.top, &self.right, &self.bottom, &self.left).to_typst(dest)
       }
     }
   };
@@ -798,11 +798,11 @@ macro_rules! size_shorthand {
     }
 
     impl ToCss for $name {
-      fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+      fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
       where
         W: std::fmt::Write,
       {
-        Size2D(&self.$a_key, &self.$b_key).to_css(dest)
+        Size2D(&self.$a_key, &self.$b_key).to_typst(dest)
       }
     }
   };

@@ -73,7 +73,7 @@ impl<'i> Parse<'i> for BackgroundSize {
 }
 
 impl ToCss for BackgroundSize {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -83,10 +83,10 @@ impl ToCss for BackgroundSize {
       Cover => dest.write_str("cover"),
       Contain => dest.write_str("contain"),
       Explicit { width, height } => {
-        width.to_css(dest)?;
+        width.to_typst(dest)?;
         if *height != LengthPercentageOrAuto::Auto {
           dest.write_str(" ")?;
-          height.to_css(dest)?;
+          height.to_typst(dest)?;
         }
         Ok(())
       }
@@ -166,7 +166,7 @@ impl<'i> Parse<'i> for BackgroundRepeat {
 }
 
 impl ToCss for BackgroundRepeat {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -175,10 +175,10 @@ impl ToCss for BackgroundRepeat {
       (Repeat, NoRepeat) => dest.write_str("repeat-x"),
       (NoRepeat, Repeat) => dest.write_str("repeat-y"),
       (x, y) => {
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         if y != x {
           dest.write_str(" ")?;
-          y.to_css(dest)?;
+          y.to_typst(dest)?;
         }
         Ok(())
       }
@@ -313,12 +313,12 @@ impl<'i> Parse<'i> for BackgroundPosition {
 }
 
 impl ToCss for BackgroundPosition {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let pos: Position = self.into();
-    pos.to_css(dest)
+    pos.to_typst(dest)
   }
 }
 
@@ -441,14 +441,14 @@ impl<'i> Parse<'i> for Background<'i> {
 }
 
 impl<'i> ToCss for Background<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let mut has_output = false;
 
     if self.color != CssColor::default() {
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
       has_output = true;
     }
 
@@ -456,7 +456,7 @@ impl<'i> ToCss for Background<'i> {
       if has_output {
         dest.write_str(" ")?;
       }
-      self.image.to_css(dest)?;
+      self.image.to_typst(dest)?;
       has_output = true;
     }
 
@@ -465,11 +465,11 @@ impl<'i> ToCss for Background<'i> {
       if has_output {
         dest.write_str(" ")?;
       }
-      position.to_css(dest)?;
+      position.to_typst(dest)?;
 
       if self.size != BackgroundSize::default() {
         dest.delim('/', true)?;
-        self.size.to_css(dest)?;
+        self.size.to_typst(dest)?;
       }
 
       has_output = true;
@@ -480,7 +480,7 @@ impl<'i> ToCss for Background<'i> {
         dest.write_str(" ")?;
       }
 
-      self.repeat.to_css(dest)?;
+      self.repeat.to_typst(dest)?;
       has_output = true;
     }
 
@@ -489,7 +489,7 @@ impl<'i> ToCss for Background<'i> {
         dest.write_str(" ")?;
       }
 
-      self.attachment.to_css(dest)?;
+      self.attachment.to_typst(dest)?;
       has_output = true;
     }
 
@@ -500,7 +500,7 @@ impl<'i> ToCss for Background<'i> {
         dest.write_str(" ")?;
       }
 
-      self.origin.to_css(dest)?;
+      self.origin.to_typst(dest)?;
       has_output = true;
     }
 
@@ -509,7 +509,7 @@ impl<'i> ToCss for Background<'i> {
         dest.write_str(" ")?;
       }
 
-      self.clip.to_css(dest)?;
+      self.clip.to_typst(dest)?;
       has_output = true;
     }
 
@@ -517,7 +517,7 @@ impl<'i> ToCss for Background<'i> {
     if !has_output {
       if dest.minify {
         // `0 0` is the shortest valid background value
-        self.position.to_css(dest)?;
+        self.position.to_typst(dest)?;
       } else {
         dest.write_str("none")?;
       }

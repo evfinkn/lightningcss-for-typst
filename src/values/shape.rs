@@ -234,29 +234,29 @@ impl<'i> Parse<'i> for Point {
 }
 
 impl ToCss for BasicShape {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       BasicShape::Inset(rect) => {
         dest.write_str("inset(")?;
-        rect.to_css(dest)?;
+        rect.to_typst(dest)?;
         dest.write_char(')')
       }
       BasicShape::Circle(circle) => {
         dest.write_str("circle(")?;
-        circle.to_css(dest)?;
+        circle.to_typst(dest)?;
         dest.write_char(')')
       }
       BasicShape::Ellipse(ellipse) => {
         dest.write_str("ellipse(")?;
-        ellipse.to_css(dest)?;
+        ellipse.to_typst(dest)?;
         dest.write_char(')')
       }
       BasicShape::Polygon(poly) => {
         dest.write_str("polygon(")?;
-        poly.to_css(dest)?;
+        poly.to_typst(dest)?;
         dest.write_char(')')
       }
     }
@@ -264,27 +264,27 @@ impl ToCss for BasicShape {
 }
 
 impl ToCss for InsetRect {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.rect.to_css(dest)?;
+    self.rect.to_typst(dest)?;
     if self.radius != BorderRadius::default() {
       dest.write_str(" round ")?;
-      self.radius.to_css(dest)?;
+      self.radius.to_typst(dest)?;
     }
     Ok(())
   }
 }
 
 impl ToCss for Circle {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let mut has_output = false;
     if self.radius != ShapeRadius::default() {
-      self.radius.to_css(dest)?;
+      self.radius.to_typst(dest)?;
       has_output = true;
     }
 
@@ -293,7 +293,7 @@ impl ToCss for Circle {
         dest.write_char(' ')?;
       }
       dest.write_str("at ")?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
     }
 
     Ok(())
@@ -301,15 +301,15 @@ impl ToCss for Circle {
 }
 
 impl ToCss for Ellipse {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     let mut has_output = false;
     if self.radius_x != ShapeRadius::default() || self.radius_y != ShapeRadius::default() {
-      self.radius_x.to_css(dest)?;
+      self.radius_x.to_typst(dest)?;
       dest.write_char(' ')?;
-      self.radius_y.to_css(dest)?;
+      self.radius_y.to_typst(dest)?;
       has_output = true;
     }
 
@@ -318,7 +318,7 @@ impl ToCss for Ellipse {
         dest.write_char(' ')?;
       }
       dest.write_str("at ")?;
-      self.position.to_css(dest)?;
+      self.position.to_typst(dest)?;
     }
 
     Ok(())
@@ -326,12 +326,12 @@ impl ToCss for Ellipse {
 }
 
 impl ToCss for Polygon {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if self.fill_rule != FillRule::default() {
-      self.fill_rule.to_css(dest)?;
+      self.fill_rule.to_typst(dest)?;
       dest.delim(',', false)?;
     }
 
@@ -342,7 +342,7 @@ impl ToCss for Polygon {
       } else {
         dest.delim(',', false)?;
       }
-      point.to_css(dest)?;
+      point.to_typst(dest)?;
     }
 
     Ok(())
@@ -350,12 +350,12 @@ impl ToCss for Polygon {
 }
 
 impl ToCss for Point {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.x.to_css(dest)?;
+    self.x.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.y.to_css(dest)
+    self.y.to_typst(dest)
   }
 }

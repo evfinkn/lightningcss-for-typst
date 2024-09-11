@@ -67,7 +67,7 @@ impl<'i> Parse<'i> for DisplayInside {
 }
 
 impl ToCss for DisplayInside {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -76,7 +76,7 @@ impl ToCss for DisplayInside {
       DisplayInside::FlowRoot => dest.write_str("flow-root"),
       DisplayInside::Table => dest.write_str("table"),
       DisplayInside::Flex(prefix) => {
-        prefix.to_css(dest)?;
+        prefix.to_typst(dest)?;
         if *prefix == VendorPrefix::Ms {
           dest.write_str("flexbox")
         } else {
@@ -84,7 +84,7 @@ impl ToCss for DisplayInside {
         }
       }
       DisplayInside::Box(prefix) => {
-        prefix.to_css(dest)?;
+        prefix.to_typst(dest)?;
         dest.write_str("box")
       }
       DisplayInside::Grid => dest.write_str("grid"),
@@ -226,7 +226,7 @@ impl<'i> Parse<'i> for DisplayPair {
 }
 
 impl ToCss for DisplayPair {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -246,7 +246,7 @@ impl ToCss for DisplayPair {
         inside: DisplayInside::Flex(prefix),
         is_list_item: false,
       } => {
-        prefix.to_css(dest)?;
+        prefix.to_typst(dest)?;
         if *prefix == VendorPrefix::Ms {
           dest.write_str("inline-flexbox")
         } else {
@@ -258,7 +258,7 @@ impl ToCss for DisplayPair {
         inside: DisplayInside::Box(prefix),
         is_list_item: false,
       } => {
-        prefix.to_css(dest)?;
+        prefix.to_typst(dest)?;
         dest.write_str("inline-box")
       }
       DisplayPair {
@@ -278,7 +278,7 @@ impl ToCss for DisplayPair {
 
         let mut needs_space = false;
         if *outside != default_outside || (*inside == DisplayInside::Flow && !*is_list_item) {
-          outside.to_css(dest)?;
+          outside.to_typst(dest)?;
           needs_space = true;
         }
 
@@ -286,7 +286,7 @@ impl ToCss for DisplayPair {
           if needs_space {
             dest.write_char(' ')?;
           }
-          inside.to_css(dest)?;
+          inside.to_typst(dest)?;
           needs_space = true;
         }
 

@@ -27,16 +27,16 @@ pub struct CustomMediaRule<'i> {
 }
 
 impl<'i> ToCss for CustomMediaRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@custom-media ")?;
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     dest.write_char(' ')?;
-    self.query.to_css(dest)?;
+    self.query.to_typst(dest)?;
     dest.write_char(';')
   }
 }

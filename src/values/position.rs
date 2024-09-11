@@ -168,7 +168,7 @@ impl<'i> Parse<'i> for Position {
 }
 
 impl ToCss for Position {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -176,44 +176,44 @@ impl ToCss for Position {
       (x_pos @ &HorizontalPosition::Side { side, offset: Some(_) }, &VerticalPosition::Length(ref y_lp))
         if side != HorizontalPositionKeyword::Left =>
       {
-        x_pos.to_css(dest)?;
+        x_pos.to_typst(dest)?;
         dest.write_str(" top ")?;
-        y_lp.to_css(dest)
+        y_lp.to_typst(dest)
       }
       (x_pos @ &HorizontalPosition::Side { side, offset: Some(_) }, y)
         if side != HorizontalPositionKeyword::Left && y.is_center() =>
       {
         // If there is a side keyword with an offset, "center" must be a keyword not a percentage.
-        x_pos.to_css(dest)?;
+        x_pos.to_typst(dest)?;
         dest.write_str(" center")
       }
       (&HorizontalPosition::Length(ref x_lp), y_pos @ &VerticalPosition::Side { side, offset: Some(_) })
         if side != VerticalPositionKeyword::Top =>
       {
         dest.write_str("left ")?;
-        x_lp.to_css(dest)?;
+        x_lp.to_typst(dest)?;
         dest.write_str(" ")?;
-        y_pos.to_css(dest)
+        y_pos.to_typst(dest)
       }
       (x, y) if x.is_center() && y.is_center() => {
         // `center center` => 50%
-        x.to_css(dest)
+        x.to_typst(dest)
       }
       (&HorizontalPosition::Length(ref x_lp), y) if y.is_center() => {
         // `center` is assumed if omitted.
-        x_lp.to_css(dest)
+        x_lp.to_typst(dest)
       }
       (&HorizontalPosition::Side { side, offset: None }, y) if y.is_center() => {
         let p: LengthPercentage = side.into();
-        p.to_css(dest)
+        p.to_typst(dest)
       }
-      (x, y_pos @ &VerticalPosition::Side { offset: None, .. }) if x.is_center() => y_pos.to_css(dest),
+      (x, y_pos @ &VerticalPosition::Side { offset: None, .. }) if x.is_center() => y_pos.to_typst(dest),
       (&HorizontalPosition::Side { side: x, offset: None }, &VerticalPosition::Side { side: y, offset: None }) => {
         let x: LengthPercentage = x.into();
         let y: LengthPercentage = y.into();
-        x.to_css(dest)?;
+        x.to_typst(dest)?;
         dest.write_str(" ")?;
-        y.to_css(dest)
+        y.to_typst(dest)
       }
       (x_pos, y_pos) => {
         let zero = LengthPercentage::zero();
@@ -261,13 +261,13 @@ impl ToCss for Position {
         };
 
         if let (Some(x), Some(y)) = (x_len, y_len) {
-          x.to_css(dest)?;
+          x.to_typst(dest)?;
           dest.write_str(" ")?;
-          y.to_css(dest)
+          y.to_typst(dest)
         } else {
-          x_pos.to_css(dest)?;
+          x_pos.to_typst(dest)?;
           dest.write_str(" ")?;
-          y_pos.to_css(dest)
+          y_pos.to_typst(dest)
         }
       }
     }
@@ -339,7 +339,7 @@ impl<'i, S: Parse<'i>> Parse<'i> for PositionComponent<S> {
 }
 
 impl<S: ToCss> ToCss for PositionComponent<S> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -352,12 +352,12 @@ impl<S: ToCss> ToCss for PositionComponent<S> {
           dest.write_str("center")
         }
       }
-      Length(lp) => lp.to_css(dest),
+      Length(lp) => lp.to_typst(dest),
       Side { side, offset } => {
-        side.to_css(dest)?;
+        side.to_typst(dest)?;
         if let Some(lp) = offset {
           dest.write_str(" ")?;
-          lp.to_css(dest)?;
+          lp.to_typst(dest)?;
         }
         Ok(())
       }

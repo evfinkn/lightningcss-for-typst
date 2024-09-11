@@ -89,7 +89,7 @@ impl<'i> Parse<'i> for ContainerNameList<'i> {
 }
 
 impl<'i> ToCss for ContainerNameList<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -103,7 +103,7 @@ impl<'i> ToCss for ContainerNameList<'i> {
           } else {
             dest.write_char(' ')?;
           }
-          name.to_css(dest)?;
+          name.to_typst(dest)?;
         }
         Ok(())
       }
@@ -141,14 +141,14 @@ impl<'i> Parse<'i> for Container<'i> {
 }
 
 impl<'i> ToCss for Container<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.name.to_css(dest)?;
+    self.name.to_typst(dest)?;
     if self.container_type != ContainerType::default() {
       dest.delim('/', true)?;
-      self.container_type.to_css(dest)?;
+      self.container_type.to_typst(dest)?;
     }
     Ok(())
   }

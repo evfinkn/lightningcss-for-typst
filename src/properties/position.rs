@@ -55,7 +55,7 @@ impl<'i> Parse<'i> for Position {
 }
 
 impl ToCss for Position {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -65,7 +65,7 @@ impl ToCss for Position {
       Position::Absolute => dest.write_str("absolute"),
       Position::Fixed => dest.write_str("fixed"),
       Position::Sticky(prefix) => {
-        prefix.to_css(dest)?;
+        prefix.to_typst(dest)?;
         dest.write_str("sticky")
       }
     }

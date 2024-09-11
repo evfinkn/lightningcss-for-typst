@@ -101,15 +101,15 @@ impl<'i> Parse<'i> for Source<'i> {
 }
 
 impl<'i> ToCss for Source<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      Source::Url(url) => url.to_css(dest),
+      Source::Url(url) => url.to_typst(dest),
       Source::Local(local) => {
         dest.write_str("local(")?;
-        local.to_css(dest)?;
+        local.to_typst(dest)?;
         dest.write_char(')')
       }
     }
@@ -154,22 +154,22 @@ impl<'i> Parse<'i> for UrlSource<'i> {
 }
 
 impl<'i> ToCss for UrlSource<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.url.to_css(dest)?;
+    self.url.to_typst(dest)?;
     if let Some(format) = &self.format {
       dest.whitespace()?;
       dest.write_str("format(")?;
-      format.to_css(dest)?;
+      format.to_typst(dest)?;
       dest.write_char(')')?;
     }
 
     if !self.tech.is_empty() {
       dest.whitespace()?;
       dest.write_str("tech(")?;
-      self.tech.to_css(dest)?;
+      self.tech.to_typst(dest)?;
       dest.write_char(')')?;
     }
     Ok(())
@@ -227,7 +227,7 @@ impl<'i> Parse<'i> for FontFormat<'i> {
 }
 
 impl<'i> ToCss for FontFormat<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -319,7 +319,7 @@ impl<'i> Parse<'i> for UnicodeRange {
 }
 
 impl ToCss for UnicodeRange {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -420,7 +420,7 @@ impl<'i> Parse<'i> for FontStyle {
 }
 
 impl ToCss for FontStyle {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -431,7 +431,7 @@ impl ToCss for FontStyle {
         dest.write_str("oblique")?;
         if *angle != FontStyle::default_oblique_angle() {
           dest.write_char(' ')?;
-          angle.to_css(dest)?;
+          angle.to_typst(dest)?;
         }
         Ok(())
       }
@@ -509,7 +509,7 @@ impl<'i> RuleBodyItemParser<'i, FontFaceProperty<'i>, ParserError<'i>> for FontF
 }
 
 impl<'i> ToCss for FontFaceRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -522,7 +522,7 @@ impl<'i> ToCss for FontFaceRule<'i> {
     let len = self.properties.len();
     for (i, prop) in self.properties.iter().enumerate() {
       dest.newline()?;
-      prop.to_css(dest)?;
+      prop.to_typst(dest)?;
       if i != len - 1 || !dest.minify {
         dest.write_char(';')?;
       }
@@ -534,7 +534,7 @@ impl<'i> ToCss for FontFaceRule<'i> {
 }
 
 impl<'i> ToCss for FontFaceProperty<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -543,14 +543,14 @@ impl<'i> ToCss for FontFaceProperty<'i> {
       ($prop: literal, $value: expr) => {{
         dest.write_str($prop)?;
         dest.delim(':', false)?;
-        $value.to_css(dest)
+        $value.to_typst(dest)
       }};
       ($prop: literal, $value: expr, $multi: expr) => {{
         dest.write_str($prop)?;
         dest.delim(':', false)?;
         let len = $value.len();
         for (idx, val) in $value.iter().enumerate() {
-          val.to_css(dest)?;
+          val.to_typst(dest)?;
           if idx < len - 1 {
             dest.delim(',', false)?;
           }

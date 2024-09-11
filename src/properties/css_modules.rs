@@ -87,7 +87,7 @@ fn parse_one_ident<'i, 't>(
 }
 
 impl ToCss for Composes<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -98,12 +98,12 @@ impl ToCss for Composes<'_> {
       } else {
         dest.write_char(' ')?;
       }
-      name.to_css(dest)?;
+      name.to_typst(dest)?;
     }
 
     if let Some(from) = &self.from {
       dest.write_str(" from ")?;
-      from.to_css(dest)?;
+      from.to_typst(dest)?;
     }
 
     Ok(())
@@ -122,7 +122,7 @@ impl<'i> Parse<'i> for Specifier<'i> {
 }
 
 impl<'i> ToCss for Specifier<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

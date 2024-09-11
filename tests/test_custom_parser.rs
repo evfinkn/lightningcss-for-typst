@@ -128,16 +128,16 @@ impl<'i> AtRuleParser<'i> for TestAtRuleParser {
 }
 
 impl<'i> ToCss for AtRule<'i> {
-  fn to_css<W: std::fmt::Write>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> {
+  fn to_typst<W: std::fmt::Write>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError> {
     match self {
       AtRule::Block(rule) => {
         dest.write_str("@block ")?;
-        rule.name.to_css(dest)?;
+        rule.name.to_typst(dest)?;
         rule.declarations.to_css_block(dest)
       }
       AtRule::Inline(rule) => {
         dest.write_str("@inline ")?;
-        rule.name.to_css(dest)?;
+        rule.name.to_typst(dest)?;
         dest.write_char(';')
       }
     }

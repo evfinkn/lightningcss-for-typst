@@ -82,24 +82,24 @@ impl<'i> Parse<'i> for Transition<'i> {
 }
 
 impl<'i> ToCss for Transition<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.property.to_css(dest)?;
+    self.property.to_typst(dest)?;
     if !self.duration.is_zero() || !self.delay.is_zero() {
       dest.write_char(' ')?;
-      self.duration.to_css(dest)?;
+      self.duration.to_typst(dest)?;
     }
 
     if !self.timing_function.is_ease() {
       dest.write_char(' ')?;
-      self.timing_function.to_css(dest)?;
+      self.timing_function.to_typst(dest)?;
     }
 
     if !self.delay.is_zero() {
       dest.write_char(' ')?;
-      self.delay.to_css(dest)?;
+      self.delay.to_typst(dest)?;
     }
 
     Ok(())

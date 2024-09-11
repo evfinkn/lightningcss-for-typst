@@ -213,23 +213,23 @@ impl<'i> Parse<'i> for CounterStyle<'i> {
 }
 
 impl ToCss for CounterStyle<'_> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      CounterStyle::Predefined(style) => style.to_css(dest),
+      CounterStyle::Predefined(style) => style.to_typst(dest),
       CounterStyle::Name(name) => {
         if let Some(css_module) = &mut dest.css_module {
           css_module.reference(&name.0, dest.loc.source_index)
         }
-        name.to_css(dest)
+        name.to_typst(dest)
       }
       CounterStyle::Symbols { system: t, symbols } => {
         dest.write_str("symbols(")?;
         let mut needs_space = false;
         if *t != SymbolsType::Symbolic {
-          t.to_css(dest)?;
+          t.to_typst(dest)?;
           needs_space = true;
         }
 
@@ -237,7 +237,7 @@ impl ToCss for CounterStyle<'_> {
           if needs_space {
             dest.write_char(' ')?;
           }
-          symbol.to_css(dest)?;
+          symbol.to_typst(dest)?;
           needs_space = true;
         }
         dest.write_char(')')

@@ -61,7 +61,7 @@ impl<'i> Parse<'i> for LayerName<'i> {
 }
 
 impl<'i> ToCss for LayerName<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -99,14 +99,14 @@ pub struct LayerStatementRule<'i> {
 }
 
 impl<'i> ToCss for LayerStatementRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_str("@layer ")?;
-    self.names.to_css(dest)?;
+    self.names.to_typst(dest)?;
     dest.write_char(';')
   }
 }
@@ -142,7 +142,7 @@ impl<'i, T: Clone> LayerBlockRule<'i, T> {
 }
 
 impl<'a, 'i, T: ToCss> ToCss for LayerBlockRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -151,14 +151,14 @@ impl<'a, 'i, T: ToCss> ToCss for LayerBlockRule<'i, T> {
     dest.write_str("@layer")?;
     if let Some(name) = &self.name {
       dest.write_char(' ')?;
-      name.to_css(dest)?;
+      name.to_typst(dest)?;
     }
 
     dest.whitespace()?;
     dest.write_char('{')?;
     dest.indent();
     dest.newline()?;
-    self.rules.to_css(dest)?;
+    self.rules.to_typst(dest)?;
     dest.dedent();
     dest.newline()?;
     dest.write_char('}')

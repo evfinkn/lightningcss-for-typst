@@ -123,14 +123,14 @@ fn modulo(a: f32, b: f32) -> f32 {
 }
 
 impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToCss for MathFunction<V> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
       MathFunction::Calc(calc) => {
         dest.write_str("calc(")?;
-        calc.to_css(dest)?;
+        calc.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Min(args) => {
@@ -142,7 +142,7 @@ impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Deb
           } else {
             dest.delim(',', false)?;
           }
-          arg.to_css(dest)?;
+          arg.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -155,7 +155,7 @@ impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Deb
           } else {
             dest.delim(',', false)?;
           }
-          arg.to_css(dest)?;
+          arg.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -163,57 +163,57 @@ impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Deb
         // If clamp() is unsupported by targets, output min()/max()
         if should_compile!(dest.targets, ClampFunction) {
           dest.write_str("max(")?;
-          a.to_css(dest)?;
+          a.to_typst(dest)?;
           dest.delim(',', false)?;
           dest.write_str("min(")?;
-          b.to_css(dest)?;
+          b.to_typst(dest)?;
           dest.delim(',', false)?;
-          c.to_css(dest)?;
+          c.to_typst(dest)?;
           dest.write_str("))")?;
           return Ok(());
         }
 
         dest.write_str("clamp(")?;
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         dest.delim(',', false)?;
-        b.to_css(dest)?;
+        b.to_typst(dest)?;
         dest.delim(',', false)?;
-        c.to_css(dest)?;
+        c.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Round(strategy, a, b) => {
         dest.write_str("round(")?;
         if *strategy != RoundingStrategy::default() {
-          strategy.to_css(dest)?;
+          strategy.to_typst(dest)?;
           dest.delim(',', false)?;
         }
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         dest.delim(',', false)?;
-        b.to_css(dest)?;
+        b.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Rem(a, b) => {
         dest.write_str("rem(")?;
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         dest.delim(',', false)?;
-        b.to_css(dest)?;
+        b.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Mod(a, b) => {
         dest.write_str("mod(")?;
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         dest.delim(',', false)?;
-        b.to_css(dest)?;
+        b.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Abs(v) => {
         dest.write_str("abs(")?;
-        v.to_css(dest)?;
+        v.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Sign(v) => {
         dest.write_str("sign(")?;
-        v.to_css(dest)?;
+        v.to_typst(dest)?;
         dest.write_char(')')
       }
       MathFunction::Hypot(args) => {
@@ -225,7 +225,7 @@ impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Deb
           } else {
             dest.delim(',', false)?;
           }
-          arg.to_css(dest)?;
+          arg.to_typst(dest)?;
         }
         dest.write_char(')')
       }
@@ -918,7 +918,7 @@ impl<V: AddInternal + std::convert::Into<Calc<V>> + std::convert::From<Calc<V>> 
 }
 
 impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Debug> ToCss for Calc<V> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -926,34 +926,34 @@ impl<V: ToCss + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::Deb
     dest.in_calc = true;
 
     let res = match self {
-      Calc::Value(v) => v.to_css(dest),
-      Calc::Number(n) => n.to_css(dest),
+      Calc::Value(v) => v.to_typst(dest),
+      Calc::Number(n) => n.to_typst(dest),
       Calc::Sum(a, b) => {
-        a.to_css(dest)?;
+        a.to_typst(dest)?;
         // Whitespace is always required.
         let b = &**b;
         if b.is_sign_negative() {
           dest.write_str(" - ")?;
           let b = b.clone() * -1.0;
-          b.to_css(dest)
+          b.to_typst(dest)
         } else {
           dest.write_str(" + ")?;
-          b.to_css(dest)
+          b.to_typst(dest)
         }
       }
       Calc::Product(num, calc) => {
         if num.abs() < 1.0 {
           let div = 1.0 / num;
-          calc.to_css(dest)?;
+          calc.to_typst(dest)?;
           dest.delim('/', true)?;
-          div.to_css(dest)
+          div.to_typst(dest)
         } else {
-          num.to_css(dest)?;
+          num.to_typst(dest)?;
           dest.delim('*', true)?;
-          calc.to_css(dest)
+          calc.to_typst(dest)
         }
       }
-      Calc::Function(f) => f.to_css(dest),
+      Calc::Function(f) => f.to_typst(dest),
     };
 
     dest.in_calc = was_in_calc;

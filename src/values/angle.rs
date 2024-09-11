@@ -102,7 +102,7 @@ impl<'i> TryFrom<&Token<'i>> for Angle {
 }
 
 impl ToCss for Angle {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -133,9 +133,9 @@ impl Angle {
     W: std::fmt::Write,
   {
     if self.is_zero() {
-      (0.0).to_css(dest)
+      (0.0).to_typst(dest)
     } else {
-      self.to_css(dest)
+      self.to_typst(dest)
     }
   }
 }

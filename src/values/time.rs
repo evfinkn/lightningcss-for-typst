@@ -95,7 +95,7 @@ impl<'i> TryFrom<&Token<'i>> for Time {
 }
 
 impl ToCss for Time {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -104,19 +104,19 @@ impl ToCss for Time {
     match self {
       Time::Seconds(s) => {
         if *s > 0.0 && *s < 0.1 {
-          (*s * 1000.0).to_css(dest)?;
+          (*s * 1000.0).to_typst(dest)?;
           dest.write_str("ms")
         } else {
-          s.to_css(dest)?;
+          s.to_typst(dest)?;
           dest.write_str("s")
         }
       }
       Time::Milliseconds(ms) => {
         if *ms == 0.0 || *ms >= 100.0 {
-          (*ms / 1000.0).to_css(dest)?;
+          (*ms / 1000.0).to_typst(dest)?;
           dest.write_str("s")
         } else {
-          ms.to_css(dest)?;
+          ms.to_typst(dest)?;
           dest.write_str("ms")
         }
       }

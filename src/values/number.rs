@@ -30,7 +30,7 @@ impl<'i> Parse<'i> for CSSNumber {
 }
 
 impl ToCss for CSSNumber {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -122,7 +122,7 @@ impl<'i> Parse<'i> for CSSInteger {
 }
 
 impl ToCss for CSSInteger {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

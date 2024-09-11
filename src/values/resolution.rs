@@ -65,7 +65,7 @@ impl<'i> TryFrom<&Token<'i>> for Resolution {
 }
 
 impl ToCss for Resolution {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

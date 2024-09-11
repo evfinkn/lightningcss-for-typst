@@ -95,7 +95,7 @@ impl<'i> Parse<'i> for Size {
 }
 
 impl ToCss for Size {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -104,15 +104,15 @@ impl ToCss for Size {
       Auto => dest.write_str("auto"),
       Contain => dest.write_str("contain"),
       MinContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("min-content")
       }
       MaxContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("max-content")
       }
       FitContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("fit-content")
       }
       Stretch(vp) => match *vp {
@@ -123,10 +123,10 @@ impl ToCss for Size {
       },
       FitContentFunction(l) => {
         dest.write_str("fit-content(")?;
-        l.to_css(dest)?;
+        l.to_typst(dest)?;
         dest.write_str(")")
       }
-      LengthPercentage(l) => l.to_css(dest),
+      LengthPercentage(l) => l.to_typst(dest),
     }
   }
 }
@@ -229,7 +229,7 @@ impl<'i> Parse<'i> for MaxSize {
 }
 
 impl ToCss for MaxSize {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -238,15 +238,15 @@ impl ToCss for MaxSize {
       None => dest.write_str("none"),
       Contain => dest.write_str("contain"),
       MinContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("min-content")
       }
       MaxContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("max-content")
       }
       FitContent(vp) => {
-        vp.to_css(dest)?;
+        vp.to_typst(dest)?;
         dest.write_str("fit-content")
       }
       Stretch(vp) => match *vp {
@@ -257,10 +257,10 @@ impl ToCss for MaxSize {
       },
       FitContentFunction(l) => {
         dest.write_str("fit-content(")?;
-        l.to_css(dest)?;
+        l.to_typst(dest)?;
         dest.write_str(")")
       }
-      LengthPercentage(l) => l.to_css(dest),
+      LengthPercentage(l) => l.to_typst(dest),
     }
   }
 }
@@ -339,7 +339,7 @@ impl<'i> Parse<'i> for AspectRatio {
 }
 
 impl ToCss for AspectRatio {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -351,7 +351,7 @@ impl ToCss for AspectRatio {
       if self.auto {
         dest.write_char(' ')?;
       }
-      ratio.to_css(dest)?;
+      ratio.to_typst(dest)?;
     }
 
     Ok(())

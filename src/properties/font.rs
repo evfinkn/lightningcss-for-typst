@@ -81,13 +81,13 @@ impl Default for AbsoluteFontWeight {
 }
 
 impl ToCss for AbsoluteFontWeight {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     use AbsoluteFontWeight::*;
     match self {
-      Weight(val) => val.to_css(dest),
+      Weight(val) => val.to_typst(dest),
       Normal => dest.write_str(if dest.minify { "400" } else { "normal" }),
       Bold => dest.write_str(if dest.minify { "700" } else { "bold" }),
     }
@@ -262,18 +262,18 @@ impl Into<Percentage> for &FontStretch {
 }
 
 impl ToCss for FontStretch {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if dest.minify {
       let percentage: Percentage = self.into();
-      return percentage.to_css(dest);
+      return percentage.to_typst(dest);
     }
 
     match self {
-      FontStretch::Percentage(val) => val.to_css(dest),
-      FontStretch::Keyword(val) => val.to_css(dest),
+      FontStretch::Percentage(val) => val.to_typst(dest),
+      FontStretch::Keyword(val) => val.to_typst(dest),
     }
   }
 }
@@ -385,12 +385,12 @@ impl<'i> Parse<'i> for FontFamily<'i> {
 }
 
 impl<'i> ToCss for FontFamily<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      FontFamily::Generic(val) => val.to_css(dest),
+      FontFamily::Generic(val) => val.to_typst(dest),
       FontFamily::FamilyName(val) => {
         // Generic family names such as sans-serif must be quoted if parsed as a string.
         // CSS wide keywords, as well as "default", must also be quoted.
@@ -477,7 +477,7 @@ impl<'i> Parse<'i> for FontStyle {
 }
 
 impl ToCss for FontStyle {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -488,7 +488,7 @@ impl ToCss for FontStyle {
         dest.write_str("oblique")?;
         if *angle != FontStyle::default_oblique_angle() {
           dest.write_char(' ')?;
-          angle.to_css(dest)?;
+          angle.to_typst(dest)?;
         }
         Ok(())
       }
@@ -725,42 +725,42 @@ impl<'i> Parse<'i> for Font<'i> {
 }
 
 impl<'i> ToCss for Font<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if self.style != FontStyle::default() {
-      self.style.to_css(dest)?;
+      self.style.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
     if self.variant_caps != FontVariantCaps::default() {
-      self.variant_caps.to_css(dest)?;
+      self.variant_caps.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
     if self.weight != FontWeight::default() {
-      self.weight.to_css(dest)?;
+      self.weight.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
     if self.stretch != FontStretch::default() {
-      self.stretch.to_css(dest)?;
+      self.stretch.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
-    self.size.to_css(dest)?;
+    self.size.to_typst(dest)?;
 
     if self.line_height != LineHeight::default() {
       dest.delim('/', true)?;
-      self.line_height.to_css(dest)?;
+      self.line_height.to_typst(dest)?;
     }
 
     dest.write_char(' ')?;
 
     let len = self.family.len();
     for (idx, val) in self.family.iter().enumerate() {
-      val.to_css(dest)?;
+      val.to_typst(dest)?;
       if idx < len - 1 {
         dest.delim(',', false)?;
       }

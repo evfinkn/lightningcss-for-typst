@@ -76,7 +76,7 @@ impl<'i, T: Parse<'i>> ParseWithOptions<'i> for T {
 /// Trait for things the can serialize themselves in CSS syntax.
 pub trait ToCss {
   /// Serialize `self` in CSS syntax, writing to `dest`.
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write;
 
@@ -84,10 +84,10 @@ pub trait ToCss {
   ///
   /// (This is a convenience wrapper for `to_css` and probably should not be overridden.)
   #[inline]
-  fn to_css_string(&self, options: PrinterOptions) -> Result<String, PrinterError> {
+  fn to_typst_string(&self, options: PrinterOptions) -> Result<String, PrinterError> {
     let mut s = String::new();
     let mut printer = Printer::new(&mut s, options);
-    self.to_css(&mut printer)?;
+    self.to_typst(&mut printer)?;
     Ok(s)
   }
 }
@@ -98,30 +98,30 @@ impl<'a, T> ToCss for &'a T
 where
   T: ToCss + ?Sized,
 {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    (*self).to_css(dest)
+    (*self).to_typst(dest)
   }
 }
 
 impl<T: ToCss> ToCss for Box<T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    (**self).to_css(dest)
+    (**self).to_typst(dest)
   }
 }
 
 impl<T: ToCss> ToCss for Option<T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if let Some(v) = self {
-      v.to_css(dest)?;
+      v.to_typst(dest)?;
     }
     Ok(())
   }

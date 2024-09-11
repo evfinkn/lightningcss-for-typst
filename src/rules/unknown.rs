@@ -30,7 +30,7 @@ pub struct UnknownAtRule<'i> {
 }
 
 impl<'i> ToCss for UnknownAtRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

@@ -30,7 +30,7 @@ pub struct NamespaceRule<'i> {
 }
 
 impl<'i> ToCss for NamespaceRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -38,11 +38,11 @@ impl<'i> ToCss for NamespaceRule<'i> {
     dest.add_mapping(self.loc);
     dest.write_str("@namespace ")?;
     if let Some(prefix) = &self.prefix {
-      prefix.to_css(dest)?;
+      prefix.to_typst(dest)?;
       dest.write_char(' ')?;
     }
 
-    self.url.to_css(dest)?;
+    self.url.to_typst(dest)?;
     dest.write_char(';')
   }
 }

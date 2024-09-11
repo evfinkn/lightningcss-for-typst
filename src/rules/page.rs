@@ -141,14 +141,14 @@ pub struct PageMarginRule<'i> {
 }
 
 impl<'i> ToCss for PageMarginRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_char('@')?;
-    self.margin_box.to_css(dest)?;
+    self.margin_box.to_typst(dest)?;
     self.declarations.to_css_block(dest)
   }
 }
@@ -209,7 +209,7 @@ impl<'i> PageRule<'i> {
 }
 
 impl<'i> ToCss for PageRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -228,7 +228,7 @@ impl<'i> ToCss for PageRule<'i> {
         } else {
           dest.delim(',', false)?;
         }
-        selector.to_css(dest)?;
+        selector.to_typst(dest)?;
       }
     }
 
@@ -271,7 +271,7 @@ impl<'i> ToCss for PageRule<'i> {
           }
           dest.newline()?;
         }
-        rule.to_css(dest)?;
+        rule.to_typst(dest)?;
       }
     }
 
@@ -282,7 +282,7 @@ impl<'i> ToCss for PageRule<'i> {
 }
 
 impl<'i> ToCss for PageSelector<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -292,7 +292,7 @@ impl<'i> ToCss for PageSelector<'i> {
 
     for pseudo in &self.pseudo_classes {
       dest.write_char(':')?;
-      pseudo.to_css(dest)?;
+      pseudo.to_typst(dest)?;
     }
 
     Ok(())

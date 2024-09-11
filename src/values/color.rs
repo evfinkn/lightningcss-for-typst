@@ -521,7 +521,7 @@ impl<'i> Parse<'i> for CssColor {
 }
 
 impl ToCss for CssColor {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -563,7 +563,7 @@ impl ToCss for CssColor {
                 rounded_alpha = (color.alpha_f32() * 1000.).round() / 1000.;
               }
 
-              rounded_alpha.to_css(dest)?;
+              rounded_alpha.to_typst(dest)?;
               dest.write_char(')')?;
               return Ok(());
             }
@@ -592,28 +592,28 @@ impl ToCss for CssColor {
       CssColor::Float(float) => {
         // Serialize as hex.
         let srgb = SRGB::from(**float);
-        CssColor::from(srgb).to_css(dest)
+        CssColor::from(srgb).to_typst(dest)
       }
       CssColor::LightDark(light, dark) => {
         if !dest.targets.is_compatible(Feature::LightDark) {
           dest.write_str("var(--lightningcss-light")?;
           dest.delim(',', false)?;
-          light.to_css(dest)?;
+          light.to_typst(dest)?;
           dest.write_char(')')?;
           dest.whitespace()?;
           dest.write_str("var(--lightningcss-dark")?;
           dest.delim(',', false)?;
-          dark.to_css(dest)?;
+          dark.to_typst(dest)?;
           return dest.write_char(')');
         }
 
         dest.write_str("light-dark(")?;
-        light.to_css(dest)?;
+        light.to_typst(dest)?;
         dest.delim(',', false)?;
-        dark.to_css(dest)?;
+        dark.to_typst(dest)?;
         dest.write_char(')')
       }
-      CssColor::System(system) => system.to_css(dest),
+      CssColor::System(system) => system.to_typst(dest),
     }
   }
 }
@@ -1375,7 +1375,7 @@ where
   if a.is_nan() {
     dest.write_str("none")?;
   } else {
-    Percentage(a).to_css(dest)?;
+    Percentage(a).to_typst(dest)?;
   }
   dest.write_char(' ')?;
   write_component(b, dest)?;
@@ -1397,7 +1397,7 @@ where
   if c.is_nan() {
     dest.write_str("none")?;
   } else {
-    c.to_css(dest)?;
+    c.to_typst(dest)?;
   }
   Ok(())
 }

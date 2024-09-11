@@ -212,7 +212,7 @@ where
 }
 
 impl<'a, 'i, T: ToCss> ToCss for StyleRule<'i, T> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -252,7 +252,7 @@ impl<'a, 'i, T: ToCss> StyleRule<'i, T> {
     if has_declarations {
       #[cfg(feature = "sourcemap")]
       dest.add_mapping(self.loc);
-      self.selectors.to_css(dest)?;
+      self.selectors.to_typst(dest)?;
       dest.whitespace()?;
       dest.write_char('{')?;
       dest.indent();
@@ -315,12 +315,12 @@ impl<'a, 'i, T: ToCss> StyleRule<'i, T> {
     // Write nested rules after the parent.
     if supports_nesting {
       newline!();
-      self.rules.to_css(dest)?;
+      self.rules.to_typst(dest)?;
       end!();
     } else {
       end!();
       newline!();
-      dest.with_context(&self.selectors, |dest| self.rules.to_css(dest))?;
+      dest.with_context(&self.selectors, |dest| self.rules.to_typst(dest))?;
     }
 
     Ok(())

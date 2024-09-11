@@ -32,14 +32,14 @@ pub struct ViewportRule<'i> {
 }
 
 impl<'i> ToCss for ViewportRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     #[cfg(feature = "sourcemap")]
     dest.add_mapping(self.loc);
     dest.write_char('@')?;
-    self.vendor_prefix.to_css(dest)?;
+    self.vendor_prefix.to_typst(dest)?;
     dest.write_str("viewport")?;
     self.declarations.to_css_block(dest)
   }

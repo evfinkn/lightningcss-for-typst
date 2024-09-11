@@ -17414,7 +17414,7 @@ mod tests {
     fn test(input: &str, output: &str) {
       let output = CssColor::parse_string(output)
         .unwrap()
-        .to_css_string(PrinterOptions {
+        .to_typst_string(PrinterOptions {
           minify: true,
           ..PrinterOptions::default()
         })
@@ -19399,7 +19399,7 @@ mod tests {
       let mut input = ParserInput::new(s);
       let mut parser = Parser::new(&mut input);
       let v = CssColor::parse(&mut parser).unwrap().to_rgb().unwrap();
-      format!(".foo{{color:{}}}", v.to_css_string(PrinterOptions::default()).unwrap())
+      format!(".foo{{color:{}}}", v.to_typst_string(PrinterOptions::default()).unwrap())
     }
 
     // regex for converting web platform tests:
@@ -26510,11 +26510,11 @@ mod tests {
     }
 
     let color = CssColor::parse_string("#f0f").unwrap();
-    assert_eq!(color.to_css_string(PrinterOptions::default()).unwrap(), "#f0f");
+    assert_eq!(color.to_typst_string(PrinterOptions::default()).unwrap(), "#f0f");
 
     let rule = CssRule::parse_string(".foo { color: red }", ParserOptions::default()).unwrap();
     assert_eq!(
-      rule.to_css_string(PrinterOptions::default()).unwrap(),
+      rule.to_typst_string(PrinterOptions::default()).unwrap(),
       indoc! {r#"
     .foo {
       color: red;

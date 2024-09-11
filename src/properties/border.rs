@@ -178,32 +178,32 @@ impl<'i, S: Parse<'i> + Default, const P: u8> Parse<'i> for GenericBorder<S, P> 
 }
 
 impl<S: ToCss + Default + PartialEq, const P: u8> ToCss for GenericBorder<S, P> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     if *self == Self::default() {
-      self.style.to_css(dest)?;
+      self.style.to_typst(dest)?;
       return Ok(());
     }
 
     let mut needs_space = false;
     if self.width != BorderSideWidth::default() {
-      self.width.to_css(dest)?;
+      self.width.to_typst(dest)?;
       needs_space = true;
     }
     if self.style != S::default() {
       if needs_space {
         dest.write_str(" ")?;
       }
-      self.style.to_css(dest)?;
+      self.style.to_typst(dest)?;
       needs_space = true;
     }
     if self.color != CssColor::current_color() {
       if needs_space {
         dest.write_str(" ")?;
       }
-      self.color.to_css(dest)?;
+      self.color.to_typst(dest)?;
     }
     Ok(())
   }

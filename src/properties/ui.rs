@@ -71,17 +71,17 @@ impl<'i> Parse<'i> for CursorImage<'i> {
 }
 
 impl<'i> ToCss for CursorImage<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    self.url.to_css(dest)?;
+    self.url.to_typst(dest)?;
 
     if let Some((x, y)) = self.hotspot {
       dest.write_char(' ')?;
-      x.to_css(dest)?;
+      x.to_typst(dest)?;
       dest.write_char(' ')?;
-      y.to_css(dest)?;
+      y.to_typst(dest)?;
     }
     Ok(())
   }
@@ -166,15 +166,15 @@ impl<'i> Parse<'i> for Cursor<'i> {
 }
 
 impl<'i> ToCss for Cursor<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     for image in &self.images {
-      image.to_css(dest)?;
+      image.to_typst(dest)?;
       dest.delim(',', false)?;
     }
-    self.keyword.to_css(dest)
+    self.keyword.to_typst(dest)
   }
 }
 
@@ -368,7 +368,7 @@ impl<'i> Parse<'i> for Appearance<'i> {
 }
 
 impl<'i> ToCss for Appearance<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -465,7 +465,7 @@ impl<'i> Parse<'i> for ColorScheme {
 }
 
 impl ToCss for ColorScheme {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {

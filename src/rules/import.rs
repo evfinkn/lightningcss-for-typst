@@ -38,7 +38,7 @@ pub struct ImportRule<'i> {
 }
 
 impl<'i> ToCss for ImportRule<'i> {
-  fn to_css<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -65,7 +65,7 @@ impl<'i> ToCss for ImportRule<'i> {
       dest.write_str(" layer")?;
       if let Some(name) = layer {
         dest.write_char('(')?;
-        name.to_css(dest)?;
+        name.to_typst(dest)?;
         dest.write_char(')')?;
       }
     }
@@ -73,16 +73,16 @@ impl<'i> ToCss for ImportRule<'i> {
     if let Some(supports) = &self.supports {
       dest.write_str(" supports")?;
       if matches!(supports, SupportsCondition::Declaration { .. }) {
-        supports.to_css(dest)?;
+        supports.to_typst(dest)?;
       } else {
         dest.write_char('(')?;
-        supports.to_css(dest)?;
+        supports.to_typst(dest)?;
         dest.write_char(')')?;
       }
     }
     if !self.media.media_queries.is_empty() {
       dest.write_char(' ')?;
-      self.media.to_css(dest)?;
+      self.media.to_typst(dest)?;
     }
     dest.write_str(";")
   }
