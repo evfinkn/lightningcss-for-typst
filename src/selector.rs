@@ -798,7 +798,7 @@ where
       dest.write_char(':')?;
       dest.write_str(name)?;
       dest.write_char('(')?;
-      args.to_css_raw(dest)?;
+      args.to_typst_raw(dest)?;
       dest.write_char(')')
     }
   }
@@ -1166,7 +1166,7 @@ where
       dest.write_str("::")?;
       dest.write_str(name)?;
       dest.write_char('(')?;
-      args.to_css_raw(dest)?;
+      args.to_typst_raw(dest)?;
       dest.write_char(')')
     }
   }

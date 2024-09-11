@@ -636,7 +636,7 @@ impl<'i> TokenList<'i> {
     Ok(())
   }
 
-  pub(crate) fn to_css_raw<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  pub(crate) fn to_typst_raw<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
