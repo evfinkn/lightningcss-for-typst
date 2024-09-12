@@ -102,14 +102,14 @@ typedef struct CssModulePlaceholder {
   struct CssModuleReference reference;
 } CssModulePlaceholder;
 
-typedef struct ToCssResult {
+typedef struct ToTypstResult {
   struct RawString code;
   struct RawString map;
   struct CssModuleExport *exports;
   uintptr_t exports_len;
   struct CssModulePlaceholder *references;
   uintptr_t references_len;
-} ToCssResult;
+} ToTypstResult;
 
 typedef struct PseudoClasses {
   const char *hover;
@@ -119,7 +119,7 @@ typedef struct PseudoClasses {
   const char *focus_within;
 } PseudoClasses;
 
-typedef struct ToCssOptions {
+typedef struct ToTypstOptions {
   bool minify;
   bool source_map;
   const char *input_source_map;
@@ -128,7 +128,7 @@ typedef struct ToCssOptions {
   struct Targets targets;
   bool analyze_dependencies;
   struct PseudoClasses pseudo_classes;
-} ToCssOptions;
+} ToTypstOptions;
 
 bool lightningcss_browserslist_to_targets(const char *query,
                                           struct Targets *targets,
@@ -143,13 +143,13 @@ bool lightningcss_stylesheet_transform(struct StyleSheet *stylesheet,
                                        struct TransformOptions options,
                                        struct CssError **error);
 
-struct ToCssResult lightningcss_stylesheet_to_css(struct StyleSheet *stylesheet,
-                                                  struct ToCssOptions options,
-                                                  struct CssError **error);
+struct ToTypstResult lightningcss_stylesheet_to_typst(struct StyleSheet *stylesheet,
+                                                      struct ToTypstOptions options,
+                                                      struct CssError **error);
 
 void lightningcss_stylesheet_free(struct StyleSheet *stylesheet);
 
-void lightningcss_to_css_result_free(struct ToCssResult result);
+void lightningcss_to_typst_result_free(struct ToTypstResult result);
 
 const char *lightningcss_error_message(struct CssError *error);
 

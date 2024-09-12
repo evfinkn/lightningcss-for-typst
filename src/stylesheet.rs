@@ -104,7 +104,7 @@ pub struct MinifyOptions {
 /// A result returned from `to_css`, including the serialize CSS
 /// and other metadata depending on the input options.
 #[derive(Debug)]
-pub struct ToCssResult {
+pub struct ToTypstResult {
   /// Serialized CSS code.
   pub code: String,
   /// A map of CSS module exports, if the `css_modules` option was
@@ -264,7 +264,7 @@ where
   }
 
   /// Serialize the style sheet to a CSS string.
-  pub fn to_css(&self, options: PrinterOptions) -> Result<ToCssResult, Error<PrinterErrorKind>> {
+  pub fn to_css(&self, options: PrinterOptions) -> Result<ToTypstResult, Error<PrinterErrorKind>> {
     // Make sure we always have capacity > 0: https://github.com/napi-rs/napi-rs/issues/1124.
     let mut dest = String::with_capacity(1);
     let project_root = options.project_root.clone();
@@ -299,7 +299,7 @@ where
       self.rules.to_typst(&mut printer)?;
       printer.newline()?;
 
-      Ok(ToCssResult {
+      Ok(ToTypstResult {
         dependencies: printer.dependencies,
         exports: Some(std::mem::take(
           &mut printer.css_module.unwrap().exports_by_source_index[0],
@@ -311,7 +311,7 @@ where
       self.rules.to_typst(&mut printer)?;
       printer.newline()?;
 
-      Ok(ToCssResult {
+      Ok(ToTypstResult {
         dependencies: printer.dependencies,
         code: dest,
         exports: None,
@@ -397,7 +397,7 @@ impl<'i> StyleAttribute<'i> {
   }
 
   /// Serializes the style attribute to a CSS string.
-  pub fn to_css(&self, options: PrinterOptions) -> Result<ToCssResult, PrinterError> {
+  pub fn to_css(&self, options: PrinterOptions) -> Result<ToTypstResult, PrinterError> {
     #[cfg(feature = "sourcemap")]
     assert!(
       options.source_map.is_none(),
@@ -411,7 +411,7 @@ impl<'i> StyleAttribute<'i> {
 
     self.declarations.to_typst(&mut printer)?;
 
-    Ok(ToCssResult {
+    Ok(ToTypstResult {
       dependencies: printer.dependencies,
       code: dest,
       exports: None,

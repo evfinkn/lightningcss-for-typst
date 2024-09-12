@@ -26,7 +26,7 @@ pub struct PrinterOptions<'a> {
   pub targets: Targets,
   /// Whether to analyze dependencies (i.e. `@import` and `url()`).
   /// If true, the dependencies are returned as part of the
-  /// [ToCssResult](super::stylesheet::ToCssResult).
+  /// [ToTypstResult](super::stylesheet::ToTypstResult).
   ///
   /// When enabled, `@import` and `url()` dependencies
   /// are replaced with hashed placeholders that can be replaced with the final

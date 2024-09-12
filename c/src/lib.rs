@@ -192,7 +192,7 @@ impl Into<MinifyOptions> for TransformOptions {
 }
 
 #[repr(C)]
-pub struct ToCssOptions {
+pub struct ToTypstOptions {
   minify: bool,
   source_map: bool,
   input_source_map: *const c_char,
@@ -311,16 +311,16 @@ pub extern "C" fn lightningcss_stylesheet_transform(
 }
 
 #[no_mangle]
-pub extern "C" fn lightningcss_stylesheet_to_css(
+pub extern "C" fn lightningcss_stylesheet_to_typst(
   stylesheet: *mut StyleSheetWrapper,
-  options: ToCssOptions,
+  options: ToTypstOptions,
   error: *mut *mut CssError,
-) -> ToCssResult {
+) -> ToTypstResult {
   let wrapper = unsafe { stylesheet.as_mut() }.unwrap();
   let mut source_map = if options.source_map {
     let mut sm = SourceMap::new("/");
     sm.add_source(&wrapper.stylesheet.sources[0]);
-    unwrap!(sm.set_source_content(0, wrapper.source), error, ToCssResult::default());
+    unwrap!(sm.set_source_content(0, wrapper.source), error, ToTypstResult::default());
     Some(sm)
   } else {
     None
@@ -351,7 +351,7 @@ pub extern "C" fn lightningcss_stylesheet_to_css(
     },
   };
 
-  let res = unwrap!(wrapper.stylesheet.to_css(opts), error, ToCssResult::default());
+  let res = unwrap!(wrapper.stylesheet.to_css(opts), error, ToTypstResult::default());
 
   let map = if let Some(mut source_map) = source_map {
     if !options.input_source_map.is_null() {
@@ -361,12 +361,12 @@ pub extern "C" fn lightningcss_stylesheet_to_css(
       let mut sm = unwrap!(
         SourceMap::from_json("/", input_source_map),
         error,
-        ToCssResult::default()
+        ToTypstResult::default()
       );
-      unwrap!(source_map.extends(&mut sm), error, ToCssResult::default());
+      unwrap!(source_map.extends(&mut sm), error, ToTypstResult::default());
     }
 
-    unwrap!(source_map.to_json(None), error, ToCssResult::default()).into()
+    unwrap!(source_map.to_json(None), error, ToTypstResult::default()).into()
   } else {
     RawString::default()
   };
@@ -412,7 +412,7 @@ pub extern "C" fn lightningcss_stylesheet_to_css(
     (std::ptr::null_mut(), 0)
   };
 
-  ToCssResult {
+  ToTypstResult {
     code: res.code.into(),
     map,
     exports,
@@ -430,7 +430,7 @@ pub extern "C" fn lightningcss_stylesheet_free(stylesheet: *mut StyleSheetWrappe
 }
 
 #[repr(C)]
-pub struct ToCssResult {
+pub struct ToTypstResult {
   code: RawString,
   map: RawString,
   exports: *mut CssModuleExport,
@@ -439,9 +439,9 @@ pub struct ToCssResult {
   references_len: usize,
 }
 
-impl Default for ToCssResult {
+impl Default for ToTypstResult {
   fn default() -> Self {
-    ToCssResult {
+    ToTypstResult {
       code: RawString::default(),
       map: RawString::default(),
       exports: std::ptr::null_mut(),
@@ -452,7 +452,7 @@ impl Default for ToCssResult {
   }
 }
 
-impl Drop for ToCssResult {
+impl Drop for ToTypstResult {
   fn drop(&mut self) {
     if !self.exports.is_null() {
       let exports = unsafe { Vec::from_raw_parts(self.exports, self.exports_len, self.exports_len) };
@@ -469,7 +469,7 @@ impl Drop for ToCssResult {
 }
 
 #[no_mangle]
-pub extern "C" fn lightningcss_to_css_result_free(result: ToCssResult) {
+pub extern "C" fn lightningcss_to_typst_result_free(result: ToTypstResult) {
   drop(result)
 }
 

@@ -40,13 +40,13 @@ int main()
   if (!lightningcss_stylesheet_transform(stylesheet, transform_opts, &error))
     goto cleanup;
 
-  ToCssOptions to_css_opts = {
+  ToTypstOptions to_css_opts = {
       .minify = true,
       .source_map = true,
       .pseudo_classes = {
           .hover = "is-hovered"}};
 
-  ToCssResult result = lightningcss_stylesheet_to_css(stylesheet, to_css_opts, &error);
+  ToTypstResult result = lightningcss_stylesheet_to_typst(stylesheet, to_css_opts, &error);
   if (error)
     goto cleanup;
 
@@ -89,7 +89,7 @@ int main()
 
 cleanup:
   lightningcss_stylesheet_free(stylesheet);
-  lightningcss_to_css_result_free(result);
+  lightningcss_to_typst_result_free(result);
 
   if (error)
   {
