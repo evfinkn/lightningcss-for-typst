@@ -46,12 +46,11 @@ impl ToTypst for Ratio {
   where
     W: std::fmt::Write,
   {
+    dest.write_char('(')?;
     self.0.to_typst(dest)?;
-    if self.1 != 1.0 {
-      dest.delim('/', true)?;
-      self.1.to_typst(dest)?;
-    }
-    Ok(())
+    dest.delim(',', false)?;
+    self.1.to_typst(dest)?;
+    dest.write_char(')')
   }
 }
 
