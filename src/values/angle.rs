@@ -106,9 +106,10 @@ impl ToTypst for Angle {
   where
     W: std::fmt::Write,
   {
+    // Typst only has deg and rad, so we convert grad and turn
     let (value, unit) = match self {
       Angle::Deg(val) => (*val, "deg"),
-      Angle::Grad(val) => (*val, "grad"),
+      Angle::Grad(_) => (self.to_degrees(), "deg"),
       Angle::Rad(val) => {
         let deg = self.to_degrees();
         // We print 5 digits of precision by default.
@@ -119,7 +120,7 @@ impl ToTypst for Angle {
           (*val, "rad")
         }
       }
-      Angle::Turn(val) => (*val, "turn"),
+      Angle::Turn(_) => (self.to_degrees(), "deg"),
     };
 
     serialize_dimension(value, unit, dest)
