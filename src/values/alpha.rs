@@ -1,6 +1,6 @@
 //! CSS alpha values, used to represent opacity.
 
-use super::percentage::NumberOrPercentage;
+use super::percentage::{NumberOrPercentage, Percentage};
 use crate::error::{ParserError, PrinterError};
 use crate::printer::Printer;
 use crate::traits::{Parse, ToTypst};
@@ -33,6 +33,6 @@ impl ToTypst for AlphaValue {
   where
     W: std::fmt::Write,
   {
-    self.0.to_typst(dest)
+    Percentage(self.0).to_typst(dest)
   }
 }
