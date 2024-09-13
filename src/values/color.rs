@@ -520,71 +520,41 @@ impl<'i> Parse<'i> for CssColor {
   }
 }
 
+impl ToTypst for u8 {
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+  where
+    W: std::fmt::Write,
+  {
+    Ok(write!(dest, "{}", self)?)
+  }
+}
+
 impl ToTypst for CssColor {
   fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
     match self {
-      CssColor::CurrentColor => dest.write_str("currentColor"),
+      CssColor::CurrentColor => dest.write_str("\"currentColor\""),
       CssColor::RGBA(color) => {
-        if color.alpha == 255 {
-          let hex: u32 = ((color.red as u32) << 16) | ((color.green as u32) << 8) | (color.blue as u32);
-          if let Some(name) = short_color_name(hex) {
-            return dest.write_str(name);
-          }
-
-          let compact = compact_hex(hex);
-          if hex == expand_hex(compact) {
-            write!(dest, "#{:03x}", compact)?;
-          } else {
-            write!(dest, "#{:06x}", hex)?;
-          }
-        } else {
-          // If the #rrggbbaa syntax is not supported by the browser targets, output rgba()
-          if should_compile!(dest.targets, HexAlphaColors) {
-            // If the browser doesn't support `#rrggbbaa` color syntax, it is converted to `transparent` when compressed(minify = true).
-            // https://www.w3.org/TR/css-color-4/#transparent-black
-            if dest.minify && color.red == 0 && color.green == 0 && color.blue == 0 && color.alpha == 0 {
-              return dest.write_str("transparent");
-            } else {
-              dest.write_str("rgba(")?;
-              write!(dest, "{}", color.red)?;
-              dest.delim(',', false)?;
-              write!(dest, "{}", color.green)?;
-              dest.delim(',', false)?;
-              write!(dest, "{}", color.blue)?;
-              dest.delim(',', false)?;
-
-              // Try first with two decimal places, then with three.
-              let mut rounded_alpha = (color.alpha_f32() * 100.0).round() / 100.0;
-              let clamped = (rounded_alpha * 255.0).round().max(0.).min(255.0) as u8;
-              if clamped != color.alpha {
-                rounded_alpha = (color.alpha_f32() * 1000.).round() / 1000.;
-              }
-
-              rounded_alpha.to_typst(dest)?;
-              dest.write_char(')')?;
-              return Ok(());
-            }
-          }
-
-          let hex: u32 = ((color.red as u32) << 24)
-            | ((color.green as u32) << 16)
-            | ((color.blue as u32) << 8)
-            | (color.alpha as u32);
-          let compact = compact_hex(hex);
-          if hex == expand_hex(compact) {
-            write!(dest, "#{:04x}", compact)?;
-          } else {
-            write!(dest, "#{:08x}", hex)?;
-          }
-        }
-        Ok(())
+        dest.write_str("rgb(")?;
+        write_delimited_value(color.red, dest)?;
+        write_delimited_value(color.green, dest)?;
+        write_delimited_value(color.blue, dest)?;
+        Percentage(color.alpha_f32()).to_typst(dest)?;
+        dest.write_char(')')
       }
       CssColor::LAB(lab) => match &**lab {
-        LABColor::LAB(lab) => write_components("lab", lab.l, lab.a, lab.b, lab.alpha, dest),
-        LABColor::LCH(lch) => write_components("lch", lch.l, lch.c, lch.h, lch.alpha, dest),
+        // Need to convert LAB and LCH to OKLAB and OKLCH since Typst doesn't have
+        // functions for LAB and LCH.
+        LABColor::LAB(lab) => {
+          let oklab = OKLAB::from(*lab);
+          CssColor::LAB(Box::new(LABColor::OKLAB(oklab))).to_typst(dest)
+        }
+        LABColor::LCH(lch) => {
+          let oklch = OKLCH::from(*lch);
+          CssColor::LAB(Box::new(LABColor::OKLCH(oklch))).to_typst(dest)
+        }
         LABColor::OKLAB(lab) => write_components("oklab", lab.l, lab.a, lab.b, lab.alpha, dest),
         LABColor::OKLCH(lch) => write_components("oklch", lch.l, lch.c, lch.h, lch.alpha, dest),
       },
@@ -596,7 +566,7 @@ impl ToTypst for CssColor {
       }
       CssColor::LightDark(light, dark) => {
         if !dest.targets.is_compatible(Feature::LightDark) {
-          dest.write_str("var(--lightningcss-light")?;
+          dest.write_str("\"var(--lightningcss-light")?;
           dest.delim(',', false)?;
           light.to_typst(dest)?;
           dest.write_char(')')?;
@@ -604,69 +574,21 @@ impl ToTypst for CssColor {
           dest.write_str("var(--lightningcss-dark")?;
           dest.delim(',', false)?;
           dark.to_typst(dest)?;
-          return dest.write_char(')');
+          return dest.write_str(")\"");
         }
 
-        dest.write_str("light-dark(")?;
-        light.to_typst(dest)?;
-        dest.delim(',', false)?;
+        dest.write_str("\"light-dark(")?;
+        write_delimited_value(light, dest)?;
         dark.to_typst(dest)?;
-        dest.write_char(')')
+        dest.write_str(")\"")
       }
-      CssColor::System(system) => system.to_typst(dest),
+      CssColor::System(system) => {
+        dest.write_char('"')?;
+        system.to_typst(dest)?;
+        dest.write_char('"')
+      },
     }
   }
-}
-
-// From esbuild: https://github.com/evanw/esbuild/blob/18e13bdfdca5cd3c7a2fae1a8bd739f8f891572c/internal/css_parser/css_decls_color.go#L218
-// 0xAABBCCDD => 0xABCD
-fn compact_hex(v: u32) -> u32 {
-  return ((v & 0x0FF00000) >> 12) | ((v & 0x00000FF0) >> 4);
-}
-
-// 0xABCD => 0xAABBCCDD
-fn expand_hex(v: u32) -> u32 {
-  return ((v & 0xF000) << 16) | ((v & 0xFF00) << 12) | ((v & 0x0FF0) << 8) | ((v & 0x00FF) << 4) | (v & 0x000F);
-}
-
-fn short_color_name(v: u32) -> Option<&'static str> {
-  // These names are shorter than their hex codes
-  let s = match v {
-    0x000080 => "navy",
-    0x008000 => "green",
-    0x008080 => "teal",
-    0x4b0082 => "indigo",
-    0x800000 => "maroon",
-    0x800080 => "purple",
-    0x808000 => "olive",
-    0x808080 => "gray",
-    0xa0522d => "sienna",
-    0xa52a2a => "brown",
-    0xc0c0c0 => "silver",
-    0xcd853f => "peru",
-    0xd2b48c => "tan",
-    0xda70d6 => "orchid",
-    0xdda0dd => "plum",
-    0xee82ee => "violet",
-    0xf0e68c => "khaki",
-    0xf0ffff => "azure",
-    0xf5deb3 => "wheat",
-    0xf5f5dc => "beige",
-    0xfa8072 => "salmon",
-    0xfaf0e6 => "linen",
-    0xff0000 => "red",
-    0xff6347 => "tomato",
-    0xff7f50 => "coral",
-    0xffa500 => "orange",
-    0xffc0cb => "pink",
-    0xffd700 => "gold",
-    0xffe4c4 => "bisque",
-    0xfffafa => "snow",
-    0xfffff0 => "ivory",
-    _ => return None,
-  };
-
-  Some(s)
 }
 
 struct RelativeComponentParser {
@@ -1359,6 +1281,33 @@ fn parse_legacy_alpha<'i, 't>(
 }
 
 #[inline]
+fn write_delimited_value<T, W>(
+  value: T,
+  dest: &mut Printer<W>,
+) -> Result<(), PrinterError>
+where
+  T: ToTypst,
+  W: std::fmt::Write,
+{
+  value.to_typst(dest)?;
+  dest.delim(',', false)
+}
+
+#[inline]
+fn non_nan_or_zero(value: f32) -> f32 {
+  if value.is_nan() {
+    0.0
+  } else {
+    value
+  }
+}
+
+#[inline]
+fn non_nan_percent(value: f32) -> Percentage {
+  Percentage(non_nan_or_zero(value))
+}
+
+#[inline]
 fn write_components<W>(
   name: &str,
   a: f32,
@@ -1372,34 +1321,12 @@ where
 {
   dest.write_str(name)?;
   dest.write_char('(')?;
-  if a.is_nan() {
-    dest.write_str("none")?;
-  } else {
-    Percentage(a).to_typst(dest)?;
-  }
-  dest.write_char(' ')?;
-  write_component(b, dest)?;
-  dest.write_char(' ')?;
-  write_component(c, dest)?;
-  if alpha.is_nan() || (alpha - 1.0).abs() > f32::EPSILON {
-    dest.delim('/', true)?;
-    write_component(alpha, dest)?;
-  }
+  write_delimited_value(non_nan_percent(a), dest)?;
+  write_delimited_value(non_nan_or_zero(b), dest)?;
+  write_delimited_value(non_nan_or_zero(c), dest)?;
+  non_nan_percent(alpha).to_typst(dest)?;
 
   dest.write_char(')')
-}
-
-#[inline]
-fn write_component<W>(c: f32, dest: &mut Printer<W>) -> Result<(), PrinterError>
-where
-  W: std::fmt::Write,
-{
-  if c.is_nan() {
-    dest.write_str("none")?;
-  } else {
-    c.to_typst(dest)?;
-  }
-  Ok(())
 }
 
 #[inline]
@@ -1409,33 +1336,23 @@ where
 {
   use PredefinedColor::*;
 
-  let (name, a, b, c, alpha) = match predefined {
-    SRGB(rgb) => ("srgb", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    SRGBLinear(rgb) => ("srgb-linear", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    DisplayP3(rgb) => ("display-p3", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    A98(rgb) => ("a98-rgb", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    ProPhoto(rgb) => ("prophoto-rgb", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    Rec2020(rgb) => ("rec2020", rgb.r, rgb.g, rgb.b, rgb.alpha),
-    XYZd50(xyz) => ("xyz-d50", xyz.x, xyz.y, xyz.z, xyz.alpha),
-    // "xyz" has better compatibility (Safari 15) than "xyz-d65", and it is shorter.
-    XYZd65(xyz) => ("xyz", xyz.x, xyz.y, xyz.z, xyz.alpha),
-  };
-
-  dest.write_str("color(")?;
-  dest.write_str(name)?;
-  dest.write_char(' ')?;
-  write_component(a, dest)?;
-  dest.write_char(' ')?;
-  write_component(b, dest)?;
-  dest.write_char(' ')?;
-  write_component(c, dest)?;
-
-  if alpha.is_nan() || (alpha - 1.0).abs() > f32::EPSILON {
-    dest.delim('/', true)?;
-    write_component(alpha, dest)?;
+  match predefined {
+    SRGB(rgb) => CssColor::from(*rgb).to_typst(dest),
+    SRGBLinear(rgb) => {
+      dest.write_str("color.linear-rgb(")?;
+      write_delimited_value(non_nan_percent(rgb.r), dest)?;
+      write_delimited_value(non_nan_percent(rgb.g), dest)?;
+      write_delimited_value(non_nan_percent(rgb.b), dest)?;
+      non_nan_percent(rgb.alpha).to_typst(dest)?;
+      dest.write_char(')')
+    },
+    DisplayP3(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
+    A98(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
+    ProPhoto(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
+    Rec2020(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
+    XYZd50(xyz) => CssColor::from(OKLAB::from(*xyz)).to_typst(dest),
+    XYZd65(xyz) => CssColor::from(OKLAB::from(*xyz)).to_typst(dest),
   }
-
-  dest.write_char(')')
 }
 
 bitflags! {
@@ -1509,10 +1426,10 @@ macro_rules! define_colorspace {
       #[inline]
       fn resolve_missing(&self) -> Self {
         Self {
-          $a: if self.$a.is_nan() { 0.0 } else { self.$a },
-          $b: if self.$b.is_nan() { 0.0 } else { self.$b },
-          $c: if self.$c.is_nan() { 0.0 } else { self.$c },
-          alpha: if self.alpha.is_nan() { 0.0 } else { self.alpha },
+          $a: non_nan_or_zero(self.$a),
+          $b: non_nan_or_zero(self.$b),
+          $c: non_nan_or_zero(self.$c),
+          alpha: non_nan_or_zero(self.alpha),
         }
       }
 
