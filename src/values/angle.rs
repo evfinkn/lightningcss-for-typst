@@ -123,7 +123,7 @@ impl ToTypst for Angle {
       Angle::Turn(_) => (self.to_degrees(), "deg"),
     };
 
-    serialize_dimension(value, unit, dest)
+    serialize_dimension(value, unit, false, dest)
   }
 }
 

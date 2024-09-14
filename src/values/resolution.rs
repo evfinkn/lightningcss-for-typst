@@ -81,7 +81,7 @@ impl ToTypst for Resolution {
       }
     };
 
-    serialize_dimension(value, unit, dest)
+    serialize_dimension(value, unit, true, dest)
   }
 }
 

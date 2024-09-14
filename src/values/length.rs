@@ -81,6 +81,13 @@ const PX_PER_Q: f32 = PX_PER_CM / 40.0;
 const PX_PER_PT: f32 = PX_PER_IN / 72.0;
 const PX_PER_PC: f32 = PX_PER_IN / 6.0;
 
+const PT_PER_PX: f32 = 0.75;
+const PT_PER_IN: f32 = 72.0;
+const PT_PER_CM: f32 = PT_PER_IN / 2.54;
+const PT_PER_MM: f32 = PT_PER_CM / 10.0;
+const PT_PER_Q: f32 = PT_PER_CM / 40.0;
+const PT_PER_PC: f32 = PT_PER_IN / 6.0;
+
 macro_rules! define_length_units {
   (
     $(
@@ -459,15 +466,21 @@ impl ToTypst for LengthValue {
   where
     W: std::fmt::Write,
   {
-    let (value, unit) = self.to_unit_value();
+    use LengthValue::*;
 
-    // The unit can be omitted if the value is zero, except inside calc()
-    // expressions, where unitless numbers won't be parsed as dimensions.
-    if !dest.in_calc && value == 0.0 {
-      return dest.write_char('0');
-    }
+    let pt: LengthValue;
+    let ((value, unit), quoted) = match self {
+      Pt(_) | Cm(_) | Mm(_) | In(_) => (self.to_unit_value(), false),
+      // Typst doesn't have these units, so we convert them to pt.
+      Px(_) | Q(_) | Pc(_) => {
+        pt = Pt(self.to_pt().unwrap());
+        (pt.to_unit_value(), false)
+      }
+      // Other units can't be converted to pt, so quote them.
+      _ => (self.to_unit_value(), true),
+    };
 
-    serialize_dimension(value, unit, dest)
+    serialize_dimension(value, unit, quoted, dest)
   }
 }
 
@@ -483,7 +496,12 @@ impl LengthValue {
   }
 }
 
-pub(crate) fn serialize_dimension<W>(value: f32, unit: &str, dest: &mut Printer<W>) -> Result<(), PrinterError>
+pub(crate) fn serialize_dimension<W>(
+  value: f32,
+  unit: &str,
+  quoted: bool,
+  dest: &mut Printer<W>,
+) -> Result<(), PrinterError>
 where
   W: std::fmt::Write,
 {
@@ -494,19 +512,25 @@ where
     int_value,
     unit: CowRcStr::from(unit),
   };
+  if quoted {
+    dest.write_char('"')?;
+  }
   if value != 0.0 && value.abs() < 1.0 {
     let mut s = String::new();
     token.to_css(&mut s)?;
     if value < 0.0 {
       dest.write_char('-')?;
-      dest.write_str(s.trim_start_matches("-0"))
+      dest.write_str(s.trim_start_matches("-0"))?;
     } else {
-      dest.write_str(s.trim_start_matches('0'))
+      dest.write_str(s.trim_start_matches('0'))?;
     }
   } else {
     token.to_css(dest)?;
-    Ok(())
   }
+  if quoted {
+    dest.write_char('"')?;
+  }
+  Ok(())
 }
 
 impl LengthValue {
@@ -522,6 +546,22 @@ impl LengthValue {
       Q(value) => Some(value * PX_PER_Q),
       Pt(value) => Some(value * PX_PER_PT),
       Pc(value) => Some(value * PX_PER_PC),
+      _ => None,
+    }
+  }
+
+  /// Attempts to convert the value to points.
+  /// Returns `None` if the conversion is not possible.
+  pub fn to_pt(&self) -> Option<CSSNumber> {
+    use LengthValue::*;
+    match self {
+      Pt(value) => Some(*value),
+      Px(value) => Some(value * PT_PER_PX),
+      In(value) => Some(value * PT_PER_IN),
+      Cm(value) => Some(value * PT_PER_CM),
+      Mm(value) => Some(value * PT_PER_MM),
+      Q(value) => Some(value * PT_PER_Q),
+      Pc(value) => Some(value * PT_PER_PC),
       _ => None,
     }
   }

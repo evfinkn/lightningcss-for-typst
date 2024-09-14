@@ -296,7 +296,7 @@ impl ToTypst for TrackBreadth {
       TrackBreadth::MinContent => dest.write_str("min-content"),
       TrackBreadth::MaxContent => dest.write_str("max-content"),
       TrackBreadth::Length(len) => len.to_typst(dest),
-      TrackBreadth::Flex(flex) => serialize_dimension(*flex, "fr", dest),
+      TrackBreadth::Flex(flex) => serialize_dimension(*flex, "fr", false, dest),
     }
   }
 }
