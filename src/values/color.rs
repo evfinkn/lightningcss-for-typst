@@ -540,8 +540,11 @@ impl ToTypst for CssColor {
         dest.write_str("rgb(")?;
         write_delimited_value(color.red, dest)?;
         write_delimited_value(color.green, dest)?;
-        write_delimited_value(color.blue, dest)?;
-        Percentage(color.alpha_f32()).to_typst(dest)?;
+        color.blue.to_typst(dest)?;
+        if color.alpha != 255 {
+          dest.delim(',', false)?;
+          Percentage(color.alpha_f32()).to_typst(dest)?;
+        }
         dest.write_char(')')
       }
       CssColor::LAB(lab) => match &**lab {
@@ -1320,8 +1323,11 @@ where
   dest.write_char('(')?;
   write_delimited_value(non_nan_percent(a), dest)?;
   write_delimited_value(non_nan_or_zero(b), dest)?;
-  write_delimited_value(non_nan_or_zero(c), dest)?;
-  non_nan_percent(alpha).to_typst(dest)?;
+  non_nan_or_zero(c).to_typst(dest)?;
+  if alpha != 1.0 {
+    dest.delim(',', false)?;
+    non_nan_percent(alpha).to_typst(dest)?;
+  }
 
   dest.write_char(')')
 }
@@ -1339,8 +1345,11 @@ where
       dest.write_str("color.linear-rgb(")?;
       write_delimited_value(non_nan_percent(rgb.r), dest)?;
       write_delimited_value(non_nan_percent(rgb.g), dest)?;
-      write_delimited_value(non_nan_percent(rgb.b), dest)?;
-      non_nan_percent(rgb.alpha).to_typst(dest)?;
+      non_nan_percent(rgb.b).to_typst(dest)?;
+      if rgb.alpha != 1.0 {
+        dest.delim(',', false)?;
+        non_nan_percent(rgb.alpha).to_typst(dest)?;
+      }
       dest.write_char(')')
     }
     DisplayP3(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
