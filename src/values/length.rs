@@ -470,7 +470,7 @@ impl ToTypst for LengthValue {
 
     let pt: LengthValue;
     let ((value, unit), quoted) = match self {
-      Pt(_) | Cm(_) | Mm(_) | In(_) => (self.to_unit_value(), false),
+      Pt(_) | Cm(_) | Mm(_) | In(_) | Em(_) => (self.to_unit_value(), false),
       // Typst doesn't have these units, so we convert them to pt.
       Px(_) | Q(_) | Pc(_) => {
         pt = Pt(self.to_pt().unwrap());
