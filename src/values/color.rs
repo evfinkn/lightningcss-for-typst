@@ -586,7 +586,7 @@ impl ToTypst for CssColor {
         dest.write_char('"')?;
         system.to_typst(dest)?;
         dest.write_char('"')
-      },
+      }
     }
   }
 }
@@ -1281,10 +1281,7 @@ fn parse_legacy_alpha<'i, 't>(
 }
 
 #[inline]
-fn write_delimited_value<T, W>(
-  value: T,
-  dest: &mut Printer<W>,
-) -> Result<(), PrinterError>
+fn write_delimited_value<T, W>(value: T, dest: &mut Printer<W>) -> Result<(), PrinterError>
 where
   T: ToTypst,
   W: std::fmt::Write,
@@ -1345,7 +1342,7 @@ where
       write_delimited_value(non_nan_percent(rgb.b), dest)?;
       non_nan_percent(rgb.alpha).to_typst(dest)?;
       dest.write_char(')')
-    },
+    }
     DisplayP3(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
     A98(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
     ProPhoto(rgb) => CssColor::from(OKLAB::from(*rgb)).to_typst(dest),
