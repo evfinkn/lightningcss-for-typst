@@ -558,8 +558,28 @@ impl ToTypst for CssColor {
           let oklch = OKLCH::from(*lch);
           CssColor::LAB(Box::new(LABColor::OKLCH(oklch))).to_typst(dest)
         }
-        LABColor::OKLAB(lab) => write_components("oklab", lab.l, lab.a, lab.b, lab.alpha, dest),
-        LABColor::OKLCH(lch) => write_components("oklch", lch.l, lch.c, lch.h, lch.alpha, dest),
+        LABColor::OKLAB(lab) => {
+          dest.write_str("oklab(")?;
+          write_delimited_value(non_nan_percent(lab.l), dest)?;
+          write_delimited_value(non_nan_or_zero(lab.a), dest)?;
+          non_nan_or_zero(lab.b).to_typst(dest)?;
+          if lab.alpha != 1.0 {
+            dest.delim(',', false)?;
+            non_nan_percent(lab.alpha).to_typst(dest)?;
+          }
+          dest.write_char(')')
+        }
+        LABColor::OKLCH(lch) => {
+          dest.write_str("oklch(")?;
+          write_delimited_value(non_nan_percent(lch.l), dest)?;
+          write_delimited_value(non_nan_or_zero(lch.c), dest)?;
+          Angle::Deg(non_nan_or_zero(lch.h)).to_typst(dest)?;
+          if lch.alpha != 1.0 {
+            dest.delim(',', false)?;
+            non_nan_percent(lch.alpha).to_typst(dest)?;
+          }
+          dest.write_char(')')
+        }
       },
       CssColor::Predefined(predefined) => write_predefined(predefined, dest),
       CssColor::Float(float) => {
@@ -1305,31 +1325,6 @@ fn non_nan_or_zero(value: f32) -> f32 {
 #[inline]
 fn non_nan_percent(value: f32) -> Percentage {
   Percentage(non_nan_or_zero(value))
-}
-
-#[inline]
-fn write_components<W>(
-  name: &str,
-  a: f32,
-  b: f32,
-  c: f32,
-  alpha: f32,
-  dest: &mut Printer<W>,
-) -> Result<(), PrinterError>
-where
-  W: std::fmt::Write,
-{
-  dest.write_str(name)?;
-  dest.write_char('(')?;
-  write_delimited_value(non_nan_percent(a), dest)?;
-  write_delimited_value(non_nan_or_zero(b), dest)?;
-  non_nan_or_zero(c).to_typst(dest)?;
-  if alpha != 1.0 {
-    dest.delim(',', false)?;
-    non_nan_percent(alpha).to_typst(dest)?;
-  }
-
-  dest.write_char(')')
 }
 
 #[inline]
