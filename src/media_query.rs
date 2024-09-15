@@ -1771,14 +1771,14 @@ mod tests {
 
   #[test]
   fn test_and() {
-    assert_eq!(and("(min-width: 250px)", "(color)"), "(width >= 250px) and (color)");
+    assert_eq!(and("(min-width: 250pt)", "(color)"), "(width >= 250pt) and (color)");
     assert_eq!(
-      and("(min-width: 250px) or (color)", "(orientation: landscape)"),
-      "((width >= 250px) or (color)) and (orientation: landscape)"
+      and("(min-width: 250pt) or (color)", "(orientation: landscape)"),
+      "((width >= 250pt) or (color)) and (orientation: landscape)"
     );
     assert_eq!(
-      and("(min-width: 250px) and (color)", "(orientation: landscape)"),
-      "(width >= 250px) and (color) and (orientation: landscape)"
+      and("(min-width: 250pt) and (color)", "(orientation: landscape)"),
+      "(width >= 250pt) and (color) and (orientation: landscape)"
     );
     assert_eq!(and("all", "print"), "print");
     assert_eq!(and("print", "all"), "print");
@@ -1791,11 +1791,11 @@ mod tests {
     assert_eq!(and("print", "not screen"), "print");
     assert_eq!(and("not screen", "print"), "print");
     assert_eq!(and("not screen", "not all"), "not all");
-    assert_eq!(and("print", "(min-width: 250px)"), "print and (width >= 250px)");
-    assert_eq!(and("(min-width: 250px)", "print"), "print and (width >= 250px)");
+    assert_eq!(and("print", "(min-width: 250pt)"), "print and (width >= 250pt)");
+    assert_eq!(and("(min-width: 250pt)", "print"), "print and (width >= 250pt)");
     assert_eq!(
-      and("print and (min-width: 250px)", "(color)"),
-      "print and (width >= 250px) and (color)"
+      and("print and (min-width: 250pt)", "(color)"),
+      "print and (width >= 250pt) and (color)"
     );
     assert_eq!(and("all", "only screen"), "only screen");
     assert_eq!(and("only screen", "all"), "only screen");
@@ -1804,7 +1804,7 @@ mod tests {
 
   #[test]
   fn test_negated_interval_parens() {
-    let media_query = parse("screen and not (200px <= width < 500px)");
+    let media_query = parse("screen and not (200pt <= width < 500pt)");
     let printer_options = PrinterOptions {
       targets: Targets {
         browsers: Some(Browsers {
@@ -1817,7 +1817,7 @@ mod tests {
     };
     assert_eq!(
       media_query.to_typst_string(printer_options).unwrap(),
-      "screen and not ((min-width: 200px) and (max-width: 499.999px))"
+      "screen and not ((min-width: 200pt) and (max-width: 499.999pt))"
     );
   }
 }

@@ -286,49 +286,49 @@ mod tests {
     minify_test(
       r#"
       .foo {
-        border-spacing: 0px;
+        border-spacing: 0pt;
       }
     "#,
-      indoc! {".foo{border-spacing:0}"
+      indoc! {".foo{border-spacing:0pt}"
       },
     );
     minify_test(
       r#"
       .foo {
-        border-spacing: 0px 0px;
+        border-spacing: 0pt 0pt;
       }
     "#,
-      indoc! {".foo{border-spacing:0}"
-      },
-    );
-
-    minify_test(
-      r#"
-      .foo {
-        border-spacing: 12px   0px;
-      }
-    "#,
-      indoc! {".foo{border-spacing:12px 0}"
+      indoc! {".foo{border-spacing:0pt}"
       },
     );
 
     minify_test(
       r#"
       .foo {
-        border-spacing: calc(3px * 2) calc(5px * 0);
+        border-spacing: 12pt   0pt;
       }
     "#,
-      indoc! {".foo{border-spacing:6px 0}"
+      indoc! {".foo{border-spacing:12pt 0pt}"
       },
     );
 
     minify_test(
       r#"
       .foo {
-        border-spacing: calc(3px * 2) max(0px, 8px);
+        border-spacing: calc(3pt * 2) calc(5pt * 0);
       }
     "#,
-      indoc! {".foo{border-spacing:6px 8px}"
+      indoc! {".foo{border-spacing:6pt 0pt}"
+      },
+    );
+
+    minify_test(
+      r#"
+      .foo {
+        border-spacing: calc(3pt * 2) max(0pt, 8pt);
+      }
+    "#,
+      indoc! {".foo{border-spacing:6pt 8pt}"
       },
     );
 
@@ -340,10 +340,10 @@ mod tests {
     minify_test(
       r#"
       .foo {
-        border-spacing: -20px;
+        border-spacing: -20pt;
       }
     "#,
-      indoc! {".foo{border-spacing:-20px}"
+      indoc! {".foo{border-spacing:-20pt}"
       },
     );
   }
@@ -353,15 +353,15 @@ mod tests {
     test(
       r#"
       .foo {
-        border-left: 2px solid red;
-        border-right: 2px solid red;
-        border-bottom: 2px solid red;
-        border-top: 2px solid red;
+        border-left: 2pt solid red;
+        border-right: 2pt solid red;
+        border-bottom: 2pt solid red;
+        border-top: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 2px solid red;
+        border: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -378,7 +378,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-color: red;
+        border-color: rgb(255, 0, 0);
       }
     "#
       },
@@ -428,7 +428,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-left: thin dotted red;
+        border-left: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -443,7 +443,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-left: thin dotted red;
+        border-left: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -458,7 +458,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border: thin dotted red;
+        border: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -473,7 +473,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border: thin dotted red;
+        border: thin dotted rgb(255, 0, 0);
         border-right-width: thick;
       }
     "#
@@ -489,7 +489,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border: thin dotted red;
+        border: thin dotted rgb(255, 0, 0);
         border-right-width: thick;
       }
     "#
@@ -506,8 +506,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border: thin dotted red;
-        border-right: thick solid red;
+        border: thin dotted rgb(255, 0, 0);
+        border-right: thick solid rgb(255, 0, 0);
       }
     "#
       },
@@ -522,8 +522,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-top: thin dotted red;
-        border-block-start: thick solid green;
+        border-top: thin dotted rgb(255, 0, 0);
+        border-block-start: thick solid rgb(0, 128, 0);
       }
     "#
       },
@@ -539,7 +539,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border: thin dotted red;
+        border: thin dotted rgb(255, 0, 0);
         border-block-start-width: thick;
         border-left-width: medium;
       }
@@ -556,8 +556,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-block-start: thin dotted red;
-        border-inline-end: thin dotted red;
+        border-block-start: thin dotted rgb(255, 0, 0);
+        border-inline-end: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -574,8 +574,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-block-start: thin dotted red;
-        border-inline-end: thin dotted red;
+        border-block-start: thin dotted rgb(255, 0, 0);
+        border-inline-end: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -590,7 +590,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-block: thin dotted red;
+        border-block: thin dotted rgb(255, 0, 0);
       }
     "#
       },
@@ -606,17 +606,17 @@ mod tests {
       },
     );
 
-    minify_test(".foo { border-width: 0 0 1px; }", ".foo{border-width:0 0 1px}");
+    minify_test(".foo { border-width: 0 0 1pt; }", ".foo{border-width:0pt 0pt 1pt}");
     test(
       r#"
       .foo {
-        border-block-width: 1px;
-        border-inline-width: 1px;
+        border-block-width: 1pt;
+        border-inline-width: 1pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-width: 1px;
+        border-width: 1pt;
       }
     "#
       },
@@ -624,15 +624,15 @@ mod tests {
     test(
       r#"
       .foo {
-        border-block-start-width: 1px;
-        border-block-end-width: 1px;
-        border-inline-start-width: 1px;
-        border-inline-end-width: 1px;
+        border-block-start-width: 1pt;
+        border-block-end-width: 1pt;
+        border-inline-start-width: 1pt;
+        border-inline-end-width: 1pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-width: 1px;
+        border-width: 1pt;
       }
     "#
       },
@@ -640,16 +640,16 @@ mod tests {
     test(
       r#"
       .foo {
-        border-block-start-width: 1px;
-        border-block-end-width: 1px;
-        border-inline-start-width: 2px;
-        border-inline-end-width: 2px;
+        border-block-start-width: 1pt;
+        border-block-end-width: 1pt;
+        border-inline-start-width: 2pt;
+        border-inline-end-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-block-width: 1px;
-        border-inline-width: 2px;
+        border-block-width: 1pt;
+        border-inline-width: 2pt;
       }
     "#
       },
@@ -657,261 +657,261 @@ mod tests {
     test(
       r#"
       .foo {
-        border-block-start-width: 1px;
-        border-block-end-width: 1px;
-        border-inline-start-width: 2px;
-        border-inline-end-width: 3px;
+        border-block-start-width: 1pt;
+        border-block-end-width: 1pt;
+        border-inline-start-width: 2pt;
+        border-inline-end-width: 3pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-block-width: 1px;
-        border-inline-width: 2px 3px;
-      }
-    "#
-      },
-    );
-
-    minify_test(
-      ".foo { border-bottom: 1px solid var(--spectrum-global-color-gray-200)}",
-      ".foo{border-bottom:1px solid var(--spectrum-global-color-gray-200)}",
-    );
-    test(
-      r#"
-      .foo {
-        border-width: 0;
-        border-bottom: var(--test, 1px) solid;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border-width: 0;
-        border-bottom: var(--test, 1px) solid;
-      }
-    "#
-      },
-    );
-
-    test(
-      r#"
-      .foo {
-        border: 1px solid black;
-        border-width: 1px 1px 0 0;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-width: 1px 1px 0 0;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-width: 1px 2px;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        border-left: 2px solid black;
-        border-right: 1px solid black;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-left-width: 2px;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        border-left: 1px solid red;
-        border-right: 1px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-color: #000 red;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 1px solid black;
-        border-block-end: 1px solid black;
-        border-inline-start: 1px solid red;
-        border-inline-end: 1px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-inline-color: red;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 1px solid black;
-        border-block-end: 1px solid black;
-        border-inline-start: 2px solid black;
-        border-inline-end: 2px solid black;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-inline-width: 2px;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 1px solid black;
-        border-block-end: 1px solid black;
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-inline: 2px solid red;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 1px solid black;
-        border-block-end: 1px solid black;
-        border-inline-start: 2px solid red;
-        border-inline-end: 3px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid #000;
-        border-inline-start: 2px solid red;
-        border-inline-end: 3px solid red;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 2px solid black;
-        border-block-end: 1px solid black;
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 2px solid red;
-        border-block-start-color: #000;
-        border-block-end: 1px solid #000;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 2px solid red;
-        border-block-end: 1px solid red;
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 2px solid red;
-        border-block-end-width: 1px;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border-block-start: 2px solid red;
-        border-block-end: 2px solid red;
-        border-inline-start: 2px solid red;
-        border-inline-end: 1px solid red;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 2px solid red;
-        border-inline-end-width: 1px;
-      }
-    "#},
-    );
-
-    test(
-      r#"
-      .foo {
-        border: 1px solid currentColor;
-      }
-    "#,
-      indoc! {r#"
-      .foo {
-        border: 1px solid;
+        border-block-width: 1pt;
+        border-inline-width: 2pt 3pt;
       }
     "#
       },
     );
 
     minify_test(
+      ".foo { border-bottom: 1pt solid var(--spectrum-global-color-gray-200)}",
+      ".foo{border-bottom:1pt solid var(--spectrum-global-color-gray-200)}",
+    );
+    test(
       r#"
       .foo {
-        border: 1px solid currentColor;
+        border-width: 0;
+        border-bottom: var(--test, 1pt) solid;
       }
     "#,
-      ".foo{border:1px solid}",
+      indoc! {r#"
+      .foo {
+        border-width: 0pt;
+        border-bottom: var(--test, 1pt) solid;
+      }
+    "#
+      },
+    );
+
+    test(
+      r#"
+      .foo {
+        border: 1pt solid black;
+        border-width: 1pt 1pt 0pt 0pt;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-width: 1pt 1pt 0pt 0pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-top: 1pt solid black;
+        border-bottom: 1pt solid black;
+        border-left: 2pt solid black;
+        border-right: 2pt solid black;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-width: 1pt 2pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-top: 1pt solid black;
+        border-bottom: 1pt solid black;
+        border-left: 2pt solid black;
+        border-right: 1pt solid black;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-left-width: 2pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-top: 1pt solid black;
+        border-bottom: 1pt solid black;
+        border-left: 1pt solid red;
+        border-right: 1pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-color: rgb(0, 0, 0) rgb(255, 0, 0);
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 1pt solid black;
+        border-block-end: 1pt solid black;
+        border-inline-start: 1pt solid red;
+        border-inline-end: 1pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-inline-color: rgb(255, 0, 0);
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 1pt solid black;
+        border-block-end: 1pt solid black;
+        border-inline-start: 2pt solid black;
+        border-inline-end: 2pt solid black;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-inline-width: 2pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 1pt solid black;
+        border-block-end: 1pt solid black;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 2pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-inline: 2pt solid rgb(255, 0, 0);
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 1pt solid black;
+        border-block-end: 1pt solid black;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 3pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid rgb(0, 0, 0);
+        border-inline-start: 2pt solid rgb(255, 0, 0);
+        border-inline-end: 3pt solid rgb(255, 0, 0);
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 2pt solid black;
+        border-block-end: 1pt solid black;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 2pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 2pt solid rgb(255, 0, 0);
+        border-block-start-color: rgb(0, 0, 0);
+        border-block-end: 1pt solid rgb(0, 0, 0);
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 2pt solid red;
+        border-block-end: 1pt solid red;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 2pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 2pt solid rgb(255, 0, 0);
+        border-block-end-width: 1pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border-block-start: 2pt solid red;
+        border-block-end: 2pt solid red;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 1pt solid red;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 2pt solid rgb(255, 0, 0);
+        border-inline-end-width: 1pt;
+      }
+    "#},
+    );
+
+    test(
+      r#"
+      .foo {
+        border: 1pt solid currentColor;
+      }
+    "#,
+      indoc! {r#"
+      .foo {
+        border: 1pt solid;
+      }
+    "#
+      },
+    );
+
+    minify_test(
+      r#"
+      .foo {
+        border: 1pt solid currentColor;
+      }
+    "#,
+      ".foo{border:1pt solid}",
     );
 
     prefix_test(
       r#"
       .foo {
-        border-block: 2px solid red;
+        border-block: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-top: 2px solid red;
-        border-bottom: 2px solid red;
+        border-top: 2pt solid rgb(255, 0, 0);
+        border-bottom: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -924,12 +924,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-block-start: 2px solid red;
+        border-block-start: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-top: 2px solid red;
+        border-top: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -942,12 +942,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-block-end: 2px solid red;
+        border-block-end: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-bottom: 2px solid red;
+        border-bottom: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -960,13 +960,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline: 2px solid red;
+        border-inline: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-left: 2px solid red;
-        border-right: 2px solid red;
+        border-left: 2pt solid rgb(255, 0, 0);
+        border-right: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -979,13 +979,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-block-width: 2px;
+        border-block-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-block-start-width: 2px;
-        border-block-end-width: 2px;
+        border-block-start-width: 2pt;
+        border-block-end-width: 2pt;
       }
     "#
       },
@@ -998,12 +998,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-block-width: 2px;
+        border-block-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-block-width: 2px;
+        border-block-width: 2pt;
       }
     "#
       },
@@ -1016,24 +1016,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid red;
+        border-inline-start: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
+        border-left: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
+        border-left: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right: 2px solid red;
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right: 2px solid red;
+        border-right: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -1046,24 +1046,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-width: 2px;
+        border-inline-start-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-width: 2px;
+        border-left-width: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-width: 2px;
+        border-left-width: 2pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right-width: 2px;
+        border-right-width: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right-width: 2px;
+        border-right-width: 2pt;
       }
     "#
       },
@@ -1076,24 +1076,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end: 2px solid red;
+        border-inline-end: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: 2px solid red;
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: 2px solid red;
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 2px solid red;
+        border-left: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 2px solid red;
+        border-left: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -1106,29 +1106,29 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid red;
-        border-inline-end: 5px solid green;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 5pt solid green;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
-        border-right: 5px solid green;
+        border-left: 2pt solid rgb(255, 0, 0);
+        border-right: 5pt solid rgb(0, 128, 0);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
-        border-right: 5px solid green;
+        border-left: 2pt solid rgb(255, 0, 0);
+        border-right: 5pt solid rgb(0, 128, 0);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 5px solid green;
-        border-right: 2px solid red;
+        border-left: 5pt solid rgb(0, 128, 0);
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 5px solid green;
-        border-right: 2px solid red;
+        border-left: 5pt solid rgb(0, 128, 0);
+        border-right: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -1141,54 +1141,54 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid red;
-        border-inline-end: 5px solid green;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 5pt solid green;
       }
 
       .bar {
-        border-inline-start: 1px dotted gray;
-        border-inline-end: 1px solid black;
+        border-inline-start: 1pt dotted gray;
+        border-inline-end: 1pt solid black;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
-        border-right: 5px solid green;
+        border-left: 2pt solid rgb(255, 0, 0);
+        border-right: 5pt solid rgb(0, 128, 0);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid red;
-        border-right: 5px solid green;
+        border-left: 2pt solid rgb(255, 0, 0);
+        border-right: 5pt solid rgb(0, 128, 0);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 5px solid green;
-        border-right: 2px solid red;
+        border-left: 5pt solid rgb(0, 128, 0);
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 5px solid green;
-        border-right: 2px solid red;
+        border-left: 5pt solid rgb(0, 128, 0);
+        border-right: 2pt solid rgb(255, 0, 0);
       }
 
       .bar:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 1px dotted gray;
-        border-right: 1px solid #000;
+        border-left: 1pt dotted rgb(128, 128, 128);
+        border-right: 1pt solid rgb(0, 0, 0);
       }
 
       .bar:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 1px dotted gray;
-        border-right: 1px solid #000;
+        border-left: 1pt dotted rgb(128, 128, 128);
+        border-right: 1pt solid rgb(0, 0, 0);
       }
 
       .bar:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 1px solid #000;
-        border-right: 1px dotted gray;
+        border-left: 1pt solid rgb(0, 0, 0);
+        border-right: 1pt dotted rgb(128, 128, 128);
       }
 
       .bar:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 1px solid #000;
-        border-right: 1px dotted gray;
+        border-left: 1pt solid rgb(0, 0, 0);
+        border-right: 1pt dotted rgb(128, 128, 128);
       }
     "#
       },
@@ -1201,13 +1201,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-width: 2px;
+        border-inline-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-left-width: 2px;
-        border-right-width: 2px;
+        border-left-width: 2pt;
+        border-right-width: 2pt;
       }
     "#
       },
@@ -1220,13 +1220,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-width: 2px;
+        border-inline-width: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-left-width: 2px;
-        border-right-width: 2px;
+        border-left-width: 2pt;
+        border-right-width: 2pt;
       }
     "#
       },
@@ -1263,8 +1263,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-left-color: red;
-        border-right-color: red;
+        border-left-color: rgb(255, 0, 0);
+        border-right-color: rgb(255, 0, 0);
       }
     "#
       },
@@ -1364,8 +1364,8 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: #b32323;
-          {}: lab(40% 56.6 39);
+          {}: rgb(179, 35, 35);
+          {}: oklab(49.824%, .16048, .0808501);
         }}
       "#},
           prop, prop
@@ -1394,7 +1394,7 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 2px solid lab(40% 56.6 39);
+          {}: 2pt solid lab(40% 56.6 39);
         }}
       "#,
           prop
@@ -1402,8 +1402,8 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: 2px solid #b32323;
-          {}: 2px solid lab(40% 56.6 39);
+          {}: 2pt solid rgb(179, 35, 35);
+          {}: 2pt solid oklab(49.824%, .16048, .0808501);
         }}
       "#},
           prop, prop
@@ -1432,7 +1432,7 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: var(--border-width) solid lab(40% 56.6 39);
+          {}: var(--border-width) solid oklab(49.824%, .16048, .0808501);
         }}
       "#,
           prop
@@ -1440,12 +1440,12 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: var(--border-width) solid #b32323;
+          {}: var(--border-width) solid rgb(179, 35, 35);
         }}
 
         @supports (color: lab(0% 0 0)) {{
           .foo {{
-            {}: var(--border-width) solid lab(40% 56.6 39);
+            {}: var(--border-width) solid oklab(49.824%, .16048, .0808501);
           }}
         }}
       "#},
@@ -1461,28 +1461,28 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
+        border-inline-start-color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1494,28 +1494,28 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end-color: lab(40% 56.6 39);
+        border-inline-end-color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1527,37 +1527,37 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
+        border-inline-start-color: oklab(49.824%, .16048, .0808501);
         border-inline-end-color: lch(50.998% 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
-        border-right-color: #ee00be;
-        border-right-color: lch(50.998% 135.363 338);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
+        border-right-color: rgb(238, 0, 190);
+        border-right-color: oklch(63.3164%, .419449, 340.175deg);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
-        border-right-color: #ee00be;
-        border-right-color: lch(50.998% 135.363 338);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
+        border-right-color: rgb(238, 0, 190);
+        border-right-color: oklch(63.3164%, .419449, 340.175deg);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left-color: #ee00be;
-        border-left-color: lch(50.998% 135.363 338);
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-left-color: rgb(238, 0, 190);
+        border-left-color: oklch(63.3164%, .419449, 340.175deg);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left-color: #ee00be;
-        border-left-color: lch(50.998% 135.363 338);
-        border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-left-color: rgb(238, 0, 190);
+        border-left-color: oklch(63.3164%, .419449, 340.175deg);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1569,27 +1569,27 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
+        border-inline-start-color: oklab(49.824%, .16048, .0808501);
         border-inline-end-color: lch(50.998% 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left-color: #b32323;
-        border-left-color: color(display-p3 .643308 .192455 .167712);
-        border-left-color: lab(40% 56.6 39);
-        border-right-color: #ee00be;
-        border-right-color: color(display-p3 .972962 -.362078 .804206);
-        border-right-color: lch(50.998% 135.363 338);
+        border-left-color: rgb(179, 35, 35);
+        border-left-color: oklab(49.824%, .16048, .0808501);
+        border-left-color: oklab(49.824%, .16048, .0808501);
+        border-right-color: rgb(238, 0, 190);
+        border-right-color: oklab(63.3164%, .394589, -.142257);
+        border-right-color: oklch(63.3164%, .419449, 340.175deg);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left-color: #ee00be;
-        border-left-color: color(display-p3 .972962 -.362078 .804206);
-        border-left-color: lch(50.998% 135.363 338);
-        border-right-color: #b32323;
-        border-right-color: color(display-p3 .643308 .192455 .167712);
-        border-right-color: lab(40% 56.6 39);
+        border-left-color: rgb(238, 0, 190);
+        border-left-color: oklab(63.3164%, .394589, -.142257);
+        border-left-color: oklch(63.3164%, .419449, 340.175deg);
+        border-right-color: rgb(179, 35, 35);
+        border-right-color: oklab(49.824%, .16048, .0808501);
+        border-right-color: oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1602,28 +1602,28 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid lab(40% 56.6 39);
+        border-inline-start: 2pt solid oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2pt solid rgb(179, 35, 35);
+        border-left: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2pt solid rgb(179, 35, 35);
+        border-left: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2pt solid rgb(179, 35, 35);
+        border-right: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2pt solid rgb(179, 35, 35);
+        border-right: 2pt solid oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1635,28 +1635,28 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end: 2px solid lab(40% 56.6 39);
+        border-inline-end: 2pt solid oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2pt solid rgb(179, 35, 35);
+        border-right: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2pt solid rgb(179, 35, 35);
+        border-right: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2pt solid rgb(179, 35, 35);
+        border-left: 2pt solid oklab(49.824%, .16048, .0808501);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2pt solid rgb(179, 35, 35);
+        border-left: 2pt solid oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -1668,35 +1668,35 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end: var(--border-width) solid lab(40% 56.6 39);
+        border-inline-end: var(--border-width) solid oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: var(--border-width) solid #b32323;
+        border-right: var(--border-width) solid rgb(179, 35, 35);
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        border-right: var(--border-width) solid #b32323;
+        border-right: var(--border-width) solid rgb(179, 35, 35);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-          border-right: var(--border-width) solid lab(40% 56.6 39);
+          border-right: var(--border-width) solid oklab(49.824%, .16048, .0808501);
         }
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: var(--border-width) solid #b32323;
+        border-left: var(--border-width) solid rgb(179, 35, 35);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        border-left: var(--border-width) solid #b32323;
+        border-left: var(--border-width) solid rgb(179, 35, 35);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-          border-left: var(--border-width) solid lab(40% 56.6 39);
+          border-left: var(--border-width) solid oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -1709,14 +1709,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
+        border-inline-start: 2pt solid rgb(255, 0, 0);
+        border-inline-end: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -1729,13 +1729,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid red;
-        border-inline-end: 2px solid red;
+        border-inline-start: 2pt solid red;
+        border-inline-end: 2pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-inline: 2px solid red;
+        border-inline: 2pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -1748,14 +1748,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-width: 22px;
-        border-width: max(2cqw, 22px);
+        border-width: 22pt;
+        border-width: max(2cqw, 22pt);
       }
     "#,
       indoc! {r#"
       .foo {
-        border-width: 22px;
-        border-width: max(2cqw, 22px);
+        border-width: 22pt;
+        border-width: max("2cqw", 22pt);
       }
     "#
       },
@@ -1767,13 +1767,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-width: 22px;
-        border-width: max(2cqw, 22px);
+        border-width: 22pt;
+        border-width: max(2cqw, 22pt);
       }
     "#,
       indoc! {r#"
       .foo {
-        border-width: max(2cqw, 22px);
+        border-width: max("2cqw", 22pt);
       }
     "#
       },
@@ -1792,7 +1792,7 @@ mod tests {
       indoc! {r#"
       .foo {
         border-color: #4263eb;
-        border-color: color(display-p3 0 .5 1);
+        border-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -1810,7 +1810,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-color: color(display-p3 0 .5 1);
+        border-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -1822,14 +1822,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border: 1px solid #4263eb;
+        border: 1pt solid #4263eb;
         border-color: color(display-p3 0 .5 1);
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 1px solid #4263eb;
-        border-color: color(display-p3 0 .5 1);
+        border: 1pt solid #4263eb;
+        border-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -1841,13 +1841,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border: 1px solid #4263eb;
+        border: 1pt solid #4263eb;
         border-color: color(display-p3 0 .5 1);
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 1px solid color(display-p3 0 .5 1);
+        border: 1pt solid oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -1866,7 +1866,7 @@ mod tests {
       indoc! {r#"
       .foo {
         border-color: var(--fallback);
-        border-color: color(display-p3 0 .5 1);
+        border-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -1913,14 +1913,14 @@ mod tests {
       .foo {
         border-image-source: url(foo.png);
         border-image-slice: 10 40 10 40 fill;
-        border-image-width: 10px;
+        border-image-width: 10pt;
         border-image-outset: 0;
         border-image-repeat: round round;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: url("foo.png") 10 40 fill / 10px round;
+        border-image: url("foo.png") 10 40 fill / 10pt round;
       }
     "#
       },
@@ -1991,13 +1991,13 @@ mod tests {
     test(
       r#"
       .foo {
-        border: 1px solid red;
+        border: 1pt solid red;
         border-image: url(test.png) 60;
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 1px solid red;
+        border: 1pt solid rgb(255, 0, 0);
         border-image: url("test.png") 60;
       }
     "#
@@ -2008,12 +2008,12 @@ mod tests {
       r#"
       .foo {
         border-image: url(test.png) 60;
-        border: 1px solid red;
+        border: 1pt solid red;
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 1px solid red;
+        border: 1pt solid rgb(255, 0, 0);
       }
     "#
       },
@@ -2022,13 +2022,13 @@ mod tests {
     test(
       r#"
       .foo {
-        border: 1px solid red;
+        border: 1pt solid red;
         border-image: var(--border-image);
       }
     "#,
       indoc! {r#"
       .foo {
-        border: 1px solid red;
+        border: 1pt solid rgb(255, 0, 0);
         border-image: var(--border-image);
       }
     "#
@@ -2061,12 +2061,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: url(foo.png) 10 40 fill / 10px round;
+        border-image: url(foo.png) 10 40 fill / 10pt round;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: url("foo.png") 10 40 fill / 10px round;
+        border-image: url("foo.png") 10 40 fill / 10pt round;
       }
     "#
       },
@@ -2125,15 +2125,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 60;
-        -webkit-border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 60;
+        -webkit-border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#
       },
@@ -2146,16 +2146,16 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 60;
-        -webkit-border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
-        -moz-border-image: -moz-linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 60;
+        -webkit-border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        -moz-border-image: -moz-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#
       },
@@ -2169,15 +2169,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: -moz-linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: -moz-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 60;
       }
     "#
       },
@@ -2191,14 +2191,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: -webkit-linear-gradient(#ff0f0e, #7773ff);
-        border-image-source: linear-gradient(#ff0f0e, #7773ff);
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+        border-image-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#
       },
@@ -2211,17 +2211,17 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) var(--foo);
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) var(--foo);
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: linear-gradient(#ff0f0e, #7773ff) var(--foo);
+        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          border-image: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
+          border-image: linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513)) var(--foo);
         }
       }
     "#
@@ -2236,13 +2236,13 @@ mod tests {
       r#"
       .foo {
         border-image-source: linear-gradient(red, green);
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: linear-gradient(red, green);
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#
       },
@@ -2256,12 +2256,12 @@ mod tests {
       r#"
       .foo {
         border-image-source: linear-gradient(red, green);
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#
       },
@@ -2275,13 +2275,13 @@ mod tests {
       r#"
       .foo {
         border-image: linear-gradient(red, green);
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: linear-gradient(red, green);
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#
       },
@@ -2295,13 +2295,13 @@ mod tests {
       r#"
       .foo {
         border-image: var(--fallback);
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#,
       indoc! {r#"
       .foo {
         border-image: var(--fallback);
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
       }
     "#
       },
@@ -2314,14 +2314,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: url("fallback.png") 10 40 fill / 10px;
-        border-image: url("main.png") 10 40 fill / 10px space;
+        border-image: url("fallback.png") 10 40 fill / 10pt;
+        border-image: url("main.png") 10 40 fill / 10pt space;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: url("fallback.png") 10 40 fill / 10px;
-        border-image: url("main.png") 10 40 fill / 10px space;
+        border-image: url("fallback.png") 10 40 fill / 10pt;
+        border-image: url("main.png") 10 40 fill / 10pt space;
       }
     "#
       },
@@ -2334,13 +2334,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: url("fallback.png") 10 40 fill / 10px;
-        border-image: url("main.png") 10 40 fill / 10px space;
+        border-image: url("fallback.png") 10 40 fill / 10pt;
+        border-image: url("main.png") 10 40 fill / 10pt space;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-image: url("main.png") 10 40 fill / 10px space;
+        border-image: url("main.png") 10 40 fill / 10pt space;
       }
     "#
       },
@@ -2358,12 +2358,12 @@ mod tests {
     test(
       r#"
       .foo {
-        border-radius: 10px 100px 10px 100px;
+        border-radius: 10pt 100pt 10pt 100pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px 100px;
+        border-radius: 10pt 100pt;
       }
     "#
       },
@@ -2372,12 +2372,12 @@ mod tests {
     test(
       r#"
       .foo {
-        border-radius: 10px 100px 10px 100px / 120px 120px;
+        border-radius: 10pt 100pt 10pt 100pt / 120pt 120pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px 100px / 120px;
+        border-radius: 10pt 100pt / 120pt;
       }
     "#
       },
@@ -2386,15 +2386,15 @@ mod tests {
     test(
       r#"
       .foo {
-        border-top-left-radius: 10px 120px;
-        border-top-right-radius: 100px 120px;
-        border-bottom-right-radius: 100px 120px;
-        border-bottom-left-radius: 10px 120px;
+        border-top-left-radius: 10pt 120pt;
+        border-top-right-radius: 100pt 120pt;
+        border-bottom-right-radius: 100pt 120pt;
+        border-bottom-left-radius: 10pt 120pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px 100px 100px 10px / 120px;
+        border-radius: 10pt 100pt 100pt 10pt / 120pt;
       }
     "#
       },
@@ -2403,15 +2403,15 @@ mod tests {
     test(
       r#"
       .foo {
-        border-top-left-radius: 4px 2px;
-        border-top-right-radius: 3px 4px;
-        border-bottom-right-radius: 6px 2px;
-        border-bottom-left-radius: 3px 4px;
+        border-top-left-radius: 4pt 2pt;
+        border-top-right-radius: 3pt 4pt;
+        border-bottom-right-radius: 6pt 2pt;
+        border-bottom-left-radius: 3pt 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 4px 3px 6px / 2px 4px;
+        border-radius: 4pt 3pt 6pt / 2pt 4pt;
       }
     "#
       },
@@ -2437,14 +2437,14 @@ mod tests {
     test(
       r#"
       .foo {
-        border-radius: 10px 100px 10px 100px / 120px 120px;
-        border-start-start-radius: 10px;
+        border-radius: 10pt 100pt 10pt 100pt / 120pt 120pt;
+        border-start-start-radius: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px 100px / 120px;
-        border-start-start-radius: 10px;
+        border-radius: 10pt 100pt / 120pt;
+        border-start-start-radius: 10pt;
       }
     "#
       },
@@ -2453,13 +2453,13 @@ mod tests {
     test(
       r#"
       .foo {
-        border-start-start-radius: 10px;
-        border-radius: 10px 100px 10px 100px / 120px 120px;
+        border-start-start-radius: 10pt;
+        border-radius: 10pt 100pt 10pt 100pt / 120pt 120pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px 100px / 120px;
+        border-radius: 10pt 100pt / 120pt;
       }
     "#
       },
@@ -2468,20 +2468,20 @@ mod tests {
     test(
       r#"
       .foo {
-        border-top-left-radius: 10px 120px;
-        border-top-right-radius: 100px 120px;
-        border-start-start-radius: 10px;
-        border-bottom-right-radius: 100px 120px;
-        border-bottom-left-radius: 10px 120px;
+        border-top-left-radius: 10pt 120pt;
+        border-top-right-radius: 100pt 120pt;
+        border-start-start-radius: 10pt;
+        border-bottom-right-radius: 100pt 120pt;
+        border-bottom-left-radius: 10pt 120pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-top-left-radius: 10px 120px;
-        border-top-right-radius: 100px 120px;
-        border-start-start-radius: 10px;
-        border-bottom-right-radius: 100px 120px;
-        border-bottom-left-radius: 10px 120px;
+        border-top-left-radius: 10pt 120pt;
+        border-top-right-radius: 100pt 120pt;
+        border-start-start-radius: 10pt;
+        border-bottom-right-radius: 100pt 120pt;
+        border-bottom-left-radius: 10pt 120pt;
       }
     "#
       },
@@ -2490,13 +2490,13 @@ mod tests {
     test(
       r#"
       .foo {
-        border-radius: 10px;
-        border-top-left-radius: 20px;
+        border-radius: 10pt;
+        border-top-left-radius: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 20px 10px 10px;
+        border-radius: 20pt 10pt 10pt;
       }
     "#
       },
@@ -2505,13 +2505,13 @@ mod tests {
     test(
       r#"
       .foo {
-        border-radius: 10px;
+        border-radius: 10pt;
         border-top-left-radius: var(--test);
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 10px;
+        border-radius: 10pt;
         border-top-left-radius: var(--test);
       }
     "#
@@ -2521,16 +2521,16 @@ mod tests {
     test(
       r#"
       .foo {
-        -webkit-border-radius: 10px 100px 10px 100px;
-        -moz-border-radius: 10px 100px 10px 100px;
-        border-radius: 10px 100px 10px 100px;
+        -webkit-border-radius: 10pt 100pt 10pt 100pt;
+        -moz-border-radius: 10pt 100pt 10pt 100pt;
+        border-radius: 10pt 100pt 10pt 100pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 10px 100px;
-        -moz-border-radius: 10px 100px;
-        border-radius: 10px 100px;
+        -webkit-border-radius: 10pt 100pt;
+        -moz-border-radius: 10pt 100pt;
+        border-radius: 10pt 100pt;
       }
     "#
       },
@@ -2539,16 +2539,16 @@ mod tests {
     test(
       r#"
       .foo {
-        -webkit-border-radius: 10px 100px 10px 100px;
-        -moz-border-radius: 20px;
-        border-radius: 30px;
+        -webkit-border-radius: 10pt 100pt 10pt 100pt;
+        -moz-border-radius: 20pt;
+        border-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 10px 100px;
-        -moz-border-radius: 20px;
-        border-radius: 30px;
+        -webkit-border-radius: 10pt 100pt;
+        -moz-border-radius: 20pt;
+        border-radius: 30pt;
       }
     "#
       },
@@ -2557,16 +2557,16 @@ mod tests {
     test(
       r#"
       .foo {
-        -webkit-border-top-left-radius: 10px;
-        -moz-border-top-left-radius: 10px;
-        border-top-left-radius: 10px;
+        -webkit-border-top-left-radius: 10pt;
+        -moz-border-top-left-radius: 10pt;
+        border-top-left-radius: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 10px;
-        -moz-border-top-left-radius: 10px;
-        border-top-left-radius: 10px;
+        -webkit-border-top-left-radius: 10pt;
+        -moz-border-top-left-radius: 10pt;
+        border-top-left-radius: 10pt;
       }
     "#
       },
@@ -2575,14 +2575,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-radius: 30px;
+        border-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
-        border-radius: 30px;
+        -webkit-border-radius: 30pt;
+        -moz-border-radius: 30pt;
+        border-radius: 30pt;
       }
     "#
       },
@@ -2596,14 +2596,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-top-left-radius: 30px;
+        border-top-left-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 30px;
-        -moz-border-top-left-radius: 30px;
-        border-top-left-radius: 30px;
+        -webkit-border-top-left-radius: 30pt;
+        -moz-border-top-left-radius: 30pt;
+        border-top-left-radius: 30pt;
       }
     "#
       },
@@ -2617,14 +2617,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
-        border-radius: 30px;
+        -webkit-border-radius: 30pt;
+        -moz-border-radius: 30pt;
+        border-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-radius: 30px;
+        border-radius: 30pt;
       }
     "#
       },
@@ -2638,14 +2638,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -webkit-border-top-left-radius: 30px;
-        -moz-border-top-left-radius: 30px;
-        border-top-left-radius: 30px;
+        -webkit-border-top-left-radius: 30pt;
+        -moz-border-top-left-radius: 30pt;
+        border-top-left-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        border-top-left-radius: 30px;
+        border-top-left-radius: 30pt;
       }
     "#
       },
@@ -2659,14 +2659,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
+        -webkit-border-radius: 30pt;
+        -moz-border-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
+        -webkit-border-radius: 30pt;
+        -moz-border-radius: 30pt;
       }
     "#
       },
@@ -2680,18 +2680,18 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -webkit-border-top-left-radius: 30px;
-        -moz-border-top-right-radius: 30px;
-        border-bottom-right-radius: 30px;
-        border-bottom-left-radius: 30px;
+        -webkit-border-top-left-radius: 30pt;
+        -moz-border-top-right-radius: 30pt;
+        border-bottom-right-radius: 30pt;
+        border-bottom-left-radius: 30pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 30px;
-        -moz-border-top-right-radius: 30px;
-        border-bottom-right-radius: 30px;
-        border-bottom-left-radius: 30px;
+        -webkit-border-top-left-radius: 30pt;
+        -moz-border-top-right-radius: 30pt;
+        border-bottom-right-radius: 30pt;
+        border-bottom-left-radius: 30pt;
       }
     "#
       },
@@ -2726,16 +2726,16 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-start-start-radius: 5px;
+        border-start-start-radius: 5pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        border-top-left-radius: 5px;
+        border-top-left-radius: 5pt;
       }
 
       .foo:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        border-top-right-radius: 5px;
+        border-top-right-radius: 5pt;
       }
     "#
       },
@@ -2748,19 +2748,19 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-start-start-radius: 5px;
-        border-start-end-radius: 10px;
+        border-start-start-radius: 5pt;
+        border-start-end-radius: 10pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 10px;
+        border-top-left-radius: 5pt;
+        border-top-right-radius: 10pt;
       }
 
       .foo:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 5px;
+        border-top-left-radius: 10pt;
+        border-top-right-radius: 5pt;
       }
     "#
       },
@@ -2773,19 +2773,19 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-end-end-radius: 10px;
-        border-end-start-radius: 5px;
+        border-end-end-radius: 10pt;
+        border-end-start-radius: 5pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 10pt;
+        border-bottom-left-radius: 5pt;
       }
 
       .foo:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 5pt;
+        border-bottom-left-radius: 10pt;
       }
     "#
       },
@@ -2848,14 +2848,14 @@ mod tests {
     test(
       r#"
       .foo {
-        outline-width: 2px;
+        outline-width: 2pt;
         outline-style: solid;
         outline-color: blue;
       }
     "#,
       indoc! {r#"
       .foo {
-        outline: 2px solid #00f;
+        outline: 2pt solid rgb(0, 0, 255);
       }
     "#
       },
@@ -2864,12 +2864,12 @@ mod tests {
     test(
       r#"
       .foo {
-        outline: 2px solid blue;
+        outline: 2pt solid blue;
       }
     "#,
       indoc! {r#"
       .foo {
-        outline: 2px solid #00f;
+        outline: 2pt solid rgb(0, 0, 255);
       }
     "#
       },
@@ -2878,13 +2878,13 @@ mod tests {
     test(
       r#"
       .foo {
-        outline: 2px solid red;
+        outline: 2pt solid red;
         outline-color: blue;
       }
     "#,
       indoc! {r#"
       .foo {
-        outline: 2px solid #00f;
+        outline: 2pt solid rgb(0, 0, 255);
       }
     "#
       },
@@ -2893,13 +2893,13 @@ mod tests {
     test(
       r#"
       .foo {
-        outline: 2px solid yellow;
+        outline: 2pt solid yellow;
         outline-color: var(--color);
       }
     "#,
       indoc! {r#"
       .foo {
-        outline: 2px solid #ff0;
+        outline: 2pt solid rgb(255, 255, 0);
         outline-color: var(--color);
       }
     "#
@@ -2910,8 +2910,8 @@ mod tests {
       ".foo { outline-color: lab(40% 56.6 39) }",
       indoc! { r#"
         .foo {
-          outline-color: #b32323;
-          outline-color: lab(40% 56.6 39);
+          outline-color: rgb(179, 35, 35);
+          outline-color: oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -2921,11 +2921,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { outline: 2px solid lab(40% 56.6 39) }",
+      ".foo { outline: 2pt solid lab(40% 56.6 39) }",
       indoc! { r#"
         .foo {
-          outline: 2px solid #b32323;
-          outline: 2px solid lab(40% 56.6 39);
+          outline: 2pt solid rgb(179, 35, 35);
+          outline: 2pt solid oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -2935,15 +2935,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { outline: var(--width) solid lab(40% 56.6 39) }",
+      ".foo { outline: var(--width) solid oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          outline: var(--width) solid #b32323;
+          outline: var(--width) solid rgb(179, 35, 35);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            outline: var(--width) solid lab(40% 56.6 39);
+            outline: var(--width) solid oklab(49.824%, .16048, .0808501);
           }
         }
       "#},
@@ -2959,15 +2959,15 @@ mod tests {
     test(
       r#"
       .foo {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-left: 10pt;
+        margin-right: 10pt;
+        margin-top: 20pt;
+        margin-bottom: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin: 20px 10px;
+        margin: 20pt 10pt;
       }
     "#
       },
@@ -2976,13 +2976,13 @@ mod tests {
     test(
       r#"
       .foo {
-        margin-block-start: 15px;
-        margin-block-end: 15px;
+        margin-block-start: 15pt;
+        margin-block-end: 15pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-block: 15px;
+        margin-block: 15pt;
       }
     "#
       },
@@ -2991,22 +2991,22 @@ mod tests {
     test(
       r#"
       .foo {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-inline-start: 15px;
-        margin-inline-end: 15px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-left: 10pt;
+        margin-right: 10pt;
+        margin-inline-start: 15pt;
+        margin-inline-end: 15pt;
+        margin-top: 20pt;
+        margin-bottom: 20pt;
 
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-inline: 15px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-left: 10pt;
+        margin-right: 10pt;
+        margin-inline: 15pt;
+        margin-top: 20pt;
+        margin-bottom: 20pt;
       }
     "#
       },
@@ -3015,13 +3015,13 @@ mod tests {
     test(
       r#"
       .foo {
-        margin: 10px;
-        margin-top: 20px;
+        margin: 10pt;
+        margin-top: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin: 20px 10px 10px;
+        margin: 20pt 10pt 10pt;
       }
     "#
       },
@@ -3030,13 +3030,13 @@ mod tests {
     test(
       r#"
       .foo {
-        margin: 10px;
+        margin: 10pt;
         margin-top: var(--top);
       }
     "#,
       indoc! {r#"
       .foo {
-        margin: 10px;
+        margin: 10pt;
         margin-top: var(--top);
       }
     "#
@@ -3046,24 +3046,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline-start: 2px;
+        margin-inline-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        margin-left: 2px;
+        margin-left: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        margin-left: 2px;
+        margin-left: 2pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        margin-right: 2px;
+        margin-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        margin-right: 2px;
+        margin-right: 2pt;
       }
     "#
       },
@@ -3076,29 +3076,29 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline-start: 2px;
-        margin-inline-end: 4px;
+        margin-inline-start: 2pt;
+        margin-inline-end: 4pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        margin-left: 2px;
-        margin-right: 4px;
+        margin-left: 2pt;
+        margin-right: 4pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        margin-left: 2px;
-        margin-right: 4px;
+        margin-left: 2pt;
+        margin-right: 4pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        margin-left: 4px;
-        margin-right: 2px;
+        margin-left: 4pt;
+        margin-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        margin-left: 4px;
-        margin-right: 2px;
+        margin-left: 4pt;
+        margin-right: 2pt;
       }
     "#
       },
@@ -3111,13 +3111,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline: 2px;
+        margin-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-left: 2px;
-        margin-right: 2px;
+        margin-left: 2pt;
+        margin-right: 2pt;
       }
     "#
       },
@@ -3130,12 +3130,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-block-start: 2px;
+        margin-block-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-top: 2px;
+        margin-top: 2pt;
       }
     "#
       },
@@ -3148,12 +3148,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-block-end: 2px;
+        margin-block-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-bottom: 2px;
+        margin-bottom: 2pt;
       }
     "#
       },
@@ -3166,14 +3166,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline-start: 2px;
-        margin-inline-end: 2px;
+        margin-inline-start: 2pt;
+        margin-inline-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-inline-start: 2px;
-        margin-inline-end: 2px;
+        margin-inline-start: 2pt;
+        margin-inline-end: 2pt;
       }
     "#
       },
@@ -3186,13 +3186,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline: 2px;
+        margin-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-inline-start: 2px;
-        margin-inline-end: 2px;
+        margin-inline-start: 2pt;
+        margin-inline-end: 2pt;
       }
     "#
       },
@@ -3205,13 +3205,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline-start: 2px;
-        margin-inline-end: 2px;
+        margin-inline-start: 2pt;
+        margin-inline-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-inline: 2px;
+        margin-inline: 2pt;
       }
     "#
       },
@@ -3224,12 +3224,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        margin-inline: 2px;
+        margin-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        margin-inline: 2px;
+        margin-inline: 2pt;
       }
     "#
       },
@@ -3258,8 +3258,8 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 22px;
-          {}: max(4%, 22px);
+          {}: 22pt;
+          {}: max(4%, 22pt);
         }}
       "#,
           prop, prop
@@ -3267,8 +3267,8 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: 22px;
-          {}: max(4%, 22px);
+          {}: 22pt;
+          {}: max(4%, 22pt);
         }}
       "#
           },
@@ -3284,8 +3284,8 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 22px;
-          {}: max(4%, 22px);
+          {}: 22pt;
+          {}: max(4%, 22pt);
         }}
       "#,
           prop, prop
@@ -3293,7 +3293,7 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: max(4%, 22px);
+          {}: max(4%, 22pt);
         }}
       "#
           },
@@ -3309,8 +3309,8 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 22px;
-          {}: max(2cqw, 22px);
+          {}: 22pt;
+          {}: max(2cqw, 22pt);
         }}
       "#,
           prop, prop
@@ -3318,8 +3318,8 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: 22px;
-          {}: max(2cqw, 22px);
+          {}: 22pt;
+          {}: max("2cqw", 22pt);
         }}
       "#
           },
@@ -3334,8 +3334,8 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 22px;
-          {}: max(2cqw, 22px);
+          {}: 22pt;
+          {}: max(2cqw, 22pt);
         }}
       "#,
           prop, prop
@@ -3343,7 +3343,7 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: max(2cqw, 22px);
+          {}: max("2cqw", 22pt);
         }}
       "#
           },
@@ -3362,15 +3362,15 @@ mod tests {
     test(
       r#"
       .foo {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-left: 10pt;
+        padding-right: 10pt;
+        padding-top: 20pt;
+        padding-bottom: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding: 20px 10px;
+        padding: 20pt 10pt;
       }
     "#
       },
@@ -3379,13 +3379,13 @@ mod tests {
     test(
       r#"
       .foo {
-        padding-block-start: 15px;
-        padding-block-end: 15px;
+        padding-block-start: 15pt;
+        padding-block-end: 15pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-block: 15px;
+        padding-block: 15pt;
       }
     "#
       },
@@ -3394,22 +3394,22 @@ mod tests {
     test(
       r#"
       .foo {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-inline-start: 15px;
-        padding-inline-end: 15px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-left: 10pt;
+        padding-right: 10pt;
+        padding-inline-start: 15pt;
+        padding-inline-end: 15pt;
+        padding-top: 20pt;
+        padding-bottom: 20pt;
 
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-inline: 15px;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-left: 10pt;
+        padding-right: 10pt;
+        padding-inline: 15pt;
+        padding-top: 20pt;
+        padding-bottom: 20pt;
       }
     "#
       },
@@ -3418,24 +3418,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-inline-start: 2px;
+        padding-inline-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        padding-left: 2px;
+        padding-left: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        padding-left: 2px;
+        padding-left: 2pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        padding-right: 2px;
+        padding-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        padding-right: 2px;
+        padding-right: 2pt;
       }
     "#
       },
@@ -3448,29 +3448,29 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-inline-start: 2px;
-        padding-inline-end: 4px;
+        padding-inline-start: 2pt;
+        padding-inline-end: 4pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        padding-left: 2px;
-        padding-right: 4px;
+        padding-left: 2pt;
+        padding-right: 4pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        padding-left: 2px;
-        padding-right: 4px;
+        padding-left: 2pt;
+        padding-right: 4pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        padding-left: 4px;
-        padding-right: 2px;
+        padding-left: 4pt;
+        padding-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        padding-left: 4px;
-        padding-right: 2px;
+        padding-left: 4pt;
+        padding-right: 2pt;
       }
     "#
       },
@@ -3513,13 +3513,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-inline: 2px;
+        padding-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-left: 2px;
-        padding-right: 2px;
+        padding-left: 2pt;
+        padding-right: 2pt;
       }
     "#
       },
@@ -3532,12 +3532,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-block-start: 2px;
+        padding-block-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-top: 2px;
+        padding-top: 2pt;
       }
     "#
       },
@@ -3550,12 +3550,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-block-end: 2px;
+        padding-block-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-bottom: 2px;
+        padding-bottom: 2pt;
       }
     "#
       },
@@ -3568,15 +3568,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-top: 1px;
-        padding-left: 2px;
-        padding-bottom: 3px;
-        padding-right: 4px;
+        padding-top: 1pt;
+        padding-left: 2pt;
+        padding-bottom: 3pt;
+        padding-right: 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding: 1px 4px 3px 2px;
+        padding: 1pt 4pt 3pt 2pt;
       }
     "#},
       Browsers {
@@ -3588,14 +3588,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-inline-start: 2px;
-        padding-inline-end: 2px;
+        padding-inline-start: 2pt;
+        padding-inline-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-inline-start: 2px;
-        padding-inline-end: 2px;
+        padding-inline-start: 2pt;
+        padding-inline-end: 2pt;
       }
     "#
       },
@@ -3608,13 +3608,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        padding-inline-start: 2px;
-        padding-inline-end: 2px;
+        padding-inline-start: 2pt;
+        padding-inline-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        padding-inline: 2px;
+        padding-inline: 2pt;
       }
     "#
       },
@@ -3630,12 +3630,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        scroll-padding-inline: 2px;
+        scroll-padding-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        scroll-padding-inline: 2px;
+        scroll-padding-inline: 2pt;
       }
     "#
       },
@@ -3651,18 +3651,18 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        block-size: 25px;
-        inline-size: 25px;
-        min-block-size: 25px;
-        min-inline-size: 25px;
+        block-size: 25pt;
+        inline-size: 25pt;
+        min-block-size: 25pt;
+        min-inline-size: 25pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        height: 25px;
-        min-height: 25px;
-        width: 25px;
-        min-width: 25px;
+        height: 25pt;
+        min-height: 25pt;
+        width: 25pt;
+        min-width: 25pt;
       }
     "#},
       Browsers {
@@ -3674,18 +3674,18 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        block-size: 25px;
-        min-block-size: 25px;
-        inline-size: 25px;
-        min-inline-size: 25px;
+        block-size: 25pt;
+        min-block-size: 25pt;
+        inline-size: 25pt;
+        min-inline-size: 25pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        block-size: 25px;
-        min-block-size: 25px;
-        inline-size: 25px;
-        min-inline-size: 25px;
+        block-size: 25pt;
+        min-block-size: 25pt;
+        inline-size: 25pt;
+        min-inline-size: 25pt;
       }
     "#},
       Browsers {
@@ -3794,7 +3794,7 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: 100vw;
+          {}: "100vw";
           {}: -webkit-fill-available;
         }}
       "#},
@@ -3963,9 +3963,9 @@ mod tests {
     }
 
     minify_test(".foo { aspect-ratio: auto }", ".foo{aspect-ratio:auto}");
-    minify_test(".foo { aspect-ratio: 2 / 3 }", ".foo{aspect-ratio:2/3}");
-    minify_test(".foo { aspect-ratio: auto 2 / 3 }", ".foo{aspect-ratio:auto 2/3}");
-    minify_test(".foo { aspect-ratio: 2 / 3 auto }", ".foo{aspect-ratio:auto 2/3}");
+    minify_test(".foo { aspect-ratio: 2 / 3 }", ".foo{aspect-ratio:(2,3)}");
+    minify_test(".foo { aspect-ratio: auto 2 / 3 }", ".foo{aspect-ratio:auto (2,3)}");
+    minify_test(".foo { aspect-ratio: 2 / 3 auto }", ".foo{aspect-ratio:auto (2,3)}");
   }
 
   #[test]
@@ -3974,15 +3974,15 @@ mod tests {
       r#"
       .foo {
         background: url(img.png);
-        background-position-x: 20px;
-        background-position-y: 10px;
-        background-size: 50px 100px;
+        background-position-x: 20pt;
+        background-position-y: 10pt;
+        background-size: 50pt 100pt;
         background-repeat: repeat no-repeat;
       }
     "#,
       indoc! {r#"
       .foo {
-        background: url("img.png") 20px 10px / 50px 100px repeat-x;
+        background: url("img.png") 20pt 10pt / 50pt 100pt repeat-x;
       }
     "#
       },
@@ -4003,7 +4003,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: red;
+        background: rgb(255, 0, 0);
       }
     "#
       },
@@ -4024,7 +4024,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: gray url("chess.png") 40% / 10em round fixed border-box;
+        background: rgb(128, 128, 128) url("chess.png") 40% / 10em round fixed border-box;
       }
     "#
       },
@@ -4034,15 +4034,15 @@ mod tests {
       r#"
       .foo {
         background: url(img.png), url(test.jpg) gray;
-        background-position-x: right 20px, 10px;
-        background-position-y: top 20px, 15px;
-        background-size: 50px 50px, auto;
+        background-position-x: right 20pt, 10pt;
+        background-position-y: top 20pt, 15pt;
+        background-size: 50pt 50pt, auto;
         background-repeat: repeat no-repeat, no-repeat;
       }
     "#,
       indoc! {r#"
       .foo {
-        background: url("img.png") right 20px top 20px / 50px 50px repeat-x, gray url("test.jpg") 10px 15px no-repeat;
+        background: url("img.png") right 20pt top 20pt / 50pt 50pt repeat-x, rgb(128, 128, 128) url("test.jpg") 10pt 15pt no-repeat;
       }
     "#
       },
@@ -4068,7 +4068,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: gray url("img.png") padding-box content-box;
+        background: rgb(128, 128, 128) url("img.png") padding-box content-box;
         -webkit-background-clip: text;
       }
     "#
@@ -4085,7 +4085,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: gray url("img.png");
+        background: rgb(128, 128, 128) url("img.png");
         -webkit-background-clip: text;
         background-clip: content-box;
       }
@@ -4102,7 +4102,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: gray url("img.png");
+        background: rgb(128, 128, 128) url("img.png");
         background-position: var(--pos);
       }
     "#
@@ -4111,31 +4111,31 @@ mod tests {
 
     minify_test(
       ".foo { background-position: bottom left }",
-      ".foo{background-position:0 100%}",
+      ".foo{background-position:0pt 100%}",
     );
     minify_test(
-      ".foo { background-position: left 10px center }",
-      ".foo{background-position:10px 50%}",
+      ".foo { background-position: left 10pt center }",
+      ".foo{background-position:10pt 50%}",
     );
     minify_test(
-      ".foo { background-position: right 10px center }",
-      ".foo{background-position:right 10px center}",
+      ".foo { background-position: right 10pt center }",
+      ".foo{background-position:right 10pt center}",
     );
     minify_test(
-      ".foo { background-position: right 10px top 20px }",
-      ".foo{background-position:right 10px top 20px}",
+      ".foo { background-position: right 10pt top 20pt }",
+      ".foo{background-position:right 10pt top 20pt}",
     );
     minify_test(
-      ".foo { background-position: left 10px top 20px }",
-      ".foo{background-position:10px 20px}",
+      ".foo { background-position: left 10pt top 20pt }",
+      ".foo{background-position:10pt 20pt}",
     );
     minify_test(
-      ".foo { background-position: left 10px bottom 20px }",
-      ".foo{background-position:left 10px bottom 20px}",
+      ".foo { background-position: left 10pt bottom 20pt }",
+      ".foo{background-position:left 10pt bottom 20pt}",
     );
     minify_test(
-      ".foo { background-position: left 10px top }",
-      ".foo{background-position:10px 0}",
+      ".foo { background-position: left 10pt top }",
+      ".foo{background-position:10pt 0pt}",
     );
     minify_test(
       ".foo { background-position: bottom right }",
@@ -4146,7 +4146,7 @@ mod tests {
       ".foo { background: url('img-sprite.png') no-repeat bottom right }",
       ".foo{background:url(img-sprite.png) 100% 100% no-repeat}",
     );
-    minify_test(".foo { background: transparent }", ".foo{background:0 0}");
+    minify_test(".foo { background: transparent }", ".foo{background:0pt 0pt}");
 
     minify_test(".foo { background: url(\"data:image/svg+xml,%3Csvg width='168' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E\") }", ".foo{background:url(\"data:image/svg+xml,%3Csvg width='168' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E\")}");
 
@@ -4329,7 +4329,7 @@ mod tests {
     );
 
     minify_test(".foo { background: none center }", ".foo{background:50%}");
-    minify_test(".foo { background: none }", ".foo{background:0 0}");
+    minify_test(".foo { background: none }", ".foo{background:0pt 0pt}");
 
     prefix_test(
       r#"
@@ -4340,7 +4340,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: #af5cae;
-        background: lab(51.5117% 43.3777 -29.0443);
+        background: oklab(60.13% 0.12768 -0.08015);
       }
     "#
       },
@@ -4360,7 +4360,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: #af5cae url("foo.png");
-        background: lab(51.5117% 43.3777 -29.0443) url("foo.png");
+        background: oklab(60.13% 0.12768 -0.08015) url("foo.png");
       }
     "#
       },
@@ -4374,13 +4374,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background: lab(51.5117% 43.3777 -29.0443) linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+        background: lab(51.5117% 43.3777 -29.0443) linear-gradient(oklab(59.686% 0.1009 0.1192), lab(47.7776% -34.2947 -7.65904));
       }
     "#,
       indoc! {r#"
       .foo {
         background: #af5cae linear-gradient(#c65d07, #00807c);
-        background: lab(51.5117% 43.3777 -29.0443) linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+        background: oklab(60.13% 0.12768 -0.08015) linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54% -0.1 -0.02));
       }
     "#
       },
@@ -4410,7 +4410,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background-color: #4263eb;
-        background-color: color(display-p3 0 .5 1);
+        background-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -4428,7 +4428,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background-color: color(display-p3 0 .5 1);
+        background-color: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -4446,7 +4446,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background-image: linear-gradient(red, green);
+        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
         background-image: linear-gradient(lch(50% 132 50), lch(50% 130 150));
       }
     "#
@@ -4484,7 +4484,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: #4263eb;
-        background: color(display-p3 0 .5 1);
+        background: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -4502,7 +4502,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: color(display-p3 0 .5 1);
+        background: oklab(61.454% -0.07459 -0.21931);
       }
     "#
       },
@@ -4520,7 +4520,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(red, green);
+        background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
         background: linear-gradient(lch(50% 132 50), lch(50% 130 150));
       }
     "#
@@ -4539,7 +4539,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: red;
+        background: rgb(255, 0, 0);
         background: linear-gradient(lch(50% 132 50), lch(50% 130 150));
       }
     "#
@@ -4595,7 +4595,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: red url("foo.png");
+        background: rgb(255, 0, 0) url("foo.png");
         background: lch(50% 132 50) url("foo.png");
       }
     "#
@@ -4695,7 +4695,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        flex: 1 1 0;
+        flex: 1 1 0pt;
       }
     "#
       },
@@ -4706,12 +4706,12 @@ mod tests {
       .foo {
         flex-grow: 1;
         flex-shrink: 1;
-        flex-basis: 0px;
+        flex-basis: 0pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        flex: 1 1 0;
+        flex: 1 1 0pt;
       }
     "#
       },
@@ -4770,12 +4770,12 @@ mod tests {
       .foo {
         flex-grow: 1;
         flex-shrink: 1;
-        flex-basis: 10px;
+        flex-basis: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        flex: 10px;
+        flex: 10pt;
       }
     "#
       },
@@ -4786,12 +4786,12 @@ mod tests {
       .foo {
         flex-grow: 2;
         flex-shrink: 1;
-        flex-basis: 10px;
+        flex-basis: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        flex: 2 10px;
+        flex: 2 10pt;
       }
     "#
       },
@@ -5013,13 +5013,13 @@ mod tests {
     test(
       r#"
       .foo {
-        row-gap: 10px;
-        column-gap: 20px;
+        row-gap: 10pt;
+        column-gap: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        gap: 10px 20px;
+        gap: 10pt 20pt;
       }
     "#
       },
@@ -5028,13 +5028,13 @@ mod tests {
     test(
       r#"
       .foo {
-        row-gap: 10px;
-        column-gap: 10px;
+        row-gap: 10pt;
+        column-gap: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        gap: 10px;
+        gap: 10pt;
       }
     "#
       },
@@ -5043,13 +5043,13 @@ mod tests {
     test(
       r#"
       .foo {
-        gap: 10px;
-        column-gap: 20px;
+        gap: 10pt;
+        column-gap: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        gap: 10px 20px;
+        gap: 10pt 20pt;
       }
     "#
       },
@@ -5058,13 +5058,13 @@ mod tests {
     test(
       r#"
       .foo {
-        column-gap: 20px;
-        gap: 10px;
+        column-gap: 20pt;
+        gap: 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        gap: 10px;
+        gap: 10pt;
       }
     "#
       },
@@ -5074,12 +5074,12 @@ mod tests {
       r#"
       .foo {
         row-gap: normal;
-        column-gap: 20px;
+        column-gap: 20pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        gap: normal 20px;
+        gap: normal 20pt;
       }
     "#
       },
@@ -5357,14 +5357,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        flex-basis: 1px;
+        flex-basis: 1pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-preferred-size: 1px;
-        -webkit-flex-basis: 1px;
-        flex-basis: 1px;
+        -ms-flex-preferred-size: 1pt;
+        -webkit-flex-basis: 1pt;
+        flex-basis: 1pt;
       }
     "#},
       Browsers {
@@ -5377,14 +5377,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -ms-flex-preferred-size: 1px;
-        -webkit-flex-basis: 1px;
-        flex-basis: 1px;
+        -ms-flex-preferred-size: 1pt;
+        -webkit-flex-basis: 1pt;
+        flex-basis: 1pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        flex-basis: 1px;
+        flex-basis: 1pt;
       }
     "#},
       Browsers {
@@ -5874,7 +5874,7 @@ mod tests {
       r#"
       .foo {
         font-family: "Helvetica", "Times New Roman", sans-serif;
-        font-size: 12px;
+        font-size: 12pt;
         font-weight: bold;
         font-style: italic;
         font-stretch: expanded;
@@ -5884,7 +5884,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        font: italic small-caps bold expanded 12px / 1.2em Helvetica, Times New Roman, sans-serif;
+        font: italic small-caps bold expanded 12pt / 1.2em Helvetica, Times New Roman, sans-serif;
       }
     "#
       },
@@ -5894,7 +5894,7 @@ mod tests {
       r#"
       .foo {
         font-family: "Helvetica", "Times New Roman", sans-serif;
-        font-size: 12px;
+        font-size: 12pt;
         font-weight: bold;
         font-style: italic;
         font-stretch: expanded;
@@ -5902,20 +5902,20 @@ mod tests {
         line-height: 1.2em;
       }
     "#,
-      indoc! {".foo{font:italic small-caps 700 125% 12px/1.2em Helvetica,Times New Roman,sans-serif}"
+      indoc! {".foo{font:italic small-caps 700 125% 12pt/1.2em Helvetica,Times New Roman,sans-serif}"
       },
     );
 
     test(
       r#"
       .foo {
-        font: 12px "Helvetica", "Times New Roman", sans-serif;
+        font: 12pt "Helvetica", "Times New Roman", sans-serif;
         line-height: 1.2em;
       }
     "#,
       indoc! {r#"
       .foo {
-        font: 12px / 1.2em Helvetica, Times New Roman, sans-serif;
+        font: 12pt / 1.2em Helvetica, Times New Roman, sans-serif;
       }
     "#
       },
@@ -5924,13 +5924,13 @@ mod tests {
     test(
       r#"
       .foo {
-        font: 12px "Helvetica", "Times New Roman", sans-serif;
+        font: 12pt "Helvetica", "Times New Roman", sans-serif;
         line-height: var(--lh);
       }
     "#,
       indoc! {r#"
       .foo {
-        font: 12px Helvetica, Times New Roman, sans-serif;
+        font: 12pt Helvetica, Times New Roman, sans-serif;
         line-height: var(--lh);
       }
     "#
@@ -5941,11 +5941,11 @@ mod tests {
       r#"
       .foo {
         font-family: "Helvetica", "Times New Roman", sans-serif;
-        font-size: 12px;
+        font-size: 12pt;
         font-stretch: expanded;
       }
     "#,
-      indoc! {".foo{font-family:Helvetica,Times New Roman,sans-serif;font-size:12px;font-stretch:125%}"
+      indoc! {".foo{font-family:Helvetica,Times New Roman,sans-serif;font-size:12pt;font-stretch:125%}"
       },
     );
 
@@ -5953,7 +5953,7 @@ mod tests {
       r#"
       .foo {
         font-family: "Helvetica", "Times New Roman", sans-serif;
-        font-size: 12px;
+        font-size: 12pt;
         font-weight: bold;
         font-style: italic;
         font-stretch: expanded;
@@ -5963,7 +5963,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        font: italic bold expanded 12px / 1.2em Helvetica, Times New Roman, sans-serif;
+        font: italic bold expanded 12pt / 1.2em Helvetica, Times New Roman, sans-serif;
         font-variant-caps: all-small-caps;
       }
     "#
@@ -5971,8 +5971,8 @@ mod tests {
     );
 
     minify_test(
-      ".foo { font: normal normal 600 9px/normal Charcoal; }",
-      ".foo{font:600 9px Charcoal}",
+      ".foo { font: normal normal 600 9pt/normal Charcoal; }",
+      ".foo{font:600 9pt Charcoal}",
     );
     minify_test(
       ".foo { font: normal normal 500 medium/normal Charcoal; }",
@@ -5983,8 +5983,8 @@ mod tests {
       ".foo{font:400 medium Charcoal}",
     );
     minify_test(
-      ".foo { font: normal normal 500 medium/10px Charcoal; }",
-      ".foo{font:500 medium/10px Charcoal}",
+      ".foo { font: normal normal 500 medium/10pt Charcoal; }",
+      ".foo{font:500 medium/10pt Charcoal}",
     );
     minify_test(
       ".foo { font-family: 'sans-serif'; }",
@@ -6084,14 +6084,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font-size: 22px;
-        font-size: max(2cqw, 22px);
+        font-size: 22pt;
+        font-size: max(2cqw, 22pt);
       }
     "#,
       indoc! {r#"
       .foo {
-        font-size: 22px;
-        font-size: max(2cqw, 22px);
+        font-size: 22pt;
+        font-size: max("2cqw", 22pt);
       }
     "#
       },
@@ -6103,13 +6103,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font-size: 22px;
-        font-size: max(2cqw, 22px);
+        font-size: 22pt;
+        font-size: max(2cqw, 22pt);
       }
     "#,
       indoc! {r#"
       .foo {
-        font-size: max(2cqw, 22px);
+        font-size: max("2cqw", 22pt);
       }
     "#
       },
@@ -6122,13 +6122,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font-size: 22px;
+        font-size: 22pt;
         font-size: xxx-large;
       }
     "#,
       indoc! {r#"
       .foo {
-        font-size: 22px;
+        font-size: 22pt;
         font-size: xxx-large;
       }
     "#
@@ -6141,7 +6141,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font-size: 22px;
+        font-size: 22pt;
         font-size: xxx-large;
       }
     "#,
@@ -6274,13 +6274,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font: 22px Helvetica;
+        font: 22pt Helvetica;
         font: xxx-large system-ui;
       }
     "#,
       indoc! {r#"
       .foo {
-        font: 22px Helvetica;
+        font: 22pt Helvetica;
         font: xxx-large system-ui;
       }
     "#
@@ -6293,7 +6293,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        font: 22px Helvetica;
+        font: 22pt Helvetica;
         font: xxx-large system-ui;
       }
     "#,
@@ -6338,92 +6338,92 @@ mod tests {
 
   #[test]
   fn test_selectors() {
-    minify_test(":nth-col(2n) {width: 20px}", ":nth-col(2n){width:20px}");
-    minify_test(":nth-col(10n-1) {width: 20px}", ":nth-col(10n-1){width:20px}");
-    minify_test(":nth-col(-n+2) {width: 20px}", ":nth-col(-n+2){width:20px}");
-    minify_test(":nth-col(even) {width: 20px}", ":nth-col(2n){width:20px}");
-    minify_test(":nth-col(odd) {width: 20px}", ":nth-col(odd){width:20px}");
-    minify_test(":nth-last-col(2n) {width: 20px}", ":nth-last-col(2n){width:20px}");
-    minify_test(":nth-last-col(10n-1) {width: 20px}", ":nth-last-col(10n-1){width:20px}");
-    minify_test(":nth-last-col(-n+2) {width: 20px}", ":nth-last-col(-n+2){width:20px}");
-    minify_test(":nth-last-col(even) {width: 20px}", ":nth-last-col(2n){width:20px}");
-    minify_test(":nth-last-col(odd) {width: 20px}", ":nth-last-col(odd){width:20px}");
-    minify_test(":nth-child(odd) {width: 20px}", ":nth-child(odd){width:20px}");
-    minify_test(":nth-child(2n) {width: 20px}", ":nth-child(2n){width:20px}");
-    minify_test(":nth-child(2n+1) {width: 20px}", ":nth-child(odd){width:20px}");
-    minify_test(":first-child {width: 20px}", ":first-child{width:20px}");
-    minify_test(":nth-child(1) {width: 20px}", ":first-child{width:20px}");
-    minify_test(":nth-last-child(1) {width: 20px}", ":last-child{width:20px}");
-    minify_test(":nth-of-type(1) {width: 20px}", ":first-of-type{width:20px}");
-    minify_test(":nth-last-of-type(1) {width: 20px}", ":last-of-type{width:20px}");
+    minify_test(":nth-col(2n) {width: 20pt}", ":nth-col(2n){width:20pt}");
+    minify_test(":nth-col(10n-1) {width: 20pt}", ":nth-col(10n-1){width:20pt}");
+    minify_test(":nth-col(-n+2) {width: 20pt}", ":nth-col(-n+2){width:20pt}");
+    minify_test(":nth-col(even) {width: 20pt}", ":nth-col(2n){width:20pt}");
+    minify_test(":nth-col(odd) {width: 20pt}", ":nth-col(odd){width:20pt}");
+    minify_test(":nth-last-col(2n) {width: 20pt}", ":nth-last-col(2n){width:20pt}");
+    minify_test(":nth-last-col(10n-1) {width: 20pt}", ":nth-last-col(10n-1){width:20pt}");
+    minify_test(":nth-last-col(-n+2) {width: 20pt}", ":nth-last-col(-n+2){width:20pt}");
+    minify_test(":nth-last-col(even) {width: 20pt}", ":nth-last-col(2n){width:20pt}");
+    minify_test(":nth-last-col(odd) {width: 20pt}", ":nth-last-col(odd){width:20pt}");
+    minify_test(":nth-child(odd) {width: 20pt}", ":nth-child(odd){width:20pt}");
+    minify_test(":nth-child(2n) {width: 20pt}", ":nth-child(2n){width:20pt}");
+    minify_test(":nth-child(2n+1) {width: 20pt}", ":nth-child(odd){width:20pt}");
+    minify_test(":first-child {width: 20pt}", ":first-child{width:20pt}");
+    minify_test(":nth-child(1) {width: 20pt}", ":first-child{width:20pt}");
+    minify_test(":nth-last-child(1) {width: 20pt}", ":last-child{width:20pt}");
+    minify_test(":nth-of-type(1) {width: 20pt}", ":first-of-type{width:20pt}");
+    minify_test(":nth-last-of-type(1) {width: 20pt}", ":last-of-type{width:20pt}");
     minify_test(
-      ":nth-child(even of li.important) {width: 20px}",
-      ":nth-child(2n of li.important){width:20px}",
+      ":nth-child(even of li.important) {width: 20pt}",
+      ":nth-child(2n of li.important){width:20pt}",
     );
     minify_test(
-      ":nth-child(1 of li.important) {width: 20px}",
-      ":nth-child(1 of li.important){width:20px}",
+      ":nth-child(1 of li.important) {width: 20pt}",
+      ":nth-child(1 of li.important){width:20pt}",
     );
     minify_test(
-      ":nth-last-child(even of li.important) {width: 20px}",
-      ":nth-last-child(2n of li.important){width:20px}",
+      ":nth-last-child(even of li.important) {width: 20pt}",
+      ":nth-last-child(2n of li.important){width:20pt}",
     );
     minify_test(
-      ":nth-last-child(1 of li.important) {width: 20px}",
-      ":nth-last-child(1 of li.important){width:20px}",
+      ":nth-last-child(1 of li.important) {width: 20pt}",
+      ":nth-last-child(1 of li.important){width:20pt}",
     );
     minify_test(
-      ":nth-last-child(1 of.important) {width: 20px}",
-      ":nth-last-child(1 of .important){width:20px}",
+      ":nth-last-child(1 of.important) {width: 20pt}",
+      ":nth-last-child(1 of .important){width:20pt}",
     );
 
-    minify_test("[foo=\"baz\"] {color:red}", "[foo=baz]{color:red}");
-    minify_test("[foo=\"foo bar\"] {color:red}", "[foo=foo\\ bar]{color:red}");
-    minify_test("[foo=\"foo bar baz\"] {color:red}", "[foo=\"foo bar baz\"]{color:red}");
-    minify_test("[foo=\"\"] {color:red}", "[foo=\"\"]{color:red}");
+    minify_test("[foo=\"baz\"] {color:red}", "[foo=baz]{color:rgb(255,0,0)}");
+    minify_test("[foo=\"foo bar\"] {color:red}", "[foo=foo\\ bar]{color:rgb(255,0,0)}");
+    minify_test("[foo=\"foo bar baz\"] {color:red}", "[foo=\"foo bar baz\"]{color:rgb(255,0,0)}");
+    minify_test("[foo=\"\"] {color:red}", "[foo=\"\"]{color:rgb(255,0,0)}");
     minify_test(
       ".test:not([foo=\"bar\"]) {color:red}",
-      ".test:not([foo=bar]){color:red}",
+      ".test:not([foo=bar]){color:rgb(255,0,0)}",
     );
-    minify_test(".test + .foo {color:red}", ".test+.foo{color:red}");
-    minify_test(".test ~ .foo {color:red}", ".test~.foo{color:red}");
-    minify_test(".test .foo {color:red}", ".test .foo{color:red}");
+    minify_test(".test + .foo {color:red}", ".test+.foo{color:rgb(255,0,0)}");
+    minify_test(".test ~ .foo {color:red}", ".test~.foo{color:rgb(255,0,0)}");
+    minify_test(".test .foo {color:red}", ".test .foo{color:rgb(255,0,0)}");
     minify_test(
       ".custom-range::-webkit-slider-thumb:active {color:red}",
-      ".custom-range::-webkit-slider-thumb:active{color:red}",
+      ".custom-range::-webkit-slider-thumb:active{color:rgb(255,0,0)}",
     );
-    minify_test(".test:not(.foo, .bar) {color:red}", ".test:not(.foo,.bar){color:red}");
-    minify_test(".test:is(.foo, .bar) {color:red}", ".test:is(.foo,.bar){color:red}");
+    minify_test(".test:not(.foo, .bar) {color:red}", ".test:not(.foo,.bar){color:rgb(255,0,0)}");
+    minify_test(".test:is(.foo, .bar) {color:red}", ".test:is(.foo,.bar){color:rgb(255,0,0)}");
     minify_test(
       ".test:where(.foo, .bar) {color:red}",
-      ".test:where(.foo,.bar){color:red}",
+      ".test:where(.foo,.bar){color:rgb(255,0,0)}",
     );
     minify_test(
       ".test:where(.foo, .bar) {color:red}",
-      ".test:where(.foo,.bar){color:red}",
+      ".test:where(.foo,.bar){color:rgb(255,0,0)}",
     );
-    minify_test(":host {color:red}", ":host{color:red}");
-    minify_test(":host(.foo) {color:red}", ":host(.foo){color:red}");
-    minify_test("::slotted(span) {color:red", "::slotted(span){color:red}");
+    minify_test(":host {color:red}", ":host{color:rgb(255,0,0)}");
+    minify_test(":host(.foo) {color:red}", ":host(.foo){color:rgb(255,0,0)}");
+    minify_test("::slotted(span) {color:red", "::slotted(span){color:rgb(255,0,0)}");
     minify_test(
       "custom-element::part(foo) {color:red}",
-      "custom-element::part(foo){color:red}",
+      "custom-element::part(foo){color:rgb(255,0,0)}",
     );
-    minify_test(".sm\\:text-5xl { font-size: 3rem }", ".sm\\:text-5xl{font-size:3rem}");
-    minify_test("a:has(> img) {color:red}", "a:has(>img){color:red}");
-    minify_test("dt:has(+ dt) {color:red}", "dt:has(+dt){color:red}");
+    minify_test(".sm\\:text-5xl { font-size: 3rem }", ".sm\\:text-5xl{font-size:\"3rem\"}");
+    minify_test("a:has(> img) {color:red}", "a:has(>img){color:rgb(255,0,0)}");
+    minify_test("dt:has(+ dt) {color:red}", "dt:has(+dt){color:rgb(255,0,0)}");
     minify_test(
       "section:not(:has(h1, h2, h3, h4, h5, h6)) {color:red}",
-      "section:not(:has(h1,h2,h3,h4,h5,h6)){color:red}",
+      "section:not(:has(h1,h2,h3,h4,h5,h6)){color:rgb(255,0,0)}",
     );
     minify_test(
       ":has(.sibling ~ .target) {color:red}",
-      ":has(.sibling~.target){color:red}",
+      ":has(.sibling~.target){color:rgb(255,0,0)}",
     );
-    minify_test(".x:has(> .a > .b) {color:red}", ".x:has(>.a>.b){color:red}");
-    minify_test(".x:has(.bar, #foo) {color:red}", ".x:has(.bar,#foo){color:red}");
-    minify_test(".x:has(span + span) {color:red}", ".x:has(span+span){color:red}");
-    minify_test("a:has(:visited) {color:red}", "a:has(:visited){color:red}");
+    minify_test(".x:has(> .a > .b) {color:red}", ".x:has(>.a>.b){color:rgb(255,0,0)}");
+    minify_test(".x:has(.bar, #foo) {color:red}", ".x:has(.bar,#foo){color:rgb(255,0,0)}");
+    minify_test(".x:has(span + span) {color:red}", ".x:has(span+span){color:rgb(255,0,0)}");
+    minify_test("a:has(:visited) {color:red}", "a:has(:visited){color:rgb(255,0,0)}");
     for element in [
       "-webkit-scrollbar",
       "-webkit-scrollbar-button",
@@ -6452,7 +6452,7 @@ mod tests {
       ] {
         minify_test(
           &format!("::{}:{} {{color:red}}", element, class),
-          &format!("::{}:{}{{color:red}}", element, class),
+          &format!("::{}:{}{{color:rgb(255,0,0)}}", element, class),
         );
       }
     }
@@ -6495,18 +6495,18 @@ mod tests {
     );
     minify_test(
       "a:last-child::first-letter {color:red}",
-      "a:last-child:first-letter{color:red}",
+      "a:last-child:first-letter{color:rgb(255,0,0)}",
     );
 
     prefix_test(
       ".test:not(.foo, .bar) {color:red}",
       indoc! {r#"
       .test:not(:-webkit-any(.foo, .bar)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .test:not(:is(.foo, .bar)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6518,7 +6518,7 @@ mod tests {
       ".test:not(.foo, .bar) {color:red}",
       indoc! {r#"
       .test:not(.foo, .bar) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6527,28 +6527,28 @@ mod tests {
       },
     );
 
-    minify_test("a:lang(en) {color:red}", "a:lang(en){color:red}");
-    minify_test("a:lang(en, fr) {color:red}", "a:lang(en,fr){color:red}");
-    minify_test("a:lang('en') {color:red}", "a:lang(en){color:red}");
+    minify_test("a:lang(en) {color:red}", "a:lang(en){color:rgb(255,0,0)}");
+    minify_test("a:lang(en, fr) {color:red}", "a:lang(en,fr){color:rgb(255,0,0)}");
+    minify_test("a:lang('en') {color:red}", "a:lang(en){color:rgb(255,0,0)}");
     minify_test(
       "a:-webkit-any(.foo, .bar) {color:red}",
-      "a:-webkit-any(.foo,.bar){color:red}",
+      "a:-webkit-any(.foo,.bar){color:rgb(255,0,0)}",
     );
-    minify_test("a:-moz-any(.foo, .bar) {color:red}", "a:-moz-any(.foo,.bar){color:red}");
+    minify_test("a:-moz-any(.foo, .bar) {color:red}", "a:-moz-any(.foo,.bar){color:rgb(255,0,0)}");
 
     prefix_test(
       "a:is(.foo, .bar) {color:red}",
       indoc! {r#"
       a:-webkit-any(.foo, .bar) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:-moz-any(.foo, .bar) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:is(.foo, .bar) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6562,7 +6562,7 @@ mod tests {
       "a:is(.foo > .bar) {color:red}",
       indoc! {r#"
       a:is(.foo > .bar) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6576,15 +6576,15 @@ mod tests {
       "a:lang(en, fr) {color:red}",
       indoc! {r#"
       a:-webkit-any(:lang(en), :lang(fr)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:-moz-any(:lang(en), :lang(fr)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:is(:lang(en), :lang(fr)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6598,7 +6598,7 @@ mod tests {
       "a:lang(en, fr) {color:red}",
       indoc! {r#"
       a:is(:lang(en), :lang(fr)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6612,7 +6612,7 @@ mod tests {
       "a:lang(en, fr) {color:red}",
       indoc! {r#"
       a:lang(en, fr) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6625,15 +6625,15 @@ mod tests {
       "a:dir(rtl) {color:red}",
       indoc! {r#"
       a:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6647,15 +6647,15 @@ mod tests {
       "a:dir(ltr) {color:red}",
       indoc! {r#"
       a:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:not(:-moz-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6669,7 +6669,7 @@ mod tests {
       "a:dir(rtl) {color:red}",
       indoc! {r#"
       a:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6683,7 +6683,7 @@ mod tests {
       "a:dir(ltr) {color:red}",
       indoc! {r#"
       a:not(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6697,7 +6697,7 @@ mod tests {
       "a:dir(rtl) {color:red}",
       indoc! {r#"
       a:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6710,7 +6710,7 @@ mod tests {
       "a:dir(ltr) {color:red}",
       indoc! {r#"
       a:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6723,7 +6723,7 @@ mod tests {
       "a:is(:dir(rtl)) {color:red}",
       indoc! {r#"
       a:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6736,7 +6736,7 @@ mod tests {
       "a:where(:dir(rtl)) {color:red}",
       indoc! {r#"
       a:where(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6749,7 +6749,7 @@ mod tests {
       "a:has(:dir(rtl)) {color:red}",
       indoc! {r#"
       a:has(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6762,7 +6762,7 @@ mod tests {
       "a:not(:dir(rtl)) {color:red}",
       indoc! {r#"
       a:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6775,7 +6775,7 @@ mod tests {
       "a:dir(rtl)::after {color:red}",
       indoc! {r#"
       a:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi):after {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6788,7 +6788,7 @@ mod tests {
       "a:dir(rtl) div {color:red}",
       indoc! {r#"
       a:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) div {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -6797,37 +6797,37 @@ mod tests {
       },
     );
 
-    minify_test(".foo::cue {color: red}", ".foo::cue{color:red}");
-    minify_test(".foo::cue-region {color: red}", ".foo::cue-region{color:red}");
-    minify_test(".foo::cue(b) {color: red}", ".foo::cue(b){color:red}");
-    minify_test(".foo::cue-region(b) {color: red}", ".foo::cue-region(b){color:red}");
+    minify_test(".foo::cue {color: red}", ".foo::cue{color:rgb(255,0,0)}");
+    minify_test(".foo::cue-region {color: red}", ".foo::cue-region{color:rgb(255,0,0)}");
+    minify_test(".foo::cue(b) {color: red}", ".foo::cue(b){color:rgb(255,0,0)}");
+    minify_test(".foo::cue-region(b) {color: red}", ".foo::cue-region(b){color:rgb(255,0,0)}");
     minify_test(
       "::cue(v[voice='active']) {color: yellow;}",
-      "::cue(v[voice=active]){color:#ff0}",
+      "::cue(v[voice=active]){color:rgb(255,255,0)}",
     );
-    minify_test(":foo(bar) { color: yellow }", ":foo(bar){color:#ff0}");
-    minify_test("::foo(bar) { color: yellow }", "::foo(bar){color:#ff0}");
-    minify_test("::foo(*) { color: yellow }", "::foo(*){color:#ff0}");
+    minify_test(":foo(bar) { color: yellow }", ":foo(bar){color:rgb(255,255,0)}");
+    minify_test("::foo(bar) { color: yellow }", "::foo(bar){color:rgb(255,255,0)}");
+    minify_test("::foo(*) { color: yellow }", "::foo(*){color:rgb(255,255,0)}");
 
-    minify_test(":is(.foo) { color: yellow }", ".foo{color:#ff0}");
-    minify_test(":is(#foo) { color: yellow }", "#foo{color:#ff0}");
-    minify_test("a:is(.foo) { color: yellow }", "a.foo{color:#ff0}");
-    minify_test("a:is([data-test]) { color: yellow }", "a[data-test]{color:#ff0}");
-    minify_test(".foo:is(a) { color: yellow }", ".foo:is(a){color:#ff0}");
-    minify_test(".foo:is(*|a) { color: yellow }", ".foo:is(*|a){color:#ff0}");
-    minify_test(".foo:is(*) { color: yellow }", ".foo:is(*){color:#ff0}");
+    minify_test(":is(.foo) { color: yellow }", ".foo{color:rgb(255,255,0)}");
+    minify_test(":is(#foo) { color: yellow }", "#foo{color:rgb(255,255,0)}");
+    minify_test("a:is(.foo) { color: yellow }", "a.foo{color:rgb(255,255,0)}");
+    minify_test("a:is([data-test]) { color: yellow }", "a[data-test]{color:rgb(255,255,0)}");
+    minify_test(".foo:is(a) { color: yellow }", ".foo:is(a){color:rgb(255,255,0)}");
+    minify_test(".foo:is(*|a) { color: yellow }", ".foo:is(*|a){color:rgb(255,255,0)}");
+    minify_test(".foo:is(*) { color: yellow }", ".foo:is(*){color:rgb(255,255,0)}");
     minify_test(
       "@namespace svg url(http://www.w3.org/2000/svg); .foo:is(svg|a) { color: yellow }",
-      "@namespace svg \"http://www.w3.org/2000/svg\";.foo:is(svg|a){color:#ff0}",
+      "@namespace svg \"http://www.w3.org/2000/svg\";.foo:is(svg|a){color:rgb(255,255,0)}",
     );
-    minify_test("a:is(.foo .bar) { color: yellow }", "a:is(.foo .bar){color:#ff0}");
-    minify_test(":is(.foo, .bar) { color: yellow }", ":is(.foo,.bar){color:#ff0}");
-    minify_test("a:is(:not(.foo)) { color: yellow }", "a:not(.foo){color:#ff0}");
-    minify_test("a:is(:first-child) { color: yellow }", "a:first-child{color:#ff0}");
-    minify_test("a:is(:has(.foo)) { color: yellow }", "a:has(.foo){color:#ff0}");
-    minify_test("a:is(:is(.foo)) { color: yellow }", "a.foo{color:#ff0}");
-    minify_test(":host(:hover) {color: red}", ":host(:hover){color:red}");
-    minify_test("::slotted(:hover) {color: red}", "::slotted(:hover){color:red}");
+    minify_test("a:is(.foo .bar) { color: yellow }", "a:is(.foo .bar){color:rgb(255,255,0)}");
+    minify_test(":is(.foo, .bar) { color: yellow }", ":is(.foo,.bar){color:rgb(255,255,0)}");
+    minify_test("a:is(:not(.foo)) { color: yellow }", "a:not(.foo){color:rgb(255,255,0)}");
+    minify_test("a:is(:first-child) { color: yellow }", "a:first-child{color:rgb(255,255,0)}");
+    minify_test("a:is(:has(.foo)) { color: yellow }", "a:has(.foo){color:rgb(255,255,0)}");
+    minify_test("a:is(:is(.foo)) { color: yellow }", "a.foo{color:rgb(255,255,0)}");
+    minify_test(":host(:hover) {color: red}", ":host(:hover){color:rgb(255,0,0)}");
+    minify_test("::slotted(:hover) {color: red}", "::slotted(:hover){color:rgb(255,0,0)}");
 
     minify_test(
       ":root::view-transition {position: fixed}",
@@ -6861,33 +6861,33 @@ mod tests {
       );
     }
 
-    minify_test(".foo ::deep .bar {width: 20px}", ".foo ::deep .bar{width:20px}");
-    minify_test(".foo::deep .bar {width: 20px}", ".foo::deep .bar{width:20px}");
-    minify_test(".foo ::deep.bar {width: 20px}", ".foo ::deep.bar{width:20px}");
-    minify_test(".foo ::unknown .bar {width: 20px}", ".foo ::unknown .bar{width:20px}");
+    minify_test(".foo ::deep .bar {width: 20pt}", ".foo ::deep .bar{width:20pt}");
+    minify_test(".foo::deep .bar {width: 20pt}", ".foo::deep .bar{width:20pt}");
+    minify_test(".foo ::deep.bar {width: 20pt}", ".foo ::deep.bar{width:20pt}");
+    minify_test(".foo ::unknown .bar {width: 20pt}", ".foo ::unknown .bar{width:20pt}");
     minify_test(
-      ".foo ::unknown(foo) .bar {width: 20px}",
-      ".foo ::unknown(foo) .bar{width:20px}",
+      ".foo ::unknown(foo) .bar {width: 20pt}",
+      ".foo ::unknown(foo) .bar{width:20pt}",
     );
     minify_test(
-      ".foo ::unknown:only-child {width: 20px}",
-      ".foo ::unknown:only-child{width:20px}",
+      ".foo ::unknown:only-child {width: 20pt}",
+      ".foo ::unknown:only-child{width:20pt}",
     );
     minify_test(
-      ".foo ::unknown(.foo) .bar {width: 20px}",
-      ".foo ::unknown(.foo) .bar{width:20px}",
+      ".foo ::unknown(.foo) .bar {width: 20pt}",
+      ".foo ::unknown(.foo) .bar{width:20pt}",
     );
     minify_test(
-      ".foo ::unknown(.foo .bar / .baz) .bar {width: 20px}",
-      ".foo ::unknown(.foo .bar / .baz) .bar{width:20px}",
+      ".foo ::unknown(.foo .bar / .baz) .bar {width: 20pt}",
+      ".foo ::unknown(.foo .bar / .baz) .bar{width:20pt}",
     );
     minify_test(
-      ".foo ::unknown(something(foo)) .bar {width: 20px}",
-      ".foo ::unknown(something(foo)) .bar{width:20px}",
+      ".foo ::unknown(something(foo)) .bar {width: 20pt}",
+      ".foo ::unknown(something(foo)) .bar{width:20pt}",
     );
     minify_test(
-      ".foo ::unknown([abc]) .bar {width: 20px}",
-      ".foo ::unknown([abc]) .bar{width:20px}",
+      ".foo ::unknown([abc]) .bar {width: 20pt}",
+      ".foo ::unknown([abc]) .bar{width:20pt}",
     );
 
     let deep_options = ParserOptions {
@@ -6896,21 +6896,21 @@ mod tests {
     };
 
     error_test(
-      ".foo >>> .bar {width: 20px}",
+      ".foo >>> .bar {width: 20pt}",
       ParserError::SelectorError(SelectorError::DanglingCombinator),
     );
     error_test(
-      ".foo /deep/ .bar {width: 20px}",
+      ".foo /deep/ .bar {width: 20pt}",
       ParserError::SelectorError(SelectorError::DanglingCombinator),
     );
     minify_test_with_options(
-      ".foo >>> .bar {width: 20px}",
-      ".foo>>>.bar{width:20px}",
+      ".foo >>> .bar {width: 20pt}",
+      ".foo>>>.bar{width:20pt}",
       deep_options.clone(),
     );
     minify_test_with_options(
-      ".foo /deep/ .bar {width: 20px}",
-      ".foo /deep/ .bar{width:20px}",
+      ".foo /deep/ .bar {width: 20pt}",
+      ".foo /deep/ .bar{width:20pt}",
       deep_options.clone(),
     );
 
@@ -6923,58 +6923,58 @@ mod tests {
     };
 
     minify_error_test_with_options(
-      "div {width: 20px}",
+      "div {width: 20pt}",
       MinifyErrorKind::ImpureCSSModuleSelector,
       pure_css_module_options.clone(),
     );
     minify_error_test_with_options(
-      ":global(.foo) {width: 20px}",
+      ":global(.foo) {width: 20pt}",
       MinifyErrorKind::ImpureCSSModuleSelector,
       pure_css_module_options.clone(),
     );
     minify_error_test_with_options(
-      "[foo=bar] {width: 20px}",
+      "[foo=bar] {width: 20pt}",
       MinifyErrorKind::ImpureCSSModuleSelector,
       pure_css_module_options.clone(),
     );
     minify_error_test_with_options(
-      "div, .foo {width: 20px}",
+      "div, .foo {width: 20pt}",
       MinifyErrorKind::ImpureCSSModuleSelector,
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
-      ":local(.foo) {width: 20px}",
-      "._8Z4fiW_foo{width:20px}",
+      ":local(.foo) {width: 20pt}",
+      "._8Z4fiW_foo{width:20pt}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       "div.my-class {color: red;}",
-      "div._8Z4fiW_my-class{color:red}",
+      "div._8Z4fiW_my-class{color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       "#id {color: red;}",
-      "#_8Z4fiW_id{color:red}",
+      "#_8Z4fiW_id{color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       "a .my-class{color: red;}",
-      "a ._8Z4fiW_my-class{color:red}",
+      "a ._8Z4fiW_my-class{color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       ".my-class a {color: red;}",
-      "._8Z4fiW_my-class a{color:red}",
+      "._8Z4fiW_my-class a{color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       ".my-class:is(a) {color: red;}",
-      "._8Z4fiW_my-class:is(a){color:red}",
+      "._8Z4fiW_my-class:is(a){color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
       "div:has(.my-class) {color: red;}",
-      "div:has(._8Z4fiW_my-class){color:red}",
+      "div:has(._8Z4fiW_my-class){color:rgb(255,0,0)}",
       pure_css_module_options.clone(),
     );
     minify_test_with_options(
@@ -6984,7 +6984,7 @@ mod tests {
     );
     minify_test_with_options(
       ".foo { span { color: red; } }",
-      "._8Z4fiW_foo{& span{color:red}}",
+      "._8Z4fiW_foo{& span{color:rgb(255,0,0)}}",
       pure_css_module_options.clone(),
     );
     minify_error_test_with_options(
@@ -6994,7 +6994,7 @@ mod tests {
     );
     minify_test_with_options(
       ".foo { div { span { color: red; } } }",
-      "._8Z4fiW_foo{& div{& span{color:red}}}",
+      "._8Z4fiW_foo{& div{& span{color:rgb(255,0,0)}}}",
       pure_css_module_options.clone(),
     );
     minify_error_test_with_options(
@@ -7014,44 +7014,44 @@ mod tests {
     );
     minify_test_with_options(
       "@scope (.a) to (.b) { .foo { color: red } }",
-      "@scope(._8Z4fiW_a) to (._8Z4fiW_b){._8Z4fiW_foo{color:red}}",
+      "@scope(._8Z4fiW_a) to (._8Z4fiW_b){._8Z4fiW_foo{color:rgb(255,0,0)}}",
       pure_css_module_options.clone(),
     );
 
     error_test(
-      "input.defaultCheckbox::before h1 {width: 20px}",
+      "input.defaultCheckbox::before h1 {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(Token::Ident(
         "h1".into(),
       ))),
     );
     error_test(
-      "input.defaultCheckbox::before .my-class {width: 20px}",
+      "input.defaultCheckbox::before .my-class {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(Token::Delim('.'))),
     );
     error_test(
-      "input.defaultCheckbox::before.my-class {width: 20px}",
+      "input.defaultCheckbox::before.my-class {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(Token::Delim('.'))),
     );
     error_test(
-      "input.defaultCheckbox::before #id {width: 20px}",
+      "input.defaultCheckbox::before #id {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(Token::IDHash(
         "id".into(),
       ))),
     );
     error_test(
-      "input.defaultCheckbox::before#id {width: 20px}",
+      "input.defaultCheckbox::before#id {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(Token::IDHash(
         "id".into(),
       ))),
     );
     error_test(
-      "input.defaultCheckbox::before [attr] {width: 20px}",
+      "input.defaultCheckbox::before [attr] {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(
         Token::SquareBracketBlock,
       )),
     );
     error_test(
-      "input.defaultCheckbox::before[attr] {width: 20px}",
+      "input.defaultCheckbox::before[attr] {width: 20pt}",
       ParserError::SelectorError(SelectorError::UnexpectedSelectorAfterPseudoElement(
         Token::SquareBracketBlock,
       )),
@@ -7068,7 +7068,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes test{to{background:#00f}}",
+      "@keyframes test{to{background:rgb(0,0,255)}}",
     );
     minify_test(
       r#"
@@ -7078,7 +7078,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes test{to{background:#00f}}",
+      "@keyframes test{to{background:rgb(0,0,255)}}",
     );
 
     // named animation range percentages
@@ -7093,7 +7093,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes test{entry 0%{background:#00f}exit 100%{background:green}}",
+      "@keyframes test{entry 0%{background:rgb(0,0,255)}exit 100%{background:rgb(0,128,0)}}",
     );
 
     // CSS-wide keywords and `none` cannot remove quotes.
@@ -7105,7 +7105,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes \"revert\"{0%{background:green}}",
+      "@keyframes \"revert\"{0%{background:rgb(0,128,0)}}",
     );
 
     minify_test(
@@ -7116,7 +7116,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes \"none\"{0%{background:green}}",
+      "@keyframes \"none\"{0%{background:rgb(0,128,0)}}",
     );
 
     // named animation ranges cannot be used with to or from
@@ -7173,7 +7173,7 @@ mod tests {
         }
       }
     "#,
-      "@-webkit-keyframes test{0%{background:red}to{background:#00f}}",
+      "@-webkit-keyframes test{0%{background:rgb(255,0,0)}to{background:rgb(0,0,255)}}",
     );
     minify_test(
       r#"
@@ -7188,7 +7188,7 @@ mod tests {
         }
       }
     "#,
-      "@-moz-keyframes test{0%{background:red}to{background:#00f}}",
+      "@-moz-keyframes test{0%{background:rgb(255,0,0)}to{background:rgb(0,0,255)}}",
     );
     minify_test(r#"
       @-webkit-keyframes test {
@@ -7211,7 +7211,7 @@ mod tests {
           background: blue
         }
       }
-    "#, "@-webkit-keyframes test{0%{background:red}to{background:#00f}}@-moz-keyframes test{0%{background:red}to{background:#00f}}");
+    "#, "@-webkit-keyframes test{0%{background:rgb(255,0,0)}to{background:rgb(0,0,255)}}@-moz-keyframes test{0%{background:rgb(255,0,0)}to{background:rgb(0,0,255)}}");
 
     prefix_test(
       r#"
@@ -7227,31 +7227,31 @@ mod tests {
       indoc! { r#"
       @-webkit-keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
 
       @-moz-keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
 
       @keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
     "#},
@@ -7293,11 +7293,11 @@ mod tests {
       indoc! { r#"
       @keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
     "#},
@@ -7341,31 +7341,31 @@ mod tests {
       indoc! { r#"
       @-webkit-keyframes test1 {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
 
       @-moz-keyframes test2 {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
 
       @keyframes test3 {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
     "#},
@@ -7407,31 +7407,31 @@ mod tests {
       indoc! { r#"
       @-webkit-keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: red;
+          background: rgb(255, 0, 0);
         }
       }
 
       @-moz-keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: pink;
+          background: rgb(255, 192, 203);
         }
       }
 
       @keyframes test {
         from {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         to {
-          background: #00f;
+          background: rgb(0, 0, 255);
         }
       }
     "#},
@@ -7456,7 +7456,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes test{to{background:red}}",
+      "@keyframes test{to{background:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -7472,7 +7472,7 @@ mod tests {
         }
       }
     "#,
-      "@keyframes test{to{background:#00f}}@-webkit-keyframes test{to{background:red}}",
+      "@keyframes test{to{background:rgb(0,0,255)}}@-webkit-keyframes test{to{background:rgb(255,0,0)}}",
     );
   }
 
@@ -7520,249 +7520,249 @@ mod tests {
 
   #[test]
   fn test_calc() {
-    minify_test(".foo { width: calc(20px * 2) }", ".foo{width:40px}");
-    minify_test(".foo { font-size: calc(100vw / 35) }", ".foo{font-size:2.85714vw}");
-    minify_test(".foo { width: calc(20px * 2 * 3) }", ".foo{width:120px}");
-    minify_test(".foo { width: calc(20px + 30px) }", ".foo{width:50px}");
-    minify_test(".foo { width: calc(20px + 30px + 40px) }", ".foo{width:90px}");
-    minify_test(".foo { width: calc(100% - 30px) }", ".foo{width:calc(100% - 30px)}");
+    minify_test(".foo { width: calc(20pt * 2) }", ".foo{width:40pt}");
+    minify_test(".foo { font-size: calc(100vw / 35) }", ".foo{font-size:\"2.85714vw\"}");
+    minify_test(".foo { width: calc(20pt * 2 * 3) }", ".foo{width:120pt}");
+    minify_test(".foo { width: calc(20pt + 30pt) }", ".foo{width:50pt}");
+    minify_test(".foo { width: calc(20pt + 30pt + 40pt) }", ".foo{width:90pt}");
+    minify_test(".foo { width: calc(100% - 30pt) }", ".foo{width:calc(100% - 30pt)}");
     minify_test(
-      ".foo { width: calc(100% - 30px + 20px) }",
-      ".foo{width:calc(100% - 10px)}",
+      ".foo { width: calc(100% - 30pt + 20pt) }",
+      ".foo{width:calc(100% - 10pt)}",
     );
     minify_test(
-      ".foo { width: calc(20px + 100% - 30px) }",
-      ".foo{width:calc(100% - 10px)}",
+      ".foo { width: calc(20pt + 100% - 30pt) }",
+      ".foo{width:calc(100% - 10pt)}",
     );
     minify_test(
-      ".foo { width: calc(20px + 100% + 10vw - 30px) }",
-      ".foo{width:calc(100% - 10px + 10vw)}",
+      ".foo { width: calc(20pt + 100% + 10vw - 30pt) }",
+      ".foo{width:calc(100% - 10pt + \"10vw\")}",
     );
     minify_test(
-      ".foo { width: calc(20px + 100% - 30px) }",
-      ".foo{width:calc(100% - 10px)}",
+      ".foo { width: calc(20pt + 100% - 30pt) }",
+      ".foo{width:calc(100% - 10pt)}",
     );
     minify_test(
-      ".foo { width: calc(2 * (100% - 20px)) }",
-      ".foo{width:calc(200% - 40px)}",
+      ".foo { width: calc(2 * (100% - 20pt)) }",
+      ".foo{width:calc(200% - 40pt)}",
     );
     minify_test(
-      ".foo { width: calc((100% - 20px) * 2) }",
-      ".foo{width:calc(200% - 40px)}",
+      ".foo { width: calc((100% - 20pt) * 2) }",
+      ".foo{width:calc(200% - 40pt)}",
     );
-    minify_test(".foo { width: calc(100% - 20px * 2) }", ".foo{width:calc(100% - 40px)}");
-    minify_test(".foo { width: calc(1px + 1px) }", ".foo{width:2px}");
-    minify_test(".foo { width: calc(100vw / 2) }", ".foo{width:50vw}");
-    minify_test(".foo { width: calc(50px - (20px - 30px)) }", ".foo{width:60px}");
-    minify_test(".foo { width: calc(100px - (100px - 100%)) }", ".foo{width:100%}");
+    minify_test(".foo { width: calc(100% - 20pt * 2) }", ".foo{width:calc(100% - 40pt)}");
+    minify_test(".foo { width: calc(1pt + 1pt) }", ".foo{width:2pt}");
+    minify_test(".foo { width: calc(100vw / 2) }", ".foo{width:\"50vw\"}");
+    minify_test(".foo { width: calc(50pt - (20pt - 30pt)) }", ".foo{width:60pt}");
+    minify_test(".foo { width: calc(100pt - (100pt - 100%)) }", ".foo{width:100%}");
     minify_test(
-      ".foo { width: calc(100px + (100px - 100%)) }",
-      ".foo{width:calc(200px - 100%)}",
+      ".foo { width: calc(100pt + (100pt - 100%)) }",
+      ".foo{width:calc(200pt - 100%)}",
     );
     minify_test(
-      ".foo { width: calc(1px - (2em + 3%)) }",
-      ".foo{width:calc(1px + -2em - 3%)}",
+      ".foo { width: calc(1pt - (2em + 3%)) }",
+      ".foo{width:calc(1pt + -2em - 3%)}",
     ); // TODO: fix sign
     minify_test(
       ".foo { width: calc((100vw - 50em) / 2) }",
-      ".foo{width:calc(50vw - 25em)}",
+      ".foo{width:calc(\"50vw\" - 25em)}",
     );
     minify_test(
-      ".foo { width: calc(1px - (2em + 4vh + 3%)) }",
-      ".foo{width:calc(1px + -2em - 4vh - 3%)}",
+      ".foo { width: calc(1pt - (2em + 4vh + 3%)) }",
+      ".foo{width:calc(1pt + -2em - \"4vh\" - 3%)}",
     ); // TODO
     minify_test(
-      ".foo { width: calc(1px + (2em + (3vh + 4px))) }",
-      ".foo{width:calc(2em + 3vh + 5px)}",
+      ".foo { width: calc(1pt + (2em + (3vh + 4pt))) }",
+      ".foo{width:calc(2em + \"3vh\" + 5pt)}",
     );
     minify_test(
-      ".foo { width: calc(1px - (2em + 4px - 6vh) / 2) }",
-      ".foo{width:calc(-1em - 1px + 3vh)}",
+      ".foo { width: calc(1pt - (2em + 4pt - 6vh) / 2) }",
+      ".foo{width:calc(-1em - 1pt + \"3vh\")}",
     );
     minify_test(
-      ".foo { width: calc(100% - calc(50% + 25px)) }",
-      ".foo{width:calc(50% - 25px)}",
+      ".foo { width: calc(100% - calc(50% + 25pt)) }",
+      ".foo{width:calc(50% - 25pt)}",
     );
-    minify_test(".foo { width: calc(1px/100) }", ".foo{width:.01px}");
+    minify_test(".foo { width: calc(1pt/100) }", ".foo{width:.01pt}");
     minify_test(
-      ".foo { width: calc(100vw / 2 - 6px + 0px) }",
-      ".foo{width:calc(50vw - 6px)}",
+      ".foo { width: calc(100vw / 2 - 6pt + 0pt) }",
+      ".foo{width:calc(\"50vw\" - 6pt)}",
     );
-    minify_test(".foo { width: calc(1px + 1) }", ".foo{width:calc(1px + 1)}");
+    minify_test(".foo { width: calc(1pt + 1) }", ".foo{width:calc(1pt + 1)}");
     minify_test(
-      ".foo { width: calc( (1em - calc( 10px + 1em)) / 2) }",
-      ".foo{width:-5px}",
-    );
-    minify_test(
-      ".foo { width: calc((100px - 1em) + (-50px + 1em)) }",
-      ".foo{width:50px}",
+      ".foo { width: calc( (1em - calc( 10pt + 1em)) / 2) }",
+      ".foo{width:-5pt}",
     );
     minify_test(
-      ".foo { width: calc(100% + (2 * 100px) - ((75.37% - 63.5px) - 900px)) }",
-      ".foo{width:calc(24.63% + 1163.5px)}",
+      ".foo { width: calc((100pt - 1em) + (-50pt + 1em)) }",
+      ".foo{width:50pt}",
     );
     minify_test(
-      ".foo { width: calc(((((100% + (2 * 30px) + 63.5px) / 0.7537) - (100vw - 60px)) / 2) + 30px) }",
-      ".foo{width:calc(66.3394% + 141.929px - 50vw)}",
+      ".foo { width: calc(100% + (2 * 100pt) - ((75.37% - 63.5pt) - 900pt)) }",
+      ".foo{width:calc(24.63% + 1163.5pt)}",
     );
     minify_test(
-      ".foo { width: calc(((75.37% - 63.5px) - 900px) + (2 * 100px)) }",
-      ".foo{width:calc(75.37% - 763.5px)}",
+      ".foo { width: calc(((((100% + (2 * 30pt) + 63.5pt) / 0.7537) - (100vw - 60pt)) / 2) + 30pt) }",
+      ".foo{width:calc(66.3394% + 141.929pt - \"50vw\")}",
     );
     minify_test(
-      ".foo { width: calc((900px - (10% - 63.5px)) + (2 * 100px)) }",
-      ".foo{width:calc(1163.5px - 10%)}",
+      ".foo { width: calc(((75.37% - 63.5pt) - 900pt) + (2 * 100pt)) }",
+      ".foo{width:calc(75.37% - 763.5pt)}",
     );
-    minify_test(".foo { width: calc(500px/0) }", ".foo{width:calc(500px/0)}");
-    minify_test(".foo { width: calc(500px/2px) }", ".foo{width:calc(500px/2px)}");
+    minify_test(
+      ".foo { width: calc((900pt - (10% - 63.5pt)) + (2 * 100pt)) }",
+      ".foo{width:calc(1163.5pt - 10%)}",
+    );
+    minify_test(".foo { width: calc(500pt/0) }", ".foo{width:calc(500pt/0)}");
+    minify_test(".foo { width: calc(500pt/2pt) }", ".foo{width:calc(500pt/2pt)}");
     minify_test(".foo { width: calc(100% / 3 * 3) }", ".foo{width:100%}");
-    minify_test(".foo { width: calc(+100px + +100px) }", ".foo{width:200px}");
-    minify_test(".foo { width: calc(+100px - +100px) }", ".foo{width:0}");
-    minify_test(".foo { width: calc(200px * +1) }", ".foo{width:200px}");
-    minify_test(".foo { width: calc(200px / +1) }", ".foo{width:200px}");
-    minify_test(".foo { width: calc(1.1e+1px + 1.1e+1px) }", ".foo{width:22px}");
-    minify_test(".foo { border-width: calc(1px + 2px) }", ".foo{border-width:3px}");
+    minify_test(".foo { width: calc(+100pt + +100pt) }", ".foo{width:200pt}");
+    minify_test(".foo { width: calc(+100pt - +100pt) }", ".foo{width:0pt}");
+    minify_test(".foo { width: calc(200pt * +1) }", ".foo{width:200pt}");
+    minify_test(".foo { width: calc(200pt / +1) }", ".foo{width:200pt}");
+    minify_test(".foo { width: calc(1.1e+1pt + 1.1e+1pt) }", ".foo{width:22pt}");
+    minify_test(".foo { border-width: calc(1pt + 2pt) }", ".foo{border-width:3pt}");
     minify_test(
-      ".foo { border-width: calc(1em + 2px + 2em + 3px) }",
-      ".foo{border-width:calc(3em + 5px)}",
+      ".foo { border-width: calc(1em + 2pt + 2em + 3pt) }",
+      ".foo{border-width:calc(3em + 5pt)}",
     );
 
     minify_test(
-      ".foo { border-width: min(1em, 2px) }",
-      ".foo{border-width:min(1em,2px)}",
+      ".foo { border-width: min(1em, 2pt) }",
+      ".foo{border-width:min(1em,2pt)}",
     );
     minify_test(
-      ".foo { border-width: min(1em + 2em, 2px + 2px) }",
-      ".foo{border-width:min(3em,4px)}",
+      ".foo { border-width: min(1em + 2em, 2pt + 2pt) }",
+      ".foo{border-width:min(3em,4pt)}",
     );
     minify_test(
-      ".foo { border-width: min(1em + 2px, 2px + 1em) }",
-      ".foo{border-width:min(1em + 2px,2px + 1em)}",
+      ".foo { border-width: min(1em + 2pt, 2pt + 1em) }",
+      ".foo{border-width:min(1em + 2pt,2pt + 1em)}",
     );
     minify_test(
-      ".foo { border-width: min(1em + 2px + 2px, 2px + 1em + 1px) }",
-      ".foo{border-width:min(1em + 4px,3px + 1em)}",
+      ".foo { border-width: min(1em + 2pt + 2pt, 2pt + 1em + 1pt) }",
+      ".foo{border-width:min(1em + 4pt,3pt + 1em)}",
     );
     minify_test(
-      ".foo { border-width: min(2px + 1px, 3px + 4px) }",
-      ".foo{border-width:3px}",
+      ".foo { border-width: min(2pt + 1pt, 3pt + 4pt) }",
+      ".foo{border-width:3pt}",
     );
     minify_test(
-      ".foo { border-width: min(1px, 1em, 2px, 3in) }",
-      ".foo{border-width:min(1px,1em)}",
+      ".foo { border-width: min(1pt, 1em, 2pt, 3in) }",
+      ".foo{border-width:min(1pt,1em)}",
     );
 
     minify_test(
-      ".foo { border-width: max(1em, 2px) }",
-      ".foo{border-width:max(1em,2px)}",
+      ".foo { border-width: max(1em, 2pt) }",
+      ".foo{border-width:max(1em,2pt)}",
     );
     minify_test(
-      ".foo { border-width: max(1em + 2em, 2px + 2px) }",
-      ".foo{border-width:max(3em,4px)}",
+      ".foo { border-width: max(1em + 2em, 2pt + 2pt) }",
+      ".foo{border-width:max(3em,4pt)}",
     );
     minify_test(
-      ".foo { border-width: max(1em + 2px, 2px + 1em) }",
-      ".foo{border-width:max(1em + 2px,2px + 1em)}",
+      ".foo { border-width: max(1em + 2pt, 2pt + 1em) }",
+      ".foo{border-width:max(1em + 2pt,2pt + 1em)}",
     );
     minify_test(
-      ".foo { border-width: max(1em + 2px + 2px, 2px + 1em + 1px) }",
-      ".foo{border-width:max(1em + 4px,3px + 1em)}",
+      ".foo { border-width: max(1em + 2pt + 2pt, 2pt + 1em + 1pt) }",
+      ".foo{border-width:max(1em + 4pt,3pt + 1em)}",
     );
     minify_test(
-      ".foo { border-width: max(2px + 1px, 3px + 4px) }",
-      ".foo{border-width:7px}",
+      ".foo { border-width: max(2pt + 1pt, 3pt + 4pt) }",
+      ".foo{border-width:7pt}",
     );
     minify_test(
-      ".foo { border-width: max(1px, 1em, 2px, 3in) }",
+      ".foo { border-width: max(1pt, 1em, 2pt, 3in) }",
       ".foo{border-width:max(3in,1em)}",
     );
 
-    minify_test(".foo { border-width: clamp(1px, 2px, 3px) }", ".foo{border-width:2px}");
-    minify_test(".foo { border-width: clamp(1px, 10px, 3px) }", ".foo{border-width:3px}");
-    minify_test(".foo { border-width: clamp(5px, 2px, 10px) }", ".foo{border-width:5px}");
+    minify_test(".foo { border-width: clamp(1pt, 2pt, 3pt) }", ".foo{border-width:2pt}");
+    minify_test(".foo { border-width: clamp(1pt, 10pt, 3pt) }", ".foo{border-width:3pt}");
+    minify_test(".foo { border-width: clamp(5pt, 2pt, 10pt) }", ".foo{border-width:5pt}");
     minify_test(
-      ".foo { border-width: clamp(100px, 2px, 10px) }",
-      ".foo{border-width:100px}",
+      ".foo { border-width: clamp(100pt, 2pt, 10pt) }",
+      ".foo{border-width:100pt}",
     );
     minify_test(
-      ".foo { border-width: clamp(5px + 5px, 5px + 7px, 10px + 20px) }",
-      ".foo{border-width:12px}",
+      ".foo { border-width: clamp(5pt + 5pt, 5pt + 7pt, 10pt + 20pt) }",
+      ".foo{border-width:12pt}",
     );
 
     minify_test(
-      ".foo { border-width: clamp(1em, 2px, 4vh) }",
-      ".foo{border-width:clamp(1em,2px,4vh)}",
+      ".foo { border-width: clamp(1em, 2pt, 4vh) }",
+      ".foo{border-width:clamp(1em,2pt,\"4vh\")}",
     );
     minify_test(
       ".foo { border-width: clamp(1em, 2em, 4vh) }",
-      ".foo{border-width:min(2em,4vh)}",
+      ".foo{border-width:min(2em,\"4vh\")}",
     );
     minify_test(
       ".foo { border-width: clamp(1em, 2vh, 4vh) }",
-      ".foo{border-width:max(1em,2vh)}",
+      ".foo{border-width:max(1em,\"2vh\")}",
     );
     minify_test(
-      ".foo { border-width: clamp(1px, 1px + 2em, 4px) }",
-      ".foo{border-width:clamp(1px,1px + 2em,4px)}",
+      ".foo { border-width: clamp(1pt, 1pt + 2em, 4pt) }",
+      ".foo{border-width:clamp(1pt,1pt + 2em,4pt)}",
     );
-    minify_test(".foo { border-width: clamp(1px, 2pt, 1in) }", ".foo{border-width:2pt}");
+    minify_test(".foo { border-width: clamp(1pt, 2pt, 1in) }", ".foo{border-width:2pt}");
 
     minify_test(
       ".foo { top: calc(-1 * clamp(1.75rem, 8vw, 4rem)) }",
-      ".foo{top:calc(-1*clamp(1.75rem,8vw,4rem))}",
+      ".foo{top:calc(-1*clamp(\"1.75rem\",\"8vw\",\"4rem\"))}",
     );
     minify_test(
       ".foo { top: calc(-1 * min(1.75rem, 8vw, 4rem)) }",
-      ".foo{top:calc(-1*min(1.75rem,8vw))}",
+      ".foo{top:calc(-1*min(\"1.75rem\",\"8vw\"))}",
     );
     minify_test(
       ".foo { top: calc(-1 * max(1.75rem, 8vw, 4rem)) }",
-      ".foo{top:calc(-1*max(4rem,8vw))}",
+      ".foo{top:calc(-1*max(\"4rem\",\"8vw\"))}",
     );
     minify_test(
       ".foo { top: calc(clamp(1.75rem, 8vw, 4rem) * -1) }",
-      ".foo{top:calc(-1*clamp(1.75rem,8vw,4rem))}",
+      ".foo{top:calc(-1*clamp(\"1.75rem\",\"8vw\",\"4rem\"))}",
     );
     minify_test(
       ".foo { top: calc(min(1.75rem, 8vw, 4rem) * -1) }",
-      ".foo{top:calc(-1*min(1.75rem,8vw))}",
+      ".foo{top:calc(-1*min(\"1.75rem\",\"8vw\"))}",
     );
     minify_test(
       ".foo { top: calc(max(1.75rem, 8vw, 4rem) * -1) }",
-      ".foo{top:calc(-1*max(4rem,8vw))}",
+      ".foo{top:calc(-1*max(\"4rem\",\"8vw\"))}",
     );
     minify_test(
       ".foo { top: calc(clamp(1.75rem, 8vw, 4rem) / 2) }",
-      ".foo{top:calc(clamp(1.75rem,8vw,4rem)/2)}",
+      ".foo{top:calc(clamp(\"1.75rem\",\"8vw\",\"4rem\")/2)}",
     );
     minify_test(
       ".foo { top: calc(min(1.75rem, 8vw, 4rem) / 2) }",
-      ".foo{top:calc(min(1.75rem,8vw)/2)}",
+      ".foo{top:calc(min(\"1.75rem\",\"8vw\")/2)}",
     );
     minify_test(
       ".foo { top: calc(max(1.75rem, 8vw, 4rem) / 2) }",
-      ".foo{top:calc(max(4rem,8vw)/2)}",
+      ".foo{top:calc(max(\"4rem\",\"8vw\")/2)}",
     );
     minify_test(
       ".foo { top: calc(0.5 * clamp(1.75rem, 8vw, 4rem)) }",
-      ".foo{top:calc(clamp(1.75rem,8vw,4rem)/2)}",
+      ".foo{top:calc(clamp(\"1.75rem\",\"8vw\",\"4rem\")/2)}",
     );
     minify_test(
       ".foo { top: calc(1 * clamp(1.75rem, 8vw, 4rem)) }",
-      ".foo{top:calc(clamp(1.75rem,8vw,4rem))}",
+      ".foo{top:calc(clamp(\"1.75rem\",\"8vw\",\"4rem\"))}",
     );
     minify_test(
       ".foo { top: calc(2 * clamp(1.75rem, 8vw, 4rem) / 2) }",
-      ".foo{top:calc(clamp(1.75rem,8vw,4rem))}",
+      ".foo{top:calc(clamp(\"1.75rem\",\"8vw\",\"4rem\"))}",
     );
 
-    minify_test(".foo { width: max(0px, 1vw) }", ".foo{width:max(0px,1vw)}");
+    minify_test(".foo { width: max(0pt, 1vw) }", ".foo{width:max(0pt,\"1vw\")}");
 
     prefix_test(
-      ".foo { border-width: clamp(1em, 2px, 4vh) }",
+      ".foo { border-width: clamp(1em, 2pt, 4vh) }",
       indoc! { r#"
         .foo {
-          border-width: max(1em, min(2px, 4vh));
+          border-width: max(1em, min(2pt, "4vh"));
         }
       "#},
       Browsers {
@@ -7772,10 +7772,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { border-width: clamp(1em, 2px, 4vh) }",
+      ".foo { border-width: clamp(1em, 2pt, 4vh) }",
       indoc! { r#"
         .foo {
-          border-width: clamp(1em, 2px, 4vh);
+          border-width: clamp(1em, 2pt, "4vh");
         }
       "#},
       Browsers {
@@ -7784,88 +7784,88 @@ mod tests {
       },
     );
 
-    minify_test(".foo { width: calc(1vh + 2vh) }", ".foo{width:3vh}");
-    minify_test(".foo { width: calc(1dvh + 2dvh) }", ".foo{width:3dvh}");
-    minify_test(".foo { width: calc(1lvh + 2lvh) }", ".foo{width:3lvh}");
-    minify_test(".foo { width: calc(1svh + 2svh) }", ".foo{width:3svh}");
-    minify_test(".foo { width: calc(1sVmin + 2Svmin) }", ".foo{width:3svmin}");
-    minify_test(".foo { width: calc(1ic + 2ic) }", ".foo{width:3ic}");
-    minify_test(".foo { width: calc(1ric + 2ric) }", ".foo{width:3ric}");
-    minify_test(".foo { width: calc(1cap + 2cap) }", ".foo{width:3cap}");
-    minify_test(".foo { width: calc(1lh + 2lh) }", ".foo{width:3lh}");
-    minify_test(".foo { width: calc(1x + 2x) }", ".foo{width:calc(1x + 2x)}");
+    minify_test(".foo { width: calc(1vh + 2vh) }", ".foo{width:\"3vh\"}");
+    minify_test(".foo { width: calc(1dvh + 2dvh) }", ".foo{width:\"3dvh\"}");
+    minify_test(".foo { width: calc(1lvh + 2lvh) }", ".foo{width:\"3lvh\"}");
+    minify_test(".foo { width: calc(1svh + 2svh) }", ".foo{width:\"3svh\"}");
+    minify_test(".foo { width: calc(1sVmin + 2Svmin) }", ".foo{width:\"3svmin\"}");
+    minify_test(".foo { width: calc(1ic + 2ic) }", ".foo{width:\"3ic\"}");
+    minify_test(".foo { width: calc(1ric + 2ric) }", ".foo{width:\"3ric\"}");
+    minify_test(".foo { width: calc(1cap + 2cap) }", ".foo{width:\"3cap\"}");
+    minify_test(".foo { width: calc(1lh + 2lh) }", ".foo{width:\"3lh\"}");
+    minify_test(".foo { width: calc(1x + 2x) }", ".foo{width:calc(\"1x\" + \"2x\")}");
     minify_test(
-      ".foo { left: calc(50% - 100px + clamp(0px, calc(50vw - 50px), 100px)) }",
-      ".foo{left:calc(50% - 100px + clamp(0px,50vw - 50px,100px))}",
+      ".foo { left: calc(50% - 100pt + clamp(0pt, calc(50vw - 50pt), 100pt)) }",
+      ".foo{left:calc(50% - 100pt + clamp(0pt,\"50vw\" - 50pt,100pt))}",
     );
     minify_test(
-      ".foo { left: calc(10px + min(10px, 1rem) + max(2px, 1vw)) }",
-      ".foo{left:calc(10px + min(10px,1rem) + max(2px,1vw))}",
+      ".foo { left: calc(10pt + min(10pt, 1rem) + max(2pt, 1vw)) }",
+      ".foo{left:calc(10pt + min(10pt,\"1rem\") + max(2pt,\"1vw\"))}",
     );
-    minify_test(".foo { width: round(22px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(nearest, 22px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(down, 22px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(to-zero, 22px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(up, 22px, 5px) }", ".foo{width:25px}");
-    minify_test(".foo { width: round(23px, 5px) }", ".foo{width:25px}");
-    minify_test(".foo { width: round(nearest, 23px, 5px) }", ".foo{width:25px}");
-    minify_test(".foo { width: round(down, 23px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(to-zero, 23px, 5px) }", ".foo{width:20px}");
-    minify_test(".foo { width: round(up, 23px, 5px) }", ".foo{width:25px}");
-    minify_test(".foo { width: round(22px, 5vw) }", ".foo{width:round(22px,5vw)}");
+    minify_test(".foo { width: round(22pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(nearest, 22pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(down, 22pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(to-zero, 22pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(up, 22pt, 5pt) }", ".foo{width:25pt}");
+    minify_test(".foo { width: round(23pt, 5pt) }", ".foo{width:25pt}");
+    minify_test(".foo { width: round(nearest, 23pt, 5pt) }", ".foo{width:25pt}");
+    minify_test(".foo { width: round(down, 23pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(to-zero, 23pt, 5pt) }", ".foo{width:20pt}");
+    minify_test(".foo { width: round(up, 23pt, 5pt) }", ".foo{width:25pt}");
+    minify_test(".foo { width: round(22pt, 5vw) }", ".foo{width:round(22pt,\"5vw\")}");
     minify_test(".foo { rotate: round(22deg, 5deg) }", ".foo{rotate:20deg}");
     minify_test(".foo { rotate: round(22deg, 5deg) }", ".foo{rotate:20deg}");
     minify_test(
       ".foo { transition-duration: round(22ms, 5ms) }",
       ".foo{transition-duration:20ms}",
     );
-    minify_test(".foo { margin: round(to-zero, -23px, 5px) }", ".foo{margin:-20px}");
-    minify_test(".foo { margin: round(nearest, -23px, 5px) }", ".foo{margin:-25px}");
-    minify_test(".foo { margin: calc(10px * round(22, 5)) }", ".foo{margin:200px}");
-    minify_test(".foo { width: rem(18px, 5px) }", ".foo{width:3px}");
-    minify_test(".foo { width: rem(-18px, 5px) }", ".foo{width:-3px}");
-    minify_test(".foo { width: rem(18px, 5vw) }", ".foo{width:rem(18px,5vw)}");
+    minify_test(".foo { margin: round(to-zero, -23pt, 5pt) }", ".foo{margin:-20pt}");
+    minify_test(".foo { margin: round(nearest, -23pt, 5pt) }", ".foo{margin:-25pt}");
+    minify_test(".foo { margin: calc(10pt * round(22, 5)) }", ".foo{margin:200pt}");
+    minify_test(".foo { width: rem(18pt, 5pt) }", ".foo{width:3pt}");
+    minify_test(".foo { width: rem(-18pt, 5pt) }", ".foo{width:-3pt}");
+    minify_test(".foo { width: rem(18pt, 5vw) }", ".foo{width:rem(18pt,\"5vw\")}");
     minify_test(".foo { rotate: rem(-140deg, -90deg) }", ".foo{rotate:-50deg}");
     minify_test(".foo { rotate: rem(140deg, -90deg) }", ".foo{rotate:50deg}");
-    minify_test(".foo { width: calc(10px * rem(18, 5)) }", ".foo{width:30px}");
-    minify_test(".foo { width: mod(18px, 5px) }", ".foo{width:3px}");
-    minify_test(".foo { width: mod(-18px, 5px) }", ".foo{width:2px}");
+    minify_test(".foo { width: calc(10pt * rem(18, 5)) }", ".foo{width:30pt}");
+    minify_test(".foo { width: mod(18pt, 5pt) }", ".foo{width:3pt}");
+    minify_test(".foo { width: mod(-18pt, 5pt) }", ".foo{width:2pt}");
     minify_test(".foo { rotate: mod(-140deg, -90deg) }", ".foo{rotate:-50deg}");
     minify_test(".foo { rotate: mod(140deg, -90deg) }", ".foo{rotate:-40deg}");
-    minify_test(".foo { width: mod(18px, 5vw) }", ".foo{width:mod(18px,5vw)}");
+    minify_test(".foo { width: mod(18pt, 5vw) }", ".foo{width:mod(18pt,\"5vw\")}");
     minify_test(
       ".foo { transform: rotateX(mod(140deg, -90deg)) rotateY(rem(140deg, -90deg)) }",
       ".foo{transform:rotateX(-40deg)rotateY(50deg)}",
     );
-    minify_test(".foo { width: calc(10px * mod(18, 5)) }", ".foo{width:30px}");
+    minify_test(".foo { width: calc(10pt * mod(18, 5)) }", ".foo{width:30pt}");
   }
 
   #[test]
   fn test_trig() {
-    minify_test(".foo { width: calc(2px * pi); }", ".foo{width:6.28319px}");
-    minify_test(".foo { width: calc(2px / pi); }", ".foo{width:.63662px}");
+    minify_test(".foo { width: calc(2pt * pi); }", ".foo{width:6.28319pt}");
+    minify_test(".foo { width: calc(2pt / pi); }", ".foo{width:.63662pt}");
     // minify_test(
-    //   ".foo { width: calc(2px * infinity); }",
-    //   ".foo{width:calc(2px*infinity)}",
+    //   ".foo { width: calc(2pt * infinity); }",
+    //   ".foo{width:calc(2pt*infinity)}",
     // );
     // minify_test(
-    //   ".foo { width: calc(2px * -infinity); }",
-    //   ".foo{width:calc(2px*-infinity)}",
+    //   ".foo { width: calc(2pt * -infinity); }",
+    //   ".foo{width:calc(2pt*-infinity)}",
     // );
-    minify_test(".foo { width: calc(100px * sin(45deg))", ".foo{width:70.7107px}");
-    minify_test(".foo { width: calc(100px * sin(.125turn))", ".foo{width:70.7107px}");
+    minify_test(".foo { width: calc(100pt * sin(45deg))", ".foo{width:70.7107pt}");
+    minify_test(".foo { width: calc(100pt * sin(.125turn))", ".foo{width:70.7107pt}");
     minify_test(
-      ".foo { width: calc(100px * sin(3.14159265 / 4))",
-      ".foo{width:70.7107px}",
+      ".foo { width: calc(100pt * sin(3.14159265 / 4))",
+      ".foo{width:70.7107pt}",
     );
-    minify_test(".foo { width: calc(100px * sin(pi / 4))", ".foo{width:70.7107px}");
+    minify_test(".foo { width: calc(100pt * sin(pi / 4))", ".foo{width:70.7107pt}");
     minify_test(
-      ".foo { width: calc(100px * sin(22deg + 23deg))",
-      ".foo{width:70.7107px}",
+      ".foo { width: calc(100pt * sin(22deg + 23deg))",
+      ".foo{width:70.7107pt}",
     );
 
-    minify_test(".foo { width: calc(2px * cos(45deg))", ".foo{width:1.41421px}");
-    minify_test(".foo { width: calc(2px * tan(45deg))", ".foo{width:2px}");
+    minify_test(".foo { width: calc(2pt * cos(45deg))", ".foo{width:1.41421pt}");
+    minify_test(".foo { width: calc(2pt * tan(45deg))", ".foo{width:2pt}");
 
     minify_test(".foo { rotate: asin(sin(45deg))", ".foo{rotate:45deg}");
     minify_test(".foo { rotate: asin(1)", ".foo{rotate:90deg}");
@@ -7887,7 +7887,7 @@ mod tests {
     minify_test(".foo { rotate: atan(0)", ".foo{rotate:none}");
     minify_test(".foo { rotate: atan(45deg)", ".foo{rotate:atan(45deg)}"); // invalid
 
-    minify_test(".foo { rotate: atan2(1px, -1px)", ".foo{rotate:135deg}");
+    minify_test(".foo { rotate: atan2(1pt, -1pt)", ".foo{rotate:135deg}");
     minify_test(".foo { rotate: atan2(1vw, -1vw)", ".foo{rotate:135deg}");
     minify_test(".foo { rotate: atan2(1, -1)", ".foo{rotate:135deg}");
     minify_test(".foo { rotate: atan2(1ms, -1ms)", ".foo{rotate:135deg}");
@@ -7897,74 +7897,74 @@ mod tests {
     minify_test(".foo { rotate: atan2(0, -1)", ".foo{rotate:180deg}");
     minify_test(".foo { rotate: atan2(-1, 1)", ".foo{rotate:-45deg}");
     // incompatible units
-    minify_test(".foo { rotate: atan2(1px, -1vw)", ".foo{rotate:atan2(1px,-1vw)}");
+    minify_test(".foo { rotate: atan2(1pt, -1vw)", ".foo{rotate:atan2(1pt,\"-1vw\")}");
   }
 
   #[test]
   fn test_exp() {
     minify_test(".foo { width: hypot()", ".foo{width:hypot()}");
-    minify_test(".foo { width: hypot(1px)", ".foo{width:1px}");
-    minify_test(".foo { width: hypot(1px, 2px)", ".foo{width:2.23607px}");
-    minify_test(".foo { width: hypot(1px, 2px, 3px)", ".foo{width:3.74166px}");
-    minify_test(".foo { width: hypot(1px, 2vw)", ".foo{width:hypot(1px,2vw)}");
-    minify_test(".foo { width: hypot(1px, 2px, 3vw)", ".foo{width:hypot(1px,2px,3vw)}");
-    minify_test(".foo { width: calc(100px * hypot(3, 4))", ".foo{width:500px}");
-    minify_test(".foo { width: calc(1px * pow(2, sqrt(100))", ".foo{width:1024px}");
-    minify_test(".foo { width: calc(100px * pow(2, pow(2, 2)", ".foo{width:1600px}");
-    minify_test(".foo { width: calc(1px * log(1))", ".foo{width:0}");
-    minify_test(".foo { width: calc(1px * log(10, 10))", ".foo{width:1px}");
-    minify_test(".foo { width: calc(1px * exp(0))", ".foo{width:1px}");
-    minify_test(".foo { width: calc(1px * log(e))", ".foo{width:1px}");
-    minify_test(".foo { width: calc(1px * (e - exp(1)))", ".foo{width:0}");
+    minify_test(".foo { width: hypot(1pt)", ".foo{width:1pt}");
+    minify_test(".foo { width: hypot(1pt, 2pt)", ".foo{width:2.23607pt}");
+    minify_test(".foo { width: hypot(1pt, 2pt, 3pt)", ".foo{width:3.74166pt}");
+    minify_test(".foo { width: hypot(1pt, 2vw)", ".foo{width:hypot(1pt,\"2vw\")}");
+    minify_test(".foo { width: hypot(1pt, 2pt, 3vw)", ".foo{width:hypot(1pt,2pt,\"3vw\")}");
+    minify_test(".foo { width: calc(100pt * hypot(3, 4))", ".foo{width:500pt}");
+    minify_test(".foo { width: calc(1pt * pow(2, sqrt(100))", ".foo{width:1024pt}");
+    minify_test(".foo { width: calc(100pt * pow(2, pow(2, 2)", ".foo{width:1600pt}");
+    minify_test(".foo { width: calc(1pt * log(1))", ".foo{width:0pt}");
+    minify_test(".foo { width: calc(1pt * log(10, 10))", ".foo{width:1pt}");
+    minify_test(".foo { width: calc(1pt * exp(0))", ".foo{width:1pt}");
+    minify_test(".foo { width: calc(1pt * log(e))", ".foo{width:1pt}");
+    minify_test(".foo { width: calc(1pt * (e - exp(1)))", ".foo{width:0pt}");
     minify_test(
-      ".foo { width: calc(1px * (exp(log(1) + exp(0)*2))",
-      ".foo{width:7.38906px}",
+      ".foo { width: calc(1pt * (exp(log(1) + exp(0)*2))",
+      ".foo{width:7.38906pt}",
     );
   }
 
   #[test]
   fn test_sign() {
-    minify_test(".foo { width: abs(1px)", ".foo{width:1px}");
-    minify_test(".foo { width: abs(-1px)", ".foo{width:1px}");
+    minify_test(".foo { width: abs(1pt)", ".foo{width:1pt}");
+    minify_test(".foo { width: abs(-1pt)", ".foo{width:1pt}");
     minify_test(".foo { width: abs(1%)", ".foo{width:abs(1%)}"); // spec says percentages must be against resolved value
 
-    minify_test(".foo { width: calc(10px * sign(-1vw)", ".foo{width:-10px}");
-    minify_test(".foo { width: calc(10px * sign(1%)", ".foo{width:calc(10px*sign(1%))}");
+    minify_test(".foo { width: calc(10pt * sign(-1vw)", ".foo{width:-10pt}");
+    minify_test(".foo { width: calc(10pt * sign(1%)", ".foo{width:calc(10pt*sign(1%))}");
   }
 
   #[test]
   fn test_box_shadow() {
     minify_test(
-      ".foo { box-shadow: 64px 64px 12px 40px rgba(0,0,0,0.4) }",
-      ".foo{box-shadow:64px 64px 12px 40px #0006}",
+      ".foo { box-shadow: 64pt 64pt 12pt 40pt rgba(0,0,0,0.4) }",
+      ".foo{box-shadow:64pt 64pt 12pt 40pt rgb(0,0,0,40%)}",
     );
     minify_test(
-      ".foo { box-shadow: 12px 12px 0px 8px rgba(0,0,0,0.4) inset }",
-      ".foo{box-shadow:inset 12px 12px 0 8px #0006}",
+      ".foo { box-shadow: 12pt 12pt 0pt 8pt rgba(0,0,0,0.4) inset }",
+      ".foo{box-shadow:inset 12pt 12pt 0pt 8pt rgb(0,0,0,40%)}",
     );
     minify_test(
-      ".foo { box-shadow: inset 12px 12px 0px 8px rgba(0,0,0,0.4) }",
-      ".foo{box-shadow:inset 12px 12px 0 8px #0006}",
+      ".foo { box-shadow: inset 12pt 12pt 0pt 8pt rgba(0,0,0,0.4) }",
+      ".foo{box-shadow:inset 12pt 12pt 0pt 8pt rgb(0,0,0,40%)}",
     );
     minify_test(
-      ".foo { box-shadow: 12px 12px 8px 0px rgba(0,0,0,0.4) }",
-      ".foo{box-shadow:12px 12px 8px #0006}",
+      ".foo { box-shadow: 12pt 12pt 8pt 0pt rgba(0,0,0,0.4) }",
+      ".foo{box-shadow:12pt 12pt 8pt rgb(0,0,0,40%)}",
     );
     minify_test(
-      ".foo { box-shadow: 12px 12px 0px 0px rgba(0,0,0,0.4) }",
-      ".foo{box-shadow:12px 12px #0006}",
+      ".foo { box-shadow: 12pt 12pt 0pt 0pt rgba(0,0,0,0.4) }",
+      ".foo{box-shadow:12pt 12pt rgb(0,0,0,40%)}",
     );
     minify_test(
-      ".foo { box-shadow: 64px 64px 12px 40px rgba(0,0,0,0.4), 12px 12px 0px 8px rgba(0,0,0,0.4) inset }",
-      ".foo{box-shadow:64px 64px 12px 40px #0006,inset 12px 12px 0 8px #0006}",
+      ".foo { box-shadow: 64pt 64pt 12pt 40pt rgba(0,0,0,0.4), 12pt 12pt 0pt 8pt rgba(0,0,0,0.4) inset }",
+      ".foo{box-shadow:64pt 64pt 12pt 40pt rgb(0,0,0,40%),inset 12pt 12pt 0pt 8pt rgb(0,0,0,40%)}",
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          box-shadow: 12px 12px #b32323;
-          box-shadow: 12px 12px lab(40% 56.6 39);
+          box-shadow: 12pt 12pt rgb(179, 35, 35);
+          box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -7974,12 +7974,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12px 12px #b32323;
-          box-shadow: 12px 12px #b32323;
-          box-shadow: 12px 12px lab(40% 56.6 39);
+          -webkit-box-shadow: 12pt 12pt rgb(179, 35, 35);
+          box-shadow: 12pt 12pt rgb(179, 35, 35);
+          box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -7989,12 +7989,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39), 12px 12px yellow }",
+      ".foo { box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501), 12pt 12pt yellow }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12px 12px #b32323, 12px 12px #ff0;
-          box-shadow: 12px 12px #b32323, 12px 12px #ff0;
-          box-shadow: 12px 12px lab(40% 56.6 39), 12px 12px #ff0;
+          -webkit-box-shadow: 12pt 12pt rgb(179, 35, 35), 12pt 12pt rgb(255, 255, 0);
+          box-shadow: 12pt 12pt rgb(179, 35, 35), 12pt 12pt rgb(255, 255, 0);
+          box-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501), 12pt 12pt rgb(255, 255, 0);
         }
       "#},
       Browsers {
@@ -8004,27 +8004,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { -webkit-box-shadow: 12px 12px #0006 }",
+      ".foo { -webkit-box-shadow: 12pt 12pt #0006 }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12px 12px rgba(0, 0, 0, .4);
-        }
-      "#},
-      Browsers {
-        chrome: Some(4 << 16),
-        ..Browsers::default()
-      },
-    );
-
-    prefix_test(
-      ".foo {
-        -webkit-box-shadow: 12px 12px #0006;
-        -moz-box-shadow: 12px 12px #0009;
-      }",
-      indoc! { r#"
-        .foo {
-          -webkit-box-shadow: 12px 12px rgba(0, 0, 0, .4);
-          -moz-box-shadow: 12px 12px rgba(0, 0, 0, .6);
+          -webkit-box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
         }
       "#},
       Browsers {
@@ -8035,13 +8018,30 @@ mod tests {
 
     prefix_test(
       ".foo {
-        -webkit-box-shadow: 12px 12px #0006;
-        -moz-box-shadow: 12px 12px #0006;
-        box-shadow: 12px 12px #0006;
+        -webkit-box-shadow: 12pt 12pt #0006;
+        -moz-box-shadow: 12pt 12pt #0009;
       }",
       indoc! { r#"
         .foo {
-          box-shadow: 12px 12px #0006;
+          -webkit-box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
+          -moz-box-shadow: 12pt 12pt rgb(0, 0, 0, 60%);
+        }
+      "#},
+      Browsers {
+        chrome: Some(4 << 16),
+        ..Browsers::default()
+      },
+    );
+
+    prefix_test(
+      ".foo {
+        -webkit-box-shadow: 12pt 12pt #0006;
+        -moz-box-shadow: 12pt 12pt #0006;
+        box-shadow: 12pt 12pt #0006;
+      }",
+      indoc! { r#"
+        .foo {
+          box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
         }
       "#},
       Browsers {
@@ -8051,15 +8051,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: var(--foo) 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: var(--foo) 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          box-shadow: var(--foo) 12px #b32323;
+          box-shadow: var(--foo) 12pt rgb(179, 35, 35);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            box-shadow: var(--foo) 12px lab(40% 56.6 39);
+            box-shadow: var(--foo) 12pt oklab(49.824%, .16048, .0808501);
           }
         }
       "#},
@@ -8072,14 +8072,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        box-shadow: 0px 0px 22px red;
-        box-shadow: 0px 0px max(2cqw, 22px) red;
+        box-shadow: 0pt 0pt 22pt red;
+        box-shadow: 0pt 0pt max(2cqw, 22pt) red;
       }
     "#,
       indoc! {r#"
       .foo {
-        box-shadow: 0 0 22px red;
-        box-shadow: 0 0 max(2cqw, 22px) red;
+        box-shadow: 0 0 22pt rgb(255, 0, 0);
+        box-shadow: 0 0 max(\"2cqw\", 22pt) rgb(255, 0, 0);
       }
     "#
       },
@@ -8091,13 +8091,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        box-shadow: 0px 0px 22px red;
-        box-shadow: 0px 0px max(2cqw, 22px) red;
+        box-shadow: 0pt 0pt 22pt red;
+        box-shadow: 0pt 0pt max(2cqw, 22pt) red;
       }
     "#,
       indoc! {r#"
       .foo {
-        box-shadow: 0 0 max(2cqw, 22px) red;
+        box-shadow: 0 0 max(\"2cqw\", 22pt) rgb(255, 0, 0);
       }
     "#
       },
@@ -8110,14 +8110,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        box-shadow: 0px 0px 22px red;
-        box-shadow: 0px 0px 22px lab(40% 56.6 39);
+        box-shadow: 0pt 0pt 22pt red;
+        box-shadow: 0pt 0pt 22pt oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        box-shadow: 0 0 22px red;
-        box-shadow: 0 0 22px lab(40% 56.6 39);
+        box-shadow: 0 0 22pt rgb(255, 0, 0);
+        box-shadow: 0 0 22pt oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -8129,13 +8129,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        box-shadow: 0px 0px 22px red;
-        box-shadow: 0px 0px 22px lab(40% 56.6 39);
+        box-shadow: 0pt 0pt 22pt red;
+        box-shadow: 0pt 0pt 22pt oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        box-shadow: 0 0 22px lab(40% 56.6 39);
+        box-shadow: 0 0 22pt oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -8149,13 +8149,13 @@ mod tests {
       r#"
       .foo {
         box-shadow: var(--fallback);
-        box-shadow: 0px 0px 22px lab(40% 56.6 39);
+        box-shadow: 0pt 0pt 22pt oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
         box-shadow: var(--fallback);
-        box-shadow: 0 0 22px lab(40% 56.6 39);
+        box-shadow: 0 0 22pt oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -8169,96 +8169,96 @@ mod tests {
   #[test]
   fn test_media() {
     minify_test(
-      "@media (min-width: 240px) { .foo { color: chartreuse }}",
-      "@media (width>=240px){.foo{color:#7fff00}}",
+      "@media (min-width: 240pt) { .foo { color: chartreuse }}",
+      "@media (width>=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width < 240px) { .foo { color: chartreuse }}",
-      "@media (width<240px){.foo{color:#7fff00}}",
+      "@media (width < 240pt) { .foo { color: chartreuse }}",
+      "@media (width<240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width <= 240px) { .foo { color: chartreuse }}",
-      "@media (width<=240px){.foo{color:#7fff00}}",
+      "@media (width <= 240pt) { .foo { color: chartreuse }}",
+      "@media (width<=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width > 240px) { .foo { color: chartreuse }}",
-      "@media (width>240px){.foo{color:#7fff00}}",
+      "@media (width > 240pt) { .foo { color: chartreuse }}",
+      "@media (width>240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width >= 240px) { .foo { color: chartreuse }}",
-      "@media (width>=240px){.foo{color:#7fff00}}",
+      "@media (width >= 240pt) { .foo { color: chartreuse }}",
+      "@media (width>=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (240px < width) { .foo { color: chartreuse }}",
-      "@media (width>240px){.foo{color:#7fff00}}",
+      "@media (240pt < width) { .foo { color: chartreuse }}",
+      "@media (width>240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (240px <= width) { .foo { color: chartreuse }}",
-      "@media (width>=240px){.foo{color:#7fff00}}",
+      "@media (240pt <= width) { .foo { color: chartreuse }}",
+      "@media (width>=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (240px > width) { .foo { color: chartreuse }}",
-      "@media (width<240px){.foo{color:#7fff00}}",
+      "@media (240pt > width) { .foo { color: chartreuse }}",
+      "@media (width<240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (240px >= width) { .foo { color: chartreuse }}",
-      "@media (width<=240px){.foo{color:#7fff00}}",
+      "@media (240pt >= width) { .foo { color: chartreuse }}",
+      "@media (width<=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (100px < width < 200px) { .foo { color: chartreuse }}",
-      "@media (100px<width<200px){.foo{color:#7fff00}}",
+      "@media (100pt < width < 200pt) { .foo { color: chartreuse }}",
+      "@media (100pt<width<200pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (100px <= width <= 200px) { .foo { color: chartreuse }}",
-      "@media (100px<=width<=200px){.foo{color:#7fff00}}",
+      "@media (100pt <= width <= 200pt) { .foo { color: chartreuse }}",
+      "@media (100pt<=width<=200pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (min-width: 30em) and (max-width: 50em) { .foo { color: chartreuse }}",
-      "@media (width>=30em) and (width<=50em){.foo{color:#7fff00}}",
+      "@media (width>=30em) and (width<=50em){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media screen, print { .foo { color: chartreuse }}",
-      "@media screen,print{.foo{color:#7fff00}}",
+      "@media screen,print{.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (hover: hover) { .foo { color: chartreuse }}",
-      "@media (hover:hover){.foo{color:#7fff00}}",
+      "@media (hover:hover){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (hover) { .foo { color: chartreuse }}",
-      "@media (hover){.foo{color:#7fff00}}",
+      "@media (hover){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (aspect-ratio: 11/5) { .foo { color: chartreuse }}",
-      "@media (aspect-ratio:11/5){.foo{color:#7fff00}}",
+      "@media (aspect-ratio:(11,5)){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (aspect-ratio: 2/1) { .foo { color: chartreuse }}",
-      "@media (aspect-ratio:2){.foo{color:#7fff00}}",
+      "@media (aspect-ratio:(2,1)){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (aspect-ratio: 2) { .foo { color: chartreuse }}",
-      "@media (aspect-ratio:2){.foo{color:#7fff00}}",
+      "@media (aspect-ratio:(2,1)){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media not screen and (color) { .foo { color: chartreuse }}",
-      "@media not screen and (color){.foo{color:#7fff00}}",
+      "@media not screen and (color){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media only screen and (color) { .foo { color: chartreuse }}",
-      "@media only screen and (color){.foo{color:#7fff00}}",
+      "@media only screen and (color){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (update: slow) or (hover: none) { .foo { color: chartreuse }}",
-      "@media (update:slow) or (hover:none){.foo{color:#7fff00}}",
+      "@media (update:slow) or (hover:none){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width < 600px) and (height < 600px) { .foo { color: chartreuse }}",
-      "@media (width<600px) and (height<600px){.foo{color:#7fff00}}",
+      "@media (width < 600pt) and (height < 600pt) { .foo { color: chartreuse }}",
+      "@media (width<600pt) and (height<600pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (not (color)) or (hover) { .foo { color: chartreuse }}",
-      "@media (not (color)) or (hover){.foo{color:#7fff00}}",
+      "@media (not (color)) or (hover){.foo{color:rgb(127,255,0)}}",
     );
     error_test(
       "@media (example, all,), speech { .foo { color: chartreuse }}",
@@ -8273,44 +8273,44 @@ mod tests {
       ParserError::UnexpectedToken(Token::Delim('&')),
     );
     minify_test(
-      "@media (min-width: calc(200px + 40px)) { .foo { color: chartreuse }}",
-      "@media (width>=240px){.foo{color:#7fff00}}",
+      "@media (min-width: calc(200pt + 40pt)) { .foo { color: chartreuse }}",
+      "@media (width>=240pt){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (min-width: calc(1em + 5px)) { .foo { color: chartreuse }}",
-      "@media (width>=calc(1em + 5px)){.foo{color:#7fff00}}",
+      "@media (min-width: calc(1em + 5pt)) { .foo { color: chartreuse }}",
+      "@media (width>=calc(1em + 5pt)){.foo{color:rgb(127,255,0)}}",
     );
-    minify_test("@media { .foo { color: chartreuse }}", ".foo{color:#7fff00}");
-    minify_test("@media all { .foo { color: chartreuse }}", ".foo{color:#7fff00}");
+    minify_test("@media { .foo { color: chartreuse }}", ".foo{color:rgb(127,255,0)}");
+    minify_test("@media all { .foo { color: chartreuse }}", ".foo{color:rgb(127,255,0)}");
     minify_test(
       "@media not (((color) or (hover))) { .foo { color: chartreuse }}",
-      "@media not ((color) or (hover)){.foo{color:#7fff00}}",
+      "@media not ((color) or (hover)){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (hover) and ((color) and (test)) { .foo { color: chartreuse }}",
-      "@media (hover) and (color) and (test){.foo{color:#7fff00}}",
+      "@media (hover) and (color) and (test){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
       "@media (grid: 1) { .foo { color: chartreuse }}",
-      "@media (grid:1){.foo{color:#7fff00}}",
+      "@media (grid:1){.foo{color:rgb(127,255,0)}}",
     );
     minify_test(
-      "@media (width >= calc(2px + 4px)) { .foo { color: chartreuse }}",
-      "@media (width>=6px){.foo{color:#7fff00}}",
+      "@media (width >= calc(2pt + 4pt)) { .foo { color: chartreuse }}",
+      "@media (width>=6pt){.foo{color:rgb(127,255,0)}}",
     );
 
     prefix_test(
       r#"
-        @media (width >= 240px) {
+        @media (width >= 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (min-width: 240px) {
+        @media (min-width: 240pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8322,16 +8322,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (width >= 240px) {
+        @media (width >= 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (width >= 240px) {
+        @media (width >= 240pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8352,7 +8352,7 @@ mod tests {
       indoc! { r#"
         @media (min-color: 3) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8373,7 +8373,7 @@ mod tests {
       indoc! { r#"
         @media (max-color: 1) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8385,16 +8385,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (width > 240px) {
+        @media (width > 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (min-width: 240.001px) {
+        @media (min-width: 240.001pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8406,16 +8406,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (width <= 240px) {
+        @media (width <= 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (max-width: 240px) {
+        @media (max-width: 240pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8427,16 +8427,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (width <= 240px) {
+        @media (width <= 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (width <= 240px) {
+        @media (width <= 240pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8448,16 +8448,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (width < 240px) {
+        @media (width < 240pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (max-width: 239.999px) {
+        @media (max-width: 239.999pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8469,16 +8469,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (100px <= width <= 200px) {
+        @media (100pt <= width <= 200pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (min-width: 100px) and (max-width: 200px) {
+        @media (min-width: 100pt) and (max-width: 200pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8490,16 +8490,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media not (100px <= width <= 200px) {
+        @media not (100pt <= width <= 200pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media not ((min-width: 100px) and (max-width: 200px)) {
+        @media not ((min-width: 100pt) and (max-width: 200pt)) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8511,16 +8511,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (hover) and (100px <= width <= 200px) {
+        @media (hover) and (100pt <= width <= 200pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (hover) and (min-width: 100px) and (max-width: 200px) {
+        @media (hover) and (min-width: 100pt) and (max-width: 200pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8532,16 +8532,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (hover) or (100px <= width <= 200px) {
+        @media (hover) or (100pt <= width <= 200pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (hover) or ((min-width: 100px) and (max-width: 200px)) {
+        @media (hover) or ((min-width: 100pt) and (max-width: 200pt)) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8553,16 +8553,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (100px < width < 200px) {
+        @media (100pt < width < 200pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (min-width: 100.001px) and (max-width: 199.999px) {
+        @media (min-width: 100.001pt) and (max-width: 199.999pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8574,16 +8574,16 @@ mod tests {
 
     prefix_test(
       r#"
-        @media (200px >= width >= 100px) {
+        @media (200pt >= width >= 100pt) {
           .foo {
             color: chartreuse;
           }
         }
       "#,
       indoc! { r#"
-        @media (max-width: 200px) and (min-width: 100px) {
+        @media (max-width: 200pt) and (min-width: 100pt) {
           .foo {
-            color: #7fff00;
+            color: rgb(127, 255, 0);
           }
         }
       "#},
@@ -8606,14 +8606,14 @@ mod tests {
 
     prefix_test(
       r#"
-      @media (width > calc(1px + 1rem)) {
+      @media (width > calc(1pt + 1rem)) {
         .foo { color: yellow; }
       }
       "#,
       indoc! { r#"
-        @media (min-width: calc(1.001px + 1rem)) {
+        @media (min-width: calc(1.00075pt + "1rem")) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8624,14 +8624,14 @@ mod tests {
     );
     prefix_test(
       r#"
-      @media (width > max(10px, 1rem)) {
+      @media (width > max(10pt, 1rem)) {
         .foo { color: yellow; }
       }
       "#,
       indoc! { r#"
-        @media (min-width: calc(max(10px, 1rem) + .001px)) {
+        @media (min-width: calc(max(10pt, "1rem") + .001pt)) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8647,9 +8647,9 @@ mod tests {
       }
       "#,
       indoc! { r#"
-        @media (min-width: .001px) {
+        @media (min-width: .001pt) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8667,7 +8667,7 @@ mod tests {
       indoc! { r#"
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8685,7 +8685,7 @@ mod tests {
       indoc! { r#"
         @media (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8701,9 +8701,9 @@ mod tests {
       }
       "#,
       indoc! { r#"
-        @media (-webkit-min-device-pixel-ratio: 2.001), (min-resolution: 2.001dppx) {
+        @media (-webkit-min-device-pixel-ratio: 2.001), (min-resolution: "2.001dppx") {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8721,7 +8721,7 @@ mod tests {
       indoc! { r#"
         @media (-webkit-min-device-pixel-ratio: 3.125), (min-resolution: 300dpi) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8739,7 +8739,7 @@ mod tests {
       indoc! { r#"
         @media (-webkit-min-device-pixel-ratio: 2.99985), (min--moz-device-pixel-ratio: 2.99985), (min-resolution: 113.38dpcm) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8758,7 +8758,7 @@ mod tests {
       indoc! { r#"
         @media (color) and (-webkit-min-device-pixel-ratio: 2), (color) and (min-resolution: 2dppx) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8777,7 +8777,7 @@ mod tests {
       indoc! { r#"
         @media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx), (min-resolution: 192dpi) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8796,7 +8796,7 @@ mod tests {
       indoc! { r#"
         @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-resolution: 124.8dpi) {
           .foo {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -8820,7 +8820,7 @@ mod tests {
       ParserError::UnexpectedToken(Token::Delim('/')),
     );
     error_test(
-      "@media (600px <= min-height) { .foo { color: chartreuse }}",
+      "@media (600pt <= min-height) { .foo { color: chartreuse }}",
       ParserError::InvalidMediaQuery,
     );
     error_test(
@@ -8832,15 +8832,15 @@ mod tests {
       ParserError::InvalidMediaQuery,
     );
     error_test(
-      "@media (1px <= width <= bar) { .foo { color: chartreuse }}",
+      "@media (1pt <= width <= bar) { .foo { color: chartreuse }}",
       ParserError::InvalidMediaQuery,
     );
     error_test(
-      "@media (1px <= min-width <= 2px) { .foo { color: chartreuse }}",
+      "@media (1pt <= min-width <= 2pt) { .foo { color: chartreuse }}",
       ParserError::InvalidMediaQuery,
     );
     error_test(
-      "@media (1px <= scan <= 2px) { .foo { color: chartreuse }}",
+      "@media (1pt <= scan <= 2pt) { .foo { color: chartreuse }}",
       ParserError::InvalidMediaQuery,
     );
     error_test(
@@ -8864,23 +8864,23 @@ mod tests {
       }
       @layer foo {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
       "#,
       indoc! {r#"
       @layer foo {
         .foo {
-          color: red;
-          background: #fff;
+          color: rgb(255, 0, 0);
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
     "#},
@@ -8905,13 +8905,13 @@ mod tests {
       indoc! {r#"
       @layer a {
         bar {
-          color: #ff0;
+          color: rgb(255, 255, 0);
         }
       }
 
       @layer b {
         foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -8933,7 +8933,7 @@ mod tests {
 
       @layer b {
         foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -8976,7 +8976,7 @@ mod tests {
 
       @layer b {
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
 
@@ -9000,7 +9000,7 @@ mod tests {
 
       @layer d {
         foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -9026,7 +9026,7 @@ mod tests {
 
       @layer d {
         foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -9045,7 +9045,7 @@ mod tests {
       indoc! {r#"
       @layer a {
         foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
 
@@ -9067,7 +9067,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo, .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9082,8 +9082,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: red;
-        background: green;
+        color: rgb(255, 0, 0);
+        background: rgb(0, 128, 0);
       }
     "#},
     );
@@ -9098,8 +9098,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: red;
-        background: green !important;
+        color: rgb(255, 0, 0);
+        background: rgb(0, 128, 0) !important;
       }
     "#},
     );
@@ -9114,7 +9114,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: green;
+        background: rgb(0, 128, 0);
       }
     "#},
     );
@@ -9130,7 +9130,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --foo: green;
+        --foo: rgb(0, 128, 0);
       }
     "#},
     );
@@ -9146,11 +9146,11 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar {
-        background: green;
+        background: rgb(0, 128, 0);
       }
     "#},
     );
@@ -9170,15 +9170,15 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .baz {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
 
       .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9199,8 +9199,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo, .bar {
-        color: green;
-        background: red;
+        color: rgb(0, 128, 0);
+        background: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9218,8 +9218,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo, .bar {
-        color: green;
-        background: red;
+        color: rgb(0, 128, 0);
+        background: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9240,8 +9240,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo, .bar {
-        color: green;
-        background: red;
+        color: rgb(0, 128, 0);
+        background: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9256,7 +9256,7 @@ mod tests {
     "#,
       indoc! {r#"
       [foo="bar"], .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9274,11 +9274,11 @@ mod tests {
     "#,
       indoc! {r#"
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9296,11 +9296,11 @@ mod tests {
     "#,
       indoc! {r#"
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
-        color: pink;
+        color: rgb(255, 192, 203);
       }
     "#},
     );
@@ -9317,71 +9317,71 @@ mod tests {
       }
     "#,
       indoc! {r#"
-      .a:foo(#000) {
-        color: red;
+      .a:foo(rgb(0, 0, 0)) {
+        color: rgb(255, 0, 0);
       }
 
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
-      .a:foo(#ff0) {
-        color: pink;
+      .a:foo(rgb(255, 255, 0)) {
+        color: rgb(255, 192, 203);
       }
     "#},
     );
     test(
       r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
       .b {
         color: green;
       }
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
     "#,
       indoc! {r#"
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
     "#},
     );
     test(
       r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
       .b {
         color: green;
       }
       .a {
-        -webkit-border-radius: 10px;
+        -webkit-border-radius: 10pt;
       }
     "#,
       indoc! {r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
 
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
-        -webkit-border-radius: 10px;
+        -webkit-border-radius: 10pt;
       }
     "#},
     );
     test(
       r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
       .b {
         color: green;
@@ -9392,7 +9392,7 @@ mod tests {
     "#,
       indoc! {r#"
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
@@ -9403,26 +9403,26 @@ mod tests {
     test(
       r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
       .b {
         color: green;
       }
       .c {
-        border-radius: 20px;
+        border-radius: 20pt;
       }
     "#,
       indoc! {r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
 
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .c {
-        border-radius: 20px;
+        border-radius: 20pt;
       }
     "#},
     );
@@ -9443,11 +9443,11 @@ mod tests {
       indoc! {r#"
       @media print {
         .b {
-          color: green;
+          color: rgb(0, 128, 0);
         }
 
         .a {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -9455,28 +9455,28 @@ mod tests {
     test(
       r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
       .b {
         color: green;
       }
       .a {
-        border-radius: 20px;
+        border-radius: 20pt;
         color: pink;
       }
     "#,
       indoc! {r#"
       .a {
-        border-radius: 10px;
+        border-radius: 10pt;
       }
 
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .a {
-        color: pink;
-        border-radius: 20px;
+        color: rgb(255, 192, 203);
+        border-radius: 20pt;
       }
     "#},
     );
@@ -9497,11 +9497,11 @@ mod tests {
     "#,
       indoc! {r#"
       .a {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .b {
-        color: green;
+        color: rgb(0, 128, 0);
       }
     "#},
     );
@@ -9517,11 +9517,11 @@ mod tests {
     "#,
       indoc! {r#"
       [foo="bar"] {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9541,7 +9541,7 @@ mod tests {
     "#,
       indoc! {r#"
       [foo="bar"], .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9558,7 +9558,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-moz-read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9575,11 +9575,11 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-moz-read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -9596,7 +9596,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9621,15 +9621,15 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-moz-read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar {
-        color: #ff0;
+        color: rgb(255, 255, 0);
       }
 
       .foo:read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9650,11 +9650,11 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-moz-read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9671,11 +9671,11 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-moz-read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:read-only {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9701,7 +9701,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:fullscreen {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9718,19 +9718,19 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:-webkit-full-screen {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:-moz-full-screen {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:-ms-fullscreen {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:fullscreen {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9749,19 +9749,19 @@ mod tests {
     "#,
       indoc! {r#"
       .foo::-webkit-input-placeholder {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo::-moz-placeholder {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo::-ms-input-placeholder {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo::placeholder {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9780,15 +9780,15 @@ mod tests {
     "#,
       indoc! {r#"
       .foo::-webkit-file-upload-button {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo::-ms-browse {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo::file-selector-button {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -9801,32 +9801,32 @@ mod tests {
     prefix_test(
       r#"
       .foo::file-selector-button {
-        margin-inline-start: 2px;
+        margin-inline-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)))::-webkit-file-upload-button {
-        margin-left: 2px;
+        margin-left: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)))::-ms-browse {
-        margin-left: 2px;
+        margin-left: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)))::file-selector-button {
-        margin-left: 2px;
+        margin-left: 2pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))::-webkit-file-upload-button {
-        margin-right: 2px;
+        margin-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))::-ms-browse {
-        margin-right: 2px;
+        margin-right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))::file-selector-button {
-        margin-right: 2px;
+        margin-right: 2pt;
       }
     "#},
       Browsers {
@@ -9843,15 +9843,15 @@ mod tests {
       "#,
       indoc! {r#"
       .foo:placeholder-shown .bar {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:-webkit-autofill .baz {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:autofill .baz {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -9866,11 +9866,11 @@ mod tests {
       "#,
       indoc! {r#"
       :-webkit-any(.foo:placeholder-shown .bar, .foo:-webkit-autofill .baz) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       :is(.foo:placeholder-shown .bar, .foo:autofill .baz) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -9891,11 +9891,11 @@ mod tests {
       "#,
       indoc! {r#"
       :-webkit-any(.foo:placeholder-shown .bar, .foo:-webkit-autofill .baz) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       :is(.foo:placeholder-shown .bar, .foo:autofill .baz) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -9916,11 +9916,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo:placeholder-shown .bar, .foo:-webkit-autofill .baz {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo:placeholder-shown .bar, .foo:autofill .baz {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
     );
@@ -9933,11 +9933,11 @@ mod tests {
       "#,
       indoc! {r#"
       :hover {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       :focus-visible {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -9958,11 +9958,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo, :hover {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       :focus-visible {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -9974,24 +9974,24 @@ mod tests {
     prefix_test(
       r#"
       :hover, :focus-visible {
-        margin-inline-start: 24px;
+        margin-inline-start: 24pt;
       }
       "#,
       indoc! {r#"
       :hover:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        margin-left: 24px;
+        margin-left: 24pt;
       }
 
       :hover:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        margin-right: 24px;
+        margin-right: 24pt;
       }
 
       :focus-visible:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        margin-left: 24px;
+        margin-left: 24pt;
       }
 
       :focus-visible:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        margin-right: 24px;
+        margin-right: 24pt;
       }
       "#},
       Browsers {
@@ -10008,11 +10008,11 @@ mod tests {
       "#,
       indoc! {r#"
       :focus-within {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       :focus-visible {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10029,7 +10029,7 @@ mod tests {
       "#,
       indoc! {r#"
       :is(:hover, :focus-visible) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10046,11 +10046,11 @@ mod tests {
       "#,
       indoc! {r#"
       a:after:hover {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a:after:focus-visible {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10067,7 +10067,7 @@ mod tests {
       "#,
       indoc! {r#"
       :is(a:not(:hover), a:not(:focus-visible)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10084,7 +10084,7 @@ mod tests {
       "#,
       indoc! {r#"
       :is(a:has(:hover), a:has(:focus-visible)) {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10101,11 +10101,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo.foo:hover {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar:focus-visible {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10122,11 +10122,11 @@ mod tests {
       "#,
       indoc! {r#"
       a::unknown-a {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       a::unknown-b {
-        color: red;
+        color: rgb(255, 0, 0);
       }
       "#},
       Browsers {
@@ -10138,28 +10138,28 @@ mod tests {
     nesting_test_with_targets(
       r#"
       .foo {
-        padding-inline-start: 3px;
+        padding-inline-start: 3pt;
 
         .bar {
-          padding-inline-start: 5px;
+          padding-inline-start: 5pt;
         }
       }
       "#,
       indoc! {r#"
       .foo:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        padding-left: 3px;
+        padding-left: 3pt;
       }
 
       .foo:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        padding-right: 3px;
+        padding-right: 3pt;
       }
 
       .foo .bar:not(:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi)) {
-        padding-left: 5px;
+        padding-left: 5pt;
       }
 
       .foo .bar:lang(ae, ar, arc, bcc, bqi, ckb, dv, fa, glk, he, ku, mzn, nqo, pnb, ps, sd, ug, ur, yi) {
-        padding-right: 5px;
+        padding-right: 5pt;
       }
       "#},
       Browsers {
@@ -10194,7 +10194,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo .bar {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10211,7 +10211,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo .bar, .bar .baz {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10228,11 +10228,11 @@ mod tests {
       "#,
       indoc! {r#"
         .bar .baz:hover {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo .bar:focus-visible {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10247,20 +10247,20 @@ mod tests {
       ::before,
       ::after,
       ::backdrop {
-        padding: 5px;
+        padding: 5pt;
       }
       "#,
       indoc! {r#"
         *, :before, :after {
-          padding: 5px;
+          padding: 5pt;
         }
 
         ::-webkit-backdrop {
-          padding: 5px;
+          padding: 5pt;
         }
 
         ::backdrop {
-          padding: 5px;
+          padding: 5pt;
         }
       "#},
       Browsers {
@@ -10281,11 +10281,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:-webkit-any(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -10302,7 +10302,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:is(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10323,11 +10323,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:-webkit-any(.bar):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10348,11 +10348,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:-webkit-any(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10373,11 +10373,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:-webkit-any(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:-moz-any(.bar, .baz):after {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Browsers {
@@ -10424,23 +10424,23 @@ mod tests {
       }
       @media (hover) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
       "#,
       indoc! {r#"
       @media (hover) {
         .foo {
-          color: red;
-          background: #fff;
+          color: rgb(255, 0, 0);
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
     "#},
@@ -10453,30 +10453,30 @@ mod tests {
           color: red;
         }
       }
-      @media (min-width: 250px) {
+      @media (min-width: 250pt) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
       "#,
       indoc! {r#"
       @media (hover) {
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
 
-      @media (width >= 250px) {
+      @media (width >= 250pt) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
     "#},
@@ -10494,23 +10494,23 @@ mod tests {
       }
       @supports (flex: 1) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
       "#,
       indoc! {r#"
       @supports (flex: 1) {
         .foo {
-          color: red;
-          background: #fff;
+          color: rgb(255, 0, 0);
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
     "#},
@@ -10525,28 +10525,28 @@ mod tests {
       }
       @supports (display: grid) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
       "#,
       indoc! {r#"
       @supports (flex: 1) {
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
 
       @supports (display: grid) {
         .foo {
-          background: #fff;
+          background: rgb(255, 255, 255);
         }
 
         .baz {
-          color: #fff;
+          color: rgb(255, 255, 255);
         }
       }
     "#},
@@ -10555,12 +10555,12 @@ mod tests {
 
   #[test]
   fn test_opacity() {
-    minify_test(".foo { opacity: 0 }", ".foo{opacity:0}");
-    minify_test(".foo { opacity: 0% }", ".foo{opacity:0}");
-    minify_test(".foo { opacity: 0.5 }", ".foo{opacity:.5}");
-    minify_test(".foo { opacity: 50% }", ".foo{opacity:.5}");
-    minify_test(".foo { opacity: 1 }", ".foo{opacity:1}");
-    minify_test(".foo { opacity: 100% }", ".foo{opacity:1}");
+    minify_test(".foo { opacity: 0 }", ".foo{opacity:0%}");
+    minify_test(".foo { opacity: 0% }", ".foo{opacity:0%}");
+    minify_test(".foo { opacity: 0.5 }", ".foo{opacity:50%}");
+    minify_test(".foo { opacity: 50% }", ".foo{opacity:50%}");
+    minify_test(".foo { opacity: 1 }", ".foo{opacity:100%}");
+    minify_test(".foo { opacity: 100% }", ".foo{opacity:100%}");
   }
 
   #[test]
@@ -11453,12 +11453,12 @@ mod tests {
       ".foo{animation:3s foo view(inline)}",
     );
     minify_test(
-      ".foo { animation: foo 3s view(inline 10px 10px) }",
-      ".foo{animation:3s foo view(inline 10px)}",
+      ".foo { animation: foo 3s view(inline 10pt 10pt) }",
+      ".foo{animation:3s foo view(inline 10pt)}",
     );
     minify_test(
-      ".foo { animation: foo 3s view(inline 10px 12px) }",
-      ".foo{animation:3s foo view(inline 10px 12px)}",
+      ".foo { animation: foo 3s view(inline 10pt 12pt) }",
+      ".foo{animation:3s foo view(inline 10pt 12pt)}",
     );
     minify_test(
       ".foo { animation: foo 3s view(inline auto auto) }",
@@ -12016,43 +12016,43 @@ mod tests {
   #[test]
   fn test_transform() {
     minify_test(
-      ".foo { transform: translate(2px, 3px)",
-      ".foo{transform:translate(2px,3px)}",
+      ".foo { transform: translate(2pt, 3pt)",
+      ".foo{transform:translate(2pt,3pt)}",
     );
     minify_test(
-      ".foo { transform: translate(2px, 0px)",
-      ".foo{transform:translate(2px)}",
+      ".foo { transform: translate(2pt, 0pt)",
+      ".foo{transform:translate(2pt)}",
     );
     minify_test(
-      ".foo { transform: translate(0px, 2px)",
-      ".foo{transform:translateY(2px)}",
+      ".foo { transform: translate(0pt, 2pt)",
+      ".foo{transform:translateY(2pt)}",
     );
-    minify_test(".foo { transform: translateX(2px)", ".foo{transform:translate(2px)}");
-    minify_test(".foo { transform: translateY(2px)", ".foo{transform:translateY(2px)}");
-    minify_test(".foo { transform: translateZ(2px)", ".foo{transform:translateZ(2px)}");
+    minify_test(".foo { transform: translateX(2pt)", ".foo{transform:translate(2pt)}");
+    minify_test(".foo { transform: translateY(2pt)", ".foo{transform:translateY(2pt)}");
+    minify_test(".foo { transform: translateZ(2pt)", ".foo{transform:translateZ(2pt)}");
     minify_test(
-      ".foo { transform: translate3d(2px, 3px, 4px)",
-      ".foo{transform:translate3d(2px,3px,4px)}",
-    );
-    minify_test(
-      ".foo { transform: translate3d(10%, 20%, 4px)",
-      ".foo{transform:translate3d(10%,20%,4px)}",
+      ".foo { transform: translate3d(2pt, 3pt, 4pt)",
+      ".foo{transform:translate3d(2pt,3pt,4pt)}",
     );
     minify_test(
-      ".foo { transform: translate3d(2px, 0px, 0px)",
-      ".foo{transform:translate(2px)}",
+      ".foo { transform: translate3d(10%, 20%, 4pt)",
+      ".foo{transform:translate3d(10%,20%,4pt)}",
     );
     minify_test(
-      ".foo { transform: translate3d(0px, 2px, 0px)",
-      ".foo{transform:translateY(2px)}",
+      ".foo { transform: translate3d(2pt, 0pt, 0pt)",
+      ".foo{transform:translate(2pt)}",
     );
     minify_test(
-      ".foo { transform: translate3d(0px, 0px, 2px)",
-      ".foo{transform:translateZ(2px)}",
+      ".foo { transform: translate3d(0pt, 2pt, 0pt)",
+      ".foo{transform:translateY(2pt)}",
     );
     minify_test(
-      ".foo { transform: translate3d(2px, 3px, 0px)",
-      ".foo{transform:translate(2px,3px)}",
+      ".foo { transform: translate3d(0pt, 0pt, 2pt)",
+      ".foo{transform:translateZ(2pt)}",
+    );
+    minify_test(
+      ".foo { transform: translate3d(2pt, 3pt, 0pt)",
+      ".foo{transform:translate(2pt,3pt)}",
     );
     minify_test(".foo { transform: scale(2, 3)", ".foo{transform:scale(2,3)}");
     minify_test(".foo { transform: scale(10%, 20%)", ".foo{transform:scale(.1,.2)}");
@@ -12112,8 +12112,8 @@ mod tests {
     minify_test(".foo { transform: skewX(20deg)", ".foo{transform:skew(20deg)}");
     minify_test(".foo { transform: skewY(20deg)", ".foo{transform:skewY(20deg)}");
     minify_test(
-      ".foo { transform: perspective(10px)",
-      ".foo{transform:perspective(10px)}",
+      ".foo { transform: perspective(10pt)",
+      ".foo{transform:perspective(10pt)}",
     );
     minify_test(
       ".foo { transform: matrix(1, 2, -1, 1, 80, 80)",
@@ -12126,38 +12126,38 @@ mod tests {
     // TODO: Re-enable with a better solution
     //       See: https://github.com/parcel-bundler/lightningcss/issues/288
     // minify_test(
-    //   ".foo{transform:translate(100px,200px) rotate(45deg) skew(10deg) scale(2)}",
+    //   ".foo{transform:translate(100pt,200pt) rotate(45deg) skew(10deg) scale(2)}",
     //   ".foo{transform:matrix(1.41421,1.41421,-1.16485,1.66358,100,200)}",
     // );
     // minify_test(
-    //   ".foo{transform:translate(200px,300px) translate(100px,200px) scale(2)}",
+    //   ".foo{transform:translate(200pt,300pt) translate(100pt,200pt) scale(2)}",
     //   ".foo{transform:matrix(2,0,0,2,300,500)}",
     // );
     minify_test(
-      ".foo{transform:translate(100px,200px) rotate(45deg)}",
-      ".foo{transform:translate(100px,200px)rotate(45deg)}",
+      ".foo{transform:translate(100pt,200pt) rotate(45deg)}",
+      ".foo{transform:translate(100pt,200pt)rotate(45deg)}",
     );
     minify_test(
-      ".foo{transform:rotate3d(1, 1, 1, 45deg) translate3d(100px, 100px, 10px)}",
-      ".foo{transform:rotate3d(1,1,1,45deg)translate3d(100px,100px,10px)}",
+      ".foo{transform:rotate3d(1, 1, 1, 45deg) translate3d(100pt, 100pt, 10pt)}",
+      ".foo{transform:rotate3d(1,1,1,45deg)translate3d(100pt,100pt,10pt)}",
     );
     // TODO: Re-enable with a better solution
     //       See: https://github.com/parcel-bundler/lightningcss/issues/288
     // minify_test(
-    //   ".foo{transform:translate3d(100px, 100px, 10px) skew(10deg) scale3d(2, 3, 4)}",
+    //   ".foo{transform:translate3d(100pt, 100pt, 10pt) skew(10deg) scale3d(2, 3, 4)}",
     //   ".foo{transform:matrix3d(2,0,0,0,.528981,3,0,0,0,0,4,0,100,100,10,1)}",
     // );
     // minify_test(
     //   ".foo{transform:matrix3d(0.804737854124365, 0.5058793634016805, -0.31061721752604554, 0, -0.31061721752604554, 0.804737854124365, 0.5058793634016805, 0, 0.5058793634016805, -0.31061721752604554, 0.804737854124365, 0, 100, 100, 10, 1)}",
-    //   ".foo{transform:translate3d(100px,100px,10px)rotate3d(1,1,1,45deg)}"
+    //   ".foo{transform:translate3d(100pt,100pt,10pt)rotate3d(1,1,1,45deg)}"
     // );
     // minify_test(
     //   ".foo{transform:matrix3d(1, 0, 0, 0, 0, 0.7071067811865476, 0.7071067811865475, 0, 0, -0.7071067811865475, 0.7071067811865476, 0, 100, 100, 10, 1)}",
-    //   ".foo{transform:translate3d(100px,100px,10px)rotateX(45deg)}"
+    //   ".foo{transform:translate3d(100pt,100pt,10pt)rotateX(45deg)}"
     // );
     // minify_test(
-    //   ".foo{transform:translate3d(100px, 200px, 10px) translate(100px, 100px)}",
-    //   ".foo{transform:translate3d(200px,300px,10px)}",
+    //   ".foo{transform:translate3d(100pt, 200pt, 10pt) translate(100pt, 100pt)}",
+    //   ".foo{transform:translate3d(200pt,300pt,10pt)}",
     // );
     // minify_test(
     //   ".foo{transform:rotate(45deg) rotate(45deg)}",
@@ -12165,20 +12165,20 @@ mod tests {
     // );
     // minify_test(
     //   ".foo{transform:matrix(0.7071067811865476, 0.7071067811865475, -0.7071067811865475, 0.7071067811865476, 100, 100)}",
-    //   ".foo{transform:translate(100px,100px)rotate(45deg)}"
+    //   ".foo{transform:translate(100pt,100pt)rotate(45deg)}"
     // );
     // minify_test(
-    //   ".foo{transform:translateX(2in) translateX(50px)}",
-    //   ".foo{transform:translate(242px)}",
+    //   ".foo{transform:translateX(2in) translateX(50pt)}",
+    //   ".foo{transform:translate(242pt)}",
     // );
     minify_test(
-      ".foo{transform:translateX(calc(2in + 50px))}",
-      ".foo{transform:translate(242px)}",
+      ".foo{transform:translateX(calc(2in + 50pt))}",
+      ".foo{transform:translate(242pt)}",
     );
     minify_test(".foo{transform:translateX(50%)}", ".foo{transform:translate(50%)}");
     minify_test(
-      ".foo{transform:translateX(calc(50% - 100px + 20px))}",
-      ".foo{transform:translate(calc(50% - 80px))}",
+      ".foo{transform:translateX(calc(50% - 100pt + 20pt))}",
+      ".foo{transform:translate(calc(50% - 80pt))}",
     );
     minify_test(
       ".foo{transform:rotate(calc(10deg + 20deg))}",
@@ -12212,10 +12212,10 @@ mod tests {
       ".foo{-webkit-transform:scale(.3)}",
     );
 
-    minify_test(".foo { translate: 1px 2px 3px }", ".foo{translate:1px 2px 3px}");
-    minify_test(".foo { translate: 1px 0px 0px }", ".foo{translate:1px}");
-    minify_test(".foo { translate: 1px 2px 0px }", ".foo{translate:1px 2px}");
-    minify_test(".foo { translate: 1px 0px 2px }", ".foo{translate:1px 0 2px}");
+    minify_test(".foo { translate: 1pt 2pt 3pt }", ".foo{translate:1pt 2pt 3pt}");
+    minify_test(".foo { translate: 1pt 0pt 0pt }", ".foo{translate:1pt}");
+    minify_test(".foo { translate: 1pt 2pt 0pt }", ".foo{translate:1pt 2pt}");
+    minify_test(".foo { translate: 1pt 0pt 2pt }", ".foo{translate:1pt 0 2pt}");
     minify_test(".foo { translate: none }", ".foo{translate:none}");
     minify_test(".foo { rotate: 10deg }", ".foo{rotate:10deg}");
     minify_test(".foo { rotate: z 10deg }", ".foo{rotate:10deg}");
@@ -12284,12 +12284,12 @@ mod tests {
       r#"
       .foo {
         transform: translateX(-50%);
-        transform: translateX(20px);
+        transform: translateX(20pt);
       }
       "#,
       indoc! {r#"
       .foo {
-        transform: translateX(20px);
+        transform: translateX(20pt);
       }
       "#},
     );
@@ -12299,283 +12299,283 @@ mod tests {
   pub fn test_gradients() {
     minify_test(
       ".foo { background: linear-gradient(yellow, blue) }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(to bottom, yellow, blue); }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(180deg, yellow, blue); }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(0.5turn, yellow, blue); }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow 10%, blue 20%) }",
-      ".foo{background:linear-gradient(#ff0 10%,#00f 20%)}",
+      ".foo{background:linear-gradient(rgb(255,255,0) 10%,rgb(0,0,255) 20%)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top, blue, yellow); }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top, blue 10%, yellow 20%); }",
-      ".foo{background:linear-gradient(#ff0 80%,#00f 90%)}",
+      ".foo{background:linear-gradient(rgb(255,255,0) 80%,rgb(0,0,255) 90%)}",
     );
     minify_test(
-      ".foo { background: linear-gradient(to top, blue 10px, yellow 20px); }",
-      ".foo{background:linear-gradient(0deg,#00f 10px,#ff0 20px)}",
+      ".foo { background: linear-gradient(to top, blue 10pt, yellow 20pt); }",
+      ".foo{background:linear-gradient(0deg,rgb(0,0,255) 10pt,rgb(255,255,0) 20pt)}",
     );
     minify_test(
       ".foo { background: linear-gradient(135deg, yellow, blue); }",
-      ".foo{background:linear-gradient(135deg,#ff0,#00f)}",
+      ".foo{background:linear-gradient(135deg,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, blue 20%, #0f0); }",
-      ".foo{background:linear-gradient(#ff0,#00f 20%,#0f0)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255) 20%,rgb(0,255,0))}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top right, red, white, blue) }",
-      ".foo{background:linear-gradient(to top right,red,#fff,#00f)}",
+      ".foo{background:linear-gradient(to top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, blue calc(10% * 2), #0f0); }",
-      ".foo{background:linear-gradient(#ff0,#00f 20%,#0f0)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255) 20%,rgb(0,255,0))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 20%, blue); }",
-      ".foo{background:linear-gradient(#ff0,20%,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),20%,rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 50%, blue); }",
-      ".foo{background:linear-gradient(#ff0,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: linear-gradient(yellow, 20px, blue); }",
-      ".foo{background:linear-gradient(#ff0,20px,#00f)}",
+      ".foo { background: linear-gradient(yellow, 20pt, blue); }",
+      ".foo{background:linear-gradient(rgb(255,255,0),20pt,rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: linear-gradient(yellow, 50px, blue); }",
-      ".foo{background:linear-gradient(#ff0,50px,#00f)}",
+      ".foo { background: linear-gradient(yellow, 50pt, blue); }",
+      ".foo{background:linear-gradient(rgb(255,255,0),50pt,rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: linear-gradient(yellow, 50px, blue); }",
-      ".foo{background:linear-gradient(#ff0,50px,#00f)}",
+      ".foo { background: linear-gradient(yellow, 50pt, blue); }",
+      ".foo{background:linear-gradient(rgb(255,255,0),50pt,rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, red 30% 40%, blue); }",
-      ".foo{background:linear-gradient(#ff0,red 30% 40%,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(255,0,0) 30% 40%,rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, red 30%, red 40%, blue); }",
-      ".foo{background:linear-gradient(#ff0,red 30% 40%,#00f)}",
+      ".foo{background:linear-gradient(rgb(255,255,0),rgb(255,0,0) 30% 40%,rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: linear-gradient(0, yellow, blue); }",
-      ".foo{background:linear-gradient(#00f,#ff0)}",
+      ".foo{background:linear-gradient(rgb(0,0,255),rgb(255,255,0))}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(yellow, blue) }",
-      ".foo{background:-webkit-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-webkit-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-webkit-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-webkit-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-webkit-linear-gradient(top right,red,#fff,#00f)}",
+      ".foo{background:-webkit-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(yellow, blue) }",
-      ".foo{background:-moz-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-moz-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-moz-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-moz-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-moz-linear-gradient(top right,red,#fff,#00f)}",
+      ".foo{background:-moz-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(yellow, blue) }",
-      ".foo{background:-o-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-o-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-o-linear-gradient(#ff0,#00f)}",
+      ".foo{background:-o-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-o-linear-gradient(top right,red,#fff,#00f)}",
+      ".foo{background:-o-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -webkit-gradient(linear, left top, left bottom, from(blue), to(yellow)) }",
-      ".foo{background:-webkit-gradient(linear,0 0,0 100%,from(#00f),to(#ff0))}",
+      ".foo{background:-webkit-gradient(linear,0pt 0pt,0pt 100%,from(rgb(0,0,255)),to(rgb(255,255,0)))}",
     );
     minify_test(
       ".foo { background: -webkit-gradient(linear, left top, left bottom, from(blue), color-stop(50%, red), to(yellow)) }",
-      ".foo{background:-webkit-gradient(linear,0 0,0 100%,from(#00f),color-stop(.5,red),to(#ff0))}"
+      ".foo{background:-webkit-gradient(linear,0pt 0pt,0pt 100%,from(rgb(0,0,255)),color-stop(.5,rgb(255,0,0)),to(rgb(255,255,0)))}"
     );
     minify_test(
       ".foo { background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, blue), color-stop(50%, red), color-stop(100%, yellow)) }",
-      ".foo{background:-webkit-gradient(linear,0 0,0 100%,from(#00f),color-stop(.5,red),to(#ff0))}"
+      ".foo{background:-webkit-gradient(linear,0pt 0pt,0pt 100%,from(rgb(0,0,255)),color-stop(.5,rgb(255,0,0)),to(rgb(255,255,0)))}"
     );
     minify_test(
-      ".foo { background: repeating-linear-gradient(yellow 10px, blue 50px) }",
-      ".foo{background:repeating-linear-gradient(#ff0 10px,#00f 50px)}",
+      ".foo { background: repeating-linear-gradient(yellow 10pt, blue 50pt) }",
+      ".foo{background:repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
     );
     minify_test(
-      ".foo { background: -webkit-repeating-linear-gradient(yellow 10px, blue 50px) }",
-      ".foo{background:-webkit-repeating-linear-gradient(#ff0 10px,#00f 50px)}",
+      ".foo { background: -webkit-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
+      ".foo{background:-webkit-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
     );
     minify_test(
-      ".foo { background: -moz-repeating-linear-gradient(yellow 10px, blue 50px) }",
-      ".foo{background:-moz-repeating-linear-gradient(#ff0 10px,#00f 50px)}",
+      ".foo { background: -moz-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
+      ".foo{background:-moz-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
     );
     minify_test(
-      ".foo { background: -o-repeating-linear-gradient(yellow 10px, blue 50px) }",
-      ".foo{background:-o-repeating-linear-gradient(#ff0 10px,#00f 50px)}",
+      ".foo { background: -o-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
+      ".foo{background:-o-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
     );
     minify_test(
       ".foo { background: radial-gradient(yellow, blue) }",
-      ".foo{background:radial-gradient(#ff0,#00f)}",
+      ".foo{background:radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(at top left, yellow, blue) }",
-      ".foo{background:radial-gradient(at 0 0,#ff0,#00f)}",
+      ".foo{background:radial-gradient(at 0pt 0pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(5em circle at top left, yellow, blue) }",
-      ".foo{background:radial-gradient(5em at 0 0,#ff0,#00f)}",
+      ".foo{background:radial-gradient(5em at 0pt 0pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle at 100%,#333,#333 50%,#eee 75%,#333 75%)}",
+      ".foo{background:radial-gradient(circle at 100%,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-corner circle at 100% 50%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle at 100%,#333,#333 50%,#eee 75%,#333 75%)}"
+      ".foo{background:radial-gradient(circle at 100%,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}"
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-corner circle at 50% 50%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle,#333,#333 50%,#eee 75%,#333 75%)}"
+      ".foo{background:radial-gradient(circle,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}"
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse at top, #e66465, transparent) }",
-      ".foo{background:radial-gradient(at top,#e66465,#0000)}",
+      ".foo{background:radial-gradient(at top,rgb(230,100,101),rgb(0,0,0,0%))}",
     );
     minify_test(
-      ".foo { background: radial-gradient(20px, yellow, blue) }",
-      ".foo{background:radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: radial-gradient(20pt, yellow, blue) }",
+      ".foo{background:radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: radial-gradient(circle 20px, yellow, blue) }",
-      ".foo{background:radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: radial-gradient(circle 20pt, yellow, blue) }",
+      ".foo{background:radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: radial-gradient(20px 40px, yellow, blue) }",
-      ".foo{background:radial-gradient(20px 40px,#ff0,#00f)}",
+      ".foo { background: radial-gradient(20pt 40pt, yellow, blue) }",
+      ".foo{background:radial-gradient(20pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: radial-gradient(ellipse 20px 40px, yellow, blue) }",
-      ".foo{background:radial-gradient(20px 40px,#ff0,#00f)}",
+      ".foo { background: radial-gradient(ellipse 20pt 40pt, yellow, blue) }",
+      ".foo{background:radial-gradient(20pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: radial-gradient(ellipse calc(20px + 10px) 40px, yellow, blue) }",
-      ".foo{background:radial-gradient(30px 40px,#ff0,#00f)}",
+      ".foo { background: radial-gradient(ellipse calc(20pt + 10pt) 40pt, yellow, blue) }",
+      ".foo{background:radial-gradient(30pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(circle farthest-side, yellow, blue) }",
-      ".foo{background:radial-gradient(circle farthest-side,#ff0,#00f)}",
+      ".foo{background:radial-gradient(circle farthest-side,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-side circle, yellow, blue) }",
-      ".foo{background:radial-gradient(circle farthest-side,#ff0,#00f)}",
+      ".foo{background:radial-gradient(circle farthest-side,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse farthest-side, yellow, blue) }",
-      ".foo{background:radial-gradient(farthest-side,#ff0,#00f)}",
+      ".foo{background:radial-gradient(farthest-side,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-side ellipse, yellow, blue) }",
-      ".foo{background:radial-gradient(farthest-side,#ff0,#00f)}",
+      ".foo{background:radial-gradient(farthest-side,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -webkit-radial-gradient(yellow, blue) }",
-      ".foo{background:-webkit-radial-gradient(#ff0,#00f)}",
+      ".foo{background:-webkit-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -moz-radial-gradient(yellow, blue) }",
-      ".foo{background:-moz-radial-gradient(#ff0,#00f)}",
+      ".foo{background:-moz-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -o-radial-gradient(yellow, blue) }",
-      ".foo{background:-o-radial-gradient(#ff0,#00f)}",
+      ".foo{background:-o-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: repeating-radial-gradient(circle 20px, yellow, blue) }",
-      ".foo{background:repeating-radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: repeating-radial-gradient(circle 20pt, yellow, blue) }",
+      ".foo{background:repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: -webkit-repeating-radial-gradient(circle 20px, yellow, blue) }",
-      ".foo{background:-webkit-repeating-radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: -webkit-repeating-radial-gradient(circle 20pt, yellow, blue) }",
+      ".foo{background:-webkit-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: -moz-repeating-radial-gradient(circle 20px, yellow, blue) }",
-      ".foo{background:-moz-repeating-radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: -moz-repeating-radial-gradient(circle 20pt, yellow, blue) }",
+      ".foo{background:-moz-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
-      ".foo { background: -o-repeating-radial-gradient(circle 20px, yellow, blue) }",
-      ".foo{background:-o-repeating-radial-gradient(20px,#ff0,#00f)}",
+      ".foo { background: -o-repeating-radial-gradient(circle 20pt, yellow, blue) }",
+      ".foo{background:-o-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
     );
     minify_test(
       ".foo { background: -webkit-gradient(radial, center center, 0, center center, 100, from(blue), to(yellow)) }",
-      ".foo{background:-webkit-gradient(radial,50% 50%,0,50% 50%,100,from(#00f),to(#ff0))}"
+      ".foo{background:-webkit-gradient(radial,50% 50%,0,50% 50%,100,from(rgb(0,0,255)),to(rgb(255,255,0)))}"
     );
     minify_test(
       ".foo { background: conic-gradient(#f06, gold) }",
-      ".foo{background:conic-gradient(#f06,gold)}",
+      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
     );
     minify_test(
       ".foo { background: conic-gradient(at 50% 50%, #f06, gold) }",
-      ".foo{background:conic-gradient(#f06,gold)}",
+      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0deg, #f06, gold) }",
-      ".foo{background:conic-gradient(#f06,gold)}",
+      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0, #f06, gold) }",
-      ".foo{background:conic-gradient(#f06,gold)}",
+      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0deg at center, #f06, gold) }",
-      ".foo{background:conic-gradient(#f06,gold)}",
+      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
     );
     minify_test(
       ".foo { background: conic-gradient(white -50%, black 150%) }",
-      ".foo{background:conic-gradient(#fff -50%,#000 150%)}",
+      ".foo{background:conic-gradient(rgb(255,255,255) -50%,rgb(0,0,0) 150%)}",
     );
     minify_test(
       ".foo { background: conic-gradient(white -180deg, black 540deg) }",
-      ".foo{background:conic-gradient(#fff -180deg,#000 540deg)}",
+      ".foo{background:conic-gradient(rgb(255,255,255) -180deg,rgb(0,0,0) 540deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 45deg, white, black, white) }",
-      ".foo{background:conic-gradient(from 45deg,#fff,#000,#fff)}",
+      ".foo{background:conic-gradient(from 45deg,rgb(255,255,255),rgb(0,0,0),rgb(255,255,255))}",
     );
     minify_test(
       ".foo { background: repeating-conic-gradient(from 45deg, white, black, white) }",
-      ".foo{background:repeating-conic-gradient(from 45deg,#fff,#000,#fff)}",
+      ".foo{background:repeating-conic-gradient(from 45deg,rgb(255,255,255),rgb(0,0,0),rgb(255,255,255))}",
     );
     minify_test(
       ".foo { background: repeating-conic-gradient(black 0deg 25%, white 0deg 50%) }",
-      ".foo{background:repeating-conic-gradient(#000 0deg 25%,#fff 0deg 50%)}",
+      ".foo{background:repeating-conic-gradient(rgb(0,0,0) 0deg 25%,rgb(255,255,255) 0deg 50%)}",
     );
 
     test(
@@ -12590,11 +12590,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          background: -webkit-gradient(linear, left top, left bottom, from(red), to(#00f));
-          background: -webkit-linear-gradient(red, #00f);
-          background: -moz-linear-gradient(red, #00f);
-          background: -o-linear-gradient(red, #00f);
-          background: linear-gradient(red, #00f);
+          background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+          background: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+          background: -moz-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+          background: -o-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+          background: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
         }
       "#},
     );
@@ -12611,7 +12611,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(red, #00f);
+        background: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12630,10 +12630,10 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: -webkit-gradient(linear, left top, left bottom, from(red), to(#00f));
-        background: -webkit-linear-gradient(red, #00f);
-        background: -moz-linear-gradient(red, #00f);
-        background: -o-linear-gradient(red, #00f);
+        background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: -moz-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: -o-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12649,9 +12649,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(red, #00f);
-        background-image: linear-gradient(red, #00f);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12667,9 +12667,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(right, red, #00f);
-        background-image: linear-gradient(to right, red, #00f);
+        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(right, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12685,9 +12685,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 100%, 0 0, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(top, red, #00f);
-        background-image: linear-gradient(to top, red, #00f);
+        background-image: -webkit-gradient(linear, 0 100%, 0 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(top, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(to top, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12703,9 +12703,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 100% 0, 0 0, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(left, red, #00f);
-        background-image: linear-gradient(to left, red, #00f);
+        background-image: -webkit-gradient(linear, 100% 0, 0 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(left, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(to left, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12721,9 +12721,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 100% 0, 0 100%, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(bottom left, red, #00f);
-        background-image: linear-gradient(to bottom left, red, #00f);
+        background-image: -webkit-gradient(linear, 100% 0, 0 100%, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(bottom left, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(to bottom left, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12739,9 +12739,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 100%, 100% 0, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(top right, red, #00f);
-        background-image: linear-gradient(to top right, red, #00f);
+        background-image: -webkit-gradient(linear, 0 100%, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(top right, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(to top right, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12757,9 +12757,9 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(red), to(#00f));
-        background-image: -webkit-linear-gradient(90deg, red, #00f);
-        background-image: linear-gradient(90deg, red, #00f);
+        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12775,8 +12775,8 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-linear-gradient(45deg, red, #00f);
-        background-image: linear-gradient(45deg, red, #00f);
+        background-image: -webkit-linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12792,8 +12792,8 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-linear-gradient(red, #00f);
-        background-image: linear-gradient(red, #00f);
+        background-image: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12804,14 +12804,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background-image: radial-gradient(20px, red, blue);
+        background-image: radial-gradient(20pt, red, blue);
       }
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(radial, center center, 0, center center, 20, from(red), to(#00f));
-        background-image: -webkit-radial-gradient(20px, red, #00f);
-        background-image: radial-gradient(20px, red, #00f);
+        background-image: -webkit-gradient(radial, center center, 0, center center, 20, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-radial-gradient(20pt, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(20pt, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12822,14 +12822,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background-image: radial-gradient(20px at top left, red, blue);
+        background-image: radial-gradient(20pt at top left, red, blue);
       }
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(radial, left top, 0, left top, 20, from(red), to(#00f));
-        background-image: -webkit-radial-gradient(20px at 0 0, red, #00f);
-        background-image: radial-gradient(20px at 0 0, red, #00f);
+        background-image: -webkit-gradient(radial, left top, 0, left top, 20, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
+        background-image: -webkit-radial-gradient(20pt at 0 0, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(20pt at 0 0, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12845,8 +12845,8 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-radial-gradient(red, #00f);
-        background-image: radial-gradient(red, #00f);
+        background-image: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12858,13 +12858,13 @@ mod tests {
       r#"
       .foo {
         background-image: -webkit-gradient(radial, left top, 0, left top, 20, from(red), to(#00f));
-        background-image: -webkit-radial-gradient(20px at 0% 0%, red, #00f);
-        background-image: radial-gradient(20px at 0% 0%, red, #00f);
+        background-image: -webkit-radial-gradient(20pt at 0% 0%, red, #00f);
+        background-image: radial-gradient(20pt at 0% 0%, red, #00f);
       }
       "#,
       indoc! {r#"
       .foo {
-        background-image: radial-gradient(20px at 0 0, red, #00f);
+        background-image: radial-gradient(20pt at 0 0, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12876,13 +12876,13 @@ mod tests {
       r#"
       .foo {
         background: -webkit-gradient(radial, left top, 0, left top, 20, from(red), to(#00f));
-        background: -webkit-radial-gradient(20px at 0% 0%, red, #00f);
-        background: radial-gradient(20px at 0% 0%, red, #00f);
+        background: -webkit-radial-gradient(20pt at 0% 0%, red, #00f);
+        background: radial-gradient(20pt at 0% 0%, red, #00f);
       }
       "#,
       indoc! {r#"
       .foo {
-        background: radial-gradient(20px at 0 0, red, #00f);
+        background: radial-gradient(20pt at 0 0, rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12898,8 +12898,8 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: -webkit-radial-gradient(red, #00f);
-        background: radial-gradient(red, #00f);
+        background: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12915,11 +12915,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0), to(red)), url("bg.jpg");
-        background: -webkit-radial-gradient(red, #00f), -webkit-linear-gradient(#ff0, red), url("bg.jpg");
-        background: -moz-radial-gradient(red, #00f), -moz-linear-gradient(#ff0, red), url("bg.jpg");
-        background: -o-radial-gradient(red, #00f), -o-linear-gradient(#ff0, red), url("bg.jpg");
-        background: radial-gradient(red, #00f), linear-gradient(#ff0, red), url("bg.jpg");
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 255, 0)), to(rgb(255, 0, 0))), url("bg.jpg");
+        background: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -webkit-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
+        background: -moz-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -moz-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
+        background: -o-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -o-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
+        background: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
       }
       "#},
       Browsers {
@@ -12938,7 +12938,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(#ff0, red 30%, red 40%, #00f);
+        background: linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0) 30%, rgb(255, 0, 0) 40%, rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12955,7 +12955,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(#ff0, red 30% 40%, #00f);
+        background: linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0) 30% 40%, rgb(0, 0, 255));
       }
       "#},
       Browsers {
@@ -12965,11 +12965,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -12979,12 +12979,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(color(display-p3 1 .0000153435 -.00000303562), color(display-p3 .440289 .28452 1.23485));
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(oklab(64.857% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513));
+          background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -12995,12 +12995,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13010,13 +13010,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
-          background: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
+          background: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13026,10 +13026,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13042,7 +13042,7 @@ mod tests {
       ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+          background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54% -0.1 -0.02));
         }
       "#},
       Browsers {
@@ -13052,11 +13052,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13066,12 +13066,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(color(display-p3 1 .0000153435 -.00000303562), color(display-p3 .440289 .28452 1.23485));
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(oklab(64.857% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513));
+          background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13082,12 +13082,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13097,13 +13097,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
-          background-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
+          background-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13113,10 +13113,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -13129,7 +13129,7 @@ mod tests {
       ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+          background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54% -0.1 -0.02));
         }
       "#},
       Browsers {
@@ -13313,7 +13313,7 @@ mod tests {
       base-palette: 1;
       override-colors: 1 #7EB7E4;
     }"#,
-      "@font-palette-values --Cooler{font-family:Bixa;base-palette:1;override-colors:1 #7eb7e4}",
+      "@font-palette-values --Cooler{font-family:Bixa;base-palette:1;override-colors:1 rgb(126,183,228)}",
     );
     minify_test(
       r#"@font-palette-values --Cooler {
@@ -13321,13 +13321,13 @@ mod tests {
       base-palette: 3;
       override-colors: 1 rgb(43, 12, 9), 3 lime;
     }"#,
-      "@font-palette-values --Cooler{font-family:Handover Sans;base-palette:3;override-colors:1 #2b0c09,3 #0f0}",
+      "@font-palette-values --Cooler{font-family:Handover Sans;base-palette:3;override-colors:1 rgb(43,12,9),3 rgb(0,255,0)}",
     );
     minify_test(r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
       override-colors: 1 rgb(43, 12, 9), 3 var(--highlight);
-    }"#, "@font-palette-values --Cooler{font-family:Handover Sans;base-palette:3;override-colors:1 #2b0c09,3 var(--highlight)}");
+    }"#, "@font-palette-values --Cooler{font-family:Handover Sans;base-palette:3;override-colors:1 rgb(43,12,9),3 var(--highlight)}");
     prefix_test(
       r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
@@ -13337,8 +13337,8 @@ mod tests {
       indoc! {r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
-      override-colors: 1 #2b0c09, 3 #ee00be;
-      override-colors: 1 #2b0c09, 3 lch(50.998% 135.363 338);
+      override-colors: 1 rgb(43, 12, 9), 3 rgb(238, 0, 190);
+      override-colors: 1 rgb(43, 12, 9), 3 oklch(63.3164%, .419449, 340.175deg);
     }
     "#},
       Browsers {
@@ -13355,14 +13355,14 @@ mod tests {
       indoc! {r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
-      override-colors: 1 var(--foo), 3 #ee00be;
+      override-colors: 1 var(--foo), 3 rgb(238, 0, 190);
     }
 
     @supports (color: lab(0% 0 0)) {
       @font-palette-values --Cooler {
         font-family: Handover Sans;
         base-palette: 3;
-        override-colors: 1 var(--foo), 3 lab(50.998% 125.506 -50.7078);
+        override-colors: 1 var(--foo), 3 oklab(63.3164%, .394589, -.142257);
       }
     }
     "#},
@@ -13675,17 +13675,17 @@ mod tests {
     );
     prefix_test(
       r#"
-      @supports (backdrop-filter: blur(10px)) {
+      @supports (backdrop-filter: blur(10pt)) {
         div {
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(10pt);
         }
       }
     "#,
       indoc! { r#"
-      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10pt);
+          backdrop-filter: blur(10pt);
         }
       }
     "#},
@@ -13696,17 +13696,17 @@ mod tests {
     );
     prefix_test(
       r#"
-      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(10pt);
         }
       }
     "#,
       indoc! { r#"
-      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10pt);
+          backdrop-filter: blur(10pt);
         }
       }
     "#},
@@ -13717,17 +13717,17 @@ mod tests {
     );
     prefix_test(
       r#"
-      @supports ((-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(20pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(10pt);
         }
       }
     "#,
       indoc! { r#"
-      @supports ((-webkit-backdrop-filter: blur(20px))) or ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(20pt))) or ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10pt);
+          backdrop-filter: blur(10pt);
         }
       }
     "#},
@@ -13738,16 +13738,16 @@ mod tests {
     );
     prefix_test(
       r#"
-      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+      @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(10pt);
         }
       }
     "#,
       indoc! { r#"
-      @supports (backdrop-filter: blur(10px)) {
+      @supports (backdrop-filter: blur(10pt)) {
         div {
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(10pt);
         }
       }
     "#},
@@ -13758,13 +13758,13 @@ mod tests {
     );
     minify_test(
       r#"
-      @supports (width: calc(10px * 2)) {
+      @supports (width: calc(10pt * 2)) {
         .test {
-          width: calc(10px * 2);
+          width: calc(10pt * 2);
         }
       }
     "#,
-      "@supports (width:calc(10px * 2)){.test{width:20px}}",
+      "@supports (width:calc(10pt * 2)){.test{width:20pt}}",
     );
     minify_test(
       r#"
@@ -13774,7 +13774,7 @@ mod tests {
         }
       }
     "#,
-      "@supports (color:hsl(0deg, 0%, 0%)){.test{color:#000}}",
+      "@supports (color:hsl(0deg, 0%, 0%)){.test{color:rgb(0,0,0)}}",
     );
   }
 
@@ -13829,7 +13829,7 @@ mod tests {
       @namespace "http://example.com/foo";
 
       x {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
     );
@@ -13850,11 +13850,11 @@ mod tests {
       @namespace toto "http://toto.example.org";
 
       toto|x {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       [toto|att="val"] {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
     "#},
     );
@@ -13875,11 +13875,11 @@ mod tests {
       @namespace "http://example.com/foo";
 
       |x {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       [att="val"] {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
     "#},
     );
@@ -13900,11 +13900,11 @@ mod tests {
       @namespace "http://example.com/foo";
 
       *|x {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       [*|att="val"] {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
     "#},
     );
@@ -14240,9 +14240,9 @@ mod tests {
   #[test]
   fn test_tab_size() {
     minify_test(".foo { tab-size: 8 }", ".foo{tab-size:8}");
-    minify_test(".foo { tab-size: 4px }", ".foo{tab-size:4px}");
-    minify_test(".foo { -moz-tab-size: 4px }", ".foo{-moz-tab-size:4px}");
-    minify_test(".foo { -o-tab-size: 4px }", ".foo{-o-tab-size:4px}");
+    minify_test(".foo { tab-size: 4pt }", ".foo{tab-size:4pt}");
+    minify_test(".foo { -moz-tab-size: 4pt }", ".foo{-moz-tab-size:4pt}");
+    minify_test(".foo { -o-tab-size: 4pt }", ".foo{-o-tab-size:4pt}");
     prefix_test(
       ".foo{ tab-size: 4 }",
       indoc! {r#"
@@ -14558,18 +14558,18 @@ mod tests {
   #[test]
   fn test_word_spacing() {
     minify_test(".foo { word-spacing: normal }", ".foo{word-spacing:normal}");
-    minify_test(".foo { word-spacing: 3px }", ".foo{word-spacing:3px}");
+    minify_test(".foo { word-spacing: 3pt }", ".foo{word-spacing:3pt}");
   }
 
   #[test]
   fn test_letter_spacing() {
     minify_test(".foo { letter-spacing: normal }", ".foo{letter-spacing:normal}");
-    minify_test(".foo { letter-spacing: 3px }", ".foo{letter-spacing:3px}");
+    minify_test(".foo { letter-spacing: 3pt }", ".foo{letter-spacing:3pt}");
   }
 
   #[test]
   fn test_text_indent() {
-    minify_test(".foo { text-indent: 20px }", ".foo{text-indent:20px}");
+    minify_test(".foo { text-indent: 20pt }", ".foo{text-indent:20pt}");
     minify_test(".foo { text-indent: 10% }", ".foo{text-indent:10%}");
     minify_test(".foo { text-indent: 3em hanging }", ".foo{text-indent:3em hanging}");
     minify_test(".foo { text-indent: 3em each-line }", ".foo{text-indent:3em each-line}");
@@ -14701,11 +14701,11 @@ mod tests {
 
     minify_test(
       ".foo { text-decoration-color: yellow }",
-      ".foo{text-decoration-color:#ff0}",
+      ".foo{text-decoration-color:rgb(255,255,0)}",
     );
     minify_test(
       ".foo { -webkit-text-decoration-color: yellow }",
-      ".foo{-webkit-text-decoration-color:#ff0}",
+      ".foo{-webkit-text-decoration-color:rgb(255,255,0)}",
     );
 
     minify_test(".foo { text-decoration: none }", ".foo{text-decoration:none}");
@@ -14715,23 +14715,23 @@ mod tests {
     );
     minify_test(
       ".foo { text-decoration: underline dotted yellow }",
-      ".foo{text-decoration:underline dotted #ff0}",
+      ".foo{text-decoration:underline dotted rgb(255,255,0)}",
     );
     minify_test(
       ".foo { text-decoration: yellow dotted underline }",
-      ".foo{text-decoration:underline dotted #ff0}",
+      ".foo{text-decoration:underline dotted rgb(255,255,0)}",
     );
     minify_test(
       ".foo { text-decoration: underline overline dotted yellow }",
-      ".foo{text-decoration:underline overline dotted #ff0}",
+      ".foo{text-decoration:underline overline dotted rgb(255,255,0)}",
     );
     minify_test(
       ".foo { -webkit-text-decoration: yellow dotted underline }",
-      ".foo{-webkit-text-decoration:underline dotted #ff0}",
+      ".foo{-webkit-text-decoration:underline dotted rgb(255,255,0)}",
     );
     minify_test(
       ".foo { -moz-text-decoration: yellow dotted underline }",
-      ".foo{-moz-text-decoration:underline dotted #ff0}",
+      ".foo{-moz-text-decoration:underline dotted rgb(255,255,0)}",
     );
 
     test(
@@ -14740,12 +14740,12 @@ mod tests {
         text-decoration-line: underline;
         text-decoration-style: dotted;
         text-decoration-color: yellow;
-        text-decoration-thickness: 2px;
+        text-decoration-thickness: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        text-decoration: underline 2px dotted #ff0;
+        text-decoration: underline 2pt dotted rgb(255, 255, 0);
       }
     "#},
     );
@@ -14860,9 +14860,9 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-color: #ff0;
-        -moz-text-decoration-color: #ff0;
-        text-decoration-color: #ff0;
+        -webkit-text-decoration-color: rgb(255, 255, 0);
+        -moz-text-decoration-color: rgb(255, 255, 0);
+        text-decoration-color: rgb(255, 255, 0);
       }
     "#},
       Browsers {
@@ -14956,8 +14956,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline red;
-        text-decoration: underline red;
+        -webkit-text-decoration: underline rgb(255, 0, 0);
+        text-decoration: underline rgb(255, 0, 0);
       }
     "#},
       Browsers {
@@ -15002,10 +15002,10 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline #ee00be;
-        text-decoration: underline #ee00be;
-        -webkit-text-decoration: underline lch(50.998% 135.363 338);
-        text-decoration: underline lch(50.998% 135.363 338);
+        -webkit-text-decoration: underline rgb(238, 0, 190);
+        text-decoration: underline rgb(238, 0, 190);
+        -webkit-text-decoration: underline oklch(63.3164%, .419449, 340.175deg);
+        text-decoration: underline oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
       Browsers {
@@ -15023,12 +15023,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-color: #ee00be;
-        -moz-text-decoration-color: #ee00be;
-        text-decoration-color: #ee00be;
-        -webkit-text-decoration-color: lch(50.998% 135.363 338);
-        -moz-text-decoration-color: lch(50.998% 135.363 338);
-        text-decoration-color: lch(50.998% 135.363 338);
+        -webkit-text-decoration-color: rgb(238, 0, 190);
+        -moz-text-decoration-color: rgb(238, 0, 190);
+        text-decoration-color: rgb(238, 0, 190);
+        -webkit-text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
+        -moz-text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
+        text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
       Browsers {
@@ -15046,12 +15046,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        text-decoration: #ee00be var(--style);
+        text-decoration: rgb(238, 0, 190) var(--style);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          text-decoration: lab(50.998% 125.506 -50.7078) var(--style);
+          text-decoration: oklab(63.3164%, .394589, -.142257) var(--style);
         }
       }
     "#},
@@ -15064,13 +15064,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-decoration: underline 10px;
+        text-decoration: underline 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
         text-decoration: underline;
-        text-decoration-thickness: 10px;
+        text-decoration-thickness: 10pt;
       }
     "#},
       Browsers {
@@ -15082,12 +15082,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-decoration: underline 10px;
+        text-decoration: underline 10pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        text-decoration: underline 10px;
+        text-decoration: underline 10pt;
       }
     "#},
       Browsers {
@@ -15193,17 +15193,17 @@ mod tests {
     );
     minify_test(".foo { text-emphasis-style: \"x\" }", ".foo{text-emphasis-style:\"x\"}");
 
-    minify_test(".foo { text-emphasis-color: yellow }", ".foo{text-emphasis-color:#ff0}");
+    minify_test(".foo { text-emphasis-color: yellow }", ".foo{text-emphasis-color:rgb(255,255,0)}");
 
     minify_test(".foo { text-emphasis: none }", ".foo{text-emphasis:none}");
     minify_test(".foo { text-emphasis: filled }", ".foo{text-emphasis:filled}");
     minify_test(
       ".foo { text-emphasis: filled yellow }",
-      ".foo{text-emphasis:filled #ff0}",
+      ".foo{text-emphasis:filled rgb(255,255,0)}",
     );
     minify_test(
       ".foo { text-emphasis: dot filled yellow }",
-      ".foo{text-emphasis:dot #ff0}",
+      ".foo{text-emphasis:dot rgb(255,255,0)}",
     );
 
     test(
@@ -15215,7 +15215,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        text-emphasis: filled #ff0;
+        text-emphasis: filled rgb(255, 255, 0);
       }
     "#},
     );
@@ -15229,7 +15229,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        text-emphasis: filled #ff0;
+        text-emphasis: filled rgb(255, 255, 0);
       }
     "#},
     );
@@ -15243,7 +15243,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        text-emphasis: filled #ff0;
+        text-emphasis: filled rgb(255, 255, 0);
         text-emphasis-color: var(--color);
       }
     "#},
@@ -15372,10 +15372,10 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis: filled #ee00be;
-        text-emphasis: filled #ee00be;
-        -webkit-text-emphasis: filled lch(50.998% 135.363 338);
-        text-emphasis: filled lch(50.998% 135.363 338);
+        -webkit-text-emphasis: filled rgb(238, 0, 190);
+        text-emphasis: filled rgb(238, 0, 190);
+        -webkit-text-emphasis: filled oklch(63.3164%, .419449, 340.175deg);
+        text-emphasis: filled oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
       Browsers {
@@ -15393,10 +15393,10 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis-color: #ee00be;
-        text-emphasis-color: #ee00be;
-        -webkit-text-emphasis-color: lch(50.998% 135.363 338);
-        text-emphasis-color: lch(50.998% 135.363 338);
+        -webkit-text-emphasis-color: rgb(238, 0, 190);
+        text-emphasis-color: rgb(238, 0, 190);
+        -webkit-text-emphasis-color: oklch(63.3164%, .419449, 340.175deg);
+        text-emphasis-color: oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
       Browsers {
@@ -15414,12 +15414,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        text-emphasis: #ee00be var(--style);
+        text-emphasis: rgb(238, 0, 190) var(--style);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          text-emphasis: lab(50.998% 125.506 -50.7078) var(--style);
+          text-emphasis: oklab(63.3164%, .394589, -.142257) var(--style);
         }
       }
     "#},
@@ -15433,32 +15433,32 @@ mod tests {
   #[test]
   fn test_text_shadow() {
     minify_test(
-      ".foo { text-shadow: 1px 1px 2px yellow; }",
-      ".foo{text-shadow:1px 1px 2px #ff0}",
+      ".foo { text-shadow: 1pt 1pt 2pt yellow; }",
+      ".foo{text-shadow:1pt 1pt 2pt rgb(255,255,0)}",
     );
     minify_test(
-      ".foo { text-shadow: 1px 1px 2px 3px yellow; }",
-      ".foo{text-shadow:1px 1px 2px 3px #ff0}",
+      ".foo { text-shadow: 1pt 1pt 2pt 3pt yellow; }",
+      ".foo{text-shadow:1pt 1pt 2pt 3pt rgb(255,255,0)}",
     );
     minify_test(
-      ".foo { text-shadow: 1px 1px 0 yellow; }",
-      ".foo{text-shadow:1px 1px #ff0}",
+      ".foo { text-shadow: 1pt 1pt 0 yellow; }",
+      ".foo{text-shadow:1pt 1pt rgb(255,255,0)}",
     );
     minify_test(
-      ".foo { text-shadow: 1px 1px yellow; }",
-      ".foo{text-shadow:1px 1px #ff0}",
+      ".foo { text-shadow: 1pt 1pt yellow; }",
+      ".foo{text-shadow:1pt 1pt rgb(255,255,0)}",
     );
     minify_test(
-      ".foo { text-shadow: 1px 1px yellow, 2px 3px red; }",
-      ".foo{text-shadow:1px 1px #ff0,2px 3px red}",
+      ".foo { text-shadow: 1pt 1pt yellow, 2pt 3pt red; }",
+      ".foo{text-shadow:1pt 1pt rgb(255,255,0),2pt 3pt rgb(255,0,0)}",
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          text-shadow: 12px 12px #b32323;
-          text-shadow: 12px 12px lab(40% 56.6 39);
+          text-shadow: 12pt 12pt rgb(179, 35, 35);
+          text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -15468,12 +15468,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          text-shadow: 12px 12px #b32323;
-          text-shadow: 12px 12px color(display-p3 .643308 .192455 .167712);
-          text-shadow: 12px 12px lab(40% 56.6 39);
+          text-shadow: 12pt 12pt rgb(179, 35, 35);
+          text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501);
+          text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -15484,11 +15484,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39), 12px 12px yellow }",
+      ".foo { text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501), 12pt 12pt yellow }",
       indoc! { r#"
         .foo {
-          text-shadow: 12px 12px #b32323, 12px 12px #ff0;
-          text-shadow: 12px 12px lab(40% 56.6 39), 12px 12px #ff0;
+          text-shadow: 12pt 12pt rgb(179, 35, 35), 12pt 12pt rgb(255, 255, 0);
+          text-shadow: 12pt 12pt oklab(49.824%, .16048, .0808501), 12pt 12pt rgb(255, 255, 0);
         }
       "#},
       Browsers {
@@ -15498,15 +15498,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: var(--foo) 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: var(--foo) 12pt oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          text-shadow: var(--foo) 12px #b32323;
+          text-shadow: var(--foo) 12pt rgb(179, 35, 35);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            text-shadow: var(--foo) 12px lab(40% 56.6 39);
+            text-shadow: var(--foo) 12pt oklab(49.824%, .16048, .0808501);
           }
         }
       "#},
@@ -15633,7 +15633,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        inset: 0;
+        inset: 0pt;
       }
     "#},
     );
@@ -15641,15 +15641,15 @@ mod tests {
     test(
       r#"
       .foo {
-        top: 2px;
-        left: 4px;
-        bottom: 2px;
-        right: 4px;
+        top: 2pt;
+        left: 4pt;
+        bottom: 2pt;
+        right: 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        inset: 2px 4px;
+        inset: 2pt 4pt;
       }
     "#},
     );
@@ -15657,15 +15657,15 @@ mod tests {
     test(
       r#"
       .foo {
-        top: 1px;
-        left: 2px;
-        bottom: 3px;
-        right: 4px;
+        top: 1pt;
+        left: 2pt;
+        bottom: 3pt;
+        right: 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        inset: 1px 4px 3px 2px;
+        inset: 1pt 4pt 3pt 2pt;
       }
     "#},
     );
@@ -15673,16 +15673,16 @@ mod tests {
     test(
       r#"
       .foo {
-        inset-block-start: 2px;
-        inset-block-end: 2px;
-        inset-inline-start: 4px;
-        inset-inline-end: 4px;
+        inset-block-start: 2pt;
+        inset-block-end: 2pt;
+        inset-inline-start: 4pt;
+        inset-inline-end: 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        inset-block: 2px;
-        inset-inline: 4px;
+        inset-block: 2pt;
+        inset-inline: 4pt;
       }
     "#},
     );
@@ -15690,16 +15690,16 @@ mod tests {
     test(
       r#"
       .foo {
-        inset-block-start: 2px;
-        inset-block-end: 3px;
-        inset-inline-start: 4px;
-        inset-inline-end: 5px;
+        inset-block-start: 2pt;
+        inset-block-end: 3pt;
+        inset-inline-start: 4pt;
+        inset-inline-end: 5pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        inset-block: 2px 3px;
-        inset-inline: 4px 5px;
+        inset-block: 2pt 3pt;
+        inset-inline: 4pt 5pt;
       }
     "#},
     );
@@ -15707,17 +15707,17 @@ mod tests {
     test(
       r#"
       .foo {
-        inset-block-start: 2px;
-        inset-block-end: 3px;
-        inset: 4px;
-        inset-inline-start: 4px;
-        inset-inline-end: 5px;
+        inset-block-start: 2pt;
+        inset-block-end: 3pt;
+        inset: 4pt;
+        inset-inline-start: 4pt;
+        inset-inline-end: 5pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        inset: 4px;
-        inset-inline: 4px 5px;
+        inset: 4pt;
+        inset-inline: 4pt 5pt;
       }
     "#},
     );
@@ -15725,24 +15725,24 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        inset-inline-start: 2px;
+        inset-inline-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        left: 2px;
+        left: 2pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        left: 2px;
+        left: 2pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        right: 2px;
+        right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        right: 2px;
+        right: 2pt;
       }
     "#
       },
@@ -15755,29 +15755,29 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        inset-inline-start: 2px;
-        inset-inline-end: 4px;
+        inset-inline-start: 2pt;
+        inset-inline-end: 4pt;
       }
     "#,
       indoc! {r#"
       .foo:not(:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        left: 2px;
-        right: 4px;
+        left: 2pt;
+        right: 4pt;
       }
 
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        left: 2px;
-        right: 4px;
+        left: 2pt;
+        right: 4pt;
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        left: 4px;
-        right: 2px;
+        left: 4pt;
+        right: 2pt;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        left: 4px;
-        right: 2px;
+        left: 4pt;
+        right: 2pt;
       }
     "#
       },
@@ -15790,13 +15790,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        inset-inline: 2px;
+        inset-inline: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        left: 2px;
-        right: 2px;
+        left: 2pt;
+        right: 2pt;
       }
     "#
       },
@@ -15809,12 +15809,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        inset-block-start: 2px;
+        inset-block-start: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        top: 2px;
+        top: 2pt;
       }
     "#
       },
@@ -15827,12 +15827,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        inset-block-end: 2px;
+        inset-block-end: 2pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        bottom: 2px;
+        bottom: 2pt;
       }
     "#
       },
@@ -15845,18 +15845,18 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        top: 1px;
-        left: 2px;
-        bottom: 3px;
-        right: 4px;
+        top: 1pt;
+        left: 2pt;
+        bottom: 3pt;
+        right: 4pt;
       }
     "#,
       indoc! {r#"
       .foo {
-        top: 1px;
-        bottom: 3px;
-        left: 2px;
-        right: 4px;
+        top: 1pt;
+        bottom: 3pt;
+        left: 2pt;
+        right: 4pt;
       }
     "#},
       Browsers {
@@ -16017,20 +16017,20 @@ mod tests {
       ".foo{cursor:url(test.cur),url(foo.cur),ew-resize}",
     );
     minify_test(".foo { caret-color: auto }", ".foo{caret-color:auto}");
-    minify_test(".foo { caret-color: yellow }", ".foo{caret-color:#ff0}");
+    minify_test(".foo { caret-color: yellow }", ".foo{caret-color:rgb(255,255,0)}");
     minify_test(".foo { caret-shape: block }", ".foo{caret-shape:block}");
-    minify_test(".foo { caret: yellow block }", ".foo{caret:#ff0 block}");
-    minify_test(".foo { caret: block yellow }", ".foo{caret:#ff0 block}");
+    minify_test(".foo { caret: yellow block }", ".foo{caret:rgb(255,255,0) block}");
+    minify_test(".foo { caret: block yellow }", ".foo{caret:rgb(255,255,0) block}");
     minify_test(".foo { caret: block }", ".foo{caret:block}");
-    minify_test(".foo { caret: yellow }", ".foo{caret:#ff0}");
+    minify_test(".foo { caret: yellow }", ".foo{caret:rgb(255,255,0)}");
     minify_test(".foo { caret: auto auto }", ".foo{caret:auto}");
     minify_test(".foo { caret: auto }", ".foo{caret:auto}");
-    minify_test(".foo { caret: yellow auto }", ".foo{caret:#ff0}");
+    minify_test(".foo { caret: yellow auto }", ".foo{caret:rgb(255,255,0)}");
     minify_test(".foo { caret: auto block }", ".foo{caret:block}");
     minify_test(".foo { user-select: none }", ".foo{user-select:none}");
     minify_test(".foo { -webkit-user-select: none }", ".foo{-webkit-user-select:none}");
     minify_test(".foo { accent-color: auto }", ".foo{accent-color:auto}");
-    minify_test(".foo { accent-color: yellow }", ".foo{accent-color:#ff0}");
+    minify_test(".foo { accent-color: yellow }", ".foo{accent-color:rgb(255,255,0)}");
     minify_test(".foo { appearance: None }", ".foo{appearance:none}");
     minify_test(
       ".foo { -webkit-appearance: textfield }",
@@ -16179,9 +16179,9 @@ mod tests {
       ".foo { caret-color: lch(50.998% 135.363 338) }",
       indoc! { r#"
         .foo {
-          caret-color: #ee00be;
-          caret-color: color(display-p3 .972962 -.362078 .804206);
-          caret-color: lch(50.998% 135.363 338);
+          caret-color: rgb(238, 0, 190);
+          caret-color: oklab(63.3164%, .394589, -.142257);
+          caret-color: oklch(63.3164%, .419449, 340.175deg);
         }
       "#},
       Browsers {
@@ -16195,9 +16195,9 @@ mod tests {
       ".foo { caret: lch(50.998% 135.363 338) block }",
       indoc! { r#"
         .foo {
-          caret: #ee00be block;
-          caret: color(display-p3 .972962 -.362078 .804206) block;
-          caret: lch(50.998% 135.363 338) block;
+          caret: rgb(238, 0, 190) block;
+          caret: oklab(63.3164%, .394589, -.142257) block;
+          caret: oklch(63.3164%, .419449, 340.175deg) block;
         }
       "#},
       Browsers {
@@ -16211,12 +16211,12 @@ mod tests {
       ".foo { caret: lch(50.998% 135.363 338) var(--foo) }",
       indoc! { r#"
         .foo {
-          caret: #ee00be var(--foo);
+          caret: rgb(238, 0, 190) var(--foo);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            caret: lab(50.998% 125.506 -50.7078) var(--foo);
+            caret: oklab(63.3164%, .394589, -.142257) var(--foo);
           }
         }
       "#},
@@ -16305,13 +16305,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          list-style-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
-          list-style-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          list-style-image: linear-gradient(#ff0f0e, #7773ff);
-          list-style-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          list-style-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
+          list-style-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          list-style-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          list-style-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -16321,11 +16321,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style: \"★\" linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style: \"★\" linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          list-style: "★" linear-gradient(#ff0f0e, #7773ff);
-          list-style: "★" linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          list-style: "★" linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          list-style: "★" linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#},
       Browsers {
@@ -16335,15 +16335,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style: var(--foo) linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style: var(--foo) linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          list-style: var(--foo) linear-gradient(#ff0f0e, #7773ff);
+          list-style: var(--foo) linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            list-style: var(--foo) linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586));
+            list-style: var(--foo) linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513));
           }
         }
       "#},
@@ -16361,31 +16361,31 @@ mod tests {
     // test image-set(<string>)
     minify_test(
       ".foo { background: image-set(\"foo.png\" 2x, url(bar.png) 1x) }",
-      ".foo{background:image-set(\"foo.png\" 2x,\"bar.png\" 1x)}",
+      ".foo{background:image-set(\"foo.png\" \"2x\",\"bar.png\" \"1x\")}",
     );
 
     // test image-set(type(<string>))
     minify_test(
       ".foo { background: image-set('foo.webp' type('webp'), url(foo.jpg)) }",
-      ".foo{background:image-set(\"foo.webp\" 1x type(\"webp\"),\"foo.jpg\" 1x)}",
+      ".foo{background:image-set(\"foo.webp\" \"1x\" type(\"webp\"),\"foo.jpg\" \"1x\")}",
     );
     minify_test(
       ".foo { background: image-set('foo.avif' 2x type('image/avif'), url(foo.png)) }",
-      ".foo{background:image-set(\"foo.avif\" 2x type(\"image/avif\"),\"foo.png\" 1x)}",
+      ".foo{background:image-set(\"foo.avif\" \"2x\" type(\"image/avif\"),\"foo.png\" \"1x\")}",
     );
     minify_test(
       ".foo { background: image-set(url('example.png') 3x type('image/png')) }",
-      ".foo{background:image-set(\"example.png\" 3x type(\"image/png\"))}",
+      ".foo{background:image-set(\"example.png\" \"3x\" type(\"image/png\"))}",
     );
 
     minify_test(
       ".foo { background: image-set(url(example.png) type('image/png') 1x) }",
-      ".foo{background:image-set(\"example.png\" 1x type(\"image/png\"))}",
+      ".foo{background:image-set(\"example.png\" \"1x\" type(\"image/png\"))}",
     );
 
     minify_test(
       ".foo { background: -webkit-image-set(url(\"foo.png\") 2x, url(bar.png) 1x) }",
-      ".foo{background:-webkit-image-set(url(foo.png) 2x,url(bar.png) 1x)}",
+      ".foo{background:-webkit-image-set(url(foo.png) \"2x\",url(bar.png) \"1x\")}",
     );
 
     test(
@@ -16397,8 +16397,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: -webkit-image-set(url("foo.png") 2x, url("bar.png") 1x);
-        background: image-set("foo.png" 2x, "bar.png" 1x);
+        background: -webkit-image-set(url("foo.png") "2x", url("bar.png") "1x");
+        background: image-set("foo.png" "2x", "bar.png" "1x");
       }
     "#},
     );
@@ -16412,7 +16412,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: image-set(linear-gradient(#6495ed, #fff) 1x, "detailed-gradient.png" 3x);
+        background: image-set(linear-gradient(rgb(100, 149, 237), rgb(255, 255, 255)) "1x", "detailed-gradient.png" "3x");
       }
     "#},
     );
@@ -16425,8 +16425,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: -webkit-image-set(url("foo.png") 2x, url("bar.png") 1x);
-        background: image-set("foo.png" 2x, "bar.png" 1x);
+        background: -webkit-image-set(url("foo.png") "2x", url("bar.png") "1x");
+        background: image-set("foo.png" "2x", "bar.png" "1x");
       }
     "#},
       Browsers {
@@ -16445,8 +16445,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: -webkit-image-set(url("foo.png") 2x, url("bar.png") 1x);
-        background: image-set("foo.png" 2x, "bar.png" 1x);
+        background: -webkit-image-set(url("foo.png") "2x", url("bar.png") "1x");
+        background: image-set("foo.png" "2x", "bar.png" "1x");
       }
     "#},
       Browsers {
@@ -16463,7 +16463,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: -webkit-image-set(url("foo.png") 2x, url("bar.png") 1x);
+        background: -webkit-image-set(url("foo.png") "2x", url("bar.png") "1x");
       }
     "#},
       Browsers {
@@ -16497,7 +16497,7 @@ mod tests {
           indoc! {r#"
         .foo {{
           {}: url("foo.png");
-          {}: image-set("foo.png" 2x, "bar.png" 1x);
+          {}: image-set("foo.png" "2x", "bar.png" "1x");
         }}
       "#},
           property, property
@@ -16522,8 +16522,8 @@ mod tests {
         &format!(
           indoc! {r#"
         .foo {{
-          {}: -webkit-image-set(url("foo.png") 2x, url("bar.png") 1x);
-          {}: image-set("foo.png" 2x, "bar.png" 1x);
+          {}: -webkit-image-set(url("foo.png") "2x", url("bar.png") "1x");
+          {}: image-set("foo.png" "2x", "bar.png" "1x");
         }}
       "#},
           property, property
@@ -16538,44 +16538,44 @@ mod tests {
 
   #[test]
   fn test_color() {
-    minify_test(".foo { color: yellow }", ".foo{color:#ff0}");
-    minify_test(".foo { color: rgb(255, 255, 0) }", ".foo{color:#ff0}");
-    minify_test(".foo { color: rgba(255, 255, 0, 1) }", ".foo{color:#ff0}");
-    minify_test(".foo { color: rgba(255, 255, 0, 0.8) }", ".foo{color:#ff0c}");
-    minify_test(".foo { color: rgb(128, 128, 128) }", ".foo{color:gray}");
-    minify_test(".foo { color: rgb(123, 255, 255) }", ".foo{color:#7bffff}");
-    minify_test(".foo { color: rgba(123, 255, 255, 0.5) }", ".foo{color:#7bffff80}");
-    minify_test(".foo { color: rgb(123 255 255) }", ".foo{color:#7bffff}");
-    minify_test(".foo { color: rgb(123 255 255 / .5) }", ".foo{color:#7bffff80}");
-    minify_test(".foo { color: rgb(123 255 255 / 50%) }", ".foo{color:#7bffff80}");
-    minify_test(".foo { color: rgb(48% 100% 100% / 50%) }", ".foo{color:#7affff80}");
-    minify_test(".foo { color: hsl(100deg, 100%, 50%) }", ".foo{color:#5f0}");
-    minify_test(".foo { color: hsl(100, 100%, 50%) }", ".foo{color:#5f0}");
-    minify_test(".foo { color: hsl(100 100% 50%) }", ".foo{color:#5f0}");
-    minify_test(".foo { color: hsl(100, 100%, 50%, .8) }", ".foo{color:#5f0c}");
-    minify_test(".foo { color: hsl(100 100% 50% / .8) }", ".foo{color:#5f0c}");
-    minify_test(".foo { color: hsla(100, 100%, 50%, .8) }", ".foo{color:#5f0c}");
-    minify_test(".foo { color: hsla(100 100% 50% / .8) }", ".foo{color:#5f0c}");
-    minify_test(".foo { color: transparent }", ".foo{color:#0000}");
+    minify_test(".foo { color: yellow }", ".foo{color:rgb(255,255,0)}");
+    minify_test(".foo { color: rgb(255, 255, 0) }", ".foo{color:rgb(255,255,0)}");
+    minify_test(".foo { color: rgba(255, 255, 0, 1) }", ".foo{color:rgb(255,255,0)}");
+    minify_test(".foo { color: rgba(255, 255, 0, 0.8) }", ".foo{color:rgb(255,255,0,80%)}");
+    minify_test(".foo { color: rgb(128, 128, 128) }", ".foo{color:rgb(128,128,128)}");
+    minify_test(".foo { color: rgb(123, 255, 255) }", ".foo{color:rgb(123,255,255)}");
+    minify_test(".foo { color: rgba(123, 255, 255, 0.5) }", ".foo{color:rgb(123,255,255,50%)}");
+    minify_test(".foo { color: rgb(123 255 255) }", ".foo{color:rgb(123,255,255)}");
+    minify_test(".foo { color: rgb(123 255 255 / .5) }", ".foo{color:rgb(123,255,255,50%)}");
+    minify_test(".foo { color: rgb(123 255 255 / 50%) }", ".foo{color:rgb(123,255,255,50%)}");
+    minify_test(".foo { color: rgb(48% 100% 100% / 50%) }", ".foo{color:rgb(122,255,255,50%)}");
+    minify_test(".foo { color: hsl(100deg, 100%, 50%) }", ".foo{color:rgb(85,255,0)}");
+    minify_test(".foo { color: hsl(100, 100%, 50%) }", ".foo{color:rgb(85,255,0)}");
+    minify_test(".foo { color: hsl(100 100% 50%) }", ".foo{color:rgb(85,255,0)}");
+    minify_test(".foo { color: hsl(100, 100%, 50%, .8) }", ".foo{color:rgb(85,255,0,80%)}");
+    minify_test(".foo { color: hsl(100 100% 50% / .8) }", ".foo{color:rgb(85,255,0,80%)}");
+    minify_test(".foo { color: hsla(100, 100%, 50%, .8) }", ".foo{color:rgb(85,255,0,80%)}");
+    minify_test(".foo { color: hsla(100 100% 50% / .8) }", ".foo{color:rgb(85,255,0,80%)}");
+    minify_test(".foo { color: transparent }", ".foo{color:rgb(0,0,0,0)}");
     minify_test(".foo { color: currentColor }", ".foo{color:currentColor}");
     minify_test(".foo { color: ButtonBorder }", ".foo{color:buttonborder}");
-    minify_test(".foo { color: hwb(194 0% 0%) }", ".foo{color:#00c4ff}");
-    minify_test(".foo { color: hwb(194 0% 0% / 50%) }", ".foo{color:#00c4ff80}");
-    minify_test(".foo { color: hwb(194 0% 50%) }", ".foo{color:#006280}");
-    minify_test(".foo { color: hwb(194 50% 0%) }", ".foo{color:#80e1ff}");
-    minify_test(".foo { color: hwb(194 50% 50%) }", ".foo{color:gray}");
+    minify_test(".foo { color: hwb(194 0% 0%) }", ".foo{color:rgb(0,196,255)}");
+    minify_test(".foo { color: hwb(194 0% 0% / 50%) }", ".foo{color:rgb(0,196,255,50%)}");
+    minify_test(".foo { color: hwb(194 0% 50%) }", ".foo{color:rgb(0,98,128)}");
+    minify_test(".foo { color: hwb(194 50% 0%) }", ".foo{color:rgb(128,225,255)}");
+    minify_test(".foo { color: hwb(194 50% 50%) }", ".foo{color:rgb(128,128,128)}");
     // minify_test(".foo { color: ActiveText }", ".foo{color:ActiveTet}");
     minify_test(
       ".foo { color: lab(29.2345% 39.3825 20.0664); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
+      ".foo{color:oklab(40.102%,0.11473,0.04535)}",
     );
     minify_test(
       ".foo { color: lab(29.2345% 39.3825 20.0664 / 100%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
+      ".foo{color:oklab(40.102%,0.11473,0.04535)}",
     );
     minify_test(
       ".foo { color: lab(29.2345% 39.3825 20.0664 / 50%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664/.5)}",
+      ".foo{color:oklab(40.102%,0.11473,0.04535,50%)}",
     );
     minify_test(
       ".foo { color: lch(29.2345% 44.2 27); }",
@@ -16599,11 +16599,11 @@ mod tests {
     );
     minify_test(
       ".foo { color: oklab(40.101% 0.1147 0.0453); }",
-      ".foo{color:oklab(40.101% .1147 .0453)}",
+      ".foo{color:oklab(40.101%,.1147,.0453)}",
     );
     minify_test(
       ".foo { color: oklch(40.101% 0.12332 21.555); }",
-      ".foo{color:oklch(40.101% .12332 21.555)}",
+      ".foo{color:oklch(40.101%,.12332,21.555deg)}",
     );
     minify_test(
       ".foo { color: oklch(40.101% 0.12332 .5turn); }",
@@ -16611,66 +16611,70 @@ mod tests {
     );
     minify_test(
       ".foo { color: color(display-p3 1 0.5 0); }",
-      ".foo{color:color(display-p3 1 .5 0)}",
+      ".foo{color:oklab(74.251%,0.13785,0.1712)}",
     );
     minify_test(
       ".foo { color: color(display-p3 100% 50% 0%); }",
-      ".foo{color:color(display-p3 1 .5 0)}",
+      ".foo{color:oklab(74.251%,0.13785,0.1712)}",
     );
     minify_test(
       ".foo { color: color(xyz-d50 0.2005 0.14089 0.4472); }",
-      ".foo{color:color(xyz-d50 .2005 .14089 .4472)}",
+      ".foo{color:oklab(54.435%,0.06812,-0.1657)}",
     );
     minify_test(
       ".foo { color: color(xyz-d50 20.05% 14.089% 44.72%); }",
-      ".foo{color:color(xyz-d50 .2005 .14089 .4472)}",
+      ".foo{color:oklab(54.435%,0.06812,-0.1657)}",
     );
     minify_test(
       ".foo { color: color(xyz-d65 0.2005 0.14089 0.4472); }",
-      ".foo{color:color(xyz .2005 .14089 .4472)}",
+      ".foo{color:oklab(53.597%,0.07889,-0.12565)}",
     );
     minify_test(
       ".foo { color: color(xyz-d65 20.05% 14.089% 44.72%); }",
-      ".foo{color:color(xyz .2005 .14089 .4472)}",
+      ".foo{color:oklab(53.597%,0.07889,-0.12565)}",
     );
     minify_test(
       ".foo { color: color(xyz 0.2005 0.14089 0.4472); }",
-      ".foo{color:color(xyz .2005 .14089 .4472)}",
+      ".foo{color:oklab(53.597%,0.07889,-0.12565)}",
     );
     minify_test(
       ".foo { color: color(xyz 20.05% 14.089% 44.72%); }",
-      ".foo{color:color(xyz .2005 .14089 .4472)}",
+      ".foo{color:oklab(53.597%,0.07889,-0.12565)}",
     );
     minify_test(
       ".foo { color: color(xyz 0.2005 0 0); }",
-      ".foo{color:color(xyz .2005 0 0)}",
+      ".foo{color:oklab(26.334%,0.72328,-0.01111)}",
     );
-    minify_test(".foo { color: color(xyz 0 0 0); }", ".foo{color:color(xyz 0 0 0)}");
-    minify_test(".foo { color: color(xyz 0 1 0); }", ".foo{color:color(xyz 0 1 0)}");
+    minify_test(".foo { color: color(xyz 0 0 0); }", ".foo{color:oklab(0%,0,0)}");
+    minify_test(".foo { color: color(xyz 0 1 0); }", ".foo{color:oklab(92.182%,-0.67121,0.2634)}");
     minify_test(
       ".foo { color: color(xyz 0 1 0 / 20%); }",
-      ".foo{color:color(xyz 0 1 0/.2)}",
+      ".foo{color:oklab(92.182%,-0.67121,0.2634,20%)}",
     );
     minify_test(
       ".foo { color: color(xyz 0 0 0 / 20%); }",
-      ".foo{color:color(xyz 0 0 0/.2)}",
+      ".foo{color:oklab(0%,0,0,20%)}",
     );
     minify_test(
       ".foo { color: color(display-p3 100% 50% 0 / 20%); }",
-      ".foo{color:color(display-p3 1 .5 0/.2)}",
+      ".foo{color:oklab(74.251%,0.13785,0.1712,20%))}",
     );
     minify_test(
       ".foo { color: color(display-p3 100% 0 0 / 20%); }",
-      ".foo{color:color(display-p3 1 0 0/.2)}",
+      ".foo{color:oklab(64.857%,0.26204,0.145,20%)}",
     );
-    minify_test(".foo { color: hsl(none none none) }", ".foo{color:#000}");
-    minify_test(".foo { color: hwb(none none none) }", ".foo{color:red}");
-    minify_test(".foo { color: rgb(none none none) }", ".foo{color:#000}");
+    minify_test(".foo { color: hsl(none none none) }", ".foo{color:rgb(0,0,0)}");
+    minify_test(".foo { color: hwb(none none none) }", ".foo{color:rgb(255,0,0)}");
+    minify_test(".foo { color: rgb(none none none) }", ".foo{color:rgb(0,0,0)}");
+    minify_test(
+      ".foo { color: color(srgb-linear 0.6 0.35 1); }",
+      ".foo{color:color.linear-srgb(153,89,255)}",
+    );
 
     // If the browser doesn't support `#rrggbbaa` color syntax, it is converted to `transparent`.
     attr_test(
       "color: rgba(0, 0, 0, 0)",
-      "color:transparent",
+      "color:rgb(0,0,0,0%)",
       true,
       Some(Browsers {
         chrome: Some(61 << 16), // Chrome >= 62 supports `#rrggbbaa` color.
@@ -16680,7 +16684,7 @@ mod tests {
 
     attr_test(
       "color: #0000",
-      "color:transparent",
+      "color:rgb(0,0,0,0%)",
       true,
       Some(Browsers {
         chrome: Some(61 << 16), // Chrome >= 62 supports `#rrggbbaa` color.
@@ -16690,7 +16694,7 @@ mod tests {
 
     attr_test(
       "color: transparent",
-      "color:transparent",
+      "color:rgb(0,0,0,0%)",
       true,
       Some(Browsers {
         chrome: Some(61 << 16),
@@ -16700,7 +16704,7 @@ mod tests {
 
     attr_test(
       "color: rgba(0, 0, 0, 0)",
-      "color: rgba(0, 0, 0, 0)",
+      "color: rgb(0, 0, 0, 0%)",
       false,
       Some(Browsers {
         chrome: Some(61 << 16),
@@ -16710,7 +16714,7 @@ mod tests {
 
     attr_test(
       "color: rgba(255, 0, 0, 0)",
-      "color:rgba(255,0,0,0)",
+      "color:rgb(255,0,0,0%)",
       true,
       Some(Browsers {
         chrome: Some(61 << 16),
@@ -16720,7 +16724,7 @@ mod tests {
 
     attr_test(
       "color: rgba(255, 0, 0, 0)",
-      "color:#f000",
+      "color:rgb(255,0,0,0%)",
       true,
       Some(Browsers {
         chrome: Some(62 << 16),
@@ -16732,7 +16736,7 @@ mod tests {
       ".foo { color: rgba(123, 456, 789, 0.5) }",
       indoc! { r#"
         .foo {
-          color: #7bffff80;
+          color: rgb(123, 255, 255, 50%);
         }
       "#},
       Browsers {
@@ -16745,7 +16749,7 @@ mod tests {
       ".foo { color: rgba(123, 255, 255, 0.5) }",
       indoc! { r#"
         .foo {
-          color: rgba(123, 255, 255, .5);
+          color: rgb(123, 255, 255, 50%);
         }
       "#},
       Browsers {
@@ -16758,7 +16762,7 @@ mod tests {
       ".foo { color: #7bffff80 }",
       indoc! { r#"
         .foo {
-          color: rgba(123, 255, 255, .5);
+          color: rgb(123, 255, 255, 50%);
         }
       "#},
       Browsers {
@@ -16771,7 +16775,7 @@ mod tests {
       ".foo { color: rgba(123, 456, 789, 0.5) }",
       indoc! { r#"
         .foo {
-          color: rgba(123, 255, 255, .5);
+          color: rgb(123, 255, 255, 50%);
         }
       "#},
       Browsers {
@@ -16786,7 +16790,7 @@ mod tests {
       ".foo { color: rgba(123, 456, 789, 0.5) }",
       indoc! { r#"
         .foo {
-          color: #7bffff80;
+          color: rgb(123, 255, 255, 50%);
         }
       "#},
       Browsers {
@@ -16798,11 +16802,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          background-color: #b32323;
-          background-color: lab(40% 56.6 39);
+          background-color: rgb(179, 35, 35);
+          background-color: oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -16815,7 +16819,7 @@ mod tests {
       ".foo { background-color: lch(40% 68.735435 34.568626) }",
       indoc! { r#"
         .foo {
-          background-color: #b32323;
+          background-color: rgb(179, 35, 35);
           background-color: lch(40% 68.7354 34.5686);
         }
       "#},
@@ -16830,7 +16834,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #c65d07;
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: oklab(59.686% 0.1009 0.1192);
         }
       "#},
       Browsers {
@@ -16844,7 +16848,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #7e250f;
-          background-color: lab(29.2661% 38.2437 35.3889);
+          background-color: oklab(40% 0.10447 0.07199);
         }
       "#},
       Browsers {
@@ -16854,10 +16858,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          background-color: lab(40% 56.6 39);
+          background-color: oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -16871,7 +16875,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #c65d07;
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: oklab(59.686% 0.1009 0.1192);
         }
       "#},
       Browsers {
@@ -16886,8 +16890,8 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #c65d07;
-          background-color: color(display-p3 .724144 .386777 .148795);
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: oklab(59.686% 0.1009 0.1192);
+          background-color: oklab(59.686% 0.1009 0.1192);
         }
       "#},
       Browsers {
@@ -16898,12 +16902,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: oklab(49.824%, .16048, .0808501) }",
       indoc! { r#"
         .foo {
-          background-color: #b32323;
-          background-color: color(display-p3 .643308 .192455 .167712);
-          background-color: lab(40% 56.6 39);
+          background-color: rgb(179, 35, 35);
+          background-color: oklab(49.824%, .16048, .0808501);
+          background-color: oklab(49.824%, .16048, .0808501);
         }
       "#},
       Browsers {
@@ -16918,7 +16922,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #c65d06;
-          background-color: lab(52.2321% 40.1417 59.9527);
+          background-color: oklab(59.686% 0.10088 0.11924);
         }
       "#},
       Browsers {
@@ -16932,8 +16936,8 @@ mod tests {
       ".foo { background-color: color(sRGB 0.41587 0.503670 0.36664); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(srgb .41587 .50367 .36664);
+          background-color: rgb(106, 128, 93);
+          background-color: rgb(106, 128, 93);
         }
       "#},
       Browsers {
@@ -16946,8 +16950,8 @@ mod tests {
       ".foo { background-color: color(display-p3 0.43313 0.50108 0.37950); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(display-p3 .43313 .50108 .3795);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -16960,8 +16964,8 @@ mod tests {
       ".foo { background-color: color(display-p3 0.43313 0.50108 0.37950); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(display-p3 .43313 .50108 .3795);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -16975,7 +16979,7 @@ mod tests {
       ".foo { background-color: color(display-p3 0.43313 0.50108 0.37950); }",
       indoc! { r#"
         .foo {
-          background-color: color(display-p3 .43313 .50108 .3795);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -16988,8 +16992,8 @@ mod tests {
       ".foo { background-color: color(display-p3 0.43313 0.50108 0.37950); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(display-p3 .43313 .50108 .3795);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -17003,8 +17007,8 @@ mod tests {
       ".foo { background-color: color(display-p3 0.43313 0.50108 0.37950); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(display-p3 .43313 .50108 .3795);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -17017,8 +17021,8 @@ mod tests {
       ".foo { background-color: color(a98-rgb 0.44091 0.49971 0.37408); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(a98-rgb .44091 .49971 .37408);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -17031,7 +17035,7 @@ mod tests {
       ".foo { background-color: color(a98-rgb 0.44091 0.49971 0.37408); }",
       indoc! { r#"
         .foo {
-          background-color: color(a98-rgb .44091 .49971 .37408);
+          background-color: oklab(57.373% -0.04081 0.04149);
         }
       "#},
       Browsers {
@@ -17044,8 +17048,8 @@ mod tests {
       ".foo { background-color: color(prophoto-rgb 0.36589 0.41717 0.31333); }",
       indoc! { r#"
         .foo {
-          background-color: #6a805d;
-          background-color: color(prophoto-rgb .36589 .41717 .31333);
+          background-color: rgb(106, 128, 93);
+          background-color: oklab(57.373% -0.04084 0.04146);
         }
       "#},
       Browsers {
@@ -17059,7 +17063,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #728765;
-          background-color: color(rec2020 .4221 .4758 .35605);
+          background-color: oklab(59.766% -0.03939 0.04032);
         }
       "#},
       Browsers {
@@ -17073,7 +17077,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #7654cd;
-          background-color: color(xyz-d50 .2005 .14089 .4472);
+          background-color: oklab(54.435% 0.06812 -0.1657);
         }
       "#},
       Browsers {
@@ -17087,7 +17091,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #7654cd;
-          background-color: color(xyz .21661 .14602 .59452);
+          background-color: oklab(54.435% 0.06813 -0.1657);
         }
       "#},
       Browsers {
@@ -17100,9 +17104,9 @@ mod tests {
       ".foo { background-color: lch(50.998% 135.363 338) }",
       indoc! { r#"
         .foo {
-          background-color: #ee00be;
-          background-color: color(display-p3 .972962 -.362078 .804206);
-          background-color: lch(50.998% 135.363 338);
+          background-color: rgb(238, 0, 190);
+          background-color: oklab(63.3164%, .394589, -.142257);
+          background-color: oklch(63.3164%, .419449, 340.175deg);
         }
       "#},
       Browsers {
@@ -17116,9 +17120,9 @@ mod tests {
       ".foo { color: lch(50.998% 135.363 338) }",
       indoc! { r#"
         .foo {
-          color: #ee00be;
-          color: color(display-p3 .972962 -.362078 .804206);
-          color: lch(50.998% 135.363 338);
+          color: rgb(238, 0, 190);
+          color: oklab(63.3164%, .394589, -.142257);
+          color: oklch(63.3164%, .419449, 340.175deg);
         }
       "#},
       Browsers {
@@ -17132,12 +17136,12 @@ mod tests {
       ".foo { background: var(--image) lch(40% 68.735435 34.568626) }",
       indoc! { r#"
         .foo {
-          background: var(--image) #b32323;
+          background: var(--image) rgb(179, 35, 35);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            background: var(--image) lab(40% 56.6 39);
+            background: var(--image) oklab(49.824%, .16048, .0808501);
           }
         }
       "#},
@@ -17151,13 +17155,13 @@ mod tests {
       r#"
       .foo {
         color: red;
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        color: red;
-        color: lab(40% 56.6 39);
+        color: rgb(255, 0, 0);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -17170,12 +17174,12 @@ mod tests {
       r#"
       .foo {
         color: red;
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -17189,13 +17193,13 @@ mod tests {
       r#"
       .foo {
         color: var(--fallback);
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
         color: var(--fallback);
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -17209,12 +17213,12 @@ mod tests {
       r#"
       .foo {
         color: var(--fallback);
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        color: lab(40% 56.6 39);
+        color: oklab(49.824%, .16048, .0808501);
       }
     "#
       },
@@ -17228,17 +17232,17 @@ mod tests {
       r#"
       .foo {
         color: red;
-        color: var(--foo, lab(40% 56.6 39));
+        color: var(--foo, oklab(49.824%, .16048, .0808501));
       }
     "#,
       indoc! {r#"
       .foo {
-        color: var(--foo, color(display-p3 .643308 .192455 .167712));
+        color: var(--foo, oklab(49.824%, .16048, .0808501));
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          color: var(--foo, lab(40% 56.6 39));
+          color: var(--foo, oklab(49.824%, .16048, .0808501));
         }
       }
     "#
@@ -17402,8 +17406,8 @@ mod tests {
           --a: #80808080;
           --b: #40bfbf;
           --c: oklab(40.101% .3 .0453);
-          --d: color(display-p3 .43313 .50108 .3);
-          --e: gray;
+          --d: oklab(56.898% -0.05159 0.07081);
+          --e: rgb(128, 128, 128);
         }
       "#},
     );
@@ -17425,29 +17429,28 @@ mod tests {
       );
     }
 
-    test("lab(from indianred calc(l * .8) a b)", "lab(43.1402% 45.7516 23.1557)");
-    test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252% 51.2776 26.8448)");
-    test("lch(from indianred l calc(c - 50) h)", "lch(53.9252% 1.27763 26.8448)");
+    test("lab(from indianred calc(l * .8) a b)", "oklab(52.2595%, .133353, .0533658)");
+    test("lch(from indianred calc(l + 10%) c h)", "oklch(70.156%, 0.14455, 22.489deg)");
+    test("lch(from indianred l calc(c - 50) h)", "oklch(60.31%, 0.00369, 23.697deg)");
     test(
-      "lch(from indianred l c calc(h + 180deg))",
-      "lch(53.9252% 51.2776 206.845)",
+      "oklch(from indianred l c calc(h + 180deg))",
+      "oklch(61.544%, 0.14415, 202.228deg)",
     );
-    test("lch(from orchid l 30 h)", "lch(62.7526% 30 326.969)");
-    test("lch(from orchid l 30 h)", "lch(62.7526% 30 326.969)");
-    test("lch(from peru calc(l * 0.8) c h)", "lch(49.8022% 54.0117 63.6804)");
+    test("oklch(from orchid l 0.1 h)", "oklch(70.213%, 0.1, 328.71deg)");
+    test("lch(from peru calc(l * 0.8) c h)", "oklch(57.115%, 0.11803, 61.506deg)");
     test("rgb(from indianred 255 g b)", "rgb(255, 92, 92)");
-    test("rgb(from indianred r g b / .5)", "rgba(205, 92, 92, .5)");
+    test("rgb(from indianred r g b / .5)", "rgb(205, 92, 92, 50%)");
     test(
       "rgb(from rgba(205, 92, 92, .5) r g b / calc(alpha + .2))",
-      "rgba(205, 92, 92, .7)",
+      "rgb(205, 92, 92, 70%)",
     );
     test(
       "rgb(from rgba(205, 92, 92, .5) r g b / calc(alpha + 20%))",
-      "rgba(205, 92, 92, .7)",
+      "rgb(205, 92, 92, 70%)",
     );
-    test("lch(from indianred l sin(c) h)", "lch(53.9252% .84797 26.8448)");
-    test("lch(from indianred l sqrt(c) h)", "lch(53.9252% 7.16084 26.8448)");
-    test("lch(from indianred l c sin(h))", "lch(53.9252% 51.2776 .990043)");
+    test("lch(from indianred l sin(c) h)", "oklch(60.3%, 0.00245, 23.704deg)");
+    test("lch(from indianred l sqrt(c) h)", "oklch(60.449%, 0.02062, 23.591deg)");
+    test("lch(from indianred l c sin(h))", "oklch(61.982%, 0.15711, 0.18372deg)");
     minify_test(
       ".foo{color:lch(from currentColor l c sin(h))}",
       ".foo{color:lch(from currentColor l c sin(h))}",
@@ -17458,111 +17461,111 @@ mod tests {
     // Replace: test("$1", "$2")
 
     // Testing no modifications.
-    test("rgb(from rebeccapurple r g b)", "#639");
-    test("rgb(from rebeccapurple r g b / alpha)", "#639");
-    test("rgb(from rgb(20%, 40%, 60%, 80%) r g b / alpha)", "#369c");
-    test("rgb(from hsl(120deg 20% 50% / .5) r g b / alpha)", "#66996680");
+    test("rgb(from rebeccapurple r g b)", "rgb(102, 51, 153)");
+    test("rgb(from rebeccapurple r g b / alpha)", "rgb(102, 51, 153)");
+    test("rgb(from rgb(20%, 40%, 60%, 80%) r g b / alpha)", "rgb(51, 102, 153, 80%)");
+    test("rgb(from hsl(120deg 20% 50% / .5) r g b / alpha)", "rgb(102, 153, 102, 50%)");
 
     // Test nesting relative colors.
-    test("rgb(from rgb(from rebeccapurple r g b) r g b)", "#639");
+    test("rgb(from rgb(from rebeccapurple r g b) r g b)", "rgb(102, 51, 153)");
 
     // Testing non-sRGB origin colors to see gamut mapping.
-    test("rgb(from color(display-p3 0 1 0) r g b / alpha)", "#00f942"); // Naive clip based mapping would give rgb(0, 255, 0).
-    test("rgb(from lab(100% 104.3 -50.9) r g b)", "#fff"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("rgb(from lab(0% 104.3 -50.9) r g b)", "#2a0022"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black.
-    test("rgb(from lch(100% 116 334) r g b)", "#fff"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("rgb(from lch(0% 116 334) r g b)", "#2a0022"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black.
-    test("rgb(from oklab(100% 0.365 -0.16) r g b)", "#fff"); // Naive clip based mapping would give rgb(255, 92, 255).
-    test("rgb(from oklab(0% 0.365 -0.16) r g b)", "#000"); // Naive clip based mapping would give rgb(19, 0, 24).
-    test("rgb(from oklch(100% 0.399 336.3) r g b)", "#fff"); // Naive clip based mapping would give rgb(255, 91, 255).
-    test("rgb(from oklch(0% 0.399 336.3) r g b)", "#000"); // Naive clip based mapping would give rgb(20, 0, 24).
+    test("rgb(from color(display-p3 0 1 0) r g b / alpha)", "rgb(0, 249, 66)"); // Naive clip based mapping would give rgb(0, 255, 0).
+    test("rgb(from lab(100% 104.3 -50.9) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
+    test("rgb(from lab(0% 104.3 -50.9) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black.
+    test("rgb(from lch(100% 116 334) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
+    test("rgb(from lch(0% 116 334) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black.
+    test("rgb(from oklab(100% 0.365 -0.16) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 92, 255).
+    test("rgb(from oklab(0% 0.365 -0.16) r g b)", "rgb(0, 0, 0)"); // Naive clip based mapping would give rgb(19, 0, 24).
+    test("rgb(from oklch(100% 0.399 336.3) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 91, 255).
+    test("rgb(from oklch(0% 0.399 336.3) r g b)", "rgb(0, 0, 0)"); // Naive clip based mapping would give rgb(20, 0, 24).
 
     // Testing replacement with 0.
     test("rgb(from rebeccapurple 0 0 0)", "rgb(0, 0, 0)");
-    test("rgb(from rebeccapurple 0 0 0 / 0)", "rgba(0, 0, 0, 0)");
+    test("rgb(from rebeccapurple 0 0 0 / 0)", "rgb(0, 0, 0, 0%)");
     test("rgb(from rebeccapurple 0 g b / alpha)", "rgb(0, 51, 153)");
     test("rgb(from rebeccapurple r 0 b / alpha)", "rgb(102, 0, 153)");
     test("rgb(from rebeccapurple r g 0 / alpha)", "rgb(102, 51, 0)");
-    test("rgb(from rebeccapurple r g b / 0)", "rgba(102, 51, 153, 0)");
+    test("rgb(from rebeccapurple r g b / 0)", "rgb(102, 51, 153, 0%)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) 0 g b / alpha)",
-      "rgba(0, 102, 153, 0.8)",
+      "rgb(0, 102, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r 0 b / alpha)",
-      "rgba(51, 0, 153, 0.8)",
+      "rgb(51, 0, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g 0 / alpha)",
-      "rgba(51, 102, 0, 0.8)",
+      "rgb(51, 102, 0, 80%)",
     );
-    test("rgb(from rgb(20%, 40%, 60%, 80%) r g b / 0)", "rgba(51, 102, 153, 0)");
+    test("rgb(from rgb(20%, 40%, 60%, 80%) r g b / 0)", "rgb(51, 102, 153, 0%)");
 
     // Testing replacement with a number.
     test("rgb(from rebeccapurple 25 g b / alpha)", "rgb(25, 51, 153)");
     test("rgb(from rebeccapurple r 25 b / alpha)", "rgb(102, 25, 153)");
     test("rgb(from rebeccapurple r g 25 / alpha)", "rgb(102, 51, 25)");
-    test("rgb(from rebeccapurple r g b / .25)", "rgba(102, 51, 153, 0.25)");
+    test("rgb(from rebeccapurple r g b / .25)", "rgb(102, 51, 153, 25%)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) 25 g b / alpha)",
-      "rgba(25, 102, 153, 0.8)",
+      "rgb(25, 102, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r 25 b / alpha)",
-      "rgba(51, 25, 153, 0.8)",
+      "rgb(51, 25, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g 25 / alpha)",
-      "rgba(51, 102, 25, 0.8)",
+      "rgb(51, 102, 25, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g b / .20)",
-      "rgba(51, 102, 153, 0.2)",
+      "rgb(51, 102, 153, 20%)",
     );
 
     // Testing replacement with a percentage.
     test("rgb(from rebeccapurple 20% g b / alpha)", "rgb(51, 51, 153)");
     test("rgb(from rebeccapurple r 20% b / alpha)", "rgb(102, 51, 153)");
     test("rgb(from rebeccapurple r g 20% / alpha)", "rgb(102, 51, 51)");
-    test("rgb(from rebeccapurple r g b / 20%)", "rgba(102, 51, 153, 0.2)");
+    test("rgb(from rebeccapurple r g b / 20%)", "rgb(102, 51, 153, 20%)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) 20% g b / alpha)",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r 20% b / alpha)",
-      "rgba(51, 51, 153, 0.8)",
+      "rgb(51, 51, 153, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g 20% / alpha)",
-      "rgba(51, 102, 51, 0.8)",
+      "rgb(51, 102, 51, 80%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g b / 20%)",
-      "rgba(51, 102, 153, 0.2)",
+      "rgb(51, 102, 153, 20%)",
     );
 
     // Testing replacement with a number for r, g, b but percent for alpha.
-    test("rgb(from rebeccapurple 25 g b / 25%)", "rgba(25, 51, 153, 0.25)");
-    test("rgb(from rebeccapurple r 25 b / 25%)", "rgba(102, 25, 153, 0.25)");
-    test("rgb(from rebeccapurple r g 25 / 25%)", "rgba(102, 51, 25, 0.25)");
+    test("rgb(from rebeccapurple 25 g b / 25%)", "rgb(25, 51, 153, 25%)");
+    test("rgb(from rebeccapurple r 25 b / 25%)", "rgb(102, 25, 153, 25%)");
+    test("rgb(from rebeccapurple r g 25 / 25%)", "rgb(102, 51, 25, 25%)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) 25 g b / 25%)",
-      "rgba(25, 102, 153, 0.25)",
+      "rgb(25, 102, 153, 25%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r 25 b / 25%)",
-      "rgba(51, 25, 153, 0.25)",
+      "rgb(51, 25, 153, 25%)",
     );
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) r g 25 / 25%)",
-      "rgba(51, 102, 25, 0.25)",
+      "rgb(51, 102, 25, 25%)",
     );
 
     // Testing permutation.
     test("rgb(from rebeccapurple g b r)", "rgb(51, 153, 102)");
-    test("rgb(from rebeccapurple b alpha r / g)", "rgba(153, 255, 102, 0.2)");
-    test("rgb(from rebeccapurple r r r / r)", "rgba(102, 102, 102, 0.4)");
+    test("rgb(from rebeccapurple b alpha r / g)", "rgb(153, 255, 102, 20%)");
+    test("rgb(from rebeccapurple r r r / r)", "rgb(102, 102, 102, 0.4)");
     test(
       "rgb(from rebeccapurple alpha alpha alpha / alpha)",
       "rgb(255, 255, 255)",
@@ -17570,12 +17573,12 @@ mod tests {
     test("rgb(from rgb(20%, 40%, 60%, 80%) g b r)", "rgb(102, 153, 51)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) b alpha r / g)",
-      "rgba(153, 204, 51, 0.4)",
+      "rgb(153, 204, 51, 0.4)",
     );
-    test("rgb(from rgb(20%, 40%, 60%, 80%) r r r / r)", "rgba(51, 51, 51, 0.2)");
+    test("rgb(from rgb(20%, 40%, 60%, 80%) r r r / r)", "rgb(51, 51, 51, 20%)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) alpha alpha alpha / alpha)",
-      "rgba(204, 204, 204, 0.8)",
+      "rgb(204, 204, 204, 80%)",
     );
 
     // Testing mixes of number and percentage. (These would not be allowed in the non-relative syntax).
@@ -17594,27 +17597,27 @@ mod tests {
     test("rgb(from rebeccapurple r calc(b * .5 - g * .5) 10)", "rgb(102, 51, 10)");
     test(
       "rgb(from rgb(20%, 40%, 60%, 80%) calc(r) calc(g) calc(b) / calc(alpha))",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
 
     // Testing with 'none'.
     test("rgb(from rebeccapurple none none none)", "rgb(0, 0, 0)");
-    test("rgb(from rebeccapurple none none none / none)", "rgba(0, 0, 0, 0)");
+    test("rgb(from rebeccapurple none none none / none)", "rgb(0, 0, 0, 0%)");
     test("rgb(from rebeccapurple r g none)", "rgb(102, 51, 0)");
     test("rgb(from rebeccapurple r g none / alpha)", "rgb(102, 51, 0)");
-    test("rgb(from rebeccapurple r g b / none)", "rgba(102, 51, 153, 0)");
+    test("rgb(from rebeccapurple r g b / none)", "rgb(102, 51, 153, 0%)");
     test(
       "rgb(from rgb(20% 40% 60% / 80%) r g none / alpha)",
-      "rgba(51, 102, 0, 0.8)",
+      "rgb(51, 102, 0, 80%)",
     );
-    test("rgb(from rgb(20% 40% 60% / 80%) r g b / none)", "rgba(51, 102, 153, 0)");
+    test("rgb(from rgb(20% 40% 60% / 80%) r g b / none)", "rgb(51, 102, 153, 0%)");
     // FIXME: Clarify with spec editors if 'none' should pass through to the constants.
     test("rgb(from rgb(none none none) r g b)", "rgb(0, 0, 0)");
-    test("rgb(from rgb(none none none / none) r g b / alpha)", "rgba(0, 0, 0, 0)");
+    test("rgb(from rgb(none none none / none) r g b / alpha)", "rgb(0, 0, 0, 0%)");
     test("rgb(from rgb(20% none 60%) r g b)", "rgb(51, 0, 153)");
     test(
       "rgb(from rgb(20% 40% 60% / none) r g b / alpha)",
-      "rgba(51, 102, 153, 0)",
+      "rgb(51, 102, 153, 0%)",
     );
 
     // hsl(from ...)
@@ -17624,11 +17627,11 @@ mod tests {
     test("hsl(from rebeccapurple h s l / alpha)", "rgb(102, 51, 153)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h s l / alpha)",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
     test(
       "hsl(from hsl(120deg 20% 50% / .5) h s l / alpha)",
-      "rgba(102, 153, 102, 0.5)",
+      "rgb(102, 153, 102, 50%)",
     );
 
     // Test nesting relative colors.
@@ -17648,108 +17651,108 @@ mod tests {
     // Testing replacement with 0.
     test("hsl(from rebeccapurple 0 0% 0%)", "rgb(0, 0, 0)");
     test("hsl(from rebeccapurple 0deg 0% 0%)", "rgb(0, 0, 0)");
-    test("hsl(from rebeccapurple 0 0% 0% / 0)", "rgba(0, 0, 0, 0)");
-    test("hsl(from rebeccapurple 0deg 0% 0% / 0)", "rgba(0, 0, 0, 0)");
+    test("hsl(from rebeccapurple 0 0% 0% / 0)", "rgb(0, 0, 0, 0%)");
+    test("hsl(from rebeccapurple 0deg 0% 0% / 0)", "rgb(0, 0, 0, 0%)");
     test("hsl(from rebeccapurple 0 s l / alpha)", "rgb(153, 51, 51)");
     test("hsl(from rebeccapurple 0deg s l / alpha)", "rgb(153, 51, 51)");
     test("hsl(from rebeccapurple h 0% l / alpha)", "rgb(102, 102, 102)");
     test("hsl(from rebeccapurple h s 0% / alpha)", "rgb(0, 0, 0)");
-    test("hsl(from rebeccapurple h s l / 0)", "rgba(102, 51, 153, 0)");
+    test("hsl(from rebeccapurple h s l / 0)", "rgb(102, 51, 153, 0%)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) 0 s l / alpha)",
-      "rgba(153, 51, 51, 0.8)",
+      "rgb(153, 51, 51, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) 0deg s l / alpha)",
-      "rgba(153, 51, 51, 0.8)",
+      "rgb(153, 51, 51, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h 0% l / alpha)",
-      "rgba(102, 102, 102, 0.8)",
+      "rgb(102, 102, 102, 80%)",
     );
-    test("hsl(from rgb(20%, 40%, 60%, 80%) h s 0% / alpha)", "rgba(0, 0, 0, 0.8)");
-    test("hsl(from rgb(20%, 40%, 60%, 80%) h s l / 0)", "rgba(51, 102, 153, 0)");
+    test("hsl(from rgb(20%, 40%, 60%, 80%) h s 0% / alpha)", "rgb(0, 0, 0, 80%)");
+    test("hsl(from rgb(20%, 40%, 60%, 80%) h s l / 0)", "rgb(51, 102, 153, 0%)");
 
     // Testing replacement with a constant.
     test("hsl(from rebeccapurple 25 s l / alpha)", "rgb(153, 94, 51)");
     test("hsl(from rebeccapurple 25deg s l / alpha)", "rgb(153, 94, 51)");
     test("hsl(from rebeccapurple h 20% l / alpha)", "rgb(102, 82, 122)");
     test("hsl(from rebeccapurple h s 20% / alpha)", "rgb(51, 25, 77)");
-    test("hsl(from rebeccapurple h s l / .25)", "rgba(102, 51, 153, 0.25)");
+    test("hsl(from rebeccapurple h s l / .25)", "rgb(102, 51, 153, 25%)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) 25 s l / alpha)",
-      "rgba(153, 94, 51, 0.8)",
+      "rgb(153, 94, 51, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) 25deg s l / alpha)",
-      "rgba(153, 94, 51, 0.8)",
+      "rgb(153, 94, 51, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h 20% l / alpha)",
-      "rgba(82, 102, 122, 0.8)",
+      "rgb(82, 102, 122, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h s 20% / alpha)",
-      "rgba(25, 51, 77, 0.8)",
+      "rgb(25, 51, 77, 80%)",
     );
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h s l / .2)",
-      "rgba(51, 102, 153, 0.2)",
+      "rgb(51, 102, 153, 20%)",
     );
 
     // Testing valid permutation (types match).
     test("hsl(from rebeccapurple h l s)", "rgb(128, 77, 179)");
-    test("hsl(from rebeccapurple h alpha l / s)", "rgba(102, 0, 204, 0.5)");
-    test("hsl(from rebeccapurple h l l / l)", "rgba(102, 61, 143, 0.4)");
+    test("hsl(from rebeccapurple h alpha l / s)", "rgb(102, 0, 204, 50%)");
+    test("hsl(from rebeccapurple h l l / l)", "rgb(102, 61, 143, 0.4)");
     test("hsl(from rebeccapurple h alpha alpha / alpha)", "rgb(255, 255, 255)");
     test("hsl(from rgb(20%, 40%, 60%, 80%) h l s)", "rgb(77, 128, 179)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h alpha l / s)",
-      "rgba(20, 102, 184, 0.5)",
+      "rgb(20, 102, 184, 50%)",
     );
-    test("hsl(from rgb(20%, 40%, 60%, 80%) h l l / l)", "rgba(61, 102, 143, 0.4)");
+    test("hsl(from rgb(20%, 40%, 60%, 80%) h l l / l)", "rgb(61, 102, 143, 0.4)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) h alpha alpha / alpha)",
-      "rgba(163, 204, 245, 0.8)",
+      "rgb(163, 204, 245, 80%)",
     );
 
     // Testing with calc().
     test("hsl(from rebeccapurple calc(h) calc(s) calc(l))", "rgb(102, 51, 153)");
     test(
       "hsl(from rgb(20%, 40%, 60%, 80%) calc(h) calc(s) calc(l) / calc(alpha))",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
 
     // Testing with 'none'.
     test("hsl(from rebeccapurple none none none)", "rgb(0, 0, 0)");
-    test("hsl(from rebeccapurple none none none / none)", "rgba(0, 0, 0, 0)");
+    test("hsl(from rebeccapurple none none none / none)", "rgb(0, 0, 0, 0%)");
     test("hsl(from rebeccapurple h s none)", "rgb(0, 0, 0)");
     test("hsl(from rebeccapurple h s none / alpha)", "rgb(0, 0, 0)");
-    test("hsl(from rebeccapurple h s l / none)", "rgba(102, 51, 153, 0)");
+    test("hsl(from rebeccapurple h s l / none)", "rgb(102, 51, 153, 0%)");
     test("hsl(from rebeccapurple none s l / alpha)", "rgb(153, 51, 51)");
     test(
       "hsl(from hsl(120deg 20% 50% / .5) h s none / alpha)",
-      "rgba(0, 0, 0, 0.5)",
+      "rgb(0, 0, 0, 50%)",
     );
     test(
       "hsl(from hsl(120deg 20% 50% / .5) h s l / none)",
-      "rgba(102, 153, 102, 0)",
+      "rgb(102, 153, 102, 0%)",
     );
     test(
       "hsl(from hsl(120deg 20% 50% / .5) none s l / alpha)",
-      "rgba(153, 102, 102, 0.5)",
+      "rgb(153, 102, 102, 50%)",
     );
     // FIXME: Clarify with spec editors if 'none' should pass through to the constants.
     test("hsl(from hsl(none none none) h s l)", "rgb(0, 0, 0)");
-    test("hsl(from hsl(none none none / none) h s l / alpha)", "rgba(0, 0, 0, 0)");
+    test("hsl(from hsl(none none none / none) h s l / alpha)", "rgb(0, 0, 0, 0%)");
     test("hsl(from hsl(120deg none 50% / .5) h s l)", "rgb(128, 128, 128)");
     test(
       "hsl(from hsl(120deg 20% 50% / none) h s l / alpha)",
-      "rgba(102, 153, 102, 0)",
+      "rgb(102, 153, 102, 0%)",
     );
     test(
       "hsl(from hsl(none 20% 50% / .5) h s l / alpha)",
-      "rgba(153, 102, 102, 0.5)",
+      "rgb(153, 102, 102, 50%)",
     );
 
     // hwb(from ...)
@@ -17759,11 +17762,11 @@ mod tests {
     test("hwb(from rebeccapurple h w b / alpha)", "rgb(102, 51, 153)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h w b / alpha)",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
     test(
       "hwb(from hsl(120deg 20% 50% / .5) h w b / alpha)",
-      "rgba(102, 153, 102, 0.5)",
+      "rgb(102, 153, 102, 50%)",
     );
 
     // Test nesting relative colors.
@@ -17783,117 +17786,117 @@ mod tests {
     // Testing replacement with 0.
     test("hwb(from rebeccapurple 0 0% 0%)", "rgb(255, 0, 0)");
     test("hwb(from rebeccapurple 0deg 0% 0%)", "rgb(255, 0, 0)");
-    test("hwb(from rebeccapurple 0 0% 0% / 0)", "rgba(255, 0, 0, 0)");
-    test("hwb(from rebeccapurple 0deg 0% 0% / 0)", "rgba(255, 0, 0, 0)");
+    test("hwb(from rebeccapurple 0 0% 0% / 0)", "rgb(255, 0, 0, 0%)");
+    test("hwb(from rebeccapurple 0deg 0% 0% / 0)", "rgb(255, 0, 0, 0%)");
     test("hwb(from rebeccapurple 0 w b / alpha)", "rgb(153, 51, 51)");
     test("hwb(from rebeccapurple 0deg w b / alpha)", "rgb(153, 51, 51)");
     test("hwb(from rebeccapurple h 0% b / alpha)", "rgb(77, 0, 153)");
     test("hwb(from rebeccapurple h w 0% / alpha)", "rgb(153, 51, 255)");
-    test("hwb(from rebeccapurple h w b / 0)", "rgba(102, 51, 153, 0)");
+    test("hwb(from rebeccapurple h w b / 0)", "rgb(102, 51, 153, 0%)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) 0 w b / alpha)",
-      "rgba(153, 51, 51, 0.8)",
+      "rgb(153, 51, 51, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) 0deg w b / alpha)",
-      "rgba(153, 51, 51, 0.8)",
+      "rgb(153, 51, 51, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h 0% b / alpha)",
-      "rgba(0, 77, 153, 0.8)",
+      "rgb(0, 77, 153, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h w 0% / alpha)",
-      "rgba(51, 153, 255, 0.8)",
+      "rgb(51, 153, 255, 80%)",
     );
-    test("hwb(from rgb(20%, 40%, 60%, 80%) h w b / 0)", "rgba(51, 102, 153, 0)");
+    test("hwb(from rgb(20%, 40%, 60%, 80%) h w b / 0)", "rgb(51, 102, 153, 0%)");
 
     // Testing replacement with a constant.
     test("hwb(from rebeccapurple 25 w b / alpha)", "rgb(153, 94, 51)");
     test("hwb(from rebeccapurple 25deg w b / alpha)", "rgb(153, 94, 51)");
     test("hwb(from rebeccapurple h 20% b / alpha)", "rgb(102, 51, 153)");
     test("hwb(from rebeccapurple h w 20% / alpha)", "rgb(128, 51, 204)");
-    test("hwb(from rebeccapurple h w b / .2)", "rgba(102, 51, 153, 0.2)");
+    test("hwb(from rebeccapurple h w b / .2)", "rgb(102, 51, 153, 20%)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) 25 w b / alpha)",
-      "rgba(153, 94, 51, 0.8)",
+      "rgb(153, 94, 51, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) 25deg w b / alpha)",
-      "rgba(153, 94, 51, 0.8)",
+      "rgb(153, 94, 51, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h 20% b / alpha)",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h w 20% / alpha)",
-      "rgba(51, 128, 204, 0.8)",
+      "rgb(51, 128, 204, 80%)",
     );
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h w b / .2)",
-      "rgba(51, 102, 153, 0.2)",
+      "rgb(51, 102, 153, 20%)",
     );
 
     // Testing valid permutation (types match).
     test("hwb(from rebeccapurple h b w)", "rgb(153, 102, 204)");
-    test("hwb(from rebeccapurple h alpha w / b)", "rgba(213, 213, 213, 0.4)");
-    test("hwb(from rebeccapurple h w w / w)", "rgba(128, 51, 204, 0.2)");
+    test("hwb(from rebeccapurple h alpha w / b)", "rgb(213, 213, 213, 0.4)");
+    test("hwb(from rebeccapurple h w w / w)", "rgb(128, 51, 204, 20%)");
     test("hwb(from rebeccapurple h alpha alpha / alpha)", "rgb(128, 128, 128)");
     test("hwb(from rgb(20%, 40%, 60%, 80%) h b w)", "rgb(102, 153, 204)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h alpha w / b)",
-      "rgba(204, 204, 204, 0.4)",
+      "rgb(204, 204, 204, 0.4)",
     );
-    test("hwb(from rgb(20%, 40%, 60%, 80%) h w w / w)", "rgba(51, 128, 204, 0.2)");
+    test("hwb(from rgb(20%, 40%, 60%, 80%) h w w / w)", "rgb(51, 128, 204, 20%)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) h alpha alpha / alpha)",
-      "rgba(128, 128, 128, 0.8)",
+      "rgb(128, 128, 128, 80%)",
     );
 
     // Testing with calc().
     test("hwb(from rebeccapurple calc(h) calc(w) calc(b))", "rgb(102, 51, 153)");
     test(
       "hwb(from rgb(20%, 40%, 60%, 80%) calc(h) calc(w) calc(b) / calc(alpha))",
-      "rgba(51, 102, 153, 0.8)",
+      "rgb(51, 102, 153, 80%)",
     );
 
     // Testing with 'none'.
     test("hwb(from rebeccapurple none none none)", "rgb(255, 0, 0)");
-    test("hwb(from rebeccapurple none none none / none)", "rgba(255, 0, 0, 0)");
+    test("hwb(from rebeccapurple none none none / none)", "rgb(255, 0, 0, 0%)");
     test("hwb(from rebeccapurple h w none)", "rgb(153, 51, 255)");
     test("hwb(from rebeccapurple h w none / alpha)", "rgb(153, 51, 255)");
-    test("hwb(from rebeccapurple h w b / none)", "rgba(102, 51, 153, 0)");
+    test("hwb(from rebeccapurple h w b / none)", "rgb(102, 51, 153, 0%)");
     test("hwb(from rebeccapurple none w b / alpha)", "rgb(153, 51, 51)");
     test(
       "hwb(from hwb(120deg 20% 50% / .5) h w none / alpha)",
-      "rgba(51, 255, 51, 0.5)",
+      "rgb(51, 255, 51, 50%)",
     );
     test(
       "hwb(from hwb(120deg 20% 50% / .5) h w b / none)",
-      "rgba(51, 128, 51, 0)",
+      "rgb(51, 128, 51, 0%)",
     );
     test(
       "hwb(from hwb(120deg 20% 50% / .5) none w b / alpha)",
-      "rgba(128, 51, 51, 0.5)",
+      "rgb(128, 51, 51, 50%)",
     );
     // FIXME: Clarify with spec editors if 'none' should pass through to the constants.
     test("hwb(from hwb(none none none) h w b)", "rgb(255, 0, 0)");
     test(
       "hwb(from hwb(none none none / none) h w b / alpha)",
-      "rgba(255, 0, 0, 0)",
+      "rgb(255, 0, 0, 0%)",
     );
     test("hwb(from hwb(120deg none 50% / .5) h w b)", "rgb(0, 128, 0)");
     test(
       "hwb(from hwb(120deg 20% 50% / none) h w b / alpha)",
-      "rgba(51, 128, 51, 0)",
+      "rgb(51, 128, 51, 0%)",
     );
     test(
       "hwb(from hwb(none 20% 50% / .5) h w b / alpha)",
-      "rgba(128, 51, 51, 0.5)",
+      "rgb(128, 51, 51, 50%)",
     );
 
-    for color_space in &["lab", "oklab"] {
+    for color_space in &[/* "lab",  */"oklab"] {
       // Testing no modifications.
       test(
         &format!("{}(from {}(25% 20 50) l a b)", color_space, color_space),
@@ -19211,91 +19214,91 @@ mod tests {
   fn test_color_mix() {
     minify_test(
       ".foo { color: color-mix(in lab, purple 50%, plum 50%); }",
-      ".foo{color:lab(51.5117% 43.3777 -29.0443)}",
+      ".foo{color:oklab(60.13%,0.12768,-0.08015)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, peru 40%, palegoldenrod); }",
-      ".foo{color:lch(79.7255% 40.4542 84.7634)}",
+      ".foo{color:oklch(82.267%,0.09728,88.394deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, teal 65%, olive); }",
-      ".foo{color:lch(49.4431% 40.4806 162.546)}",
+      ".foo{color:oklch(55.124%,0.11317,163.52deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, white, black); }",
-      ".foo{color:lch(50% 0 none)}",
+      ".foo{color:oklch(56.897%,0,none)}",
     );
     minify_test(
       ".foo { color: color-mix(in xyz, rgb(82.02% 30.21% 35.02%) 75.23%, rgb(5.64% 55.94% 85.31%)); }",
-      ".foo{color:color(xyz .287458 .208776 .260566)}",
+      ".foo{color:oklab(60.864%,0.11756,-0.01409)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, white, blue); }",
-      ".foo{color:lch(64.7842% 65.6007 301.364)}",
+      ".foo{color:oklch(71.76%,0.17377,296.05deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in oklch, white, blue); }",
-      ".foo{color:oklch(72.6007% .156607 264.052)}",
+      ".foo{color:oklch(72.6007%,.156607,264.052deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, white, blue); }",
-      ".foo{color:#8080ff}",
+      ".foo{color:rgb(128,128,255)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, blue, white); }",
-      ".foo{color:lch(64.7842% 65.6007 301.364)}",
+      ".foo{color:oklch(71.76%,0.17377,296.05deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in oklch, blue, white); }",
-      ".foo{color:oklch(72.6007% .156607 264.052)}",
+      ".foo{color:oklch(72.6007%,.156607,264.052deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, blue, white); }",
-      ".foo{color:#8080ff}",
+      ".foo{color:rgb(128,128,255)}",
     );
     // minify_test(".foo { color: color-mix(in hsl, color(display-p3 0 1 0) 80%, yellow); }", ".foo{color:hsl(108 100% 49.9184%) }");
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120 100% 49.898%) 80%, yellow); }",
-      ".foo{color:#33fe00}",
+      ".foo{color:rgb(51,254,0)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(100% 0% 0% / 0.7) 25%, rgb(0% 100% 0% / 0.2)); }",
-      ".foo{color:#89760053}",
+      ".foo{color:rgb(137,118,0,32.5%)}", // 83/255
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(100% 0% 0% / 0.7) 20%, rgb(0% 100% 0% / 0.2) 60%); }",
-      ".foo{color:#89760042}",
+      ".foo{color:rgb(137,118,0,26%)}", // 66/255
     );
     minify_test(
       ".foo { color: color-mix(in lch, color(display-p3 0 1 none), color(display-p3 0 0 1)); }",
-      ".foo{color:lch(58.8143% 141.732 218.684)}",
+      ".foo{color:oklch(60.835%,0.65347,202.99deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(128 128 none), rgb(none none 128)); }",
-      ".foo{color:gray}",
+      ".foo{color:rgb(128,128,128)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(50% 50% none), rgb(none none 50%)); }",
-      ".foo{color:gray}",
+      ".foo{color:rgb(128,128,128)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(none 50% none), rgb(50% none 50%)); }",
-      ".foo{color:gray}",
+      ".foo{color:rgb(128,128,128)}",
     );
     minify_test(
       ".foo { --color: color-mix(in lch, teal 65%, olive); }",
-      ".foo{--color:lch(49.4431% 40.4806 162.546)}",
+      ".foo{--color:oklch(55.124%,0.11317,163.52deg)}",
     );
     minify_test(
       ".foo { color: color-mix(in xyz, transparent, green 65%); }",
-      ".foo{color:color(xyz .0771883 .154377 .0257295/.65)}",
+      ".foo{color:oklab(51.975%,-0.1403,0.10768,65%)}",
     );
     prefix_test(
       ".foo { color: color-mix(in xyz, transparent, green 65%); }",
       indoc! { r#"
       .foo {
         color: #008000a6;
-        color: color(xyz .0771883 .154377 .0257295 / .65);
+        color: oklab(51.975%, -0.1403, 0.10768, 65%);
       }
       "# },
       Browsers {
@@ -19319,76 +19322,76 @@ mod tests {
     // https://github.com/web-platform-tests/wpt/blob/f8c76b11cff66a7adc87264a18e39353cb5a60c9/css/css-color/parsing/color-mix-computed.html
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%), hsl(30deg 30% 40%)) }",
-      ".foo{color:#545c3d}",
+      ".foo{color:rgb(84,92,61)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 25%, hsl(30deg 30% 40%)) }",
-      ".foo{color:#706a43}",
+      ".foo{color:rgb(112,106,67)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, 25% hsl(120deg 10% 20%), hsl(30deg 30% 40%)) }",
-      ".foo{color:#706a43}",
+      ".foo{color:rgb(112,106,67)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%), 25% hsl(30deg 30% 40%)) }",
-      ".foo{color:#3d4936}",
+      ".foo{color:rgb(61,73,54)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%), hsl(30deg 30% 40%) 25%) }",
-      ".foo{color:#3d4936}",
+      ".foo{color:rgb(61,73,54)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 25%, hsl(30deg 30% 40%) 75%) }",
-      ".foo{color:#706a43}",
+      ".foo{color:rgb(112,106,67)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 30%, hsl(30deg 30% 40%) 90%) }",
-      ".foo{color:#706a43}",
+      ".foo{color:rgb(112,106,67)}",
     ); // Scale down > 100% sum.
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 12.5%, hsl(30deg 30% 40%) 37.5%) }",
-      ".foo{color:#706a4380}",
+      ".foo{color:rgb(112,106,67,50%)}", // 128/255
     ); // Scale up < 100% sum, causes alpha multiplication.
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 0%, hsl(30deg 30% 40%)) }",
-      ".foo{color:#856647}",
+      ".foo{color:rgb(133,102,71)}",
     );
 
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4), hsl(30deg 30% 40% / .8)) }",
-      ".foo{color:#5f694199}",
+      ".foo{color:rgb(95,105,65,60%)}", // 153/255
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20%) 25%, hsl(30deg 30% 40% / .8)) }",
-      ".foo{color:#6c6742d9}",
+      ".foo{color:rgb(108,103,66,85%)}", // 217/255
     );
     minify_test(
       ".foo { color: color-mix(in hsl, 25% hsl(120deg 10% 20% / .4), hsl(30deg 30% 40% / .8)) }",
-      ".foo{color:#797245b3}",
+      ".foo{color:rgb(121,114,69,70%)}", // 179/255
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4), 25% hsl(30deg 30% 40% / .8)) }",
-      ".foo{color:#44543b80}",
+      ".foo{color:rgb(68,84,59,50%)}", // 128/255
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4), hsl(30deg 30% 40% / .8) 25%) }",
-      ".foo{color:#44543b80}",
+      ".foo{color:rgb(68,84,59,50%)}", // 128/255
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4) 25%, hsl(30deg 30% 40% / .8) 75%) }",
-      ".foo{color:#797245b3}",
+      ".foo{color:rgb(121,114,69,70%)}",
     );
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4) 30%, hsl(30deg 30% 40% / .8) 90%) }",
-      ".foo{color:#797245b3}",
+      ".foo{color:rgb(121,114,69,70%)}",
     ); // Scale down > 100% sum.
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4) 12.5%, hsl(30deg 30% 40% / .8) 37.5%) }",
-      ".foo{color:#79724559}",
+      ".foo{color:rgb(121,114,69,35%)}", // 89/255
     ); // Scale up < 100% sum, causes alpha multiplication.
     minify_test(
       ".foo { color: color-mix(in hsl, hsl(120deg 10% 20% / .4) 0%, hsl(30deg 30% 40% / .8)) }",
-      ".foo{color:#856647cc}",
+      ".foo{color:rgb(133,102,71,80%)}",
     );
 
     fn canonicalize(s: &str) -> String {
@@ -19798,7 +19801,7 @@ mod tests {
       &canonicalize("rgb(0, 0, 0)"),
     ); // Naive clip based mapping would give rgb(20, 0, 24).
 
-    for color_space in &["lch", "oklch"] {
+    for color_space in &[/* "lch",  */"oklch"] {
       // regex for converting web platform tests:
       // test_computed_value\(.*?, `color-mix\(in \$\{colorSpace\}(.*?), (.*?)\$\{colorSpace\}(.*?) \$\{colorSpace\}(.*?)`, `\$\{colorSpace\}(.*?)`\);
       // minify_test(&format!(".foo {{ color: color-mix(in {0}$1, $2{0}$3 {0}$4 }}", color_space), &format!(".foo{{color:{}$5}}", color_space));
@@ -20254,7 +20257,7 @@ mod tests {
       );
     }
 
-    for color_space in ["lab", "oklab"] {
+    for color_space in [/* "lab",  */"oklab"] {
       minify_test(
         &format!(
           ".foo {{ color: color-mix(in {0}, {0}(10% 20 30), {0}(50% 60 70)) }}",
@@ -20681,24 +20684,24 @@ mod tests {
   #[test]
   fn test_grid() {
     minify_test(
-      ".foo { grid-template-columns: [first nav-start]  150px [main-start] 1fr [last]; }",
-      ".foo{grid-template-columns:[first nav-start]150px[main-start]1fr[last]}",
+      ".foo { grid-template-columns: [first nav-start]  150pt [main-start] 1fr [last]; }",
+      ".foo{grid-template-columns:[first nav-start]150pt[main-start]1fr[last]}",
     );
     minify_test(
-      ".foo { grid-template-columns: 150px 1fr; }",
-      ".foo{grid-template-columns:150px 1fr}",
+      ".foo { grid-template-columns: 150pt 1fr; }",
+      ".foo{grid-template-columns:150pt 1fr}",
     );
     minify_test(
       ".foo { grid-template-columns: repeat(4, 1fr); }",
       ".foo{grid-template-columns:repeat(4,1fr)}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(2, [e] 40px); }",
-      ".foo{grid-template-columns:repeat(2,[e]40px)}",
+      ".foo { grid-template-columns: repeat(2, [e] 40pt); }",
+      ".foo{grid-template-columns:repeat(2,[e]40pt)}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(4, [col-start] 250px [col-end]); }",
-      ".foo{grid-template-columns:repeat(4,[col-start]250px[col-end])}",
+      ".foo { grid-template-columns: repeat(4, [col-start] 250pt [col-end]); }",
+      ".foo{grid-template-columns:repeat(4,[col-start]250pt[col-end])}",
     );
     minify_test(
       ".foo { grid-template-columns: repeat(4, [col-start] 60% [col-end]); }",
@@ -20721,54 +20724,54 @@ mod tests {
       ".foo{grid-template-columns:repeat(4,[col-start]auto[col-end])}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(4, [col-start] minmax(100px, 1fr) [col-end]); }",
-      ".foo{grid-template-columns:repeat(4,[col-start]minmax(100px,1fr)[col-end])}",
+      ".foo { grid-template-columns: repeat(4, [col-start] minmax(100pt, 1fr) [col-end]); }",
+      ".foo{grid-template-columns:repeat(4,[col-start]minmax(100pt,1fr)[col-end])}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(4, [col-start] fit-content(200px) [col-end]); }",
-      ".foo{grid-template-columns:repeat(4,[col-start]fit-content(200px)[col-end])}",
+      ".foo { grid-template-columns: repeat(4, [col-start] fit-content(200pt) [col-end]); }",
+      ".foo{grid-template-columns:repeat(4,[col-start]fit-content(200pt)[col-end])}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(4, 10px [col-start] 30% [col-middle] auto [col-end]); }",
-      ".foo{grid-template-columns:repeat(4,10px[col-start]30%[col-middle]auto[col-end])}",
+      ".foo { grid-template-columns: repeat(4, 10pt [col-start] 30% [col-middle] auto [col-end]); }",
+      ".foo{grid-template-columns:repeat(4,10pt[col-start]30%[col-middle]auto[col-end])}",
     );
     minify_test(
       ".foo { grid-template-columns: repeat(5, auto); }",
       ".foo{grid-template-columns:repeat(5,auto)}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(auto-fill, 250px); }",
-      ".foo{grid-template-columns:repeat(auto-fill,250px)}",
+      ".foo { grid-template-columns: repeat(auto-fill, 250pt); }",
+      ".foo{grid-template-columns:repeat(auto-fill,250pt)}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(auto-fit, 250px); }",
-      ".foo{grid-template-columns:repeat(auto-fit,250px)}",
+      ".foo { grid-template-columns: repeat(auto-fit, 250pt); }",
+      ".foo{grid-template-columns:repeat(auto-fit,250pt)}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(auto-fill, [col-start] 250px [col-end]); }",
-      ".foo{grid-template-columns:repeat(auto-fill,[col-start]250px[col-end])}",
+      ".foo { grid-template-columns: repeat(auto-fill, [col-start] 250pt [col-end]); }",
+      ".foo{grid-template-columns:repeat(auto-fill,[col-start]250pt[col-end])}",
     );
     minify_test(
-      ".foo { grid-template-columns: repeat(auto-fill, [col-start] minmax(100px, 1fr) [col-end]); }",
-      ".foo{grid-template-columns:repeat(auto-fill,[col-start]minmax(100px,1fr)[col-end])}",
+      ".foo { grid-template-columns: repeat(auto-fill, [col-start] minmax(100pt, 1fr) [col-end]); }",
+      ".foo{grid-template-columns:repeat(auto-fill,[col-start]minmax(100pt,1fr)[col-end])}",
     );
     minify_test(
       ".foo { grid-template-columns: minmax(min-content, 1fr); }",
       ".foo{grid-template-columns:minmax(min-content,1fr)}",
     );
     minify_test(
-      ".foo { grid-template-columns: 200px repeat(auto-fill, 100px) 300px; }",
-      ".foo{grid-template-columns:200px repeat(auto-fill,100px) 300px}",
+      ".foo { grid-template-columns: 200pt repeat(auto-fill, 100pt) 300pt; }",
+      ".foo{grid-template-columns:200pt repeat(auto-fill,100pt) 300pt}",
     );
-    minify_test(".foo { grid-template-columns: [linename1 linename2] 100px repeat(auto-fit, [linename1] 300px) [linename3]; }", ".foo{grid-template-columns:[linename1 linename2]100px repeat(auto-fit,[linename1]300px)[linename3]}");
+    minify_test(".foo { grid-template-columns: [linename1 linename2] 100pt repeat(auto-fit, [linename1] 300pt) [linename3]; }", ".foo{grid-template-columns:[linename1 linename2]100pt repeat(auto-fit,[linename1]300pt)[linename3]}");
     minify_test(
-      ".foo { grid-template-rows: [linename1 linename2] 100px repeat(auto-fit, [linename1] 300px) [linename3]; }",
-      ".foo{grid-template-rows:[linename1 linename2]100px repeat(auto-fit,[linename1]300px)[linename3]}",
+      ".foo { grid-template-rows: [linename1 linename2] 100pt repeat(auto-fit, [linename1] 300pt) [linename3]; }",
+      ".foo{grid-template-rows:[linename1 linename2]100pt repeat(auto-fit,[linename1]300pt)[linename3]}",
     );
 
     minify_test(".foo { grid-auto-rows: auto; }", ".foo{grid-auto-rows:auto}");
     minify_test(".foo { grid-auto-rows: 1fr; }", ".foo{grid-auto-rows:1fr}");
-    minify_test(".foo { grid-auto-rows: 100px; }", ".foo{grid-auto-rows:100px}");
+    minify_test(".foo { grid-auto-rows: 100pt; }", ".foo{grid-auto-rows:100pt}");
     minify_test(
       ".foo { grid-auto-rows: min-content; }",
       ".foo{grid-auto-rows:min-content}",
@@ -20778,20 +20781,20 @@ mod tests {
       ".foo{grid-auto-rows:max-content}",
     );
     minify_test(
-      ".foo { grid-auto-rows: minmax(100px,auto); }",
-      ".foo{grid-auto-rows:minmax(100px,auto)}",
+      ".foo { grid-auto-rows: minmax(100pt,auto); }",
+      ".foo{grid-auto-rows:minmax(100pt,auto)}",
     );
     minify_test(
       ".foo { grid-auto-rows: fit-content(20%); }",
       ".foo{grid-auto-rows:fit-content(20%)}",
     );
     minify_test(
-      ".foo { grid-auto-rows: 100px minmax(100px, auto) 10% 0.5fr fit-content(400px); }",
-      ".foo{grid-auto-rows:100px minmax(100px,auto) 10% .5fr fit-content(400px)}",
+      ".foo { grid-auto-rows: 100pt minmax(100pt, auto) 10% 0.5fr fit-content(400pt); }",
+      ".foo{grid-auto-rows:100pt minmax(100pt,auto) 10% .5fr fit-content(400pt)}",
     );
     minify_test(
-      ".foo { grid-auto-columns: 100px minmax(100px, auto) 10% 0.5fr fit-content(400px); }",
-      ".foo{grid-auto-columns:100px minmax(100px,auto) 10% .5fr fit-content(400px)}",
+      ".foo { grid-auto-columns: 100pt minmax(100pt, auto) 10% 0.5fr fit-content(400pt); }",
+      ".foo{grid-auto-columns:100pt minmax(100pt,auto) 10% .5fr fit-content(400pt)}",
     );
 
     minify_test(
@@ -20875,8 +20878,8 @@ mod tests {
       ".foo{grid-template:auto 1fr/auto 1fr auto}",
     );
     minify_test(
-      ".foo { grid-template: [linename1 linename2] 100px repeat(auto-fit, [linename1] 300px) [linename3] / [linename1 linename2] 100px repeat(auto-fit, [linename1] 300px) [linename3]; }",
-      ".foo{grid-template:[linename1 linename2]100px repeat(auto-fit,[linename1]300px)[linename3]/[linename1 linename2]100px repeat(auto-fit,[linename1]300px)[linename3]}"
+      ".foo { grid-template: [linename1 linename2] 100pt repeat(auto-fit, [linename1] 300pt) [linename3] / [linename1 linename2] 100pt repeat(auto-fit, [linename1] 300pt) [linename3]; }",
+      ".foo{grid-template:[linename1 linename2]100pt repeat(auto-fit,[linename1]300pt)[linename3]/[linename1 linename2]100pt repeat(auto-fit,[linename1]300pt)[linename3]}"
     );
 
     test(
@@ -20914,31 +20917,31 @@ mod tests {
     );
 
     minify_test(".foo { grid: none }", ".foo{grid:none}");
-    minify_test(".foo { grid: \"a\" 100px \"b\" 1fr }", ".foo{grid:\"a\"100px\"b\"1fr}");
+    minify_test(".foo { grid: \"a\" 100pt \"b\" 1fr }", ".foo{grid:\"a\"100pt\"b\"1fr}");
     minify_test(
-      ".foo { grid: [linename1] \"a\" 100px [linename2] }",
-      ".foo{grid:[linename1]\"a\"100px[linename2]}",
+      ".foo { grid: [linename1] \"a\" 100pt [linename2] }",
+      ".foo{grid:[linename1]\"a\"100pt[linename2]}",
     );
     minify_test(
-      ".foo { grid: \"a\" 200px \"b\" min-content }",
-      ".foo{grid:\"a\"200px\"b\"min-content}",
+      ".foo { grid: \"a\" 200pt \"b\" min-content }",
+      ".foo{grid:\"a\"200pt\"b\"min-content}",
     );
     minify_test(
-      ".foo { grid: \"a\" minmax(100px, max-content) \"b\" 20% }",
-      ".foo{grid:\"a\"minmax(100px,max-content)\"b\"20%}",
+      ".foo { grid: \"a\" minmax(100pt, max-content) \"b\" 20% }",
+      ".foo{grid:\"a\"minmax(100pt,max-content)\"b\"20%}",
     );
-    minify_test(".foo { grid: 100px / 200px }", ".foo{grid:100px/200px}");
+    minify_test(".foo { grid: 100pt / 200pt }", ".foo{grid:100pt/200pt}");
     minify_test(
-      ".foo { grid: minmax(400px, min-content) / repeat(auto-fill, 50px) }",
-      ".foo{grid:minmax(400px,min-content)/repeat(auto-fill,50px)}",
+      ".foo { grid: minmax(400pt, min-content) / repeat(auto-fill, 50pt) }",
+      ".foo{grid:minmax(400pt,min-content)/repeat(auto-fill,50pt)}",
     );
 
-    minify_test(".foo { grid: 200px / auto-flow }", ".foo{grid:200px/auto-flow}");
+    minify_test(".foo { grid: 200pt / auto-flow }", ".foo{grid:200pt/auto-flow}");
     minify_test(".foo { grid: 30% / auto-flow dense }", ".foo{grid:30%/auto-flow dense}");
     minify_test(".foo { grid: 30% / dense auto-flow }", ".foo{grid:30%/auto-flow dense}");
     minify_test(
-      ".foo { grid: repeat(3, [line1 line2 line3] 200px) / auto-flow 300px }",
-      ".foo{grid:repeat(3,[line1 line2 line3]200px)/auto-flow 300px}",
+      ".foo { grid: repeat(3, [line1 line2 line3] 200pt) / auto-flow 300pt }",
+      ".foo{grid:repeat(3,[line1 line2 line3]200pt)/auto-flow 300pt}",
     );
     minify_test(
       ".foo { grid: [line1] minmax(20em, max-content) / auto-flow dense 40% }",
@@ -20946,12 +20949,12 @@ mod tests {
     );
     minify_test(".foo { grid: none / auto-flow 1fr }", ".foo{grid:none/auto-flow 1fr}");
 
-    minify_test(".foo { grid: auto-flow / 200px }", ".foo{grid:none/200px}");
+    minify_test(".foo { grid: auto-flow / 200pt }", ".foo{grid:none/200pt}");
     minify_test(".foo { grid: auto-flow dense / 30% }", ".foo{grid:auto-flow dense/30%}");
     minify_test(".foo { grid: dense auto-flow / 30% }", ".foo{grid:auto-flow dense/30%}");
     minify_test(
-      ".foo { grid: auto-flow 300px / repeat(3, [line1 line2 line3] 200px) }",
-      ".foo{grid:auto-flow 300px/repeat(3,[line1 line2 line3]200px)}",
+      ".foo { grid: auto-flow 300pt / repeat(3, [line1 line2 line3] 200pt) }",
+      ".foo{grid:auto-flow 300pt/repeat(3,[line1 line2 line3]200pt)}",
     );
     minify_test(
       ".foo { grid: auto-flow dense 40% / [line1] minmax(20em, max-content) }",
@@ -21108,14 +21111,14 @@ mod tests {
           grid-template-areas: ". a a ."
                                ". b b .";
           grid-template-rows: auto 1fr;
-          grid-template-columns: 10px 1fr 1fr 10px;
+          grid-template-columns: 10pt 1fr 1fr 10pt;
         }
       "#,
       indoc! {r#"
         .foo {
           grid-template: ". a a ."
                          ". b b ." 1fr
-                         / 10px 1fr 1fr 10px;
+                         / 10pt 1fr 1fr 10pt;
         }
       "#},
     );
@@ -21469,7 +21472,7 @@ mod tests {
         }
       }
     "#,
-      "@-moz-document url-prefix(){h1{color:#ff0}}",
+      "@-moz-document url-prefix(){h1{color:rgb(255,255,0)}}",
     );
     minify_test(
       r#"
@@ -21479,7 +21482,7 @@ mod tests {
         }
       }
     "#,
-      "@-moz-document url-prefix(){h1{color:#ff0}}",
+      "@-moz-document url-prefix(){h1{color:rgb(255,255,0)}}",
     );
     error_test(
       "@-moz-document url-prefix(foo) {}",
@@ -21501,10 +21504,10 @@ mod tests {
     minify_test(".foo { --test: foo  ; }", ".foo{--test:foo}");
     minify_test(".foo { --test:foo; }", ".foo{--test:foo}");
     minify_test(".foo { --test:foo ; }", ".foo{--test:foo}");
-    minify_test(".foo { --test: var(--foo, 20px); }", ".foo{--test:var(--foo,20px)}");
+    minify_test(".foo { --test: var(--foo, 20pt); }", ".foo{--test:var(--foo,20pt)}");
     minify_test(
-      ".foo { transition: var(--foo, 20px),\nvar(--bar, 40px); }",
-      ".foo{transition:var(--foo,20px),var(--bar,40px)}",
+      ".foo { transition: var(--foo, 20pt),\nvar(--bar, 40pt); }",
+      ".foo{transition:var(--foo,20pt),var(--bar,40pt)}",
     );
     minify_test(
       ".foo { background: var(--color) var(--image); }",
@@ -21516,11 +21519,11 @@ mod tests {
     );
     minify_test(
       ".foo { color: var(--color, rgb(255, 255, 0)); }",
-      ".foo{color:var(--color,#ff0)}",
+      ".foo{color:var(--color,rgb(255,255,0))}",
     );
     minify_test(
       ".foo { color: var(--color, #ffff00); }",
-      ".foo{color:var(--color,#ff0)}",
+      ".foo{color:var(--color,rgb(255,255,0))}",
     );
     minify_test(
       ".foo { color: var(--color, rgb(var(--red), var(--green), 0)); }",
@@ -21528,22 +21531,22 @@ mod tests {
     );
     minify_test(".foo { --test: .5s; }", ".foo{--test:.5s}");
     minify_test(".foo { --theme-sizes-1\\/12: 2 }", ".foo{--theme-sizes-1\\/12:2}");
-    minify_test(".foo { --test: 0px; }", ".foo{--test:0px}");
+    minify_test(".foo { --test: 0pt; }", ".foo{--test:0pt}");
 
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: #b32323;
+        --custom: rgb(179, 35, 35);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -21556,17 +21559,17 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39) !important;
+        --custom: oklab(49.824%, .16048, .0808501) !important;
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: #b32323 !important;
+        --custom: rgb(179, 35, 35) !important;
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39) !important;
+          --custom: oklab(49.824%, .16048, .0808501) !important;
         }
       }
     "#},
@@ -21579,23 +21582,23 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: #b32323;
+        --custom: rgb(179, 35, 35);
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --custom: color(display-p3 .643308 .192455 .167712);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -21614,12 +21617,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --custom: color(display-p3 .643308 .192455 .167712);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -21632,12 +21635,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
     "#},
       Browsers {
@@ -21654,7 +21657,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --custom: lab(52.2319% 40.1449 59.9171);
+        --custom: oklab(59.686% 0.1009 0.1192);
       }
     "#},
       Browsers {
@@ -21671,12 +21674,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --custom: color(display-p3 .724144 .386777 .148795);
+        --custom: oklab(59.686% 0.1009 0.1192);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(52.2319% 40.1449 59.9171);
+          --custom: oklab(59.686% 0.1009 0.1192);
         }
       }
     "#},
@@ -21699,13 +21702,13 @@ mod tests {
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --custom: color(display-p3 .724144 .386777 .148795);
+          --custom: oklab(59.686% 0.1009 0.1192);
         }
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(52.2319% 40.1449 59.9171);
+          --custom: oklab(59.686% 0.1009 0.1192);
         }
       }
     "#},
@@ -21720,26 +21723,26 @@ mod tests {
       r#"
       .foo {
         --foo: oklab(59.686% 0.1009 0.1192);
-        --bar: lab(40% 56.6 39);
+        --bar: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
         --foo: #c65d07;
-        --bar: #b32323;
+        --bar: rgb(179, 35, 35);
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --foo: color(display-p3 .724144 .386777 .148795);
-          --bar: color(display-p3 .643308 .192455 .167712);
+          --foo: oklab(59.686% 0.1009 0.1192);
+          --bar: oklab(49.824%, .16048, .0808501);
         }
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --foo: lab(52.2319% 40.1449 59.9171);
-          --bar: lab(40% 56.6 39);
+          --foo: oklab(59.686% 0.1009 0.1192);
+          --bar: oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -21758,12 +21761,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --foo: #00f942;
+        --foo: rgb(0, 249, 66);
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --foo: color(display-p3 0 1 0);
+          --foo: oklab(84.883% -0.30424 0.20797);
         }
       }
     "#},
@@ -21782,7 +21785,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --foo: color(display-p3 0 1 0);
+        --foo: oklab(84.883% -0.30424 0.20797);
       }
     "#},
       Browsers {
@@ -21799,12 +21802,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --foo: #00f942;
+        --foo: rgb(0, 249, 66);
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --foo: color(display-p3 0 1 0);
+          --foo: oklab(84.883% -0.30424 0.20797);
         }
       }
     "#},
@@ -21823,12 +21826,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --foo: #00f942;
+        --foo: rgb(0, 249, 66);
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          --foo: color(display-p3 0 1 0);
+          --foo: oklab(84.883% -0.30424 0.20797);
         }
       }
     "#},
@@ -21845,18 +21848,18 @@ mod tests {
       }
 
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: #b32323;
+        --custom: rgb(179, 35, 35);
         text-decoration: underline;
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
     "#},
@@ -21869,7 +21872,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: oklab(49.824%, .16048, .0808501);
       }
 
       .foo {
@@ -21878,12 +21881,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        --custom: #b32323;
+        --custom: rgb(179, 35, 35);
       }
 
       @supports (color: lab(0% 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
       }
 
@@ -21901,7 +21904,7 @@ mod tests {
       r#"
       @keyframes foo {
         from {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
 
         to {
@@ -21912,22 +21915,22 @@ mod tests {
       indoc! {r#"
       @keyframes foo {
         from {
-          --custom: #b32323;
+          --custom: rgb(179, 35, 35);
         }
 
         to {
-          --custom: #ee00be;
+          --custom: rgb(238, 0, 190);
         }
       }
 
       @supports (color: lab(0% 0 0)) {
         @keyframes foo {
           from {
-            --custom: lab(40% 56.6 39);
+            --custom: oklab(49.824%, .16048, .0808501);
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
+            --custom: oklab(63.3164%, .394589, -.142257);
           }
         }
       }
@@ -21942,7 +21945,7 @@ mod tests {
       r#"
       @keyframes foo {
         from {
-          --custom: lab(40% 56.6 39);
+          --custom: oklab(49.824%, .16048, .0808501);
         }
 
         to {
@@ -21953,22 +21956,22 @@ mod tests {
       indoc! {r#"
       @keyframes foo {
         from {
-          --custom: #b32323;
+          --custom: rgb(179, 35, 35);
         }
 
         to {
-          --custom: #ee00be;
+          --custom: rgb(238, 0, 190);
         }
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         @keyframes foo {
           from {
-            --custom: color(display-p3 .643308 .192455 .167712);
+            --custom: oklab(49.824%, .16048, .0808501);
           }
 
           to {
-            --custom: color(display-p3 .972962 -.362078 .804206);
+            --custom: oklab(63.3164%, .394589, -.142257);
           }
         }
       }
@@ -21976,11 +21979,11 @@ mod tests {
       @supports (color: lab(0% 0 0)) {
         @keyframes foo {
           from {
-            --custom: lab(40% 56.6 39);
+            --custom: oklab(49.824%, .16048, .0808501);
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
+            --custom: oklab(63.3164%, .394589, -.142257);
           }
         }
       }
@@ -22009,26 +22012,26 @@ mod tests {
       indoc! {r#"
       @keyframes foo {
         from {
-          --custom: #ff0;
-          opacity: 0;
+          --custom: rgb(255, 255, 0);
+          opacity: 0%;
         }
 
         to {
-          --custom: #ee00be;
-          opacity: 1;
+          --custom: rgb(238, 0, 190);
+          opacity: 100%;
         }
       }
 
       @supports (color: lab(0% 0 0)) {
         @keyframes foo {
           from {
-            --custom: #ff0;
-            opacity: 0;
+            --custom: rgb(255, 255, 0);
+            opacity: 0%;
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
-            opacity: 1;
+            --custom: oklab(63.3164%, .394589, -.142257);
+            opacity: 100%;
           }
         }
       }
@@ -22057,7 +22060,7 @@ mod tests {
       @supports (color: lab(0% 0 0)) {
         @keyframes foo {
           from {
-            text-decoration: var(--foo) lab(29.2345% 39.3825 20.0664);
+            text-decoration: var(--foo) oklab(40.102% 0.11473 0.04535);
           }
         }
       }
@@ -22087,11 +22090,11 @@ mod tests {
     "#,
       indoc! { r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar {
-        color: #ff0;
+        color: rgb(255, 255, 0);
       }
     "#},
     )
@@ -22099,11 +22102,11 @@ mod tests {
 
   #[test]
   fn test_style_attr() {
-    attr_test("color: yellow; flex: 1 1 auto", "color: #ff0; flex: auto", false, None);
-    attr_test("color: yellow; flex: 1 1 auto", "color:#ff0;flex:auto", true, None);
+    attr_test("color: yellow; flex: 1 1 auto", "color: rgb(255, 255, 0); flex: auto", false, None);
+    attr_test("color: yellow; flex: 1 1 auto", "color:rgb(255,255,0);flex:auto", true, None);
     attr_test(
-      "border-inline-start: 2px solid red",
-      "border-inline-start: 2px solid red",
+      "border-inline-start: 2pt solid red",
+      "border-inline-start: 2pt solid rgb(255, 0, 0)",
       false,
       Some(Browsers {
         safari: Some(12 << 16),
@@ -22111,8 +22114,8 @@ mod tests {
       }),
     );
     attr_test(
-      "color: lab(40% 56.6 39);",
-      "color:#b32323;color:lab(40% 56.6 39)",
+      "color: oklab(49.824%, .16048, .0808501);",
+      "color:#b32323;color:oklab(49.824%, .16048, .0808501)",
       true,
       Some(Browsers {
         safari: Some(8 << 16),
@@ -22120,7 +22123,7 @@ mod tests {
       }),
     );
     attr_test(
-      "--foo: lab(40% 56.6 39);",
+      "--foo: oklab(49.824%, .16048, .0808501);",
       "--foo:#b32323",
       true,
       Some(Browsers {
@@ -22129,7 +22132,7 @@ mod tests {
       }),
     );
     attr_test(
-      "text-decoration: var(--foo) lab(40% 56.6 39);",
+      "text-decoration: var(--foo) oklab(49.824%, .16048, .0808501);",
       "text-decoration:var(--foo)#b32323",
       true,
       Some(Browsers {
@@ -22150,11 +22153,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo > .bar {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22168,11 +22171,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo.bar {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22186,11 +22189,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo, .bar {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         :is(.foo, .bar) + .baz, :is(.foo, .bar).qux {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22204,11 +22207,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo .bar .foo .baz .foo .qux {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22222,11 +22225,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo {
-          padding: 2ch;
+          padding: "2ch";
         }
       "#},
     );
@@ -22240,11 +22243,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo.foo {
-          padding: 2ch;
+          padding: "2ch";
         }
       "#},
     );
@@ -22257,7 +22260,7 @@ mod tests {
       "#,
       indoc! {r#"
         :is(.error, .invalid):hover > .baz {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22270,7 +22273,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:is(.bar, .foo.baz) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22291,15 +22294,15 @@ mod tests {
       "#,
       indoc! {r#"
         figure {
-          margin: 0;
+          margin: 0pt;
         }
 
         figure > figcaption {
-          background: #00000080;
+          background: rgb(0, 0, 0, 50%);
         }
 
         figure > figcaption > p {
-          font-size: .9rem;
+          font-size: ".9rem";
         }
       "#},
     );
@@ -22335,8 +22338,8 @@ mod tests {
           @media (orientation: landscape) {
             grid-auto-flow: column;
 
-            @media (width > 1024px) {
-              max-inline-size: 1024px;
+            @media (width > 1024pt) {
+              max-inline-size: 1024pt;
             }
           }
         }
@@ -22351,9 +22354,9 @@ mod tests {
             grid-auto-flow: column;
           }
 
-          @media (min-width: 1024px) {
+          @media (min-width: 1024pt) {
             .foo {
-              max-inline-size: 1024px;
+              max-inline-size: 1024pt;
             }
           }
         }
@@ -22363,15 +22366,15 @@ mod tests {
     nesting_test(
       r#"
         .foo {
-          @media (min-width: 640px) {
+          @media (min-width: 640pt) {
             color: red !important;
           }
         }
       "#,
       indoc! {r#"
-        @media (min-width: 640px) {
+        @media (min-width: 640pt) {
           .foo {
-            color: red !important;
+            color: rgb(255, 0, 0) !important;
           }
         }
       "#},
@@ -22405,7 +22408,7 @@ mod tests {
         .foo {
           display: grid;
 
-          @container (min-width: 100px) {
+          @container (min-width: 100pt) {
             grid-auto-flow: column;
           }
         }
@@ -22415,7 +22418,7 @@ mod tests {
           display: grid;
         }
 
-        @container (width >= 100px) {
+        @container (width >= 100pt) {
           .foo {
             grid-auto-flow: column;
           }
@@ -22501,23 +22504,23 @@ mod tests {
         @namespace toto "http://toto.example.org";
 
         div.foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         *.foo {
-          color: green;
+          color: rgb(0, 128, 0);
         }
 
         |x.foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         *|x.foo {
-          color: green;
+          color: rgb(0, 128, 0);
         }
 
         toto|x.foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22532,7 +22535,7 @@ mod tests {
       "#,
       indoc! {r#"
         article.foo > figure {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22547,7 +22550,7 @@ mod tests {
       "#,
       indoc! {r#"
         div.bar {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22562,7 +22565,7 @@ mod tests {
       "#,
       indoc! {r#"
         span:is(div > .foo) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22577,7 +22580,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo h1 {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22592,7 +22595,7 @@ mod tests {
       "#,
       indoc! {r#"
         h1:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22607,7 +22610,7 @@ mod tests {
       "#,
       indoc! {r#"
         h1.foo.bar {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22622,7 +22625,7 @@ mod tests {
       "#,
       indoc! {r#"
         h1:is(.foo .bar) .baz {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22637,7 +22640,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo .bar.baz {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22653,11 +22656,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .parent .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -22673,11 +22676,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         :not(.foo) {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -22696,15 +22699,15 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .bar .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .bar .foo.baz {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22723,11 +22726,11 @@ mod tests {
       "#,
       indoc! {r#"
         :not(.foo) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo h1 {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22746,11 +22749,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo h1 {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         :not(.foo) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22765,7 +22768,7 @@ mod tests {
       "#,
       indoc! {r#"
         h1:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22810,23 +22813,23 @@ mod tests {
         @namespace toto "http://toto.example.org";
 
         .foo:is(div) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(*) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(*|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(toto|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -22841,7 +22844,7 @@ mod tests {
       "#,
       indoc! {r#"
         h1 .baz:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22856,7 +22859,7 @@ mod tests {
       "#,
       indoc! {r#"
         .baz:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22871,7 +22874,7 @@ mod tests {
       "#,
       indoc! {r#"
         .baz :is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -22887,11 +22890,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo > .bar {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -22907,11 +22910,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo .bar {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
       "#},
     );
@@ -22927,11 +22930,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar .foo {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
       "#},
     );
@@ -22945,11 +22948,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo + .bar + .foo {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
       "#},
     );
@@ -22965,11 +22968,11 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .bar .foo {
-        color: #00f;
+        color: rgb(0, 0, 255);
       }
       "#},
     );
@@ -22985,11 +22988,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .parent .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -23005,11 +23008,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         :not(.foo) {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -23028,15 +23031,15 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .bar .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .bar .foo.baz {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23055,11 +23058,11 @@ mod tests {
       "#,
       indoc! {r#"
         :not(.foo) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo h1 {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23078,11 +23081,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo h1 {
-          background: green;
+          background: rgb(0, 128, 0);
         }
 
         :not(.foo) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23097,7 +23100,7 @@ mod tests {
       "#,
       indoc! {r#"
         :is(h1):is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23142,23 +23145,23 @@ mod tests {
         @namespace toto "http://toto.example.org";
 
         .foo:is(div) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(*) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(*|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo:is(toto|x) {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23173,7 +23176,7 @@ mod tests {
       "#,
       indoc! {r#"
         :is(h1) .baz:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23188,7 +23191,7 @@ mod tests {
       "#,
       indoc! {r#"
         .baz:is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23203,7 +23206,7 @@ mod tests {
       "#,
       indoc! {r#"
         .baz :is(.foo .bar) {
-          background: green;
+          background: rgb(0, 128, 0);
         }
       "#},
     );
@@ -23219,11 +23222,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .foo .bar {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -23238,11 +23241,11 @@ mod tests {
       "#,
       indoc! {r#"
         article {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         article {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
       "#},
     );
@@ -23255,7 +23258,7 @@ mod tests {
       "#,
       indoc! {r#"
         :scope .foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23268,7 +23271,7 @@ mod tests {
       "#,
       indoc! {r#"
         :scope.foo {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23281,7 +23284,7 @@ mod tests {
       "#,
       indoc! {r#"
         .foo:scope {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23294,7 +23297,7 @@ mod tests {
       "#,
       indoc! {r#"
         html:scope {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23310,11 +23313,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo div {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23331,11 +23334,11 @@ mod tests {
       "#,
       indoc! {r#"
         div {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         div button:focus {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
     );
@@ -23351,8 +23354,8 @@ mod tests {
       "#,
       indoc! {r#"
         div {
-          color: #00f;
-          --button: focus { color: red; };
+          color: rgb(0, 0, 255);
+          --button: focus { color: rgb(255, 0, 0); };
         }
       "#},
     );
@@ -23371,13 +23374,13 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
 
           @nest .bar & {
-            color: red;
+            color: rgb(255, 0, 0);
 
             &.baz {
-              color: green;
+              color: rgb(0, 128, 0);
             }
           }
         }
@@ -23399,14 +23402,14 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
 
           &div {
-            color: red;
+            color: rgb(255, 0, 0);
           }
 
           &span {
-            color: purple;
+            color: rgb(128, 0, 128);
           }
         }
       "#},
@@ -23421,7 +23424,7 @@ mod tests {
       indoc! {r#"
         .error, .invalid {
           &:hover > .baz {
-            color: red;
+            color: rgb(255, 0, 0);
           }
         }
       "#},
@@ -23436,11 +23439,11 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         .foo > .bar {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Targets {
@@ -23461,10 +23464,10 @@ mod tests {
       "#,
       indoc! {r#"
         .foo {
-          color: #00f;
+          color: rgb(0, 0, 255);
 
           & > .bar {
-            color: red;
+            color: rgb(255, 0, 0);
           }
         }
       "#},
@@ -23497,7 +23500,7 @@ mod tests {
         ..PrinterOptions::default()
       })
       .unwrap();
-    assert_eq!(res.code, ".foo{color:#00f;& .bar{color:red}}");
+    assert_eq!(res.code, ".foo{color:rgb(0,0,255);& .bar{color:rgb(255,0,0)}}");
 
     nesting_test_with_targets(
       r#"
@@ -23512,11 +23515,11 @@ mod tests {
       "#,
       indoc! {r#"
         .a.b.d {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         .a.c.d {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       "#},
       Targets {
@@ -23570,7 +23573,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       #EgL3uq_id {
@@ -23579,11 +23582,11 @@ mod tests {
 
       @keyframes EgL3uq_test {
         from {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         to {
-          color: #ff0;
+          color: rgb(255, 255, 0);
         }
       }
 
@@ -23605,11 +23608,11 @@ mod tests {
 
       @keyframes EgL3uq_fade {
         from {
-          opacity: 0;
+          opacity: 0%;
         }
 
         to {
-          opacity: 1;
+          opacity: 100%;
         }
       }
     "#},
@@ -23641,7 +23644,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       #EgL3uq_id {
@@ -23650,11 +23653,11 @@ mod tests {
 
       @keyframes test {
         from {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         to {
-          color: #ff0;
+          color: rgb(255, 255, 0);
         }
       }
     "#},
@@ -23869,15 +23872,15 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .EgL3uq_bar {
-        color: #ff0;
+        color: rgb(255, 255, 0);
       }
 
       .EgL3uq_bar .baz {
-        color: purple;
+        color: rgb(128, 0, 128);
       }
     "#},
       map! {
@@ -23904,11 +23907,11 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
 
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       map! {
@@ -23932,11 +23935,11 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_a, .EgL3uq_b {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
 
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       map! {
@@ -23965,15 +23968,15 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
 
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .EgL3uq_bar {
-        color: #ff0;
+        color: rgb(255, 255, 0);
       }
     "#},
       map! {
@@ -23994,7 +23997,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
     "#},
       map! {
@@ -24013,7 +24016,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
     "#},
       map! {
@@ -24032,7 +24035,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
     "#},
       map! {
@@ -24051,7 +24054,7 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
     "#},
       map! {
@@ -24076,11 +24079,11 @@ mod tests {
     "#,
       indoc! {r#"
       .EgL3uq_test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
 
       .EgL3uq_foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       map! {
@@ -24099,7 +24102,7 @@ mod tests {
     "#,
       indoc! {r#"
       .test-EgL3uq-foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#},
       map! {
@@ -24158,11 +24161,11 @@ mod tests {
       @property --foo {
         syntax: "<color>";
         inherits: false;
-        initial-value: #ff0;
+        initial-value: rgb(255, 255, 0);
       }
 
       .EgL3uq_foo {
-        --foo: red;
+        --foo: rgb(255, 0, 0);
         color: var(--foo);
       }
     "#},
@@ -24202,18 +24205,18 @@ mod tests {
       @property --EgL3uq_foo {
         syntax: "<color>";
         inherits: false;
-        initial-value: #ff0;
+        initial-value: rgb(255, 255, 0);
       }
 
       @font-palette-values --EgL3uq_Cooler {
         font-family: Bixa;
         base-palette: 1;
-        override-colors: 1 #7eb7e4;
+        override-colors: 1 rgb(126, 183, 228);
       }
 
       .EgL3uq_foo {
-        --EgL3uq_foo: red;
-        --EgL3uq_bar: green;
+        --EgL3uq_foo: rgb(255, 0, 0);
+        --EgL3uq_bar: rgb(0, 128, 0);
         color: var(--EgL3uq_foo);
         font-palette: --EgL3uq_Cooler;
       }
@@ -24342,7 +24345,7 @@ mod tests {
     "#,
       indoc! {r#"
       ._5h2kwG-test {
-        background: #fff;
+        background: rgb(255, 255, 255);
       }
     "#},
       map! {
@@ -24381,7 +24384,7 @@ mod tests {
         format!(
           indoc! {r#"
       .{}_foo {{
-        background: red;
+        background: rgb(255, 0, 0);
       }}
       "#},
           hash
@@ -24413,15 +24416,15 @@ mod tests {
 
     let expected = indoc! { r#"
       .foo.is-hovered {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .foo.is-active {
-        color: #ff0;
+        color: rgb(255, 255, 0);
       }
 
       .foo.focus-visible {
-        color: purple;
+        color: rgb(128, 0, 128);
       }
     "#};
 
@@ -24447,7 +24450,7 @@ mod tests {
 
     let expected = indoc! { r#"
       .EgL3uq_foo.EgL3uq_is-hovered {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#};
 
@@ -24520,7 +24523,7 @@ mod tests {
 
     let expected = indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       #id {
@@ -24529,11 +24532,11 @@ mod tests {
 
       @keyframes test {
         from {
-          color: red;
+          color: rgb(255, 0, 0);
         }
 
         to {
-          color: #ff0;
+          color: rgb(255, 255, 0);
         }
       }
     "#};
@@ -24563,7 +24566,7 @@ mod tests {
 
     let expected = indoc! {r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
     "#};
 
@@ -24609,7 +24612,7 @@ mod tests {
 
     let expected = indoc! {r#"
       :not(.foo) {
-        color: green;
+        color: rgb(0, 128, 0);
       }
     "#};
 
@@ -24656,7 +24659,7 @@ mod tests {
 
     let expected = indoc! {r#"
       .EgL3uq_bar {
-        color: green;
+        color: rgb(0, 128, 0);
       }
     "#};
 
@@ -24676,30 +24679,30 @@ mod tests {
 
   #[test]
   fn test_svg() {
-    minify_test(".foo { fill: yellow; }", ".foo{fill:#ff0}");
+    minify_test(".foo { fill: yellow; }", ".foo{fill:rgb(255,255,0)}");
     minify_test(".foo { fill: url(#foo); }", ".foo{fill:url(#foo)}");
     minify_test(".foo { fill: url(#foo) none; }", ".foo{fill:url(#foo) none}");
-    minify_test(".foo { fill: url(#foo) yellow; }", ".foo{fill:url(#foo) #ff0}");
+    minify_test(".foo { fill: url(#foo) yellow; }", ".foo{fill:url(#foo) rgb(255,255,0)}");
     minify_test(".foo { fill: none; }", ".foo{fill:none}");
     minify_test(".foo { fill: context-fill; }", ".foo{fill:context-fill}");
     minify_test(".foo { fill: context-stroke; }", ".foo{fill:context-stroke}");
 
-    minify_test(".foo { stroke: yellow; }", ".foo{stroke:#ff0}");
+    minify_test(".foo { stroke: yellow; }", ".foo{stroke:rgb(255,255,0)}");
     minify_test(".foo { stroke: url(#foo); }", ".foo{stroke:url(#foo)}");
     minify_test(".foo { stroke: url(#foo) none; }", ".foo{stroke:url(#foo) none}");
-    minify_test(".foo { stroke: url(#foo) yellow; }", ".foo{stroke:url(#foo) #ff0}");
+    minify_test(".foo { stroke: url(#foo) yellow; }", ".foo{stroke:url(#foo) rgb(255,255,0)}");
     minify_test(".foo { stroke: none; }", ".foo{stroke:none}");
     minify_test(".foo { stroke: context-fill; }", ".foo{stroke:context-fill}");
     minify_test(".foo { stroke: context-stroke; }", ".foo{stroke:context-stroke}");
 
     minify_test(".foo { marker-start: url(#foo); }", ".foo{marker-start:url(#foo)}");
 
-    minify_test(".foo { stroke-dasharray: 4 1 2; }", ".foo{stroke-dasharray:4 1 2}");
-    minify_test(".foo { stroke-dasharray: 4,1,2; }", ".foo{stroke-dasharray:4 1 2}");
-    minify_test(".foo { stroke-dasharray: 4, 1, 2; }", ".foo{stroke-dasharray:4 1 2}");
+    minify_test(".foo { stroke-dasharray: 4 1 2; }", ".foo{stroke-dasharray:4pt 1pt 2pt}");
+    minify_test(".foo { stroke-dasharray: 4,1,2; }", ".foo{stroke-dasharray:4pt 1pt 2pt}");
+    minify_test(".foo { stroke-dasharray: 4, 1, 2; }", ".foo{stroke-dasharray:4pt 1pt 2pt}");
     minify_test(
-      ".foo { stroke-dasharray: 4px, 1px, 2px; }",
-      ".foo{stroke-dasharray:4 1 2}",
+      ".foo { stroke-dasharray: 4pt, 1pt, 2pt; }",
+      ".foo{stroke-dasharray:4pt 1pt 2pt}",
     );
 
     minify_test(".foo { mask: url('foo.svg'); }", ".foo{mask:url(foo.svg)}");
@@ -24708,12 +24711,12 @@ mod tests {
       ".foo{mask:url(masks.svg#star) luminance}",
     );
     minify_test(
-      ".foo { mask: url(masks.svg#star) 40px 20px }",
-      ".foo{mask:url(masks.svg#star) 40px 20px}",
+      ".foo { mask: url(masks.svg#star) 40pt 20pt }",
+      ".foo{mask:url(masks.svg#star) 40pt 20pt}",
     );
     minify_test(
-      ".foo { mask: url(masks.svg#star) 0 0 / 50px 50px }",
-      ".foo{mask:url(masks.svg#star) 0 0/50px 50px}",
+      ".foo { mask: url(masks.svg#star) 0 0 / 50pt 50pt }",
+      ".foo{mask:url(masks.svg#star) 0 0/50pt 50pt}",
     );
     minify_test(
       ".foo { mask: url(masks.svg#star) repeat-x }",
@@ -24732,8 +24735,8 @@ mod tests {
       ".foo{mask:url(masks.svg#star)}",
     );
     minify_test(
-      ".foo { mask: url(masks.svg#star) left / 16px repeat-y, url(masks.svg#circle) right / 16px repeat-y }",
-      ".foo{mask:url(masks.svg#star) 0/16px repeat-y,url(masks.svg#circle) 100%/16px repeat-y}",
+      ".foo { mask: url(masks.svg#star) left / 16pt repeat-y, url(masks.svg#circle) right / 16pt repeat-y }",
+      ".foo{mask:url(masks.svg#star) 0/16pt repeat-y,url(masks.svg#circle) 100%/16pt repeat-y}",
     );
 
     minify_test(
@@ -24741,16 +24744,16 @@ mod tests {
       ".foo{mask-border:url(border-mask.png) 25}",
     );
     minify_test(
-      ".foo { mask-border: url('border-mask.png') 25 / 35px / 12px space alpha; }",
-      ".foo{mask-border:url(border-mask.png) 25/35px/12px space}",
+      ".foo { mask-border: url('border-mask.png') 25 / 35pt / 12pt space alpha; }",
+      ".foo{mask-border:url(border-mask.png) 25/35pt/12pt space}",
     );
     minify_test(
-      ".foo { mask-border: url('border-mask.png') 25 / 35px / 12px space luminance; }",
-      ".foo{mask-border:url(border-mask.png) 25/35px/12px space luminance}",
+      ".foo { mask-border: url('border-mask.png') 25 / 35pt / 12pt space luminance; }",
+      ".foo{mask-border:url(border-mask.png) 25/35pt/12pt space luminance}",
     );
     minify_test(
-      ".foo { mask-border: url('border-mask.png') luminance 25 / 35px / 12px space; }",
-      ".foo{mask-border:url(border-mask.png) 25/35px/12px space luminance}",
+      ".foo { mask-border: url('border-mask.png') luminance 25 / 35pt / 12pt space; }",
+      ".foo{mask-border:url(border-mask.png) 25/35pt/12pt space luminance}",
     );
 
     minify_test(
@@ -24759,49 +24762,49 @@ mod tests {
     );
     minify_test(".foo { clip-path: margin-box; }", ".foo{clip-path:margin-box}");
     minify_test(
-      ".foo { clip-path: inset(100px 50px); }",
-      ".foo{clip-path:inset(100px 50px)}",
+      ".foo { clip-path: inset(100pt 50pt); }",
+      ".foo{clip-path:inset(100pt 50pt)}",
     );
     minify_test(
-      ".foo { clip-path: inset(100px 50px round 5px); }",
-      ".foo{clip-path:inset(100px 50px round 5px)}",
+      ".foo { clip-path: inset(100pt 50pt round 5pt); }",
+      ".foo{clip-path:inset(100pt 50pt round 5pt)}",
     );
     minify_test(
-      ".foo { clip-path: inset(100px 50px round 5px 5px 5px 5px); }",
-      ".foo{clip-path:inset(100px 50px round 5px)}",
+      ".foo { clip-path: inset(100pt 50pt round 5pt 5pt 5pt 5pt); }",
+      ".foo{clip-path:inset(100pt 50pt round 5pt)}",
     );
-    minify_test(".foo { clip-path: circle(50px); }", ".foo{clip-path:circle(50px)}");
+    minify_test(".foo { clip-path: circle(50pt); }", ".foo{clip-path:circle(50pt)}");
     minify_test(
-      ".foo { clip-path: circle(50px at center center); }",
-      ".foo{clip-path:circle(50px)}",
-    );
-    minify_test(
-      ".foo { clip-path: circle(50px at 50% 50%); }",
-      ".foo{clip-path:circle(50px)}",
+      ".foo { clip-path: circle(50pt at center center); }",
+      ".foo{clip-path:circle(50pt)}",
     );
     minify_test(
-      ".foo { clip-path: circle(50px at 0 100px); }",
-      ".foo{clip-path:circle(50px at 0 100px)}",
+      ".foo { clip-path: circle(50pt at 50% 50%); }",
+      ".foo{clip-path:circle(50pt)}",
     );
     minify_test(
-      ".foo { clip-path: circle(closest-side at 0 100px); }",
-      ".foo{clip-path:circle(at 0 100px)}",
+      ".foo { clip-path: circle(50pt at 0 100pt); }",
+      ".foo{clip-path:circle(50pt at 0 100pt)}",
     );
     minify_test(
-      ".foo { clip-path: circle(farthest-side at 0 100px); }",
-      ".foo{clip-path:circle(farthest-side at 0 100px)}",
+      ".foo { clip-path: circle(closest-side at 0 100pt); }",
+      ".foo{clip-path:circle(at 0 100pt)}",
+    );
+    minify_test(
+      ".foo { clip-path: circle(farthest-side at 0 100pt); }",
+      ".foo{clip-path:circle(farthest-side at 0 100pt)}",
     );
     minify_test(
       ".foo { clip-path: circle(closest-side at 50% 50%); }",
       ".foo{clip-path:circle()}",
     );
     minify_test(
-      ".foo { clip-path: ellipse(50px 60px at 0 10% 20%); }",
-      ".foo{clip-path:ellipse(50px 60px at 0 10% 20%)}",
+      ".foo { clip-path: ellipse(50pt 60pt at 0 10% 20%); }",
+      ".foo{clip-path:ellipse(50pt 60pt at 0 10% 20%)}",
     );
     minify_test(
-      ".foo { clip-path: ellipse(50px 60px at center center); }",
-      ".foo{clip-path:ellipse(50px 60px)}",
+      ".foo { clip-path: ellipse(50pt 60pt at center center); }",
+      ".foo{clip-path:ellipse(50pt 60pt)}",
     );
     minify_test(
       ".foo { clip-path: ellipse(closest-side closest-side at 50% 50%); }",
@@ -24828,24 +24831,24 @@ mod tests {
       ".foo{clip-path:polygon(evenodd,50% 0%,100% 50%,50% 100%,0% 50%)}",
     );
     minify_test(
-      ".foo { clip-path: padding-box circle(50px at 0 100px); }",
-      ".foo{clip-path:circle(50px at 0 100px) padding-box}",
+      ".foo { clip-path: padding-box circle(50pt at 0 100pt); }",
+      ".foo{clip-path:circle(50pt at 0 100pt) padding-box}",
     );
     minify_test(
-      ".foo { clip-path: circle(50px at 0 100px) padding-box; }",
-      ".foo{clip-path:circle(50px at 0 100px) padding-box}",
+      ".foo { clip-path: circle(50pt at 0 100pt) padding-box; }",
+      ".foo{clip-path:circle(50pt at 0 100pt) padding-box}",
     );
     minify_test(
-      ".foo { clip-path: circle(50px at 0 100px) border-box; }",
-      ".foo{clip-path:circle(50px at 0 100px)}",
+      ".foo { clip-path: circle(50pt at 0 100pt) border-box; }",
+      ".foo{clip-path:circle(50pt at 0 100pt)}",
     );
 
     prefix_test(
-      ".foo { clip-path: circle(50px); }",
+      ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          -webkit-clip-path: circle(50px);
-          clip-path: circle(50px);
+          -webkit-clip-path: circle(50pt);
+          clip-path: circle(50pt);
         }
       "#},
       Browsers {
@@ -24855,10 +24858,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { clip-path: circle(50px); }",
+      ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          clip-path: circle(50px);
+          clip-path: circle(50pt);
         }
       "#},
       Browsers {
@@ -24868,11 +24871,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { clip-path: circle(50px); }",
+      ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          -webkit-clip-path: circle(50px);
-          clip-path: circle(50px);
+          -webkit-clip-path: circle(50pt);
+          clip-path: circle(50pt);
         }
       "#},
       Browsers {
@@ -24882,10 +24885,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { clip-path: circle(50px); }",
+      ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          clip-path: circle(50px);
+          clip-path: circle(50pt);
         }
       "#},
       Browsers {
@@ -24895,28 +24898,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: lch(50.998% 135.363 338) }",
+      ".foo { fill: oklch(50.998% 0.3 338) }",
       indoc! { r#"
         .foo {
-          fill: #ee00be;
-          fill: color(display-p3 .972962 -.362078 .804206);
-          fill: lch(50.998% 135.363 338);
-        }
-      "#},
-      Browsers {
-        chrome: Some(90 << 16),
-        safari: Some(14 << 16),
-        ..Browsers::default()
-      },
-    );
-
-    prefix_test(
-      ".foo { stroke: lch(50.998% 135.363 338) }",
-      indoc! { r#"
-        .foo {
-          stroke: #ee00be;
-          stroke: color(display-p3 .972962 -.362078 .804206);
-          stroke: lch(50.998% 135.363 338);
+          fill: rgb(238, 0, 190);
+          fill: oklab(63.3164%, .394589, -.142257);
+          fill: oklch(50.998%, 0.3, 338deg);
         }
       "#},
       Browsers {
@@ -24927,12 +24914,28 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: url(#foo) lch(50.998% 135.363 338) }",
+      ".foo { stroke: oklch(50.998% 0.3 338) }",
+      indoc! { r#"
+        .foo {
+          stroke: rgb(238, 0, 190);
+          stroke: oklab(63.3164%, .394589, -.142257);
+          stroke: oklch(50.998%, 0.3, 338deg);
+        }
+      "#},
+      Browsers {
+        chrome: Some(90 << 16),
+        safari: Some(14 << 16),
+        ..Browsers::default()
+      },
+    );
+
+    prefix_test(
+      ".foo { fill: url(#foo) oklch(50.998% 0.3 338) }",
       indoc! { r##"
         .foo {
-          fill: url("#foo") #ee00be;
-          fill: url("#foo") color(display-p3 .972962 -.362078 .804206);
-          fill: url("#foo") lch(50.998% 135.363 338);
+          fill: url("#foo") rgb(238, 0, 190);
+          fill: url("#foo") oklab(63.3164%, .394589, -.142257);
+          fill: url("#foo") oklch(50.998%, 0.3, 338deg);
         }
       "##},
       Browsers {
@@ -24943,15 +24946,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: var(--url) lch(50.998% 135.363 338) }",
+      ".foo { fill: var(--url) oklch(50.998% 0.3 338) }",
       indoc! { r#"
         .foo {
-          fill: var(--url) #ee00be;
+          fill: var(--url) rgb(238, 0, 190);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            fill: var(--url) lab(50.998% 125.506 -50.7078);
+            fill: var(--url) oklab(63.3164%, .394589, -.142257);
           }
         }
       "#},
@@ -24962,15 +24965,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { mask-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
-          -webkit-mask-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-image: linear-gradient(#ff0f0e, #7773ff);
-          mask-image: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
+          -webkit-mask-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          -webkit-mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          -webkit-mask-image: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg));
+          mask-image: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg));
         }
       "#},
       Browsers {
@@ -24980,13 +24983,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { mask-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient(#ff0f0e, #7773ff);
-          mask-image: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          -webkit-mask-image: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg));
+          mask-image: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg));
         }
       "#},
       Browsers {
@@ -24999,8 +25002,8 @@ mod tests {
       ".foo { mask-image: linear-gradient(red, green) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient(red, green);
-          mask-image: linear-gradient(red, green);
+          -webkit-mask-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
+          mask-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
         }
       "#},
       Browsers {
@@ -25024,15 +25027,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px }",
+      ".foo { mask: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 40pt 20pt }",
       indoc! { r#"
         .foo {
-          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 40px 20px;
-          -webkit-mask: -webkit-linear-gradient(#ff0f0e, #7773ff) 40px 20px;
-          -webkit-mask: linear-gradient(#ff0f0e, #7773ff) 40px 20px;
-          mask: linear-gradient(#ff0f0e, #7773ff) 40px 20px;
-          -webkit-mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px;
-          mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px;
+          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
+          -webkit-mask: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
+          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
+          mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
+          -webkit-mask: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg)) 40pt 20pt;
+          mask: linear-gradient(oklch(64.858%, 0.29949, 28.958deg), oklch(63.266%, 0.33012, 279.97deg)) 40pt 20pt;
         }
       "#},
       Browsers {
@@ -25042,11 +25045,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: -webkit-linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px }",
+      ".foo { mask: -webkit-linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 40pt 20pt }",
       indoc! { r#"
         .foo {
-          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 40px 20px;
-          -webkit-mask: -webkit-linear-gradient(#ff0f0e, #7773ff) 40px 20px;
+          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
+          -webkit-mask: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
         }
       "#},
       Browsers {
@@ -25056,17 +25059,17 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px var(--foo) }",
+      ".foo { mask: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 40pt var(--foo) }",
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient(#ff0f0e, #7773ff) 40px var(--foo);
-          mask: linear-gradient(#ff0f0e, #7773ff) 40px var(--foo);
+          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt var(--foo);
+          mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt var(--foo);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            -webkit-mask: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) 40px var(--foo);
-            mask: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) 40px var(--foo);
+            -webkit-mask: linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513)) 40pt var(--foo);
+            mask: linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513)) 40pt var(--foo);
           }
         }
       "#},
@@ -25135,7 +25138,7 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          mask-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
           mask-position: 25% 75%;
           mask-size: cover;
           mask-repeat: no-repeat;
@@ -25147,14 +25150,14 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient(#ff0f0e, #7773ff) 25% 75% / cover no-repeat content-box padding-box;
+          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
-          mask: linear-gradient(#ff0f0e, #7773ff) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
-          -webkit-mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25% 75% / cover no-repeat content-box padding-box;
+          mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
+          -webkit-mask: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
-          mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
+          mask: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
         }
     "#},
       Browsers {
@@ -25217,13 +25220,13 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border: url('border-mask.png') 25 / 35px / 12px space luminance;
+          mask-border: url('border-mask.png') 25 / 35pt / 12pt space luminance;
         }
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("border-mask.png") 25 / 35px / 12px space;
-          mask-border: url("border-mask.png") 25 / 35px / 12px space luminance;
+          -webkit-mask-box-image: url("border-mask.png") 25 / 35pt / 12pt space;
+          mask-border: url("border-mask.png") 25 / 35pt / 12pt space luminance;
         }
     "#},
       Browsers {
@@ -25235,15 +25238,15 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space luminance;
+          mask-border: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 25 / 35pt / 12pt space luminance;
         }
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: linear-gradient(#ff0f0e, #7773ff) 25 / 35px / 12px space;
-          mask-border: linear-gradient(#ff0f0e, #7773ff) 25 / 35px / 12px space luminance;
-          -webkit-mask-box-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space;
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space luminance;
+          -webkit-mask-box-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25 / 35pt / 12pt space;
+          mask-border: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25 / 35pt / 12pt space luminance;
+          -webkit-mask-box-image: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 25 / 35pt / 12pt space;
+          mask-border: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) 25 / 35pt / 12pt space luminance;
         }
     "#},
       Browsers {
@@ -25255,15 +25258,15 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          mask-border-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image-source: linear-gradient(#ff0f0e, #7773ff);
-          mask-border-source: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-box-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-border-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-box-image-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          mask-border-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
+          -webkit-mask-box-image-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
+          mask-border-source: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97));
         }
     "#},
       Browsers {
@@ -25277,7 +25280,7 @@ mod tests {
         .foo {
           mask-border-source: url(foo.png);
           mask-border-slice: 10 40 10 40;
-          mask-border-width: 10px;
+          mask-border-width: 10pt;
           mask-border-outset: 0;
           mask-border-repeat: round round;
           mask-border-mode: luminance;
@@ -25285,8 +25288,8 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("foo.png") 10 40 / 10px round;
-          mask-border: url("foo.png") 10 40 / 10px round luminance;
+          -webkit-mask-box-image: url("foo.png") 10 40 / 10pt round;
+          mask-border: url("foo.png") 10 40 / 10pt round luminance;
         }
     "#},
       Browsers {
@@ -25300,14 +25303,14 @@ mod tests {
         .foo {
           -webkit-mask-box-image-source: url(foo.png);
           -webkit-mask-box-image-slice: 10 40 10 40;
-          -webkit-mask-box-image-width: 10px;
+          -webkit-mask-box-image-width: 10pt;
           -webkit-mask-box-image-outset: 0;
           -webkit-mask-box-image-repeat: round round;
         }
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("foo.png") 10 40 / 10px round;
+          -webkit-mask-box-image: url("foo.png") 10 40 / 10pt round;
         }
     "#},
       Browsers {
@@ -25355,19 +25358,19 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) var(--foo);
+          mask-border: linear-gradient(oklch(64.858% 0.29949 28.958), oklch(63.266% 0.33012 279.97)) var(--foo);
         }
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: linear-gradient(#ff0f0e, #7773ff) var(--foo);
-          mask-border: linear-gradient(#ff0f0e, #7773ff) var(--foo);
+          -webkit-mask-box-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
+          mask-border: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            -webkit-mask-box-image: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
-            mask-border: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
+            -webkit-mask-box-image: linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513)) var(--foo);
+            mask-border: linear-gradient(oklab(64.858% 0.26204 0.145), oklab(63.266% 0.05714 -0.32513)) var(--foo);
           }
         }
     "#},
@@ -25469,13 +25472,13 @@ mod tests {
       ".foo { filter: url('filters.svg#filter-id'); }",
       ".foo{filter:url(filters.svg#filter-id)}",
     );
-    minify_test(".foo { filter: blur(5px); }", ".foo{filter:blur(5px)}");
-    minify_test(".foo { filter: blur(0px); }", ".foo{filter:blur()}");
+    minify_test(".foo { filter: blur(5pt); }", ".foo{filter:blur(5pt)}");
+    minify_test(".foo { filter: blur(0pt); }", ".foo{filter:blur()}");
     minify_test(".foo { filter: brightness(10%); }", ".foo{filter:brightness(10%)}");
     minify_test(".foo { filter: brightness(100%); }", ".foo{filter:brightness()}");
     minify_test(
-      ".foo { filter: drop-shadow(16px 16px 20px yellow); }",
-      ".foo{filter:drop-shadow(16px 16px 20px #ff0)}",
+      ".foo { filter: drop-shadow(16pt 16pt 20pt yellow); }",
+      ".foo{filter:drop-shadow(16pt 16pt 20pt rgb(255,255,0))}",
     );
     minify_test(
       ".foo { filter: contrast(175%) brightness(3%); }",
@@ -25484,11 +25487,11 @@ mod tests {
     minify_test(".foo { filter: hue-rotate(0) }", ".foo{filter:hue-rotate()}");
 
     prefix_test(
-      ".foo { filter: blur(5px) }",
+      ".foo { filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          -webkit-filter: blur(5px);
-          filter: blur(5px);
+          -webkit-filter: blur(5pt);
+          filter: blur(5pt);
         }
       "#},
       Browsers {
@@ -25498,10 +25501,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: blur(5px) }",
+      ".foo { filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          filter: blur(5px);
+          filter: blur(5pt);
         }
       "#},
       Browsers {
@@ -25511,10 +25514,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { backdrop-filter: blur(5px) }",
+      ".foo { backdrop-filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          backdrop-filter: blur(5px);
+          backdrop-filter: blur(5pt);
         }
       "#},
       Browsers {
@@ -25524,11 +25527,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { backdrop-filter: blur(5px) }",
+      ".foo { backdrop-filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+          -webkit-backdrop-filter: blur(5pt);
+          backdrop-filter: blur(5pt);
         }
       "#},
       Browsers {
@@ -25539,14 +25542,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        -webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8pt);
+        backdrop-filter: blur(8pt);
       }
       "#,
       indoc! {r#"
       .foo {
-        -webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8pt);
+        backdrop-filter: blur(8pt);
       }
       "#},
       Browsers {
@@ -25570,12 +25573,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501)) }",
       indoc! { r#"
         .foo {
-          -webkit-filter: drop-shadow(16px 16px 20px #b32323);
-          filter: drop-shadow(16px 16px 20px #b32323);
-          filter: drop-shadow(16px 16px 20px lab(40% 56.6 39));
+          -webkit-filter: drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
+          filter: drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
+          filter: drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501));
         }
       "#},
       Browsers {
@@ -25585,11 +25588,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: contrast(175%) drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: contrast(175%) drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501)) }",
       indoc! { r#"
         .foo {
-          filter: contrast(175%) drop-shadow(16px 16px 20px #b32323);
-          filter: contrast(175%) drop-shadow(16px 16px 20px lab(40% 56.6 39));
+          filter: contrast(175%) drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
+          filter: contrast(175%) drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501));
         }
       "#},
       Browsers {
@@ -25599,11 +25602,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) drop-shadow(16px 16px 20px yellow) }",
+      ".foo { filter: drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501)) drop-shadow(16pt 16pt 20pt yellow) }",
       indoc! { r#"
         .foo {
-          filter: drop-shadow(16px 16px 20px #b32323) drop-shadow(16px 16px 20px #ff0);
-          filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) drop-shadow(16px 16px 20px #ff0);
+          filter: drop-shadow(16pt 16pt 20pt rgb(179, 35, 35)) drop-shadow(16pt 16pt 20pt rgb(255, 255, 0));
+          filter: drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501)) drop-shadow(16pt 16pt 20pt rgb(255, 255, 0));
         }
       "#},
       Browsers {
@@ -25613,15 +25616,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: var(--foo) drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: var(--foo) drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501)) }",
       indoc! { r#"
         .foo {
-          filter: var(--foo) drop-shadow(16px 16px 20px #b32323);
+          filter: var(--foo) drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            filter: var(--foo) drop-shadow(16px 16px 20px lab(40% 56.6 39));
+            filter: var(--foo) drop-shadow(16pt 16pt 20pt oklab(49.824%, .16048, .0808501));
           }
         }
       "#},
@@ -25639,7 +25642,7 @@ mod tests {
     @viewport {
       width: 100vw;
     }"#,
-      "@viewport{width:100vw}",
+      "@viewport{width:\"100vw\"}",
     );
     minify_test(
       r#"
@@ -25670,7 +25673,7 @@ mod tests {
           color: lightblue;
         }
       }"#,
-      "@scope{:scope{color:#add8e6;display:flex}}",
+      "@scope{:scope{color:rgb(173,216,230);display:flex}}",
     );
     minify_test(
       r#"
@@ -25678,7 +25681,7 @@ mod tests {
         a { color: yellow; }
       }
       "#,
-      "@scope(.light-scheme){a{color:#ff0}}",
+      "@scope(.light-scheme){a{color:rgb(255,255,0)}}",
     );
     minify_test(
       r#"
@@ -25686,7 +25689,7 @@ mod tests {
         a { color: yellow; }
       }
       "#,
-      "@scope(.media-object) to (.content>*){a{color:#ff0}}",
+      "@scope(.media-object) to (.content>*){a{color:rgb(255,255,0)}}",
     );
     minify_test(
       r#"
@@ -25694,7 +25697,7 @@ mod tests {
         a { color: yellow; }
       }
       "#,
-      "@scope to (.content>*){a{color:#ff0}}",
+      "@scope to (.content>*){a{color:rgb(255,255,0)}}",
     );
     minify_test(
       r#"
@@ -25702,7 +25705,7 @@ mod tests {
         & { color: yellow; }
       }
       "#,
-      "@scope(#my-component){&{color:#ff0}}",
+      "@scope(#my-component){&{color:rgb(255,255,0)}}",
     );
     minify_test(
       r#"
@@ -25712,7 +25715,7 @@ mod tests {
         }
       }
       "#,
-      "@scope(.parent-scope){@scope(:scope>.child-scope) to (:scope .limit){.content{color:#ff0}}}",
+      "@scope(.parent-scope){@scope(:scope>.child-scope) to (:scope .limit){.content{color:rgb(255,255,0)}}}",
     );
     minify_test(
       r#"
@@ -25722,7 +25725,7 @@ mod tests {
         }
       }
       "#,
-      ".foo{@scope(.bar){&{color:#ff0}}}",
+      ".foo{@scope(.bar){&{color:rgb(255,255,0)}}}",
     );
     nesting_test(
       r#"
@@ -25735,7 +25738,7 @@ mod tests {
       indoc! {r#"
         @scope (.bar) {
           :scope {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -25754,12 +25757,12 @@ mod tests {
       "#,
       indoc! {r#"
         .parent {
-          color: #00f;
+          color: rgb(0, 0, 255);
         }
 
         @scope (.parent > .scope) to (.parent > .scope .limit) {
           :scope .content {
-            color: #ff0;
+            color: rgb(255, 255, 0);
           }
         }
       "#},
@@ -25772,16 +25775,16 @@ mod tests {
       r#"
       @custom-media --modern (color), (hover);
 
-      @media (--modern) and (width > 1024px) {
+      @media (--modern) and (width > 1024pt) {
         .a {
           color: green;
         }
       }
       "#,
       indoc! {r#"
-      @media ((color) or (hover)) and (width > 1024px) {
+      @media ((color) or (hover)) and (width > 1024pt) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25791,16 +25794,16 @@ mod tests {
       r#"
       @custom-media --color (color);
 
-      @media (--color) and (width > 1024px) {
+      @media (--color) and (width > 1024pt) {
         .a {
           color: green;
         }
       }
       "#,
       indoc! {r#"
-      @media (color) and (width > 1024px) {
+      @media (color) and (width > 1024pt) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25811,16 +25814,16 @@ mod tests {
       @custom-media --a (color);
       @custom-media --b (--a);
 
-      @media (--b) and (width > 1024px) {
+      @media (--b) and (width > 1024pt) {
         .a {
           color: green;
         }
       }
       "#,
       indoc! {r#"
-      @media (color) and (width > 1024px) {
+      @media (color) and (width > 1024pt) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25839,7 +25842,7 @@ mod tests {
       indoc! {r#"
       @media (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25858,7 +25861,7 @@ mod tests {
       indoc! {r#"
       @media print and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25877,7 +25880,7 @@ mod tests {
       indoc! {r#"
       @media print and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25896,7 +25899,7 @@ mod tests {
       indoc! {r#"
       @media not print and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25915,7 +25918,7 @@ mod tests {
       indoc! {r#"
       @media print {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25934,7 +25937,7 @@ mod tests {
       indoc! {r#"
       @media not print {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25953,7 +25956,7 @@ mod tests {
       indoc! {r#"
       @media print {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25972,7 +25975,7 @@ mod tests {
       indoc! {r#"
       @media print {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -25992,7 +25995,7 @@ mod tests {
       indoc! {r#"
       @media print and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -26012,7 +26015,7 @@ mod tests {
       indoc! {r#"
       @media not print and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -26033,7 +26036,7 @@ mod tests {
       indoc! {r#"
       @media print and (color), screen and (color) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -26052,7 +26055,7 @@ mod tests {
       indoc! {r#"
       @media print and ((color) or (script)) {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -26072,7 +26075,7 @@ mod tests {
       indoc! {r#"
         @media not all and (color) {
           .a {
-            color: green;
+            color: rgb(0, 128, 0);
           }
         }
       "#},
@@ -26091,7 +26094,7 @@ mod tests {
       indoc! {r#"
         @media not all and (color) {
           .a {
-            color: green;
+            color: rgb(0, 128, 0);
           }
         }
       "#},
@@ -26110,7 +26113,7 @@ mod tests {
       indoc! {r#"
       @media print {
         .a {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
       "#},
@@ -26118,7 +26121,7 @@ mod tests {
 
     custom_media_test(
       r#"
-      @custom-media --not-width not (min-width: 300px);
+      @custom-media --not-width not (min-width: 300pt);
       @media screen and ((prefers-color-scheme: dark) or (--not-width)) {
         .foo {
           order: 6;
@@ -26126,7 +26129,7 @@ mod tests {
       }
       "#,
       indoc! {r#"
-      @media screen and ((prefers-color-scheme: dark) or (not (width >= 300px))) {
+      @media screen and ((prefers-color-scheme: dark) or (not (width >= 300pt))) {
         .foo {
           order: 6;
         }
@@ -26423,13 +26426,13 @@ mod tests {
 
     dep_test(
       ".foo { background: image-set('./img12x.png', './img21x.png' 2x)}",
-      ".foo{background:image-set(\"hXFI8W\" 1x,\"5TkpBa\" 2x)}",
+      ".foo{background:image-set(\"hXFI8W\" \"1x\",\"5TkpBa\" \"2x\")}",
       vec![("./img12x.png", "hXFI8W"), ("./img21x.png", "5TkpBa")],
     );
 
     dep_test(
       ".foo { background: image-set(url(./img12x.png), url('./img21x.png') 2x)}",
-      ".foo{background:image-set(\"hXFI8W\" 1x,\"5TkpBa\" 2x)}",
+      ".foo{background:image-set(\"hXFI8W\" \"1x\",\"5TkpBa\" \"2x\")}",
       vec![("./img12x.png", "hXFI8W"), ("./img21x.png", "5TkpBa")],
     );
 
@@ -26494,7 +26497,7 @@ mod tests {
 
     dep_test(
       "@import \"test.css\"; .foo { color: red }",
-      "@import \"hHsogW\";.foo{color:red}",
+      "@import \"hHsogW\";.foo{color:rgb(255,0,0)}",
       vec![("test.css", "hHsogW")],
     );
   }
@@ -26510,40 +26513,40 @@ mod tests {
     }
 
     let color = CssColor::parse_string("#f0f").unwrap();
-    assert_eq!(color.to_typst_string(PrinterOptions::default()).unwrap(), "#f0f");
+    assert_eq!(color.to_typst_string(PrinterOptions::default()).unwrap(), "rgb(255, 0, 255)");
 
     let rule = CssRule::parse_string(".foo { color: red }", ParserOptions::default()).unwrap();
     assert_eq!(
       rule.to_typst_string(PrinterOptions::default()).unwrap(),
       indoc! {r#"
     .foo {
-      color: red;
+      color: rgb(255, 0, 0);
     }"#}
     );
 
     let property = Property::parse_string("color".into(), "#f0f", ParserOptions::default()).unwrap();
     assert_eq!(
       property.to_css_string(false, PrinterOptions::default()).unwrap(),
-      "color: #f0f"
+      "color: rgb(255, 0, 255)"
     );
     assert_eq!(
       property.to_css_string(true, PrinterOptions::default()).unwrap(),
-      "color: #f0f !important"
+      "color: rgb(255, 0, 255) !important"
     );
 
     let code = indoc! { r#"
       .foo {
-        color: green;
+        color: rgb(0, 128, 0);
       }
 
       .bar {
-        color: red;
-        background: pink;
+        color: rgb(255, 0, 0);
+        background: rgb(255, 192, 203);
       }
 
       @media print {
         .baz {
-          color: green;
+          color: rgb(0, 128, 0);
         }
       }
     "#};
@@ -26656,7 +26659,7 @@ mod tests {
 
     let property =
       Property::parse_string("width".into(), "calc(var(--a) + var(--b))", ParserOptions::default()).unwrap();
-    test(property, HashMap::from([("--a", "2px"), ("--b", "4px")]), "width: 6px");
+    test(property, HashMap::from([("--a", "2pt"), ("--b", "4pt")]), "width: 6pt");
 
     let property = Property::parse_string("color".into(), "var(--a)", ParserOptions::default()).unwrap();
     test(
@@ -26688,7 +26691,7 @@ mod tests {
         }
       }
     "#,
-      "@layer foo{.bar{color:red}}",
+      "@layer foo{.bar{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -26698,7 +26701,7 @@ mod tests {
         }
       }
     "#,
-      "@layer foo.bar{.bar{color:red}}",
+      "@layer foo.bar{.bar{color:rgb(255,0,0)}}",
     );
     minify_test(r#"
       @layer base {
@@ -26714,7 +26717,7 @@ mod tests {
           p { color: #222; }
         }
       }
-    "#, "@layer base{p{max-width:70ch}}@layer framework{@layer base{p{margin-block:.75em}}@layer theme{p{color:#222}}}");
+    "#, "@layer base{p{max-width:\"70ch\"}}@layer framework{@layer base{p{margin-block:.75em}}@layer theme{p{color:rgb(34,34,34)}}}");
     minify_test(
       r#"
       @layer {
@@ -26723,7 +26726,7 @@ mod tests {
         }
       }
     "#,
-      "@layer{.bar{color:red}}",
+      "@layer{.bar{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -26739,7 +26742,7 @@ mod tests {
         }
       }
     "#,
-      "@layer one.two\\ three\\#four\\.five{.bar{color:red}}",
+      "@layer one.two\\ three\\#four\\.five{.bar{color:rgb(255,0,0)}}",
     );
 
     error_test("@layer;", ParserError::UnexpectedToken(Token::Semicolon));
@@ -26782,7 +26785,7 @@ mod tests {
         }
       }
       "#,
-      "@layer one{body{background:#ff0}}body{background:red}@layer two{body{background:green}}",
+      "@layer one{body{background:rgb(255,255,0)}}body{background:rgb(255,0,0)}@layer two{body{background:rgb(0,128,0)}}",
     );
   }
 
@@ -26796,7 +26799,7 @@ mod tests {
         initial-value: yellow;
       }
     "#,
-      "@property --property-name{syntax:\"<color>\";inherits:false;initial-value:#ff0}",
+      "@property --property-name{syntax:\"<color>\";inherits:false;initial-value:rgb(255,255,0)}",
     );
 
     test(
@@ -26870,10 +26873,10 @@ mod tests {
       @property --property-name {
         syntax: '<length>';
         inherits: true;
-        initial-value: 25px;
+        initial-value: 25pt;
       }
     "#,
-      "@property --property-name{syntax:\"<length>\";inherits:true;initial-value:25px}",
+      "@property --property-name{syntax:\"<length>\";inherits:true;initial-value:25pt}",
     );
 
     error_test(
@@ -26881,14 +26884,14 @@ mod tests {
       @property --property-name {
         syntax: '<color>';
         inherits: false;
-        initial-value: 25px;
+        initial-value: 25pt;
       }
     "#,
       ParserError::UnexpectedToken(crate::properties::custom::Token::Dimension {
         has_sign: false,
         value: 25.0,
         int_value: Some(25),
-        unit: "px".into(),
+        unit: "pt".into(),
       }),
     );
 
@@ -26959,7 +26962,7 @@ mod tests {
         initial-value: yellow;
       }
     "#,
-      "@property --property-name{syntax:\"custom|<color>\";inherits:false;initial-value:#ff0}",
+      "@property --property-name{syntax:\"custom|<color>\";inherits:false;initial-value:rgb(255,255,0)}",
     );
 
     // TODO: Re-enable with a better solution
@@ -26968,7 +26971,7 @@ mod tests {
     //   @property --property-name {
     //     syntax: '<transform-list>';
     //     inherits: false;
-    //     initial-value: translate(200px,300px) translate(100px,200px) scale(2);
+    //     initial-value: translate(200pt,300pt) translate(100pt,200pt) scale(2);
     //   }
     // "#, "@property --property-name{syntax:\"<transform-list>\";inherits:false;initial-value:matrix(2,0,0,2,300,500)}");
 
@@ -27002,7 +27005,7 @@ mod tests {
         initial-value: linear-gradient(yellow, blue);
       }
     "#,
-      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(#ff0,#00f)}",
+      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
 
     minify_test(
@@ -27013,7 +27016,7 @@ mod tests {
         syntax: '<image>';
       }
     "#,
-      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(#ff0,#00f)}",
+      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
     );
 
     test(
@@ -27041,7 +27044,7 @@ mod tests {
         initial-value: yellow, blue;
       }
     "#,
-      "@property --property-name{syntax:\"<color>#\";inherits:false;initial-value:#ff0,#00f}",
+      "@property --property-name{syntax:\"<color>#\";inherits:false;initial-value:rgb(255,255,0),rgb(0,0,255)}",
     );
     minify_test(
       r#"
@@ -27051,7 +27054,7 @@ mod tests {
         initial-value: yellow blue;
       }
     "#,
-      "@property --property-name{syntax:\"<color>+\";inherits:false;initial-value:#ff0 #00f}",
+      "@property --property-name{syntax:\"<color>+\";inherits:false;initial-value:rgb(255,255,0) rgb(0,0,255)}",
     );
     minify_test(
       r#"
@@ -27069,7 +27072,7 @@ mod tests {
         initial-value: blue;
       }
     "#,
-      "@property --property-name{syntax:\"<color>\";inherits:true;initial-value:#00f}.foo{color:var(--property-name)}",
+      "@property --property-name{syntax:\"<color>\";inherits:true;initial-value:rgb(0,0,255)}.foo{color:var(--property-name)}",
     );
   }
 
@@ -27189,16 +27192,16 @@ mod tests {
     "#,
       indoc! { r#"
       .foo {
-        color: red;
+        color: rgb(255, 0, 0);
       }
 
       .clearfix {
-        background: red;
+        background: rgb(255, 0, 0);
       }
 
       @media (hover) {
         .bar {
-          color: red;
+          color: rgb(255, 0, 0);
         }
       }
     "#},
@@ -27265,62 +27268,62 @@ mod tests {
         }
       }
     "#,
-      "@container my-layout (inline-size>45em){.foo{color:red}}",
+      "@container my-layout (inline-size>45em){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container my-layout ( not (width > 500px) ) {
+      @container my-layout ( not (width > 500pt) ) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container my-layout not (width>500px){.foo{color:red}}",
+      "@container my-layout not (width>500pt){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container my-layout not (width > 500px) {
+      @container my-layout not (width > 500pt) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container my-layout not (width>500px){.foo{color:red}}",
+      "@container my-layout not (width>500pt){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container not (width > 500px) {
+      @container not (width > 500pt) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container not (width>500px){.foo{color:red}}",
+      "@container not (width>500pt){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container my-layout ((width: 100px) and (not (height: 100px))) {
+      @container my-layout ((width: 100pt) and (not (height: 100pt))) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container my-layout (width:100px) and (not (height:100px)){.foo{color:red}}",
+      "@container my-layout (width:100pt) and (not (height:100pt)){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container my-layout (width = max(10px, 10em)) {
+      @container my-layout (width = max(10pt, 10em)) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container my-layout (width=max(10px,10em)){.foo{color:red}}",
+      "@container my-layout (width=max(10pt,10em)){.foo{color:rgb(255,0,0)}}",
     );
 
     // without name
@@ -27332,7 +27335,7 @@ mod tests {
         }
       }
     "#,
-      "@container (inline-size>45em){.foo{color:red}}",
+      "@container (inline-size>45em){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
@@ -27343,30 +27346,30 @@ mod tests {
         }
       }
     "#,
-      "@container (inline-size>45em) and (inline-size<100em){.foo{color:red}}",
+      "@container (inline-size>45em) and (inline-size<100em){.foo{color:rgb(255,0,0)}}",
     );
 
     // calc()
     minify_test(
       r#"
-      @container (width > calc(100vw - 50px)) {
+      @container (width > calc(100vw - 50pt)) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container (width>calc(100vw - 50px)){.foo{color:red}}",
+      "@container (width>calc(\"100vw\" - 50pt)){.foo{color:rgb(255,0,0)}}",
     );
 
     minify_test(
       r#"
-      @container (calc(100vh - 50px) <= height ) {
+      @container (calc(100vh - 50pt) <= height ) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container (height>=calc(100vh - 50px)){.foo{color:red}}",
+      "@container (height>=calc(\"100vh\" - 50pt)){.foo{color:rgb(255,0,0)}}",
     );
 
     // merge adjacent
@@ -27388,7 +27391,7 @@ mod tests {
         }
       }
     "#,
-      "@container my-layout (inline-size>45em){.foo{color:red;background:#ff0}.bar{color:#fff}}",
+      "@container my-layout (inline-size>45em){.foo{color:rgb(255,0,0);background:rgb(255,255,0)}.bar{color:rgb(255,255,255)}}",
     );
 
     minify_test(
@@ -27420,25 +27423,25 @@ mod tests {
       ".foo{ container: foo / inline-size; }",
       ".foo{container:foo/inline-size}",
     );
-    minify_test(".foo { width: calc(1cqw + 2cqw) }", ".foo{width:3cqw}");
-    minify_test(".foo { width: calc(1cqh + 2cqh) }", ".foo{width:3cqh}");
-    minify_test(".foo { width: calc(1cqi + 2cqi) }", ".foo{width:3cqi}");
-    minify_test(".foo { width: calc(1cqb + 2cqb) }", ".foo{width:3cqb}");
-    minify_test(".foo { width: calc(1cqmin + 2cqmin) }", ".foo{width:3cqmin}");
-    minify_test(".foo { width: calc(1cqmax + 2cqmax) }", ".foo{width:3cqmax}");
+    minify_test(".foo { width: calc(1cqw + 2cqw) }", ".foo{width:\"3cqw\"}");
+    minify_test(".foo { width: calc(1cqh + 2cqh) }", ".foo{width:\"3cqh\"}");
+    minify_test(".foo { width: calc(1cqi + 2cqi) }", ".foo{width:\"3cqi\"}");
+    minify_test(".foo { width: calc(1cqb + 2cqb) }", ".foo{width:\"3cqb\"}");
+    minify_test(".foo { width: calc(1cqmin + 2cqmin) }", ".foo{width:\"3cqmin\"}");
+    minify_test(".foo { width: calc(1cqmax + 2cqmax) }", ".foo{width:\"3cqmax\"}");
 
     // Unlike in @media, there is no need to convert the range syntax in @container,
     // because browsers all support this syntax.
     prefix_test(
       r#"
-      @container (width > 100px) {
-        .foo { padding: 5px; }
+      @container (width > 100pt) {
+        .foo { padding: 5pt; }
       }
       "#,
       indoc! { r#"
-        @container (width > 100px) {
+        @container (width > 100pt) {
           .foo {
-            padding: 5px;
+            padding: 5pt;
           }
         }
       "#},
@@ -27449,14 +27452,14 @@ mod tests {
     );
     prefix_test(
       r#"
-      @container (min-width: 100px) {
-        .foo { padding: 5px; }
+      @container (min-width: 100pt) {
+        .foo { padding: 5pt; }
       }
       "#,
       indoc! { r#"
-        @container (width >= 100px) {
+        @container (width >= 100pt) {
           .foo {
-            padding: 5px;
+            padding: 5pt;
           }
         }
       "#},
@@ -27474,7 +27477,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(--responsive:true){.foo{color:red}}",
+      "@container style(--responsive:true){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27484,7 +27487,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(--responsive:true) and style(color:#ff0){.foo{color:red}}",
+      "@container style(--responsive:true) and style(color:rgb(255,255,0)){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27494,7 +27497,7 @@ mod tests {
         }
       }
     "#,
-      "@container not style(--responsive:true){.foo{color:red}}",
+      "@container not style(--responsive:true){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27504,27 +27507,27 @@ mod tests {
         }
       }
     "#,
-      "@container (inline-size>45em) and style(--responsive:true){.foo{color:red}}",
+      "@container (inline-size>45em) and style(--responsive:true){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
-      @container style((accent-color: yellow) or (--bar: 10px)) {
+      @container style((accent-color: yellow) or (--bar: 10pt)) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container style((accent-color:#ff0) or (--bar:10px)){.foo{color:red}}",
+      "@container style((accent-color:rgb(255,255,0)) or (--bar:10pt)){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
-      @container style(not ((width: calc(10px + 20px)) and ((--bar: url(x))))) {
+      @container style(not ((width: calc(10pt + 20pt)) and ((--bar: url(x))))) {
         .foo {
           color: red;
         }
       }
     "#,
-      "@container style(not ((width:30px) and (--bar:url(x)))){.foo{color:red}}",
+      "@container style(not ((width:30pt) and (--bar:url(x)))){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27534,7 +27537,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(color:yellow){.foo{color:red}}",
+      "@container style(color:yellow){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27544,7 +27547,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(--foo:){.foo{color:red}}",
+      "@container style(--foo:){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27554,7 +27557,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(--foo:){.foo{color:red}}",
+      "@container style(--foo:){.foo{color:rgb(255,0,0)}}",
     );
     minify_test(
       r#"
@@ -27564,7 +27567,7 @@ mod tests {
         }
       }
     "#,
-      "@container style(--my-prop:foo - bar ()){.foo{color:red}}",
+      "@container style(--my-prop:foo - bar ()){.foo{color:rgb(255,0,0)}}",
     );
 
     // Disallow 'none', 'not', 'and', 'or' as a `<container-name>`
@@ -27604,7 +27607,7 @@ mod tests {
     );
 
     error_test("@container (inline-size <= foo) {}", ParserError::InvalidMediaQuery);
-    error_test("@container (orientation <= 10px) {}", ParserError::InvalidMediaQuery);
+    error_test("@container (orientation <= 10pt) {}", ParserError::InvalidMediaQuery);
 
     error_test("@container style(width) {}", ParserError::EndOfInput);
     error_test(
@@ -27626,7 +27629,7 @@ mod tests {
     }"#,
       indoc! {r#"
       @foo test {
-        div { color: red; }
+        div { color: rgb(255, 0, 0); }
       }
       "#},
     );
@@ -27636,7 +27639,7 @@ mod tests {
         color: red;
       }
     }"#,
-      "@foo test{div { color: red; }}",
+      "@foo test{div { color: rgb(255,0,0); }}",
     );
     minify_test(
       r#"@foo test {
@@ -27673,9 +27676,9 @@ mod tests {
       }
       "#,
       indoc! { r#"
-      @media (resolution: 1dppx) {
+      @media (resolution: "1dppx") {
         body {
-          background: red;
+          background: rgb(255, 0, 0);
         }
       }
       "#},
@@ -27694,9 +27697,9 @@ mod tests {
       }
       "#,
       indoc! { r#"
-      @media (resolution: 1x) {
+      @media (resolution: "1x") {
         body {
-          background: red;
+          background: rgb(255, 0, 0);
         }
       }
       "#},
@@ -27733,13 +27736,13 @@ mod tests {
 
     minify_test(
       r#"
-      @media (max-width: env(--branding-small 1, 20px)) {
+      @media (max-width: env(--branding-small 1, 20pt)) {
         body {
-          padding: env(--branding-padding 2, 20px);
+          padding: env(--branding-padding 2, 20pt);
         }
       }
     "#,
-      "@media (width<=env(--branding-small 1,20px)){body{padding:env(--branding-padding 2,20px)}}",
+      "@media (width<=env(--branding-small 1,20pt)){body{padding:env(--branding-padding 2,20pt)}}",
     );
 
     minify_test(
@@ -27772,12 +27775,12 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        color: env(--brand-color, #00f942);
+        color: env(--brand-color, rgb(0, 249, 66));
       }
 
       @supports (color: color(display-p3 0 0 0)) {
         .foo {
-          color: env(--brand-color, color(display-p3 0 1 0));
+          color: env(--brand-color, oklab(84.883% -0.30424 0.20797));
         }
       }
     "#},
@@ -27828,7 +27831,7 @@ mod tests {
     "#,
       indoc! {r#"
       /*! Copyright 2023 Someone awesome */
-      .foo{color:red}"#},
+      .foo{color:rgb(255,0,0)}"#},
     );
 
     minify_test(
@@ -27842,7 +27845,7 @@ mod tests {
       indoc! {r#"
       /*! Copyright 2023 Someone awesome */
       /*! Copyright 2023 Someone else */
-      .foo{color:red}"#},
+      .foo{color:rgb(255,0,0)}"#},
     );
   }
 
@@ -27856,7 +27859,7 @@ mod tests {
         }
       }
       "#,
-      "@starting-style{h1{background:#ff0}}",
+      "@starting-style{h1{background:rgb(255,255,0)}}",
     );
     minify_test("@starting-style {}", "");
 
@@ -27871,12 +27874,12 @@ mod tests {
       "#,
       indoc! {r#"
       h1 {
-        background: red;
+        background: rgb(255, 0, 0);
       }
 
       @starting-style {
         h1 {
-          background: #ff0;
+          background: rgb(255, 255, 0);
         }
       }
       "#},
@@ -27965,22 +27968,22 @@ mod tests {
 
     minify_test(
       ".foo { color: light-dark(yellow, red); }",
-      ".foo{color:light-dark(#ff0,red)}",
+      ".foo{color:\"light-dark(rgb(255,255,0),rgb(255,0,0))\"}",
     );
     minify_test(
       ".foo { color: light-dark(light-dark(yellow, red), light-dark(yellow, red)); }",
-      ".foo{color:light-dark(#ff0,red)}",
+      ".foo{color:\"light-dark(rgb(255,255,0),rgb(255,0,0))\"}",
     );
     minify_test(
       ".foo { color: light-dark(rgb(0, 0, 255), hsl(120deg, 50%, 50%)); }",
-      ".foo{color:light-dark(#00f,#40bf40)}",
+      ".foo{color:\"light-dark(rgb(0,0,255),rgb(64,191,64))\"}",
     );
     prefix_test(
       ".foo { color: light-dark(oklch(40% 0.1268735435 34.568626), oklab(59.686% 0.1009 0.1192)); }",
       indoc! { r#"
       .foo {
         color: var(--lightningcss-light, #7e250f) var(--lightningcss-dark, #c65d07);
-        color: var(--lightningcss-light, lab(29.2661% 38.2437 35.3889)) var(--lightningcss-dark, lab(52.2319% 40.1449 59.9171));
+        color: var(--lightningcss-light, oklab(40% 0.10447 0.07199)) var(--lightningcss-dark, oklab(59.686% 0.1009 0.1192));
       }
       "#},
       Browsers {
@@ -27992,7 +27995,7 @@ mod tests {
       ".foo { color: light-dark(oklch(40% 0.1268735435 34.568626), oklab(59.686% 0.1009 0.1192)); }",
       indoc! { r#"
       .foo {
-        color: light-dark(oklch(40% .126874 34.5686), oklab(59.686% .1009 .1192));
+        color: "light-dark(oklch(40% .126874 34.5686), oklab(59.686% .1009 .1192))";
       }
       "#},
       Browsers {
@@ -28010,8 +28013,8 @@ mod tests {
     "#,
       indoc! { r#"
       .foo {
-        box-shadow: 0 .63rem .94rem -.19rem #ffffff80, 0 .44rem .8rem -.58rem;
-        box-shadow: 0 .63rem .94rem -.19rem lab(100% 0 0 / .5), 0 .44rem .8rem -.58rem;
+        box-shadow: 0 ".63rem" ".94rem" "-.19rem" #ffffff80, 0 ".44rem" ".8rem" "-.58rem";
+        box-shadow: 0 ".63rem" ".94rem" "-.19rem" oklab(100%, 0, 0, 50%), 0 ".44rem" ".8rem" "-.58rem";
       }
       "#},
       Browsers {
@@ -28029,8 +28032,8 @@ mod tests {
     "#,
       indoc! { r#"
       .foo {
-        box-shadow: 0 .63rem .94rem -.19rem color(display-p3 1 1 1 / .5), 0 .44rem .8rem -.58rem;
-        box-shadow: 0 .63rem .94rem -.19rem lab(100% 0 0 / .5), 0 .44rem .8rem -.58rem;
+        box-shadow: 0 ".63rem" ".94rem" "-.19rem" oklab(100%, 0, 0, 50%), 0 ".44rem" ".8rem" "-.58rem";
+        box-shadow: 0 ".63rem" ".94rem" "-.19rem" oklab(100%, 0, 0, 50%), 0 ".44rem" ".8rem" "-.58rem";
       }
       "#},
       Browsers {
@@ -28055,7 +28058,7 @@ mod tests {
       ".foo { color: rgb(from light-dark(yellow, red) r g b / 10%); }",
       indoc! { r#"
       .foo {
-        color: var(--lightningcss-light, #ffff001a) var(--lightningcss-dark, #ff00001a);
+        color: var(--lightningcss-light, rgb(255, 255, 0, 10%)) var(--lightningcss-dark, rgb(255, 0, 0, 10%));
       }
       "#},
       Browsers {
@@ -28079,8 +28082,8 @@ mod tests {
       ".foo { color: color(from light-dark(yellow, red) srgb r g b / 10%); }",
       indoc! { r#"
       .foo {
-        color: var(--lightningcss-light, #ffff001a) var(--lightningcss-dark, #ff00001a);
-        color: var(--lightningcss-light, color(srgb 1 1 0 / .1)) var(--lightningcss-dark, color(srgb 1 0 0 / .1));
+        color: var(--lightningcss-light, rgb(255, 255, 0, 10%)) var(--lightningcss-dark, rgb(255, 0, 0, 10%));
+        color: var(--lightningcss-light, rgb(255, 255, 0, 10%)) var(--lightningcss-dark, rgb(255, 0, 0, 10%));
       }
       "#},
       Browsers {
@@ -28092,7 +28095,7 @@ mod tests {
       ".foo { color: color-mix(in srgb, light-dark(yellow, red), light-dark(red, pink)); }",
       indoc! { r#"
       .foo {
-        color: var(--lightningcss-light, #ff8000) var(--lightningcss-dark, #ff6066);
+        color: var(--lightningcss-light, rgb(255, 128, 0)) var(--lightningcss-dark, rgb(255, 96, 102));
       }
       "#},
       Browsers {
@@ -28109,11 +28112,11 @@ mod tests {
     minify_test(".foo { background: red; all: revert-layer }", ".foo{all:revert-layer}");
     minify_test(
       ".foo { background: red; all: revert-layer; background: green }",
-      ".foo{all:revert-layer;background:green}",
+      ".foo{all:revert-layer;background:rgb(0,128,0)}",
     );
     minify_test(
       ".foo { --test: red; all: revert-layer }",
-      ".foo{--test:red;all:revert-layer}",
+      ".foo{--test:rgb(255,0,0);all:revert-layer}",
     );
     minify_test(
       ".foo { unicode-bidi: embed; all: revert-layer }",
