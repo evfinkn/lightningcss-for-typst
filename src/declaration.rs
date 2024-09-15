@@ -155,7 +155,7 @@ impl<'i> DeclarationBlock<'i> {
     W: std::fmt::Write,
   {
     dest.whitespace()?;
-    dest.write_char('(')?;
+    dest.write_char('{')?;
     dest.indent();
 
     let mut i = 0;
@@ -167,7 +167,7 @@ impl<'i> DeclarationBlock<'i> {
           dest.newline()?;
           decl.to_css(dest, $important)?;
           if i != len - 1 || !dest.minify {
-            dest.write_char(',')?;
+            dest.write_char(';')?;
           }
           i += 1;
         }
@@ -179,7 +179,7 @@ impl<'i> DeclarationBlock<'i> {
 
     dest.dedent();
     dest.newline()?;
-    dest.write_char(')')
+    dest.write_char('}')
   }
 }
 
