@@ -1,7 +1,7 @@
 //! Common [CSS values](https://www.w3.org/TR/css3-values/) used across many properties.
 //!
 //! Each value provides parsing and serialization support using the [Parse](super::traits::Parse)
-//! and [ToCss](super::traits::ToCss) traits. In addition, many values support ways of manipulating
+//! and [ToTypst](super::traits::ToTypst) traits. In addition, many values support ways of manipulating
 //! them, including converting between representations and units, generating fallbacks for legacy
 //! browsers, minifying them, etc.
 //!
@@ -12,14 +12,14 @@
 //!
 //! ```
 //! use lightningcss::{
-//!   traits::{Parse, ToCss},
+//!   traits::{Parse, ToTypst},
 //!   values::color::CssColor,
 //!   printer::PrinterOptions
 //! };
 //!
 //! let color = CssColor::parse_string("lch(50% 75 0)").unwrap();
 //! let rgb = color.to_rgb().unwrap();
-//! assert_eq!(rgb.to_css_string(PrinterOptions::default()).unwrap(), "#e1157b");
+//! assert_eq!(rgb.to_typst_string(PrinterOptions::default()).unwrap(), "rgb(225, 21, 123)");
 //! ```
 //!
 //! If you have a [cssparser::Parser](cssparser::Parser) already, you can also use the `parse` and `to_css`

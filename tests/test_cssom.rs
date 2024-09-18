@@ -28,79 +28,79 @@ fn test_get() {
   get_test("color: green; color: red", PropertyId::Color, Some(("red", false)));
   get_test(
     r#"
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    margin-left: 5pt;
+    margin-right: 5pt;
     "#,
     PropertyId::Margin,
-    Some(("5px", false)),
+    Some(("5pt", false)),
   );
   get_test(
     r#"
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    margin-left: 6pt;
+    margin-right: 6pt;
     "#,
     PropertyId::Margin,
-    Some(("5px 6px", false)),
+    Some(("5pt 6pt", false)),
   );
   get_test(
     r#"
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 6px;
-    margin-right: 6px;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    margin-left: 6pt;
+    margin-right: 6pt;
     "#,
     PropertyId::Margin,
-    Some(("5px 6px", false)),
+    Some(("5pt 6pt", false)),
   );
   get_test(
     r#"
-    margin-top: 5px;
-    margin-bottom: 5px;
-    "#,
-    PropertyId::Margin,
-    None,
-  );
-  get_test(
-    r#"
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px !important;
-    margin-right: 5px;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
     "#,
     PropertyId::Margin,
     None,
   );
   get_test(
     r#"
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
-    margin-left: 5px !important;
-    margin-right: 5px !important;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    margin-left: 5pt !important;
+    margin-right: 5pt;
     "#,
     PropertyId::Margin,
-    Some(("5px", true)),
+    None,
   );
-  get_test(
-    "margin: 5px 6px 7px 8px",
-    PropertyId::Margin,
-    Some(("5px 6px 7px 8px", false)),
-  );
-  get_test("margin: 5px 6px 7px 8px", PropertyId::MarginTop, Some(("5px", false)));
   get_test(
     r#"
-    border: 1px solid red;
+    margin-top: 5pt !important;
+    margin-bottom: 5pt !important;
+    margin-left: 5pt !important;
+    margin-right: 5pt !important;
+    "#,
+    PropertyId::Margin,
+    Some(("5pt", true)),
+  );
+  get_test(
+    "margin: 5pt 6pt 7pt 8pt",
+    PropertyId::Margin,
+    Some(("5pt 6pt 7pt 8pt", false)),
+  );
+  get_test("margin: 5pt 6pt 7pt 8pt", PropertyId::MarginTop, Some(("5pt", false)));
+  get_test(
+    r#"
+    border: 1pt solid red;
     border-color: green;
     "#,
     PropertyId::Border,
-    Some(("1px solid green", false)),
+    Some(("1pt solid green", false)),
   );
   get_test(
     r#"
-    border: 1px solid red;
+    border: 1pt solid red;
     border-left-color: green;
     "#,
     PropertyId::Border,
@@ -146,20 +146,20 @@ fn test_get() {
   get_test(
     r#"
     background: linear-gradient(red, green);
-    background-position-x: 20px;
-    background-position-y: 10px;
-    background-size: 50px 100px;
+    background-position-x: 20pt;
+    background-position-y: 10pt;
+    background-size: 50pt 100pt;
     background-repeat: repeat no-repeat;
     "#,
     PropertyId::Background,
-    Some(("linear-gradient(red, green) 20px 10px / 50px 100px repeat-x", false)),
+    Some(("linear-gradient(red, green) 20pt 10pt / 50pt 100pt repeat-x", false)),
   );
   get_test(
     r#"
     background: linear-gradient(red, green);
-    background-position-x: 20px;
-    background-position-y: 10px !important;
-    background-size: 50px 100px;
+    background-position-x: 20pt;
+    background-position-y: 10pt !important;
+    background-size: 50pt 100pt;
     background-repeat: repeat no-repeat;
     "#,
     PropertyId::Background,
@@ -168,20 +168,20 @@ fn test_get() {
   get_test(
     r#"
     background: linear-gradient(red, green), linear-gradient(#fff, #000) gray;
-    background-position-x: right 20px, 10px;
-    background-position-y: top 20px, 15px;
-    background-size: 50px 50px, auto;
+    background-position-x: right 20pt, 10pt;
+    background-position-y: top 20pt, 15pt;
+    background-size: 50pt 50pt, auto;
     background-repeat: repeat no-repeat, no-repeat;
     "#,
     PropertyId::Background,
-    Some(("linear-gradient(red, green) right 20px top 20px / 50px 50px repeat-x, gray linear-gradient(#fff, #000) 10px 15px no-repeat", false)),
+    Some(("linear-gradient(red, green) right 20pt top 20pt / 50pt 50pt repeat-x, gray linear-gradient(#fff, #000) 10pt 15pt no-repeat", false)),
   );
   get_test(
     r#"
     background: linear-gradient(red, green);
-    background-position-x: right 20px, 10px;
-    background-position-y: top 20px, 15px;
-    background-size: 50px 50px, auto;
+    background-position-x: right 20pt, 10pt;
+    background-position-y: top 20pt, 15pt;
+    background-size: 50pt 50pt, auto;
     background-repeat: repeat no-repeat, no-repeat;
     "#,
     PropertyId::Background,
@@ -190,41 +190,41 @@ fn test_get() {
   get_test(
     r#"
     background: linear-gradient(red, green);
-    background-position: 20px 10px;
-    background-size: 50px 100px;
+    background-position: 20pt 10pt;
+    background-size: 50pt 100pt;
     background-repeat: repeat no-repeat;
     "#,
     PropertyId::Background,
-    Some(("linear-gradient(red, green) 20px 10px / 50px 100px repeat-x", false)),
+    Some(("linear-gradient(red, green) 20pt 10pt / 50pt 100pt repeat-x", false)),
   );
   get_test(
     r#"
-    background-position-x: 20px;
-    background-position-y: 10px;
+    background-position-x: 20pt;
+    background-position-y: 10pt;
     "#,
     PropertyId::BackgroundPosition,
-    Some(("20px 10px", false)),
+    Some(("20pt 10pt", false)),
   );
   get_test(
     r#"
-    background: linear-gradient(red, green) 20px 10px;
+    background: linear-gradient(red, green) 20pt 10pt;
     "#,
     PropertyId::BackgroundPosition,
-    Some(("20px 10px", false)),
+    Some(("20pt 10pt", false)),
   );
   get_test(
     r#"
-    background: linear-gradient(red, green) 20px 10px;
+    background: linear-gradient(red, green) 20pt 10pt;
     "#,
     PropertyId::BackgroundPositionX,
-    Some(("20px", false)),
+    Some(("20pt", false)),
   );
   get_test(
     r#"
-    background: linear-gradient(red, green) 20px 10px;
+    background: linear-gradient(red, green) 20pt 10pt;
     "#,
     PropertyId::BackgroundPositionY,
-    Some(("10px", false)),
+    Some(("10pt", false)),
   );
   get_test(
     "mask-border: linear-gradient(red, green) 25",
@@ -253,14 +253,14 @@ fn test_get() {
     grid-template-areas: ". a a ."
         ". b b .";
     grid-template-rows: auto 1fr;
-    grid-template-columns: 10px 1fr 1fr 10px;
+    grid-template-columns: 10pt 1fr 1fr 10pt;
     "#,
     PropertyId::GridTemplate,
     Some((
       r#"
       ". a a ."
       ". b b ." 1fr
-      / 10px 1fr 1fr 10px
+      / 10pt 1fr 1fr 10pt
       "#,
       false,
     )),
@@ -375,45 +375,45 @@ fn set_test(orig: &str, property: &str, value: &str, important: bool, expected: 
 
 #[test]
 fn test_set() {
-  set_test("color: red", "color", "green", false, "color: green");
-  set_test("color: red !important", "color", "green", false, "color: green");
-  set_test("color: red", "color", "green", true, "color: green !important");
-  set_test("margin: 5px", "margin", "10px", false, "margin: 10px");
-  set_test("margin: 5px", "margin-top", "8px", false, "margin: 8px 5px 5px");
+  set_test("color: red", "color", "green", false, "color: rgb(0, 128, 0)");
+  set_test("color: red !important", "color", "green", false, "color: rgb(0, 128, 0)");
+  set_test("color: red", "color", "green", true, "color: rgb(0, 128, 0) !important");
+  set_test("margin: 5pt", "margin", "10pt", false, "margin: 10pt");
+  set_test("margin: 5pt", "margin-top", "8pt", false, "margin: 8pt 5pt 5pt");
   set_test(
-    "margin: 5px",
+    "margin: 5pt",
     "margin-inline-start",
-    "8px",
+    "8pt",
     false,
-    "margin: 5px; margin-inline-start: 8px",
+    "margin: 5pt; margin-inline-start: 8pt",
   );
   set_test(
-    "margin-inline-start: 5px; margin-top: 10px",
+    "margin-inline-start: 5pt; margin-top: 10pt",
     "margin-inline-start",
-    "8px",
+    "8pt",
     false,
-    "margin-inline-start: 5px; margin-top: 10px; margin-inline-start: 8px",
+    "margin-inline-start: 5pt; margin-top: 10pt; margin-inline-start: 8pt",
   );
   set_test(
-    "margin: 5px; margin-inline-start: 8px",
+    "margin: 5pt; margin-inline-start: 8pt",
     "margin-left",
-    "10px",
+    "10pt",
     false,
-    "margin: 5px; margin-inline-start: 8px; margin-left: 10px",
+    "margin: 5pt; margin-inline-start: 8pt; margin-left: 10pt",
   );
   set_test(
-    "border: 1px solid red",
+    "border: 1pt solid red",
     "border-right",
-    "1px solid green",
+    "1pt solid green",
     false,
-    "border: 1px solid red; border-right: 1px solid green",
+    "border: 1pt solid rgb(255, 0, 0); border-right: 1pt solid rgb(0, 128, 0)",
   );
   set_test(
-    "border: 1px solid red",
+    "border: 1pt solid red",
     "border-right-color",
     "green",
     false,
-    "border: 1px solid red; border-right-color: green",
+    "border: 1pt solid rgb(255, 0, 0); border-right-color: rgb(0, 128, 0)",
   );
   set_test(
     "animation: foo 2s",
@@ -426,16 +426,16 @@ fn test_set() {
   set_test(
     "background: linear-gradient(red, green)",
     "background-position-x",
-    "20px",
+    "20pt",
     false,
-    "background: linear-gradient(red, green) 20px 0",
+    "background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0)) 20pt 0pt",
   );
   set_test(
     "background: linear-gradient(red, green)",
     "background-position",
-    "20px 10px",
+    "20pt 10pt",
     false,
-    "background: linear-gradient(red, green) 20px 10px",
+    "background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0)) 20pt 10pt",
   );
   set_test(
     "flex-flow: row wrap",
@@ -468,25 +468,25 @@ fn remove_test(orig: &str, property_id: PropertyId, expected: &str) {
 
 #[test]
 fn test_remove() {
-  remove_test("margin-top: 10px", PropertyId::MarginTop, "");
+  remove_test("margin-top: 10pt", PropertyId::MarginTop, "");
   remove_test(
-    "margin-top: 10px; margin-left: 5px",
+    "margin-top: 10pt; margin-left: 5pt",
     PropertyId::MarginTop,
-    "margin-left: 5px",
+    "margin-left: 5pt",
   );
   remove_test(
-    "margin-top: 10px !important; margin-left: 5px",
+    "margin-top: 10pt !important; margin-left: 5pt",
     PropertyId::MarginTop,
-    "margin-left: 5px",
+    "margin-left: 5pt",
   );
   remove_test(
-    "margin: 10px",
+    "margin: 10pt",
     PropertyId::MarginTop,
-    "margin-right: 10px; margin-bottom: 10px; margin-left: 10px",
+    "margin-right: 10pt; margin-bottom: 10pt; margin-left: 10pt",
   );
-  remove_test("margin: 10px", PropertyId::Margin, "");
+  remove_test("margin: 10pt", PropertyId::Margin, "");
   remove_test(
-    "margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px",
+    "margin-top: 10pt; margin-right: 10pt; margin-bottom: 10pt; margin-left: 10pt",
     PropertyId::Margin,
     "",
   );

@@ -1,7 +1,7 @@
 //! CSS property values.
 //!
 //! Each property provides parsing and serialization support using the [Parse](super::traits::Parse)
-//! and [ToCss](super::traits::ToCss) traits. Properties are fully parsed as defined by the CSS spec,
+//! and [ToTypst](super::traits::ToTypst) traits. Properties are fully parsed as defined by the CSS spec,
 //! and printed in their canonical form. For example, most CSS properties are case-insensitive, and
 //! may be written in various orders, but when printed they are lower cased as appropriate and in a
 //! standard order.
@@ -34,7 +34,7 @@
 //!
 //! let background = Property::parse_string(
 //!   PropertyId::from("background"),
-//!   "url('img.png') repeat fixed 20px 10px / 50px 100px",
+//!   "url('img.png') repeat fixed 20pt 10pt / 50pt 100pt",
 //!   ParserOptions::default()
 //! ).unwrap();
 //!
@@ -52,16 +52,16 @@
 //!       alpha: 0
 //!     }),
 //!     position: BackgroundPosition {
-//!       x: HorizontalPosition::Length(LengthPercentage::px(20.0)),
-//!       y: VerticalPosition::Length(LengthPercentage::px(10.0)),
+//!       x: HorizontalPosition::Length(LengthPercentage::pt(20.0)),
+//!       y: VerticalPosition::Length(LengthPercentage::pt(10.0)),
 //!     },
 //!     repeat: BackgroundRepeat {
 //!       x: BackgroundRepeatKeyword::Repeat,
 //!       y: BackgroundRepeatKeyword::Repeat,
 //!     },
 //!     size: BackgroundSize::Explicit {
-//!       width: LengthPercentageOrAuto::LengthPercentage(LengthPercentage::px(50.0)),
-//!       height: LengthPercentageOrAuto::LengthPercentage(LengthPercentage::px(100.0)),
+//!       width: LengthPercentageOrAuto::LengthPercentage(LengthPercentage::pt(50.0)),
+//!       height: LengthPercentageOrAuto::LengthPercentage(LengthPercentage::pt(100.0)),
 //!     },
 //!     attachment: BackgroundAttachment::Fixed,
 //!     origin: BackgroundOrigin::PaddingBox,
@@ -71,7 +71,7 @@
 //!
 //! assert_eq!(
 //!   background.to_css_string(false, PrinterOptions::default()).unwrap(),
-//!   r#"background: url("img.png") 20px 10px / 50px 100px fixed"#
+//!   r#"background: url("img.png") 20pt 10pt / 50pt 100pt fixed"#
 //! );
 //! ```
 //!

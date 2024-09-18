@@ -57,7 +57,7 @@ pub use crate::printer::PseudoClasses;
 ///
 /// // Serialize it to a string.
 /// let res = stylesheet.to_css(PrinterOptions::default()).unwrap();
-/// assert_eq!(res.code, ".foo, .bar {\n  color: red;\n}\n");
+/// assert_eq!(res.code, ".foo, .bar {\n  color: rgb(255, 0, 0);\n}\n");
 /// ```
 #[derive(Debug)]
 #[cfg_attr(
@@ -362,7 +362,7 @@ where
 ///
 /// // Serialize it to a string.
 /// let res = style.to_css(PrinterOptions::default()).unwrap();
-/// assert_eq!(res.code, "color: #ff0; font-family: Helvetica");
+/// assert_eq!(res.code, "color: rgb(255, 255, 0); font-family: Helvetica");
 /// ```
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]

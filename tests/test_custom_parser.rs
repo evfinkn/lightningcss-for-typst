@@ -28,7 +28,7 @@ fn test_block() {
       color: yellow;
     }
   "#,
-    "@block test{color:#ff0}",
+    "@block test{color:rgb(255,255,0)}",
   )
 }
 
@@ -41,7 +41,7 @@ fn test_inline() {
       color: yellow;
     }
   "#,
-    "@inline test;.foo{color:#ff0}",
+    "@inline test;.foo{color:rgb(255,255,0)}",
   )
 }
 

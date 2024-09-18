@@ -14,7 +14,7 @@
 //! ```
 //! use lightningcss::{
 //!   rules::CssRule,
-//!   traits::ToCss,
+//!   traits::ToTypst,
 //!   stylesheet::{ParserOptions, PrinterOptions}
 //! };
 //!
@@ -24,8 +24,8 @@
 //! ).unwrap();
 //!
 //! assert_eq!(
-//!   rule.to_css_string(PrinterOptions::default()).unwrap(),
-//!   ".foo {\n  color: red;\n}"
+//!   rule.to_typst_string(PrinterOptions::default()).unwrap(),
+//!   ".foo {\n  color: rgb(255, 0, 0);\n}"
 //! );
 //! ```
 //!
