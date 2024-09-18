@@ -36,6 +36,12 @@ impl ToTypst for CSSNumber {
   {
     let number = *self;
     if number != 0.0 && number.abs() < 1.0 {
+      // cssparser::ToCss:to_css outputs numbers < 1e-6 in exponential notation,
+      // which is allowed in CSS but not very readable. It's close enough to zero
+      // that we can just output it as zero.
+      if number.abs() < 0.000001 {
+        return dest.write_str("0");
+      }
       let mut s = String::new();
       cssparser::ToCss::to_css(self, &mut s)?;
       if number < 0.0 {
