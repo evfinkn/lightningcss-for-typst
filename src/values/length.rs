@@ -27,14 +27,9 @@ impl LengthPercentage {
     LengthPercentage::Dimension(LengthValue::Px(val))
   }
 
-  pub(crate) fn to_css_unitless<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
-  where
-    W: std::fmt::Write,
-  {
-    match self {
-      DimensionPercentage::Dimension(d) => d.to_css_unitless(dest),
-      _ => self.to_typst(dest),
-    }
+  /// Constructs a `LengthPercentage` with the given point value.
+  pub fn pt(val: CSSNumber) -> LengthPercentage {
+    LengthPercentage::Dimension(LengthValue::Pt(val))
   }
 }
 
@@ -288,7 +283,7 @@ macro_rules! define_length_units {
 
     impl Zero for LengthValue {
       fn zero() -> Self {
-        LengthValue::Px(0.0)
+        LengthValue::Pt(0.0)
       }
 
       fn is_zero(&self) -> bool {
@@ -484,18 +479,6 @@ impl ToTypst for LengthValue {
   }
 }
 
-impl LengthValue {
-  pub(crate) fn to_css_unitless<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
-  where
-    W: std::fmt::Write,
-  {
-    match self {
-      LengthValue::Px(value) => value.to_typst(dest),
-      _ => self.to_typst(dest),
-    }
-  }
-}
-
 pub(crate) fn serialize_dimension<W>(
   value: f32,
   unit: &str,
@@ -678,6 +661,15 @@ impl Length {
     }
   }
 
+  /// Attempts to convert the length to points.
+  /// Returns `None` if the conversion is not possible.
+  pub fn to_pt(&self) -> Option<CSSNumber> {
+    match self {
+      Length::Value(a) => a.to_pt(),
+      _ => None,
+    }
+  }
+
   fn add(self, other: Length) -> Length {
     let mut a = self;
     let mut b = other;
@@ -726,7 +718,7 @@ impl IsCompatible for Length {
 
 impl Zero for Length {
   fn zero() -> Length {
-    Length::Value(LengthValue::Px(0.0))
+    Length::Value(LengthValue::Pt(0.0))
   }
 
   fn is_zero(&self) -> bool {

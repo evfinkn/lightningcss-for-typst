@@ -122,72 +122,47 @@ impl<'i> ToTypst for Filter<'i> {
     match self {
       Filter::Blur(val) => {
         dest.write_str("blur(")?;
-        if *val != Length::zero() {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Brightness(val) => {
         dest.write_str("brightness(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Contrast(val) => {
         dest.write_str("contrast(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Grayscale(val) => {
         dest.write_str("grayscale(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::HueRotate(val) => {
         dest.write_str("hue-rotate(")?;
-        if !val.is_zero() {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Invert(val) => {
         dest.write_str("invert(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Opacity(val) => {
         dest.write_str("opacity(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Saturate(val) => {
         dest.write_str("saturate(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::Sepia(val) => {
         dest.write_str("sepia(")?;
-        let v: f32 = val.into();
-        if v != 1.0 {
-          val.to_typst(dest)?;
-        }
+        val.to_typst(dest)?;
         dest.write_char(')')
       }
       Filter::DropShadow(val) => {
@@ -285,10 +260,8 @@ impl ToTypst for DropShadow {
     dest.write_char(' ')?;
     self.y_offset.to_typst(dest)?;
 
-    if self.blur != Length::zero() {
-      dest.write_char(' ')?;
-      self.blur.to_typst(dest)?;
-    }
+    dest.write_char(' ')?;
+    self.blur.to_typst(dest)?;
 
     if self.color != CssColor::current_color() {
       dest.write_char(' ')?;

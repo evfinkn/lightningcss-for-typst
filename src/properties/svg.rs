@@ -183,7 +183,7 @@ impl ToTypst for StrokeDasharray {
           } else {
             dest.write_char(' ')?;
           }
-          value.to_css_unitless(dest)?;
+          value.to_typst(dest)?;
         }
         Ok(())
       }

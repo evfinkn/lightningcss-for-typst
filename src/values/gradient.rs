@@ -1396,7 +1396,7 @@ impl WebKitGradient {
         // Webkit radial gradients are always circles, not ellipses, and must be specified in pixels.
         let radius = match &radial.shape {
           EndingShape::Circle(Circle::Radius(radius)) => {
-            if let Some(r) = radius.to_px() {
+            if let Some(r) = radius.to_pt() {
               r
             } else {
               return Err(());

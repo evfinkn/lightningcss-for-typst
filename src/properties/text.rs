@@ -1429,15 +1429,11 @@ impl ToTypst for TextShadow {
     dest.write_char(' ')?;
     self.y_offset.to_typst(dest)?;
 
-    if self.blur != Length::zero() || self.spread != Length::zero() {
-      dest.write_char(' ')?;
-      self.blur.to_typst(dest)?;
+    dest.write_char(' ')?;
+    self.blur.to_typst(dest)?;
 
-      if self.spread != Length::zero() {
-        dest.write_char(' ')?;
-        self.spread.to_typst(dest)?;
-      }
-    }
+    dest.write_char(' ')?;
+    self.spread.to_typst(dest)?;
 
     if self.color != CssColor::current_color() {
       dest.write_char(' ')?;
