@@ -437,41 +437,6 @@ impl Feature {
           }
         }
       }
-      Feature::LinearGradient
-      | Feature::RepeatingLinearGradient
-      | Feature::RadialGradient
-      | Feature::RepeatingRadialGradient => {
-        if let Some(version) = browsers.android {
-          if version >= 131328 && version <= 262656 {
-            prefixes |= VendorPrefix::WebKit;
-          }
-        }
-        if let Some(version) = browsers.chrome {
-          if version >= 262144 && version <= 1638400 {
-            prefixes |= VendorPrefix::WebKit;
-          }
-        }
-        if let Some(version) = browsers.firefox {
-          if version >= 198144 && version <= 983040 {
-            prefixes |= VendorPrefix::Moz;
-          }
-        }
-        if let Some(version) = browsers.ios_saf {
-          if version >= 197120 && version <= 393216 {
-            prefixes |= VendorPrefix::WebKit;
-          }
-        }
-        if let Some(version) = browsers.opera {
-          if version >= 721152 && version <= 786432 {
-            prefixes |= VendorPrefix::O;
-          }
-        }
-        if let Some(version) = browsers.safari {
-          if version >= 262144 && version <= 393216 {
-            prefixes |= VendorPrefix::WebKit;
-          }
-        }
-      }
       Feature::BoxSizing => {
         if let Some(version) = browsers.android {
           if version >= 131328 && version <= 196608 {
@@ -2236,6 +2201,7 @@ impl Feature {
           }
         }
       }
+      _ => {}
     }
     prefixes
   }

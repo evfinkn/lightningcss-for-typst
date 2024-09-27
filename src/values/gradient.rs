@@ -12,7 +12,8 @@ use crate::error::{ParserError, PrinterError};
 use crate::macros::enum_property;
 use crate::prefixes::Feature;
 use crate::printer::Printer;
-use crate::targets::{should_compile, Browsers, Targets};
+use crate::targets::{Browsers, Targets};
+use crate::traits::private::TryAdd;
 use crate::traits::{IsCompatible, Parse, ToTypst, TrySign, Zero};
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -184,14 +185,14 @@ impl ToTypst for Gradient {
   where
     W: std::fmt::Write,
   {
-    let (f, prefix) = match self {
-      Gradient::Linear(g) => ("linear-gradient(", Some(g.vendor_prefix)),
-      Gradient::RepeatingLinear(g) => ("repeating-linear-gradient(", Some(g.vendor_prefix)),
-      Gradient::Radial(g) => ("radial-gradient(", Some(g.vendor_prefix)),
-      Gradient::RepeatingRadial(g) => ("repeating-radial-gradient(", Some(g.vendor_prefix)),
-      Gradient::Conic(_) => ("conic-gradient(", None),
-      Gradient::RepeatingConic(_) => ("repeating-conic-gradient(", None),
-      Gradient::WebKitGradient(_) => ("-webkit-gradient(", None),
+    let (f, prefix, repeating) = match self {
+      Gradient::Linear(g) => ("linear-gradient(", Some(g.vendor_prefix), false),
+      Gradient::RepeatingLinear(g) => ("repeating-linear-gradient(", Some(g.vendor_prefix), true),
+      Gradient::Radial(g) => ("radial-gradient(", Some(g.vendor_prefix), false),
+      Gradient::RepeatingRadial(g) => ("repeating-radial-gradient(", Some(g.vendor_prefix), true),
+      Gradient::Conic(_) => ("conic-gradient(", None, false),
+      Gradient::RepeatingConic(_) => ("repeating-conic-gradient(", None, true),
+      Gradient::WebKitGradient(_) => ("-webkit-gradient(", None, false),
     };
 
     if let Some(prefix) = prefix {
@@ -201,11 +202,9 @@ impl ToTypst for Gradient {
     dest.write_str(f)?;
 
     match self {
-      Gradient::Linear(linear) | Gradient::RepeatingLinear(linear) => {
-        linear.to_css(dest, linear.vendor_prefix != VendorPrefix::None)?
-      }
-      Gradient::Radial(radial) | Gradient::RepeatingRadial(radial) => radial.to_typst(dest)?,
-      Gradient::Conic(conic) | Gradient::RepeatingConic(conic) => conic.to_typst(dest)?,
+      Gradient::Linear(linear) | Gradient::RepeatingLinear(linear) => linear.to_typst(dest, repeating)?,
+      Gradient::Radial(radial) | Gradient::RepeatingRadial(radial) => radial.to_typst(dest, repeating)?,
+      Gradient::Conic(conic) | Gradient::RepeatingConic(conic) => conic.to_typst(dest, repeating)?,
       Gradient::WebKitGradient(g) => g.to_typst(dest)?,
     }
 
@@ -253,76 +252,23 @@ impl LinearGradient {
     })
   }
 
-  fn to_css<W>(&self, dest: &mut Printer<W>, is_prefixed: bool) -> Result<(), PrinterError>
-  where
-    W: std::fmt::Write,
-  {
-    let angle = match &self.direction {
-      LineDirection::Vertical(VerticalPositionKeyword::Bottom) => 180.0,
-      LineDirection::Vertical(VerticalPositionKeyword::Top) => 0.0,
-      LineDirection::Angle(angle) => angle.to_degrees(),
-      _ => -1.0,
-    };
-
-    // We can omit `to bottom` or `180deg` because it is the default.
-    if angle == 180.0 {
-      serialize_items(&self.items, dest)
-
-    // If we have `to top` or `0deg`, and all of the positions and hints are percentages,
-    // we can flip the gradient the other direction and omit the direction.
-    } else if angle == 0.0
-      && dest.minify
-      && self.items.iter().all(|item| {
-        matches!(
-          item,
-          GradientItem::Hint(LengthPercentage::Percentage(_))
-            | GradientItem::ColorStop(ColorStop {
-              position: None | Some(LengthPercentage::Percentage(_)),
-              ..
-            })
-        )
-      })
-    {
-      let items: Vec<GradientItem<LengthPercentage>> = self
-        .items
-        .iter()
-        .rev()
-        .map(|item| {
-          // Flip percentages.
-          match item {
-            GradientItem::Hint(LengthPercentage::Percentage(p)) => {
-              GradientItem::Hint(LengthPercentage::Percentage(Percentage(1.0 - p.0)))
-            }
-            GradientItem::ColorStop(ColorStop { color, position }) => GradientItem::ColorStop(ColorStop {
-              color: color.clone(),
-              position: position.clone().map(|p| match p {
-                LengthPercentage::Percentage(p) => LengthPercentage::Percentage(Percentage(1.0 - p.0)),
-                _ => unreachable!(),
-              }),
-            }),
-            _ => unreachable!(),
-          }
-        })
-        .collect();
-      serialize_items(&items, dest)
-    } else {
-      if self.direction != LineDirection::Vertical(VerticalPositionKeyword::Bottom)
-        && self.direction != LineDirection::Angle(Angle::Deg(180.0))
-      {
-        self.direction.to_css(dest, is_prefixed)?;
-        dest.delim(',', false)?;
-      }
-
-      serialize_items(&self.items, dest)
-    }
-  }
-
   fn get_fallback(&self, kind: ColorFallbackKind) -> LinearGradient {
     LinearGradient {
       direction: self.direction.clone(),
       items: self.items.iter().map(|item| item.get_fallback(kind)).collect(),
       vendor_prefix: self.vendor_prefix,
     }
+  }
+}
+
+impl LinearGradient {
+  fn to_typst<W>(&self, dest: &mut Printer<W>, repeating: bool) -> Result<(), PrinterError>
+  where
+    W: std::fmt::Write,
+  {
+    serialize_items(&self.items, repeating, dest)?;
+    dest.delim(',', false)?;
+    self.direction.to_typst(dest)
   }
 }
 
@@ -380,8 +326,8 @@ impl<'i> RadialGradient {
   }
 }
 
-impl ToTypst for RadialGradient {
-  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+impl RadialGradient {
+  fn to_typst<W>(&self, dest: &mut Printer<W>, repeating: bool) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
@@ -400,7 +346,7 @@ impl ToTypst for RadialGradient {
       dest.delim(',', false)?;
     }
 
-    serialize_items(&self.items, dest)
+    serialize_items(&self.items, repeating, dest)
   }
 }
 
@@ -485,46 +431,48 @@ impl LineDirection {
     }
     Ok(LineDirection::Vertical(y))
   }
+}
 
-  fn to_css<W>(&self, dest: &mut Printer<W>, is_prefixed: bool) -> Result<(), PrinterError>
+impl ToTypst for LineDirection {
+  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
+    use HorizontalPositionKeyword::*;
+    use VerticalPositionKeyword::*;
     match self {
-      LineDirection::Angle(angle) => angle.to_typst(dest),
+      // CSS defaults to top to bottom, whereas Typst defaults to left to right,
+      // so we need to adjust the angle by 90 degrees.
+      LineDirection::Angle(angle) => {
+        dest.write_str("angle:")?;
+        dest.whitespace()?;
+        (Angle::Deg(-90.0) + angle.clone()).to_typst(dest)
+      }
       LineDirection::Horizontal(k) => {
-        if dest.minify {
-          match k {
-            HorizontalPositionKeyword::Left => dest.write_str("270deg"),
-            HorizontalPositionKeyword::Right => dest.write_str("90deg"),
-          }
-        } else {
-          if !is_prefixed {
-            dest.write_str("to ")?;
-          }
-          k.to_typst(dest)
+        dest.write_str("dir:")?;
+        dest.whitespace()?;
+        match k {
+          Left => dest.write_str("rtl"),
+          Right => dest.write_str("ltr"),
         }
       }
       LineDirection::Vertical(k) => {
-        if dest.minify {
-          match k {
-            VerticalPositionKeyword::Top => dest.write_str("0deg"),
-            VerticalPositionKeyword::Bottom => dest.write_str("180deg"),
-          }
-        } else {
-          if !is_prefixed {
-            dest.write_str("to ")?;
-          }
-          k.to_typst(dest)
+        dest.write_str("dir:")?;
+        dest.whitespace()?;
+        match k {
+          Top => dest.write_str("btt"),
+          Bottom => dest.write_str("ttb"),
         }
       }
       LineDirection::Corner { horizontal, vertical } => {
-        if !is_prefixed {
-          dest.write_str("to ")?;
+        dest.write_str("angle:")?;
+        dest.whitespace()?;
+        match (horizontal, vertical) {
+          (Right, Bottom) => dest.write_str("45deg"),
+          (Left, Bottom) => dest.write_str("135deg"),
+          (Left, Top) => dest.write_str("225deg"),
+          (Right, Top) => dest.write_str("315deg"),
         }
-        vertical.to_typst(dest)?;
-        dest.write_char(' ')?;
-        horizontal.to_typst(dest)
       }
     }
   }
@@ -760,29 +708,28 @@ impl ConicGradient {
   }
 }
 
-impl ToTypst for ConicGradient {
-  fn to_typst<W>(&self, dest: &mut Printer<W>) -> Result<(), PrinterError>
+impl ConicGradient {
+  fn to_typst<W>(&self, dest: &mut Printer<W>, repeating: bool) -> Result<(), PrinterError>
   where
     W: std::fmt::Write,
   {
-    if !self.angle.is_zero() {
-      dest.write_str("from ")?;
-      self.angle.to_typst(dest)?;
+    serialize_items(&self.items, repeating, dest)?;
 
-      if self.position.is_center() {
-        dest.delim(',', false)?;
-      } else {
-        dest.write_char(' ')?;
-      }
-    }
+    dest.delim(',', false)?;
+    dest.write_str("angle:")?;
+    dest.whitespace()?;
+    // For CSS conic gradients, 0deg is from the top, but for Typst conic gradients,
+    // 0deg is from the left. Have to add 90deg to start from top for Typst
+    (self.angle.clone() + Angle::Deg(90.0)).to_typst(dest)?;
 
     if !self.position.is_center() {
-      dest.write_str("at ")?;
-      self.position.to_typst(dest)?;
       dest.delim(',', false)?;
+      dest.write_str("center:")?;
+      dest.whitespace()?;
+      self.position.to_typst(dest)?;
     }
 
-    serialize_items(&self.items, dest)
+    Ok(())
   }
 }
 
@@ -830,12 +777,15 @@ impl<D: ToTypst> ToTypst for ColorStop<D> {
   where
     W: std::fmt::Write,
   {
+    dest.write_char('(')?;
     self.color.to_typst(dest)?;
+    dest.delim(',', false)?;
     if let Some(position) = &self.position {
-      dest.write_char(' ')?;
       position.to_typst(dest)?;
+    } else {
+      dest.write_str("none")?;
     }
-    Ok(())
+    dest.write_char(')')
   }
 }
 
@@ -872,7 +822,12 @@ impl<D: ToTypst> ToTypst for GradientItem<D> {
   {
     match self {
       GradientItem::ColorStop(stop) => stop.to_typst(dest),
-      GradientItem::Hint(hint) => hint.to_typst(dest),
+      GradientItem::Hint(hint) => {
+        dest.write_str("(none")?;
+        dest.delim(',', false)?;
+        hint.to_typst(dest)?;
+        dest.write_char(')')
+      }
     }
   }
 }
@@ -942,7 +897,15 @@ fn parse_items<'i, 't, D: Parse<'i>>(
     })?;
 
     match input.next() {
-      Err(_) => break,
+      Err(err) => {
+        // An error indicates that the parser has reached the end of the gradient
+        // items. The last item should be a color stop, so if it's a hint, then
+        // the gradient is malformed and we propagate the error.
+        if matches!(items.last(), Some(GradientItem::Hint(_))) {
+          return Err(err.into());
+        }
+        break;
+      }
       Ok(Token::Comma) => continue,
       _ => unreachable!(),
     }
@@ -951,46 +914,175 @@ fn parse_items<'i, 't, D: Parse<'i>>(
   Ok(items)
 }
 
+/// Positions the first and last items in a gradient at 0% and 100% (respectively) when
+/// able.
+/// 
+/// Does step 1 from https://drafts.csswg.org/css-images-4/#color-stop-fixup:
+/// 
+/// > If the first color stop does not have a position, set its position to 0%. If
+/// > the last color stop does not have a position, set its position to 100%.
+///
+/// There are also some cases where the first/last item will be cloned with a new
+/// position of 0%/100% when the gradient isn't repeating:
+/// 
+/// - The first item will be cloned with 0% if its position is positive.
+/// - The last item will be cloned with 100% if its position is a percentage < 100%.
+/// 
+/// Lastly, if the first item `is_zero()`, it will be replaced by 0%.
+fn ensure_boundary_stop<D: std::cmp::PartialEq<D> + std::cmp::PartialOrd<D> + Clone + TrySign + Zero>(
+  items: &mut Vec<GradientItem<DimensionPercentage<D>>>,
+  is_start: bool,
+  repeating: bool,
+) {
+  let index = if is_start { 0 } else { items.len() - 1 };
+  let boundary = if is_start { 0.0 } else { 1.0 };
+  let boundary = DimensionPercentage::Percentage(Percentage(boundary));
+  /*
+   * Here's the rules for handling the first position:
+   *
+   * - If no position or dim position == 0, replace with 0%
+   * - If not repeating
+   *   - If position > 0, clone with 0%
+   *   - If position < 0, do nothing
+   *
+   * Here's the rules for handling the last position:
+   *
+   * - If no position, replace with 100%
+   * - If not repeating
+   *   - If a per position < 100%, clone with 100%
+   *   - If a per position > 100% or a dim position, do nothing
+   */
+  match &mut items[index] {
+    GradientItem::ColorStop(stop) => {
+      match &stop.position {
+        Some(position) if *position == boundary => {}
+        // This is separate from the following pattern so that it applies to
+        // repeating gradients as well.
+        Some(position) if is_start && position.is_zero() => {
+          // replace with percentage so we don't have to in Typst
+          stop.position = Some(boundary);
+        }
+        // If the gradient is repeating, the only change we want to make is setting
+        // the position if it's missing, hence the guard here
+        Some(position) if !repeating => {
+          if is_start {
+            if position.is_sign_positive() {
+              let new_item = GradientItem::ColorStop(ColorStop {
+                color: stop.color.clone(),
+                position: Some(boundary),
+              });
+              items.insert(0, new_item);
+            }
+          // This is false if position is not a percentage (so nothing will be added)
+          } else if *position <= boundary {
+            let new_item = GradientItem::ColorStop(ColorStop {
+              color: stop.color.clone(),
+              position: Some(boundary),
+            });
+            items.push(new_item);
+          }
+        }
+        None => {
+          stop.position = Some(boundary);
+        }
+        _ => {}
+      }
+    }
+    // parse_items ensures the first and last items aren't hints.
+    GradientItem::Hint(_) => unreachable!(),
+  };
+}
+
+
+/// Ensures items with positions positions are in ascending order.
+/// 
+/// Does step 2 from https://drafts.csswg.org/css-images-4/#color-stop-fixup:
+/// 
+/// > If a color stop or transition hint has a position that is less than the specified
+/// > position of any color stop or transition hint before it in the list, set its
+/// > position to be equal to the largest specified position of any color stop or
+/// > transition hint before it. 
+fn clamp_positions<D: std::cmp::PartialOrd<D> + Clone>(items: &mut Vec<GradientItem<DimensionPercentage<D>>>) {
+  let mut iter = items.iter_mut();
+  let mut max_position = match iter.next() {
+    Some(GradientItem::ColorStop(ColorStop {
+      position: Some(pos), ..
+    }))
+    | Some(GradientItem::Hint(pos)) => pos.clone(),
+    _ => unreachable!(),
+  };
+  for item in items.iter_mut() {
+    match item {
+      // We ignore DimensionPercentage::Dimension(_) because they are
+      // absolute units, so we can't clamp them to 0% and 100%.
+      GradientItem::ColorStop(ColorStop {
+        position: Some(position @ DimensionPercentage::Percentage(_)),
+        ..
+      })
+      | GradientItem::Hint(position @ DimensionPercentage::Percentage(_)) => {
+        if *position < max_position {
+          *position = max_position.clone();
+        } else {
+          max_position = position.clone();
+        }
+      }
+      _ => {}
+    }
+  }
+}
+
+/// Does step 1 and 2 of color stop fixup from
+/// https://drafts.csswg.org/css-images-4/#color-stop-fixup.
+fn fix_items<
+  D: std::cmp::PartialEq<D>
+    + std::ops::Mul<f32, Output = D>
+    + TrySign
+    + Clone
+    + std::cmp::PartialOrd<D>
+    + TryAdd<D>
+    + Zero
+    + std::fmt::Debug,
+>(
+  items: &Vec<GradientItem<DimensionPercentage<D>>>,
+  repeating: bool,
+) -> Vec<GradientItem<DimensionPercentage<D>>> {
+  if items.is_empty() {
+    return vec![]; // This should never happen, but just in case.
+  }
+
+  let mut items = items.clone();
+  ensure_boundary_stop(&mut items, true, repeating);
+  ensure_boundary_stop(&mut items, false, repeating);
+  clamp_positions(&mut items);
+
+  items
+}
+
 fn serialize_items<
-  D: ToTypst + std::cmp::PartialEq<D> + std::ops::Mul<f32, Output = D> + TrySign + Clone + std::fmt::Debug,
+  D: ToTypst
+    + std::cmp::PartialEq<D>
+    + std::ops::Mul<f32, Output = D>
+    + TrySign
+    + Clone
+    + std::fmt::Debug
+    + std::cmp::PartialOrd<D>
+    + TryAdd<D>
+    + Zero,
   W,
 >(
   items: &Vec<GradientItem<DimensionPercentage<D>>>,
+  repeating: bool,
   dest: &mut Printer<W>,
 ) -> Result<(), PrinterError>
 where
   W: std::fmt::Write,
 {
+  let items = fix_items(items, repeating);
   let mut first = true;
-  let mut last: Option<&GradientItem<DimensionPercentage<D>>> = None;
   for item in items {
     // Skip useless hints
-    if *item == GradientItem::Hint(DimensionPercentage::Percentage(Percentage(0.5))) {
+    if item == GradientItem::Hint(DimensionPercentage::Percentage(Percentage(0.5))) {
       continue;
-    }
-
-    // Use double position stop if the last stop is the same color and all targets support it.
-    if let Some(prev) = last {
-      if !should_compile!(dest.targets, DoublePositionGradients) {
-        match (prev, item) {
-          (
-            GradientItem::ColorStop(ColorStop {
-              position: Some(_),
-              color: ca,
-            }),
-            GradientItem::ColorStop(ColorStop {
-              position: Some(p),
-              color: cb,
-            }),
-          ) if ca == cb => {
-            dest.write_char(' ')?;
-            p.to_typst(dest)?;
-            last = None;
-            continue;
-          }
-          _ => {}
-        }
-      }
     }
 
     if first {
@@ -999,7 +1091,6 @@ where
       dest.delim(',', false)?;
     }
     item.to_typst(dest)?;
-    last = Some(item)
   }
   Ok(())
 }

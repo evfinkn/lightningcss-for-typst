@@ -428,14 +428,14 @@ fn test_set() {
     "background-position-x",
     "20pt",
     false,
-    "background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0)) 20pt 0pt",
+    "background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 0pt",
   );
   set_test(
     "background: linear-gradient(red, green)",
     "background-position",
     "20pt 10pt",
     false,
-    "background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0)) 20pt 10pt",
+    "background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 10pt",
   );
   set_test(
     "flex-flow: row wrap",

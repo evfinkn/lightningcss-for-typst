@@ -2130,10 +2130,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 60;
-        -webkit-border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 60;
+        border-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 60;
+        border-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 60;
       }
     "#
       },
@@ -2151,11 +2149,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 60;
-        -webkit-border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        -moz-border-image: -moz-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 60;
+        border-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 60;
+        border-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 60;
       }
     "#
       },
@@ -2174,10 +2169,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: -moz-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 60;
-        border-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 60;
+        border-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 60;
+        border-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 60;
       }
     "#
       },
@@ -2196,9 +2189,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-        border-image-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-        border-image-source: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+        border-image-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+        border-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
       }
     "#
       },
@@ -2241,8 +2233,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
-        border-image-source: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+        border-image-source: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
+        border-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
       }
     "#
       },
@@ -2261,7 +2253,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-image-source: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+        border-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
       }
     "#
       },
@@ -2280,8 +2272,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        border-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
-        border-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+        border-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
+        border-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
       }
     "#
       },
@@ -2301,7 +2293,7 @@ mod tests {
       indoc! {r#"
       .foo {
         border-image: var(--fallback);
-        border-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+        border-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4379,8 +4371,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: rgb(175, 92, 174) linear-gradient(rgb(198, 93, 7), rgb(0, 128, 124));
-        background: oklab(60.1304%, .127678, -.0801536) linear-gradient(oklab(59.686%, .1009, .1192), oklab(54%, -.1, -.02));
+        background: rgb(175, 92, 174) linear-gradient((rgb(198, 93, 7), 0%), (rgb(0, 128, 124), 100%), dir: ttb);
+        background: oklab(60.1304%, .127678, -.0801536) linear-gradient((oklab(59.686%, .1009, .1192), 0%), (oklab(54%, -.1, -.02), 100%), dir: ttb);
       }
     "#
       },
@@ -4446,8 +4438,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
-        background-image: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
+        background-image: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4465,7 +4457,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background-image: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background-image: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4520,8 +4512,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
-        background: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
+        background: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4540,7 +4532,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: rgb(255, 0, 0);
-        background: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4558,7 +4550,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -4577,7 +4569,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: var(--fallback);
-        background: linear-gradient(oklch(59.2037%, .271749, 31.7395deg), oklch(53.6593%, .313444, 154.61deg));
+        background: linear-gradient((oklch(59.2037%, .271749, 31.7395deg), 0%), (oklch(53.6593%, .313444, 154.61deg), 100%), dir: ttb);
       }
     "#
       },
@@ -12304,119 +12296,119 @@ mod tests {
   pub fn test_gradients() {
     minify_test(
       ".foo { background: linear-gradient(yellow, blue) }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to bottom, yellow, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(180deg, yellow, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: linear-gradient(0.5turn, yellow, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow 10%, blue 20%) }",
-      ".foo{background:linear-gradient(rgb(255,255,0) 10%,rgb(0,0,255) 20%)}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(255,255,0),10%),(rgb(0,0,255),20%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top, blue, yellow); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(0,0,255),0%),(rgb(255,255,0),100%),dir:btt)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top, blue 10%, yellow 20%); }",
-      ".foo{background:linear-gradient(rgb(255,255,0) 80%,rgb(0,0,255) 90%)}",
+      ".foo{background:linear-gradient((rgb(0,0,255),0%),(rgb(0,0,255),10%),(rgb(255,255,0),20%),(rgb(255,255,0),100%),dir:btt)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top, blue 10pt, yellow 20pt); }",
-      ".foo{background:linear-gradient(0deg,rgb(0,0,255) 10pt,rgb(255,255,0) 20pt)}",
+      ".foo{background:linear-gradient((rgb(0,0,255),0%),(rgb(0,0,255),10pt),(rgb(255,255,0),20pt),dir:btt)}",
     );
     minify_test(
       ".foo { background: linear-gradient(135deg, yellow, blue); }",
-      ".foo{background:linear-gradient(135deg,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),angle:45deg)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, blue 20%, #0f0); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255) 20%,rgb(0,255,0))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),20%),(rgb(0,255,0),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(to top right, red, white, blue) }",
-      ".foo{background:linear-gradient(to top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,0,0),0%),(rgb(255,255,255),none),(rgb(0,0,255),100%),angle:315deg)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, blue calc(10% * 2), #0f0); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255) 20%,rgb(0,255,0))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),20%),(rgb(0,255,0),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 20%, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),20%,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(none,20%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 50%, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 20pt, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),20pt,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(none,20pt),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 50pt, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),50pt,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(none,50pt),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, 50pt, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),50pt,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(none,50pt),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, red 30% 40%, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(255,0,0) 30% 40%,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(255,0,0),30%),(rgb(255,0,0),40%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(yellow, red 30%, red 40%, blue); }",
-      ".foo{background:linear-gradient(rgb(255,255,0),rgb(255,0,0) 30% 40%,rgb(0,0,255))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(255,0,0),30%),(rgb(255,0,0),40%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: linear-gradient(0, yellow, blue); }",
-      ".foo{background:linear-gradient(rgb(0,0,255),rgb(255,255,0))}",
+      ".foo{background:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),angle:-90deg)}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(yellow, blue) }",
-      ".foo{background:-webkit-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-webkit-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-webkit-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-webkit-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -webkit-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-webkit-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
+      ".foo{background:-webkit-linear-gradient((rgb(255,0,0),0%),(rgb(255,255,255),none),(rgb(0,0,255),100%),angle:315deg)}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(yellow, blue) }",
-      ".foo{background:-moz-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-moz-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-moz-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-moz-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -moz-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-moz-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
+      ".foo{background:-moz-linear-gradient((rgb(255,0,0),0%),(rgb(255,255,255),none),(rgb(0,0,255),100%),angle:315deg)}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(yellow, blue) }",
-      ".foo{background:-o-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-o-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(bottom, yellow, blue); }",
-      ".foo{background:-o-linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-o-linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -o-linear-gradient(top right, red, white, blue) }",
-      ".foo{background:-o-linear-gradient(top right,rgb(255,0,0),rgb(255,255,255),rgb(0,0,255))}",
+      ".foo{background:-o-linear-gradient((rgb(255,0,0),0%),(rgb(255,255,255),none),(rgb(0,0,255),100%),angle:315deg)}",
     );
     minify_test(
       ".foo { background: -webkit-gradient(linear, left top, left bottom, from(blue), to(yellow)) }",
@@ -12432,111 +12424,111 @@ mod tests {
     );
     minify_test(
       ".foo { background: repeating-linear-gradient(yellow 10pt, blue 50pt) }",
-      ".foo{background:repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
+      ".foo{background:repeating-linear-gradient((rgb(255,255,0),10pt),(rgb(0,0,255),50pt),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -webkit-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
-      ".foo{background:-webkit-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
+      ".foo{background:-webkit-repeating-linear-gradient((rgb(255,255,0),10pt),(rgb(0,0,255),50pt),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -moz-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
-      ".foo{background:-moz-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
+      ".foo{background:-moz-repeating-linear-gradient((rgb(255,255,0),10pt),(rgb(0,0,255),50pt),dir:ttb)}",
     );
     minify_test(
       ".foo { background: -o-repeating-linear-gradient(yellow 10pt, blue 50pt) }",
-      ".foo{background:-o-repeating-linear-gradient(rgb(255,255,0) 10pt,rgb(0,0,255) 50pt)}",
+      ".foo{background:-o-repeating-linear-gradient((rgb(255,255,0),10pt),(rgb(0,0,255),50pt),dir:ttb)}",
     );
     minify_test(
       ".foo { background: radial-gradient(yellow, blue) }",
-      ".foo{background:radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(at top left, yellow, blue) }",
-      ".foo{background:radial-gradient(at 0pt 0pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(at 0pt 0pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(5em circle at top left, yellow, blue) }",
-      ".foo{background:radial-gradient(5em at 0pt 0pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(5em at 0pt 0pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle at 100%,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}",
+      ".foo{background:radial-gradient(circle at 100%,(rgb(51,51,51),0%),(rgb(51,51,51),50%),(rgb(238,238,238),75%),(rgb(51,51,51),75%),(rgb(51,51,51),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-corner circle at 100% 50%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle at 100%,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}"
+      ".foo{background:radial-gradient(circle at 100%,(rgb(51,51,51),0%),(rgb(51,51,51),50%),(rgb(238,238,238),75%),(rgb(51,51,51),75%),(rgb(51,51,51),100%))}"
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-corner circle at 50% 50%, #333, #333 50%, #eee 75%, #333 75%) }",
-      ".foo{background:radial-gradient(circle,rgb(51,51,51),rgb(51,51,51) 50%,rgb(238,238,238) 75%,rgb(51,51,51) 75%)}"
+      ".foo{background:radial-gradient(circle,(rgb(51,51,51),0%),(rgb(51,51,51),50%),(rgb(238,238,238),75%),(rgb(51,51,51),75%),(rgb(51,51,51),100%))}"
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse at top, #e66465, transparent) }",
-      ".foo{background:radial-gradient(at top,rgb(230,100,101),rgb(0,0,0,0%))}",
+      ".foo{background:radial-gradient(at top,(rgb(230,100,101),0%),(rgb(0,0,0,0%),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(20pt, yellow, blue) }",
-      ".foo{background:radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(circle 20pt, yellow, blue) }",
-      ".foo{background:radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(20pt 40pt, yellow, blue) }",
-      ".foo{background:radial-gradient(20pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(20pt 40pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse 20pt 40pt, yellow, blue) }",
-      ".foo{background:radial-gradient(20pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(20pt 40pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse calc(20pt + 10pt) 40pt, yellow, blue) }",
-      ".foo{background:radial-gradient(30pt 40pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(30pt 40pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(circle farthest-side, yellow, blue) }",
-      ".foo{background:radial-gradient(circle farthest-side,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(circle farthest-side,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-side circle, yellow, blue) }",
-      ".foo{background:radial-gradient(circle farthest-side,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(circle farthest-side,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(ellipse farthest-side, yellow, blue) }",
-      ".foo{background:radial-gradient(farthest-side,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(farthest-side,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: radial-gradient(farthest-side ellipse, yellow, blue) }",
-      ".foo{background:radial-gradient(farthest-side,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:radial-gradient(farthest-side,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -webkit-radial-gradient(yellow, blue) }",
-      ".foo{background:-webkit-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-webkit-radial-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -moz-radial-gradient(yellow, blue) }",
-      ".foo{background:-moz-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-moz-radial-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -o-radial-gradient(yellow, blue) }",
-      ".foo{background:-o-radial-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-o-radial-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: repeating-radial-gradient(circle 20pt, yellow, blue) }",
-      ".foo{background:repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:repeating-radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -webkit-repeating-radial-gradient(circle 20pt, yellow, blue) }",
-      ".foo{background:-webkit-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-webkit-repeating-radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -moz-repeating-radial-gradient(circle 20pt, yellow, blue) }",
-      ".foo{background:-moz-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-moz-repeating-radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -o-repeating-radial-gradient(circle 20pt, yellow, blue) }",
-      ".foo{background:-o-repeating-radial-gradient(20pt,rgb(255,255,0),rgb(0,0,255))}",
+      ".foo{background:-o-repeating-radial-gradient(20pt,(rgb(255,255,0),0%),(rgb(0,0,255),100%))}",
     );
     minify_test(
       ".foo { background: -webkit-gradient(radial, center center, 0, center center, 100, from(blue), to(yellow)) }",
@@ -12544,43 +12536,43 @@ mod tests {
     );
     minify_test(
       ".foo { background: conic-gradient(#f06, gold) }",
-      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
+      ".foo{background:conic-gradient((rgb(255,0,102),0%),(rgb(255,215,0),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(at 50% 50%, #f06, gold) }",
-      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
+      ".foo{background:conic-gradient((rgb(255,0,102),0%),(rgb(255,215,0),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0deg, #f06, gold) }",
-      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
+      ".foo{background:conic-gradient((rgb(255,0,102),0%),(rgb(255,215,0),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0, #f06, gold) }",
-      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
+      ".foo{background:conic-gradient((rgb(255,0,102),0%),(rgb(255,215,0),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 0deg at center, #f06, gold) }",
-      ".foo{background:conic-gradient(rgb(255,0,102),rgb(255,215,0))}",
+      ".foo{background:conic-gradient((rgb(255,0,102),0%),(rgb(255,215,0),100%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(white -50%, black 150%) }",
-      ".foo{background:conic-gradient(rgb(255,255,255) -50%,rgb(0,0,0) 150%)}",
+      ".foo{background:conic-gradient((rgb(255,255,255),-50%),(rgb(0,0,0),150%),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(white -180deg, black 540deg) }",
-      ".foo{background:conic-gradient(rgb(255,255,255) -180deg,rgb(0,0,0) 540deg)}",
+      ".foo{background:conic-gradient((rgb(255,255,255),-180deg),(rgb(0,0,0),540deg),angle:90deg)}",
     );
     minify_test(
       ".foo { background: conic-gradient(from 45deg, white, black, white) }",
-      ".foo{background:conic-gradient(from 45deg,rgb(255,255,255),rgb(0,0,0),rgb(255,255,255))}",
+      ".foo{background:conic-gradient((rgb(255,255,255),0%),(rgb(0,0,0),none),(rgb(255,255,255),100%),angle:135deg)}",
     );
     minify_test(
       ".foo { background: repeating-conic-gradient(from 45deg, white, black, white) }",
-      ".foo{background:repeating-conic-gradient(from 45deg,rgb(255,255,255),rgb(0,0,0),rgb(255,255,255))}",
+      ".foo{background:repeating-conic-gradient((rgb(255,255,255),0%),(rgb(0,0,0),none),(rgb(255,255,255),100%),angle:135deg)}",
     );
     minify_test(
       ".foo { background: repeating-conic-gradient(black 0deg 25%, white 0deg 50%) }",
-      ".foo{background:repeating-conic-gradient(rgb(0,0,0) 0deg 25%,rgb(255,255,255) 0deg 50%)}",
+      ".foo{background:repeating-conic-gradient((rgb(0,0,0),0%),(rgb(0,0,0),25%),(rgb(255,255,255),0deg),(rgb(255,255,255),50%),angle:90deg)}",
     );
 
     test(
@@ -12596,10 +12588,10 @@ mod tests {
       indoc! {r#"
         .foo {
           background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-          background: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-          background: -moz-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-          background: -o-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-          background: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+          background: -webkit-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
+          background: -moz-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
+          background: -o-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
+          background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
         }
       "#},
     );
@@ -12616,7 +12608,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12636,9 +12628,9 @@ mod tests {
       indoc! {r#"
       .foo {
         background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background: -moz-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background: -o-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: -webkit-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
+        background: -moz-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
+        background: -o-linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12654,9 +12646,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12672,9 +12662,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(right, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ltr);
       }
       "#},
       Browsers {
@@ -12690,9 +12678,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 100%, 0 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(top, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(to top, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: btt);
       }
       "#},
       Browsers {
@@ -12708,9 +12694,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 100% 0, 0 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(left, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(to left, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: rtl);
       }
       "#},
       Browsers {
@@ -12726,9 +12710,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 100% 0, 0 100%, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(bottom left, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(to bottom left, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), angle: 135deg);
       }
       "#},
       Browsers {
@@ -12744,9 +12726,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 100%, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(top right, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(to top right, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), angle: 315deg);
       }
       "#},
       Browsers {
@@ -12762,9 +12742,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(linear, 0 0, 100% 0, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(90deg, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), angle: 0deg);
       }
       "#},
       Browsers {
@@ -12780,8 +12758,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), angle: -45deg);
       }
       "#},
       Browsers {
@@ -12797,8 +12774,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12814,9 +12790,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(radial, center center, 0, center center, 20, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-radial-gradient(20pt, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: radial-gradient(20pt, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(20pt, (rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12832,9 +12806,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-gradient(radial, left top, 0, left top, 20, from(rgb(255, 0, 0)), to(rgb(0, 0, 255)));
-        background-image: -webkit-radial-gradient(20pt at 0pt 0pt, rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: radial-gradient(20pt at 0pt 0pt, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(20pt at 0pt 0pt, (rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12850,8 +12822,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background-image: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12869,7 +12840,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background-image: radial-gradient(20pt at 0pt 0pt, rgb(255, 0, 0), rgb(0, 0, 255));
+        background-image: radial-gradient(20pt at 0pt 0pt, (rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12887,7 +12858,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: radial-gradient(20pt at 0pt 0pt, rgb(255, 0, 0), rgb(0, 0, 255));
+        background: radial-gradient(20pt at 0pt 0pt, (rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12903,8 +12874,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
-        background: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255));
+        background: radial-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%));
       }
       "#},
       Browsers {
@@ -12920,11 +12890,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 255, 0)), to(rgb(255, 0, 0))), url("bg.jpg");
-        background: -webkit-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -webkit-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
-        background: -moz-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -moz-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
-        background: -o-radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), -o-linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
-        background: radial-gradient(rgb(255, 0, 0), rgb(0, 0, 255)), linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0)), url("bg.jpg");
+        background: radial-gradient((rgb(255, 0, 0), 0%), (rgb(0, 0, 255), 100%)), linear-gradient((rgb(255, 255, 0), 0%), (rgb(255, 0, 0), 100%), dir: ttb), url("bg.jpg");
       }
       "#},
       Browsers {
@@ -12943,7 +12909,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0) 30%, rgb(255, 0, 0) 40%, rgb(0, 0, 255));
+        background: linear-gradient((rgb(255, 255, 0), 0%), (rgb(255, 0, 0), 30%), (rgb(255, 0, 0), 40%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12960,7 +12926,7 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        background: linear-gradient(rgb(255, 255, 0), rgb(255, 0, 0) 30% 40%, rgb(0, 0, 255));
+        background: linear-gradient((rgb(255, 255, 0), 0%), (rgb(255, 0, 0), 30%), (rgb(255, 0, 0), 40%), (rgb(0, 0, 255), 100%), dir: ttb);
       }
       "#},
       Browsers {
@@ -12973,8 +12939,8 @@ mod tests {
       ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -12987,9 +12953,9 @@ mod tests {
       ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134));
-          background: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background: linear-gradient((oklab(64.8576%, .262041, .145003), 0%), (oklab(63.2656%, .0571369, -.325134), 100%), dir: ttb);
+          background: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13003,9 +12969,8 @@ mod tests {
       ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13018,10 +12983,8 @@ mod tests {
       ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
-          background: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13034,7 +12997,7 @@ mod tests {
       ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13047,7 +13010,7 @@ mod tests {
       ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(oklab(59.686%, .1009, .1192), oklab(54%, -.1, -.02));
+          background-image: linear-gradient((oklab(59.686%, .1009, .1192), 0%), (oklab(54%, -.1, -.02), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13060,8 +13023,8 @@ mod tests {
       ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13074,9 +13037,9 @@ mod tests {
       ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134));
-          background-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background-image: linear-gradient((oklab(64.8576%, .262041, .145003), 0%), (oklab(63.2656%, .0571369, -.325134), 100%), dir: ttb);
+          background-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13090,9 +13053,8 @@ mod tests {
       ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13105,10 +13067,8 @@ mod tests {
       ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
-          background-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          background-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          background-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13121,7 +13081,7 @@ mod tests {
       ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          background-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -13134,7 +13094,7 @@ mod tests {
       ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(oklab(59.686%, .1009, .1192), oklab(54%, -.1, -.02));
+          background-image: linear-gradient((oklab(59.686%, .1009, .1192), 0%), (oklab(54%, -.1, -.02), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -16315,10 +16275,8 @@ mod tests {
       ".foo { list-style-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          list-style-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
-          list-style-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          list-style-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          list-style-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          list-style-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          list-style-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -16331,8 +16289,8 @@ mod tests {
       ".foo { list-style: \"★\" linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          list-style: "★" linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          list-style: "★" linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          list-style: "★" linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          list-style: "★" linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -16419,7 +16377,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        background: image-set(linear-gradient(rgb(100, 149, 237), rgb(255, 255, 255)) "1x", "detailed-gradient.png" "3x");
+        background: image-set(linear-gradient((rgb(100, 149, 237), 0%), (rgb(255, 255, 255), 100%), dir: ttb) "1x", "detailed-gradient.png" "3x");
       }
     "#},
     );
@@ -24987,12 +24945,10 @@ mod tests {
       ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255)));
-          -webkit-mask-image: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          -webkit-mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          -webkit-mask-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
-          mask-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          -webkit-mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          -webkit-mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
+          mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -25005,10 +24961,10 @@ mod tests {
       ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          mask-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          -webkit-mask-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
-          mask-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          -webkit-mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          -webkit-mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
+          mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -25021,8 +24977,8 @@ mod tests {
       ".foo { mask-image: linear-gradient(red, green) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
-          mask-image: linear-gradient(rgb(255, 0, 0), rgb(0, 128, 0));
+          -webkit-mask-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
+          mask-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
         }
       "#},
       Browsers {
@@ -25049,12 +25005,10 @@ mod tests {
       ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40pt 20pt }",
       indoc! { r#"
         .foo {
-          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
-          -webkit-mask: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
-          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
-          mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
-          -webkit-mask: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 40pt 20pt;
-          mask: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 40pt 20pt;
+          -webkit-mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
+          mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
+          -webkit-mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 40pt 20pt;
+          mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 40pt 20pt;
         }
       "#},
       Browsers {
@@ -25068,7 +25022,7 @@ mod tests {
       indoc! { r#"
         .foo {
           -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
-          -webkit-mask: -webkit-linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt 20pt;
+          -webkit-mask: -webkit-linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
         }
       "#},
       Browsers {
@@ -25169,14 +25123,14 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25% 75% / cover no-repeat content-box padding-box;
+          -webkit-mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
-          mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
-          -webkit-mask: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 25% 75% / cover no-repeat content-box padding-box;
+          mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
+          -webkit-mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
-          mask: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
+          mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
         }
     "#},
       Browsers {
@@ -25262,10 +25216,10 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25 / 35pt / 12pt space;
-          mask-border: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 25 / 35pt / 12pt space luminance;
-          -webkit-mask-box-image: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 25 / 35pt / 12pt space;
-          mask-border: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg)) 25 / 35pt / 12pt space luminance;
+          -webkit-mask-box-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25 / 35pt / 12pt space;
+          mask-border: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25 / 35pt / 12pt space luminance;
+          -webkit-mask-box-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25 / 35pt / 12pt space;
+          mask-border: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25 / 35pt / 12pt space luminance;
         }
     "#},
       Browsers {
@@ -25282,10 +25236,10 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          mask-border-source: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255));
-          -webkit-mask-box-image-source: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
-          mask-border-source: linear-gradient(oklch(64.8576%, .299485, 28.9583deg), oklch(63.2656%, .330116, 279.967deg));
+          -webkit-mask-box-image-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          mask-border-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          -webkit-mask-box-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
+          mask-border-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
     "#},
       Browsers {
@@ -27024,7 +26978,7 @@ mod tests {
         initial-value: linear-gradient(yellow, blue);
       }
     "#,
-      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
 
     minify_test(
@@ -27035,7 +26989,7 @@ mod tests {
         syntax: '<image>';
       }
     "#,
-      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient(rgb(255,255,0),rgb(0,0,255))}",
+      "@property --property-name{syntax:\"<image>\";inherits:false;initial-value:linear-gradient((rgb(255,255,0),0%),(rgb(0,0,255),100%),dir:ttb)}",
     );
 
     test(
