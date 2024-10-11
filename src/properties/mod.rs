@@ -806,8 +806,8 @@ macro_rules! define_properties {
       pub fn to_css<W>(&self, dest: &mut Printer<W>, important: bool) -> Result<(), PrinterError> where W: std::fmt::Write {
         use Property::*;
 
-        let mut first = true;
-        macro_rules! start {
+        let mut _first = true;
+        macro_rules! _start {
           () => {
             #[allow(unused_assignments)]
             if first {
@@ -828,7 +828,7 @@ macro_rules! define_properties {
           }
         }
 
-        let (name, prefix) = match self {
+        let (name, _prefix) = match self {
           $(
             $(#[$meta])*
             $property(_, $(vp_name!($vp, prefix))?) => {
@@ -860,14 +860,10 @@ macro_rules! define_properties {
             return Ok(())
           }
         };
-        for p in prefix {
-          start!();
-          p.to_typst(dest)?;
-          dest.write_str(name)?;
-          dest.delim(':', false)?;
-          self.value_to_css(dest)?;
-          write_important!();
-        }
+        dest.write_str(name)?;
+        dest.delim(':', false)?;
+        self.value_to_css(dest)?;
+        write_important!();
         Ok(())
       }
 

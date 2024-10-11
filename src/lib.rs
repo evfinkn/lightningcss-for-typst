@@ -1950,7 +1950,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: url("test.png") 60;
+        border-image: url("test.png") 60;
       }
     "#
       },
@@ -1965,7 +1965,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: url("test.png") 60;
         border-image: url("test.png") 60;
       }
     "#
@@ -1981,7 +1980,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: url("test.png") 60;
+        border-image: url("test.png") 60;
         border-image-source: url("foo.png");
       }
     "#
@@ -2043,9 +2042,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: url("test.png") 60;
-        -moz-border-image: url("test.png") 60;
-        -o-border-image: url("test.png") 60;
         border-image: url("test.png") 60;
       }
     "#
@@ -2086,9 +2082,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-image: var(--test) 60;
-        -moz-border-image: var(--test) 60;
-        -o-border-image: var(--test) 60;
         border-image: var(--test) 60;
       }
     "#
@@ -2520,8 +2513,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 10pt 100pt;
-        -moz-border-radius: 10pt 100pt;
         border-radius: 10pt 100pt;
       }
     "#
@@ -2538,8 +2529,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 10pt 100pt;
-        -moz-border-radius: 20pt;
+        border-radius: 10pt 100pt;
+        border-radius: 20pt;
         border-radius: 30pt;
       }
     "#
@@ -2556,8 +2547,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 10pt;
-        -moz-border-top-left-radius: 10pt;
         border-top-left-radius: 10pt;
       }
     "#
@@ -2572,8 +2561,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 30pt;
-        -moz-border-radius: 30pt;
         border-radius: 30pt;
       }
     "#
@@ -2593,8 +2580,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 30pt;
-        -moz-border-top-left-radius: 30pt;
         border-top-left-radius: 30pt;
       }
     "#
@@ -2657,8 +2642,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: 30pt;
-        -moz-border-radius: 30pt;
+        border-radius: 30pt;
       }
     "#
       },
@@ -2680,8 +2664,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-top-left-radius: 30pt;
-        -moz-border-top-right-radius: 30pt;
+        border-top-left-radius: 30pt;
+        border-top-right-radius: 30pt;
         border-bottom-right-radius: 30pt;
         border-bottom-left-radius: 30pt;
       }
@@ -2702,8 +2686,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-border-radius: var(--test);
-        -moz-border-radius: var(--test);
         border-radius: var(--test);
       }
     "#
@@ -4061,7 +4043,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: rgb(128, 128, 128) url("img.png") padding-box content-box;
-        -webkit-background-clip: text;
+        background-clip: text;
       }
     "#
       },
@@ -4078,7 +4060,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: rgb(128, 128, 128) url("img.png");
-        -webkit-background-clip: text;
+        background-clip: text;
         background-clip: content-box;
       }
     "#
@@ -4167,7 +4149,6 @@ mod tests {
       indoc! {r#"
       .foo {
         background: url("img.png");
-        -webkit-background-clip: text;
         background-clip: text;
       }
     "#
@@ -4206,7 +4187,6 @@ mod tests {
       indoc! {r#"
       .foo {
         background: url("img.png");
-        -webkit-background-clip: text;
         background-clip: text;
       }
     "#
@@ -4227,7 +4207,7 @@ mod tests {
       indoc! {r#"
       .foo {
         background: url("img.png");
-        -webkit-background-clip: text;
+        background-clip: text;
       }
     "#
       },
@@ -4247,7 +4227,6 @@ mod tests {
       indoc! {r#"
       .foo {
         background: url("img.png");
-        -webkit-background-clip: text;
         background-clip: text;
       }
     "#
@@ -4269,7 +4248,6 @@ mod tests {
       indoc! {r#"
       .foo {
         background-image: url("img.png");
-        -webkit-background-clip: text;
         background-clip: text;
       }
     "#
@@ -4289,7 +4267,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-background-clip: text;
         background-clip: text;
       }
     "#
@@ -4877,7 +4854,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: center;
+        align-content: center;
+        justify-content: center;
       }
     "#
       },
@@ -4892,7 +4870,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: baseline safe right;
+        align-content: baseline;
+        justify-content: safe right;
       }
     "#
       },
@@ -4906,7 +4885,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: baseline unsafe left;
+        align-content: baseline;
+        justify-content: unsafe left;
       }
     "#
       },
@@ -4920,7 +4900,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: center;
+        align-content: center;
+        justify-content: center;
       }
     "#
       },
@@ -4935,7 +4916,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-self: center;
+        align-self: center;
+        justify-self: center;
       }
     "#
       },
@@ -4950,7 +4932,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-self: center unsafe left;
+        align-self: center;
+        justify-self: unsafe left;
       }
     "#
       },
@@ -4965,7 +4948,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-items: center;
+        align-items: center;
+        justify-items: center;
       }
     "#
       },
@@ -4980,7 +4964,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-items: center legacy left;
+        align-items: center;
+        justify-items: legacy left;
       }
     "#
       },
@@ -4995,7 +4980,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-items: center;
+        align-items: center;
+        justify-items: center;
         justify-items: var(--justify);
       }
     "#
@@ -5087,7 +5073,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-flex: auto;
+        flex: auto;
       }
     "#
       },
@@ -5095,9 +5081,6 @@ mod tests {
     test(
       r#"
       .foo {
-        -webkit-flex-grow: 1;
-        -webkit-flex-shrink: 1;
-        -webkit-flex-basis: auto;
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: auto;
@@ -5105,7 +5088,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-flex: auto;
         flex: auto;
       }
     "#
@@ -5121,9 +5103,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: row;
         flex-direction: row;
       }
     "#},
@@ -5140,12 +5119,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-orient: horizontal;
-        -moz-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -moz-box-direction: normal;
-        -webkit-flex-direction: row;
-        -ms-flex-direction: row;
         flex-direction: row;
       }
     "#},
@@ -5186,10 +5159,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-lines: multiple;
-        -moz-box-lines: multiple;
-        -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
       }
     "#},
@@ -5228,12 +5197,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-orient: horizontal;
-        -moz-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -moz-box-direction: normal;
-        -webkit-flex-flow: wrap;
-        -ms-flex-flow: wrap;
         flex-flow: wrap;
       }
     "#},
@@ -5274,10 +5237,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -ms-flex-positive: 1;
-        -webkit-flex-grow: 1;
         flex-grow: 1;
       }
     "#},
@@ -5316,8 +5275,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-negative: 1;
-        -webkit-flex-shrink: 1;
         flex-shrink: 1;
       }
     "#},
@@ -5354,8 +5311,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-preferred-size: 1pt;
-        -webkit-flex-basis: 1pt;
         flex-basis: 1pt;
       }
     "#},
@@ -5392,10 +5347,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
         flex: 1;
       }
     "#},
@@ -5434,8 +5385,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-line-pack: justify;
-        -webkit-align-content: space-between;
         align-content: space-between;
       }
     "#},
@@ -5472,10 +5421,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-pack: justify;
-        -moz-box-pack: justify;
-        -ms-flex-pack: justify;
-        -webkit-justify-content: space-between;
         justify-content: space-between;
       }
     "#},
@@ -5514,13 +5459,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-line-pack: justify;
-        -webkit-box-pack: end;
-        -moz-box-pack: end;
-        -ms-flex-pack: end;
-        -webkit-align-content: space-between;
         align-content: space-between;
-        -webkit-justify-content: flex-end;
         justify-content: flex-end;
       }
     "#},
@@ -5545,7 +5484,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: space-between flex-end;
+        align-content: space-between;
+        justify-content: flex-end;
       }
     "#},
       Browsers {
@@ -5578,7 +5518,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-content: space-between flex-end;
+        align-content: space-between;
+        justify-content: flex-end;
       }
     "#},
       Browsers {
@@ -5594,8 +5535,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-item-align: end;
-        -webkit-align-self: flex-end;
         align-self: flex-end;
       }
     "#},
@@ -5632,8 +5571,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex-item-align: center;
-        -webkit-align-self: center;
         align-self: center;
         justify-self: flex-end;
       }
@@ -5655,7 +5592,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-self: center flex-end;
+        align-self: center;
+        justify-self: flex-end;
       }
     "#},
       Browsers {
@@ -5688,7 +5626,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-self: center flex-end;
+        align-self: center;
+        justify-self: flex-end;
       }
     "#},
       Browsers {
@@ -5704,10 +5643,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-align: end;
-        -moz-box-align: end;
-        -ms-flex-align: end;
-        -webkit-align-items: flex-end;
         align-items: flex-end;
       }
     "#},
@@ -5746,10 +5681,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-align: end;
-        -moz-box-align: end;
-        -ms-flex-align: end;
-        -webkit-align-items: flex-end;
         align-items: flex-end;
         justify-items: center;
       }
@@ -5773,7 +5704,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        place-items: flex-end center;
+        align-items: flex-end;
+        justify-items: center;
       }
     "#},
       Browsers {
@@ -5806,10 +5738,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-ordinal-group: 1;
-        -moz-box-ordinal-group: 1;
-        -ms-flex-order: 1;
-        -webkit-order: 1;
         order: 1;
       }
     "#},
@@ -5849,7 +5777,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -ms-flex: 0 0 8%;
+        flex: 0 0 8%;
         flex: 0 0 5%;
       }
     "#},
@@ -7969,7 +7897,6 @@ mod tests {
       ".foo { box-shadow: 12pt 12pt oklab(49.8239% .160476 .0808531) }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12pt 12pt rgb(179, 35, 35);
           box-shadow: 12pt 12pt rgb(179, 35, 35);
           box-shadow: 12pt 12pt oklab(49.8239%, .160476, .0808531);
         }
@@ -7984,7 +7911,6 @@ mod tests {
       ".foo { box-shadow: 12pt 12pt oklab(49.8239% .160476 .0808531), 12pt 12pt yellow }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12pt 12pt rgb(179, 35, 35), 12pt 12pt rgb(255, 255, 0);
           box-shadow: 12pt 12pt rgb(179, 35, 35), 12pt 12pt rgb(255, 255, 0);
           box-shadow: 12pt 12pt oklab(49.8239%, .160476, .0808531), 12pt 12pt oklab(96.7983%, -.0713692, .19857);
         }
@@ -7999,7 +7925,7 @@ mod tests {
       ".foo { -webkit-box-shadow: 12pt 12pt #0006 }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
+          box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
         }
       "#},
       Browsers {
@@ -8015,8 +7941,8 @@ mod tests {
       }",
       indoc! { r#"
         .foo {
-          -webkit-box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
-          -moz-box-shadow: 12pt 12pt rgb(0, 0, 0, 60%);
+          box-shadow: 12pt 12pt rgb(0, 0, 0, 40%);
+          box-shadow: 12pt 12pt rgb(0, 0, 0, 60%);
         }
       "#},
       Browsers {
@@ -9371,7 +9297,7 @@ mod tests {
       }
 
       .a {
-        -webkit-border-radius: 10pt;
+        border-radius: 10pt;
       }
     "#},
     );
@@ -10817,7 +10743,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: opacity 2s ease-in-out .5s, color 4s ease-in;
+        transition: opacity 2s ease-in-out .5s, color 4s ease-in;
       }
     "#},
     );
@@ -10841,8 +10767,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: opacity 2s ease-in-out .5s, color 4s ease-in;
-        -moz-transition: opacity 2s ease-in-out .5s, color 4s ease-in;
         transition: opacity 2s ease-in-out .5s, color 4s ease-in;
       }
     "#},
@@ -10867,8 +10791,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: opacity 2s ease-in-out .5s, color 4s ease-in;
-        -moz-transition: opacity 2s ease-in-out .5s, color 4s ease-in;
         transition: opacity 2s ease-in-out .5s, color 4s ease-in;
       }
     "#},
@@ -10893,17 +10815,16 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition-property: opacity;
-        -moz-transition-property: color;
+        transition-property: opacity;
+        transition-property: color;
         transition-property: opacity, color;
-        -webkit-transition-duration: 2s;
-        -moz-transition-duration: 4s;
+        transition-duration: 2s;
+        transition-duration: 4s;
         transition-duration: 2s, 4s;
-        -webkit-transition-timing-function: ease-in-out;
-        -moz-transition-timing-function: ease-in-out;
-        -webkit-transition-delay: .5s;
+        transition-timing-function: ease-in-out;
+        transition-delay: .5s;
         transition-timing-function: ease-in-out, ease-in;
-        -moz-transition-delay: 0s;
+        transition-delay: 0s;
         transition-delay: .5s, 0s;
       }
     "#},
@@ -10928,18 +10849,18 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition-property: opacity;
+        transition-property: opacity;
         transition-property: opacity, color;
-        -moz-transition-property: color;
-        -webkit-transition-duration: 2s;
+        transition-property: color;
+        transition-duration: 2s;
         transition-duration: 2s, 4s;
-        -moz-transition-duration: 4s;
-        -webkit-transition-timing-function: ease-in-out;
+        transition-duration: 4s;
+        transition-timing-function: ease-in-out;
         transition-timing-function: ease-in-out, ease-in;
-        -webkit-transition-delay: .5s;
-        -moz-transition-timing-function: ease-in-out;
+        transition-delay: .5s;
+        transition-timing-function: ease-in-out;
         transition-delay: .5s, 0s;
-        -moz-transition-delay: 0s;
+        transition-delay: 0s;
       }
     "#},
     );
@@ -10954,7 +10875,7 @@ mod tests {
       indoc! {r#"
       .foo {
         transition: opacity 2s;
-        -webkit-transition-duration: 2s;
+        transition-duration: 2s;
       }
     "#},
     );
@@ -11153,7 +11074,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: -webkit-transform, transform;
         transition: -webkit-transform, transform;
       }
     "#
@@ -11172,12 +11092,10 @@ mod tests {
     "#,
       indoc! {r#"
       .foo:not(:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi))) {
-        -webkit-transition: -webkit-border-top-left-radius, border-top-left-radius;
         transition: -webkit-border-top-left-radius, border-top-left-radius;
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-        -webkit-transition: -webkit-border-top-right-radius, border-top-right-radius;
         transition: -webkit-border-top-right-radius, border-top-right-radius;
       }
     "#
@@ -11220,8 +11138,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: background .2s;
-        -moz-transition: background .2s;
+        transition: background .2s;
         transition: background .23s;
       }
     "#},
@@ -11237,8 +11154,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transition: background .2s;
-        -moz-transition: background .2s;
+        transition: background .2s;
         transition: background .23s;
       }
     "#},
@@ -11621,7 +11537,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-animation: 90ms ease-in-out .1s 2 alternate forwards foo;
+        animation: 90ms ease-in-out .1s 2 alternate forwards foo;
       }
     "#},
     );
@@ -11634,7 +11550,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -moz-animation: .2s ease-in-out bar;
+        animation: .2s ease-in-out bar;
       }
     "#},
     );
@@ -11649,8 +11565,8 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-animation: .2s ease-in-out bar;
-        -moz-animation: .2s ease-in-out bar;
+        animation: .2s ease-in-out bar;
+        animation: .2s ease-in-out bar;
       }
     "#},
     );
@@ -11663,8 +11579,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-animation: .2s ease-in-out bar;
-        -moz-animation: .2s ease-in-out bar;
         animation: .2s ease-in-out bar;
       }
     "#},
@@ -11702,8 +11616,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-animation: .2s var(--ease) bar;
-        -moz-animation: .2s var(--ease) bar;
         animation: .2s var(--ease) bar;
       }
     "#},
@@ -11755,7 +11667,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-animation: .2s ease-in-out bar;
         animation: .2s ease-in-out bar;
         animation-timeline: scroll();
       }
@@ -12206,7 +12117,7 @@ mod tests {
 
     minify_test(
       ".foo { -webkit-transform: scale(calc(10% + 20%))",
-      ".foo{-webkit-transform:scale(.3)}",
+      ".foo{transform:scale(.3)}",
     );
 
     minify_test(".foo { translate: 1pt 2pt 3pt }", ".foo{translate:1pt 2pt 3pt}");
@@ -12245,8 +12156,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transform: scale(.5);
-        -moz-transform: scale(.5);
         transform: scale(.5);
       }
     "#},
@@ -12265,8 +12174,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-transform: var(--transform);
-        -moz-transform: var(--transform);
         transform: var(--transform);
       }
     "#},
@@ -13649,7 +13556,6 @@ mod tests {
       indoc! { r#"
       @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10pt);
           backdrop-filter: blur(10pt);
         }
       }
@@ -13670,7 +13576,6 @@ mod tests {
       indoc! { r#"
       @supports ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10pt);
           backdrop-filter: blur(10pt);
         }
       }
@@ -13691,7 +13596,6 @@ mod tests {
       indoc! { r#"
       @supports ((-webkit-backdrop-filter: blur(20pt))) or ((-webkit-backdrop-filter: blur(10pt)) or (backdrop-filter: blur(10pt))) {
         div {
-          -webkit-backdrop-filter: blur(10pt);
           backdrop-filter: blur(10pt);
         }
       }
@@ -13951,8 +13855,6 @@ mod tests {
       ".foo{transition:opacity 200ms}",
       indoc! {r#"
       .foo {
-        -webkit-transition: opacity .2s;
-        -moz-transition: opacity .2s;
         transition: opacity .2s;
       }
       "#},
@@ -14206,14 +14108,12 @@ mod tests {
   fn test_tab_size() {
     minify_test(".foo { tab-size: 8 }", ".foo{tab-size:8}");
     minify_test(".foo { tab-size: 4pt }", ".foo{tab-size:4pt}");
-    minify_test(".foo { -moz-tab-size: 4pt }", ".foo{-moz-tab-size:4pt}");
-    minify_test(".foo { -o-tab-size: 4pt }", ".foo{-o-tab-size:4pt}");
+    minify_test(".foo { -moz-tab-size: 4pt }", ".foo{tab-size:4pt}");
+    minify_test(".foo { -o-tab-size: 4pt }", ".foo{tab-size:4pt}");
     prefix_test(
       ".foo{ tab-size: 4 }",
       indoc! {r#"
       .foo {
-        -moz-tab-size: 4;
-        -o-tab-size: 4;
         tab-size: 4;
       }
       "#},
@@ -14276,16 +14176,13 @@ mod tests {
     minify_test(".foo { hyphens: manual }", ".foo{hyphens:manual}");
     minify_test(".foo { hyphens: auto }", ".foo{hyphens:auto}");
     minify_test(".foo { hyphens: none }", ".foo{hyphens:none}");
-    minify_test(".foo { -webkit-hyphens: manual }", ".foo{-webkit-hyphens:manual}");
-    minify_test(".foo { -moz-hyphens: manual }", ".foo{-moz-hyphens:manual}");
-    minify_test(".foo { -ms-hyphens: manual }", ".foo{-ms-hyphens:manual}");
+    minify_test(".foo { -webkit-hyphens: manual }", ".foo{hyphens:manual}");
+    minify_test(".foo { -moz-hyphens: manual }", ".foo{hyphens:manual}");
+    minify_test(".foo { -ms-hyphens: manual }", ".foo{hyphens:manual}");
     prefix_test(
       ".foo{ hyphens: manual }",
       indoc! {r#"
       .foo {
-        -webkit-hyphens: manual;
-        -moz-hyphens: manual;
-        -ms-hyphens: manual;
         hyphens: manual;
       }
       "#},
@@ -14307,7 +14204,6 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        -webkit-hyphens: manual;
         hyphens: manual;
       }
       "#},
@@ -14486,7 +14382,6 @@ mod tests {
       ".foo{ text-align-last: left }",
       indoc! {r#"
       .foo {
-        -moz-text-align-last: left;
         text-align-last: left;
       }
       "#},
@@ -14569,9 +14464,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-size-adjust: none;
-        -moz-text-size-adjust: none;
-        -ms-text-size-adjust: none;
         text-size-adjust: none;
       }
     "#},
@@ -14644,11 +14536,11 @@ mod tests {
     );
     minify_test(
       ".foo { -webkit-text-decoration-line: overline underline }",
-      ".foo{-webkit-text-decoration-line:underline overline}",
+      ".foo{text-decoration-line:underline overline}",
     );
     minify_test(
       ".foo { -moz-text-decoration-line: overline underline }",
-      ".foo{-moz-text-decoration-line:underline overline}",
+      ".foo{text-decoration-line:underline overline}",
     );
 
     minify_test(
@@ -14661,7 +14553,7 @@ mod tests {
     );
     minify_test(
       ".foo { -webkit-text-decoration-style: solid }",
-      ".foo{-webkit-text-decoration-style:solid}",
+      ".foo{text-decoration-style:solid}",
     );
 
     minify_test(
@@ -14670,7 +14562,7 @@ mod tests {
     );
     minify_test(
       ".foo { -webkit-text-decoration-color: yellow }",
-      ".foo{-webkit-text-decoration-color:rgb(255,255,0)}",
+      ".foo{text-decoration-color:rgb(255,255,0)}",
     );
 
     minify_test(".foo { text-decoration: none }", ".foo{text-decoration:none}");
@@ -14692,11 +14584,11 @@ mod tests {
     );
     minify_test(
       ".foo { -webkit-text-decoration: yellow dotted underline }",
-      ".foo{-webkit-text-decoration:underline dotted rgb(255,255,0)}",
+      ".foo{text-decoration:underline dotted rgb(255,255,0)}",
     );
     minify_test(
       ".foo { -moz-text-decoration: yellow dotted underline }",
-      ".foo{-moz-text-decoration:underline dotted rgb(255,255,0)}",
+      ".foo{text-decoration:underline dotted rgb(255,255,0)}",
     );
 
     test(
@@ -14753,7 +14645,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline dotted;
+        text-decoration: underline dotted;
       }
     "#},
     );
@@ -14766,7 +14658,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline dotted;
         text-decoration: underline dotted;
       }
     "#},
@@ -14785,8 +14676,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-line: underline;
-        -moz-text-decoration-line: underline;
         text-decoration-line: underline;
       }
     "#},
@@ -14805,8 +14694,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-style: dotted;
-        -moz-text-decoration-style: dotted;
         text-decoration-style: dotted;
       }
     "#},
@@ -14825,8 +14712,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-color: rgb(255, 255, 0);
-        -moz-text-decoration-color: rgb(255, 255, 0);
         text-decoration-color: rgb(255, 255, 0);
       }
     "#},
@@ -14864,7 +14749,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline dotted;
         text-decoration: underline dotted;
       }
     "#},
@@ -14883,7 +14767,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline double;
         text-decoration: underline double;
       }
     "#},
@@ -14902,7 +14785,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline double;
         text-decoration: underline double;
       }
     "#},
@@ -14921,7 +14803,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline rgb(255, 0, 0);
         text-decoration: underline rgb(255, 0, 0);
       }
     "#},
@@ -14939,7 +14820,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: var(--test);
         text-decoration: var(--test);
       }
     "#},
@@ -14956,7 +14836,7 @@ mod tests {
     );
     minify_test(
       ".foo { -webkit-text-decoration-skip-ink: all }",
-      ".foo{-webkit-text-decoration-skip-ink:all}",
+      ".foo{text-decoration-skip-ink:all}",
     );
 
     prefix_test(
@@ -14967,9 +14847,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration: underline rgb(238, 0, 190);
         text-decoration: underline rgb(238, 0, 190);
-        -webkit-text-decoration: underline oklch(63.3164%, .419449, 340.175deg);
         text-decoration: underline oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
@@ -14988,11 +14866,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-decoration-color: rgb(238, 0, 190);
-        -moz-text-decoration-color: rgb(238, 0, 190);
         text-decoration-color: rgb(238, 0, 190);
-        -webkit-text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
-        -moz-text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
         text-decoration-color: oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
@@ -15222,7 +15096,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis-style: filled;
         text-emphasis-style: filled;
       }
     "#},
@@ -15278,7 +15151,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis-position: over;
         text-emphasis-position: over;
       }
     "#},
@@ -15317,7 +15189,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis-position: var(--test);
         text-emphasis-position: var(--test);
       }
     "#},
@@ -15337,9 +15208,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis: filled rgb(238, 0, 190);
         text-emphasis: filled rgb(238, 0, 190);
-        -webkit-text-emphasis: filled oklch(63.3164%, .419449, 340.175deg);
         text-emphasis: filled oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
@@ -15358,9 +15227,7 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-text-emphasis-color: rgb(238, 0, 190);
         text-emphasis-color: rgb(238, 0, 190);
-        -webkit-text-emphasis-color: oklch(63.3164%, .419449, 340.175deg);
         text-emphasis-color: oklch(63.3164%, .419449, 340.175deg);
       }
     "#},
@@ -15494,7 +15361,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-box-decoration-break: clone;
         box-decoration-break: clone;
       }
     "#},
@@ -15939,7 +15805,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
       }
     "#},
@@ -15995,13 +15860,13 @@ mod tests {
     minify_test(".foo { caret: yellow auto }", ".foo{caret:rgb(255,255,0)}");
     minify_test(".foo { caret: auto block }", ".foo{caret:block}");
     minify_test(".foo { user-select: none }", ".foo{user-select:none}");
-    minify_test(".foo { -webkit-user-select: none }", ".foo{-webkit-user-select:none}");
+    minify_test(".foo { -webkit-user-select: none }", ".foo{user-select:none}");
     minify_test(".foo { accent-color: auto }", ".foo{accent-color:auto}");
     minify_test(".foo { accent-color: yellow }", ".foo{accent-color:rgb(255,255,0)}");
     minify_test(".foo { appearance: None }", ".foo{appearance:none}");
     minify_test(
       ".foo { -webkit-appearance: textfield }",
-      ".foo{-webkit-appearance:textfield}",
+      ".foo{appearance:textfield}",
     );
 
     prefix_test(
@@ -16012,9 +15877,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         user-select: none;
       }
     "#},
@@ -16038,7 +15900,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-user-select: none;
         user-select: none;
       }
     "#},
@@ -16081,9 +15942,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
         appearance: none;
       }
     "#},
@@ -16107,7 +15965,6 @@ mod tests {
     "#,
       indoc! {r#"
       .foo {
-        -webkit-appearance: none;
         appearance: none;
       }
     "#},
@@ -16443,8 +16300,8 @@ mod tests {
       "border-image-source",
       "border-image",
       "border-image-source",
-      "-webkit-mask-image",
-      "-webkit-mask",
+      // "-webkit-mask-image",
+      // "-webkit-mask",
       "list-style-image",
       "list-style",
     ] {
@@ -24824,7 +24681,6 @@ mod tests {
       ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          -webkit-clip-path: circle(50pt);
           clip-path: circle(50pt);
         }
       "#},
@@ -24851,7 +24707,6 @@ mod tests {
       ".foo { clip-path: circle(50pt); }",
       indoc! { r#"
         .foo {
-          -webkit-clip-path: circle(50pt);
           clip-path: circle(50pt);
         }
       "#},
@@ -24945,9 +24800,7 @@ mod tests {
       ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
           mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
-          -webkit-mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
           mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
@@ -24961,9 +24814,7 @@ mod tests {
       ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
           mask-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
-          -webkit-mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
           mask-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
       "#},
@@ -24977,7 +24828,6 @@ mod tests {
       ".foo { mask-image: linear-gradient(red, green) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
           mask-image: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb);
         }
       "#},
@@ -24991,7 +24841,6 @@ mod tests {
       ".foo { -webkit-mask-image: url(x.svg); mask-image: url(x.svg); }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: url("x.svg");
           mask-image: url("x.svg");
         }
       "#},
@@ -25005,9 +24854,7 @@ mod tests {
       ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40pt 20pt }",
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
           mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
-          -webkit-mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 40pt 20pt;
           mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 40pt 20pt;
         }
       "#},
@@ -25021,8 +24868,8 @@ mod tests {
       ".foo { mask: -webkit-linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40pt 20pt }",
       indoc! { r#"
         .foo {
-          -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
-          -webkit-mask: -webkit-linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
+          mask: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(255, 15, 14)), to(rgb(119, 115, 255))) 40pt 20pt;
+          mask: -webkit-linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 40pt 20pt;
         }
       "#},
       Browsers {
@@ -25035,13 +24882,11 @@ mod tests {
       ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40pt var(--foo) }",
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt var(--foo);
           mask: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) 40pt var(--foo);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            -webkit-mask: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134)) 40pt var(--foo);
             mask: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134)) 40pt var(--foo);
           }
         }
@@ -25052,12 +24897,13 @@ mod tests {
       },
     );
 
+    // FIXME: don't output the first mask and mask-source-type
     prefix_test(
       ".foo { mask: url(masks.svg#star) luminance }",
       indoc! { r#"
         .foo {
-          -webkit-mask: url("masks.svg#star");
-          -webkit-mask-source-type: luminance;
+          mask: url("masks.svg#star");
+          mask-source-type: luminance;
           mask: url("masks.svg#star") luminance;
         }
     "#},
@@ -25071,7 +24917,6 @@ mod tests {
       ".foo { mask-image: url(masks.svg#star) }",
       indoc! { r#"
         .foo {
-          -webkit-mask-image: url("masks.svg#star");
           mask-image: url("masks.svg#star");
         }
     "#},
@@ -25096,9 +24941,9 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask: url("masks.svg#star") 25% 75% / cover no-repeat content-box padding-box;
+          mask: url("masks.svg#star") 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
-          -webkit-mask-source-type: luminance;
+          mask-source-type: luminance;
           mask: url("masks.svg#star") 25% 75% / cover no-repeat content-box padding-box subtract luminance;
         }
     "#},
@@ -25123,13 +24968,13 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
+          mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
-          -webkit-mask-source-type: luminance;
+          mask-source-type: luminance;
           mask: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
-          -webkit-mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
+          mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
-          -webkit-mask-source-type: luminance;
+          mask-source-type: luminance;
           mask: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
         }
     "#},
@@ -25180,7 +25025,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-source-type: luminance;
+          mask-source-type: luminance;
           mask-mode: luminance;
         }
     "#},
@@ -25198,7 +25043,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("border-mask.png") 25 / 35pt / 12pt space;
+          mask-box-image: url("border-mask.png") 25 / 35pt / 12pt space;
           mask-border: url("border-mask.png") 25 / 35pt / 12pt space luminance;
         }
     "#},
@@ -25216,9 +25061,9 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25 / 35pt / 12pt space;
+          mask-box-image: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25 / 35pt / 12pt space;
           mask-border: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb) 25 / 35pt / 12pt space luminance;
-          -webkit-mask-box-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25 / 35pt / 12pt space;
+          mask-box-image: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25 / 35pt / 12pt space;
           mask-border: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb) 25 / 35pt / 12pt space luminance;
         }
     "#},
@@ -25236,9 +25081,9 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
+          mask-box-image-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
           mask-border-source: linear-gradient((rgb(255, 15, 14), 0%), (rgb(119, 115, 255), 100%), dir: ttb);
-          -webkit-mask-box-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
+          mask-box-image-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
           mask-border-source: linear-gradient((oklch(64.8576%, .299485, 28.9583deg), 0%), (oklch(63.2656%, .330116, 279.967deg), 100%), dir: ttb);
         }
     "#},
@@ -25261,7 +25106,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("foo.png") 10 40 / 10pt round;
+          mask-box-image: url("foo.png") 10 40 / 10pt round;
           mask-border: url("foo.png") 10 40 / 10pt round luminance;
         }
     "#},
@@ -25283,7 +25128,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: url("foo.png") 10 40 / 10pt round;
+          mask-box-image: url("foo.png") 10 40 / 10pt round;
         }
     "#},
       Browsers {
@@ -25300,7 +25145,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image-slice: 10 40;
+          mask-box-image-slice: 10 40;
           mask-border-slice: 10 40;
         }
     "#},
@@ -25318,7 +25163,7 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image-slice: var(--foo);
+          mask-box-image-slice: var(--foo);
           mask-border-slice: var(--foo);
         }
     "#},
@@ -25336,13 +25181,13 @@ mod tests {
       "#,
       indoc! { r#"
         .foo {
-          -webkit-mask-box-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
+          mask-box-image: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
           mask-border: linear-gradient(rgb(255, 15, 14), rgb(119, 115, 255)) var(--foo);
         }
 
         @supports (color: lab(0% 0 0)) {
           .foo {
-            -webkit-mask-box-image: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134)) var(--foo);
+            mask-box-image: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134)) var(--foo);
             mask-border: linear-gradient(oklab(64.8576%, .262041, .145003), oklab(63.2656%, .0571369, -.325134)) var(--foo);
           }
         }
@@ -25463,7 +25308,6 @@ mod tests {
       ".foo { filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          -webkit-filter: blur(5pt);
           filter: blur(5pt);
         }
       "#},
@@ -25503,7 +25347,6 @@ mod tests {
       ".foo { backdrop-filter: blur(5pt) }",
       indoc! { r#"
         .foo {
-          -webkit-backdrop-filter: blur(5pt);
           backdrop-filter: blur(5pt);
         }
       "#},
@@ -25521,7 +25364,6 @@ mod tests {
       "#,
       indoc! {r#"
       .foo {
-        -webkit-backdrop-filter: blur(8pt);
         backdrop-filter: blur(8pt);
       }
       "#},
@@ -25535,7 +25377,6 @@ mod tests {
       ".foo { filter: var(--foo) }",
       indoc! { r#"
         .foo {
-          -webkit-filter: var(--foo);
           filter: var(--foo);
         }
       "#},
@@ -25549,7 +25390,6 @@ mod tests {
       ".foo { filter: drop-shadow(16pt 16pt 20pt oklab(49.8239% .160476 .0808531)) }",
       indoc! { r#"
         .foo {
-          -webkit-filter: drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
           filter: drop-shadow(16pt 16pt 20pt rgb(179, 35, 35));
           filter: drop-shadow(16pt 16pt 20pt oklab(49.8239%, .160476, .0808531));
         }

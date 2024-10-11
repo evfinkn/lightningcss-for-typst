@@ -449,14 +449,14 @@ fn test_set() {
     "-webkit-flex-direction",
     "column",
     false,
-    "-webkit-flex-flow: column wrap",
+    "flex-flow: column wrap",
   );
   set_test(
     "flex-flow: row wrap",
     "-webkit-flex-direction",
     "column",
     false,
-    "flex-flow: wrap; -webkit-flex-direction: column",
+    "flex-flow: wrap; flex-direction: column",
   );
 }
 
@@ -503,6 +503,6 @@ fn test_remove() {
   remove_test(
     "-webkit-flex-flow: column wrap",
     PropertyId::FlexDirection(VendorPrefix::WebKit),
-    "-webkit-flex-wrap: wrap",
+    "flex-wrap: wrap",
   );
 }

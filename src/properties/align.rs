@@ -2,14 +2,13 @@
 
 use super::flex::{BoxAlign, BoxPack, FlexAlign, FlexItemAlign, FlexLinePack, FlexPack};
 use super::{Property, PropertyId};
-use crate::compat;
 use crate::context::PropertyHandlerContext;
 use crate::declaration::{DeclarationBlock, DeclarationList};
 use crate::error::{ParserError, PrinterError};
 use crate::macros::*;
-use crate::prefixes::{is_flex_2009, Feature};
+use crate::prefixes::Feature;
 use crate::printer::Printer;
-use crate::traits::{FromStandard, Parse, PropertyHandler, Shorthand, ToTypst};
+use crate::traits::{Parse, PropertyHandler, Shorthand, ToTypst};
 use crate::values::length::LengthPercentage;
 use crate::vendor_prefix::VendorPrefix;
 #[cfg(feature = "visitor")]
@@ -989,12 +988,12 @@ impl AlignHandler {
 
     self.has_any = false;
 
-    let mut align_content = std::mem::take(&mut self.align_content);
-    let mut justify_content = std::mem::take(&mut self.justify_content);
-    let mut align_self = std::mem::take(&mut self.align_self);
-    let mut justify_self = std::mem::take(&mut self.justify_self);
-    let mut align_items = std::mem::take(&mut self.align_items);
-    let mut justify_items = std::mem::take(&mut self.justify_items);
+    let align_content = std::mem::take(&mut self.align_content);
+    let justify_content = std::mem::take(&mut self.justify_content);
+    let align_self = std::mem::take(&mut self.align_self);
+    let justify_self = std::mem::take(&mut self.justify_self);
+    let align_items = std::mem::take(&mut self.align_items);
+    let justify_items = std::mem::take(&mut self.justify_items);
     let row_gap = std::mem::take(&mut self.row_gap);
     let column_gap = std::mem::take(&mut self.column_gap);
     let box_align = std::mem::take(&mut self.box_align);
@@ -1029,45 +1028,6 @@ impl AlignHandler {
       };
     }
 
-    macro_rules! legacy_property {
-      ($prop: ident, $key: ident, $( $prop_2009: ident )?, $prop_2012: ident) => {
-        if let Some((val, prefix)) = &$key {
-          // If we have an unprefixed standard property, generate legacy prefixed versions.
-          let mut prefix = context.targets.prefixes(*prefix, Feature::$prop);
-
-          if prefix.contains(VendorPrefix::None) {
-            $(
-              // 2009 spec, implemented by webkit and firefox.
-              if let Some(targets) = context.targets.browsers {
-                let mut prefixes_2009 = VendorPrefix::empty();
-                if is_flex_2009(targets) {
-                  prefixes_2009 |= VendorPrefix::WebKit;
-                }
-                if prefix.contains(VendorPrefix::Moz) {
-                  prefixes_2009 |= VendorPrefix::Moz;
-                }
-                if !prefixes_2009.is_empty() {
-                  if let Some(v) = $prop_2009::from_standard(&val) {
-                    dest.push(Property::$prop_2009(v, prefixes_2009));
-                  }
-                }
-              }
-            )?
-          }
-
-          // 2012 spec, implemented by microsoft.
-          if prefix.contains(VendorPrefix::Ms) {
-            if let Some(v) = $prop_2012::from_standard(&val) {
-              dest.push(Property::$prop_2012(v, VendorPrefix::Ms));
-            }
-          }
-
-          // Remove Firefox and IE from standard prefixes.
-          prefix.remove(VendorPrefix::Moz | VendorPrefix::Ms);
-        }
-      };
-    }
-
     macro_rules! prefixed_property {
       ($prop: ident, $key: expr) => {
         if let Some((val, prefix)) = $key {
@@ -1084,48 +1044,6 @@ impl AlignHandler {
       };
     }
 
-    macro_rules! shorthand {
-      ($prop: ident, $align_prop: ident, $align: ident, $justify: ident $(, $justify_prop: ident )?) => {
-        if let (Some((align, align_prefix)), Some(justify)) = (&mut $align, &mut $justify) {
-          let intersection = *align_prefix $( & {
-            // Hack for conditional compilation. Have to use a variable.
-            #[allow(non_snake_case)]
-            let $justify_prop = justify.1;
-            $justify_prop
-          })?;
-
-          // Only use shorthand if unprefixed.
-          if intersection.contains(VendorPrefix::None) {
-            // Add prefixed longhands if needed.
-            *align_prefix = prefixes!($align_prop);
-            align_prefix.remove(VendorPrefix::None);
-            if !align_prefix.is_empty() {
-              dest.push(Property::$align_prop(align.clone(), *align_prefix))
-            }
-
-            $(
-              let (justify, justify_prefix) = justify;
-              *justify_prefix = prefixes!($justify_prop);
-              justify_prefix.remove(VendorPrefix::None);
-
-              if !justify_prefix.is_empty() {
-                dest.push(Property::$justify_prop(justify.clone(), *justify_prefix))
-              }
-            )?
-
-            // Add shorthand.
-            dest.push(Property::$prop($prop {
-              align: align.clone(),
-              justify: justify.clone()
-            }));
-
-            $align = None;
-            $justify = None;
-          }
-        }
-      };
-    }
-
     // 2009 properties
     prefixed_property!(BoxAlign, box_align);
     prefixed_property!(BoxPack, box_pack);
@@ -1136,31 +1054,15 @@ impl AlignHandler {
     prefixed_property!(FlexItemAlign, flex_item_align);
     prefixed_property!(FlexLinePack, flex_line_pack);
 
-    legacy_property!(AlignContent, align_content, , FlexLinePack);
-    legacy_property!(JustifyContent, justify_content, BoxPack, FlexPack);
-    if context.targets.is_compatible(compat::Feature::PlaceContent) {
-      shorthand!(
-        PlaceContent,
-        AlignContent,
-        align_content,
-        justify_content,
-        JustifyContent
-      );
-    }
+    // Always output align- and justify-content separately (instead of using
+    // place-content) so that it's easier to handle in Typst. Same with -self and
+    // -items.
     standard_property!(AlignContent, align_content);
     standard_property!(JustifyContent, justify_content);
 
-    legacy_property!(AlignSelf, align_self, , FlexItemAlign);
-    if context.targets.is_compatible(compat::Feature::PlaceSelf) {
-      shorthand!(PlaceSelf, AlignSelf, align_self, justify_self);
-    }
     standard_property!(AlignSelf, align_self);
     unprefixed_property!(JustifySelf, justify_self);
 
-    legacy_property!(AlignItems, align_items, BoxAlign, FlexAlign);
-    if context.targets.is_compatible(compat::Feature::PlaceItems) {
-      shorthand!(PlaceItems, AlignItems, align_items, justify_items);
-    }
     standard_property!(AlignItems, align_items);
     unprefixed_property!(JustifyItems, justify_items);
 
