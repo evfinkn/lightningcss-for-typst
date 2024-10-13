@@ -252,7 +252,10 @@ impl<'a, 'i, T: ToTypst> StyleRule<'i, T> {
     if has_declarations {
       #[cfg(feature = "sourcemap")]
       dest.add_mapping(self.loc);
+      dest.write_char('"')?;
       self.selectors.to_typst(dest)?;
+      dest.write_char('"')?;
+      dest.write_char(':')?;
       dest.whitespace()?;
       dest.write_char('{')?;
       dest.indent();
@@ -279,7 +282,7 @@ impl<'a, 'i, T: ToTypst> StyleRule<'i, T> {
             dest.newline()?;
             decl.to_css(dest, $important)?;
             if i != len - 1 || !dest.minify || (supports_nesting && !self.rules.0.is_empty()) {
-              dest.write_char(';')?;
+              dest.write_char(',')?;
             }
 
             i += 1;

@@ -134,7 +134,7 @@ impl<'i> ToTypst for DeclarationBlock<'i> {
         for decl in &$decls {
           decl.to_css(dest, $important)?;
           if i != len - 1 {
-            dest.write_char(';')?;
+            dest.write_char(',')?;
             dest.whitespace()?;
           }
           i += 1;
@@ -167,7 +167,7 @@ impl<'i> DeclarationBlock<'i> {
           dest.newline()?;
           decl.to_css(dest, $important)?;
           if i != len - 1 || !dest.minify {
-            dest.write_char(';')?;
+            dest.write_char(',')?;
           }
           i += 1;
         }

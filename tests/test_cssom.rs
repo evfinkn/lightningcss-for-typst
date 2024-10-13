@@ -375,88 +375,88 @@ fn set_test(orig: &str, property: &str, value: &str, important: bool, expected: 
 
 #[test]
 fn test_set() {
-  set_test("color: red", "color", "green", false, "color: rgb(0, 128, 0)");
-  set_test("color: red !important", "color", "green", false, "color: rgb(0, 128, 0)");
-  set_test("color: red", "color", "green", true, "color: rgb(0, 128, 0) !important");
-  set_test("margin: 5pt", "margin", "10pt", false, "margin: 10pt");
-  set_test("margin: 5pt", "margin-top", "8pt", false, "margin: 8pt 5pt 5pt");
+  set_test("color: red", "color", "green", false, "\"color\": rgb(0, 128, 0)");
+  set_test("color: red !important", "color", "green", false, "\"color\": rgb(0, 128, 0)");
+  set_test("color: red", "color", "green", true, "\"color\": rgb(0, 128, 0) !important");
+  set_test("margin: 5pt", "margin", "10pt", false, "\"margin\": 10pt");
+  set_test("margin: 5pt", "margin-top", "8pt", false, "\"margin\": 8pt 5pt 5pt");
   set_test(
     "margin: 5pt",
     "margin-inline-start",
     "8pt",
     false,
-    "margin: 5pt; margin-inline-start: 8pt",
+    "\"margin\": 5pt, \"margin-inline-start\": 8pt",
   );
   set_test(
     "margin-inline-start: 5pt; margin-top: 10pt",
     "margin-inline-start",
     "8pt",
     false,
-    "margin-inline-start: 5pt; margin-top: 10pt; margin-inline-start: 8pt",
+    "\"margin-inline-start\": 5pt, \"margin-top\": 10pt, \"margin-inline-start\": 8pt",
   );
   set_test(
     "margin: 5pt; margin-inline-start: 8pt",
     "margin-left",
     "10pt",
     false,
-    "margin: 5pt; margin-inline-start: 8pt; margin-left: 10pt",
+    "\"margin\": 5pt, \"margin-inline-start\": 8pt, \"margin-left\": 10pt",
   );
   set_test(
     "border: 1pt solid red",
     "border-right",
     "1pt solid green",
     false,
-    "border: 1pt solid rgb(255, 0, 0); border-right: 1pt solid rgb(0, 128, 0)",
+    "\"border\": 1pt solid rgb(255, 0, 0), \"border-right\": 1pt solid rgb(0, 128, 0)",
   );
   set_test(
     "border: 1pt solid red",
     "border-right-color",
     "green",
     false,
-    "border: 1pt solid rgb(255, 0, 0); border-right-color: rgb(0, 128, 0)",
+    "\"border\": 1pt solid rgb(255, 0, 0), \"border-right-color\": rgb(0, 128, 0)",
   );
   set_test(
     "animation: foo 2s",
     "animation-name",
     "foo, bar",
     false,
-    "animation: 2s foo; animation-name: foo, bar",
+    "\"animation\": 2s foo, \"animation-name\": foo, bar",
   );
-  set_test("animation: foo 2s", "animation-name", "bar", false, "animation: 2s bar");
+  set_test("animation: foo 2s", "animation-name", "bar", false, "\"animation\": 2s bar");
   set_test(
     "background: linear-gradient(red, green)",
     "background-position-x",
     "20pt",
     false,
-    "background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 0pt",
+    "\"background\": linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 0pt",
   );
   set_test(
     "background: linear-gradient(red, green)",
     "background-position",
     "20pt 10pt",
     false,
-    "background: linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 10pt",
+    "\"background\": linear-gradient((rgb(255, 0, 0), 0%), (rgb(0, 128, 0), 100%), dir: ttb) 20pt 10pt",
   );
   set_test(
     "flex-flow: row wrap",
     "flex-direction",
     "column",
     false,
-    "flex-flow: column wrap",
+    "\"flex-flow\": column wrap",
   );
   set_test(
     "-webkit-flex-flow: row wrap",
     "-webkit-flex-direction",
     "column",
     false,
-    "flex-flow: column wrap",
+    "\"flex-flow\": column wrap",
   );
   set_test(
     "flex-flow: row wrap",
     "-webkit-flex-direction",
     "column",
     false,
-    "flex-flow: wrap; flex-direction: column",
+    "\"flex-flow\": wrap, \"flex-direction\": column",
   );
 }
 
@@ -472,17 +472,17 @@ fn test_remove() {
   remove_test(
     "margin-top: 10pt; margin-left: 5pt",
     PropertyId::MarginTop,
-    "margin-left: 5pt",
+    "\"margin-left\": 5pt",
   );
   remove_test(
     "margin-top: 10pt !important; margin-left: 5pt",
     PropertyId::MarginTop,
-    "margin-left: 5pt",
+    "\"margin-left\": 5pt",
   );
   remove_test(
     "margin: 10pt",
     PropertyId::MarginTop,
-    "margin-right: 10pt; margin-bottom: 10pt; margin-left: 10pt",
+    "\"margin-right\": 10pt, \"margin-bottom\": 10pt, \"margin-left\": 10pt",
   );
   remove_test("margin: 10pt", PropertyId::Margin, "");
   remove_test(
@@ -493,16 +493,16 @@ fn test_remove() {
   remove_test(
     "flex-flow: column wrap",
     PropertyId::FlexDirection(VendorPrefix::None),
-    "flex-wrap: wrap",
+    "\"flex-wrap\": wrap",
   );
   remove_test(
     "flex-flow: column wrap",
     PropertyId::FlexDirection(VendorPrefix::WebKit),
-    "flex-flow: column wrap",
+    "\"flex-flow\": column wrap",
   );
   remove_test(
     "-webkit-flex-flow: column wrap",
     PropertyId::FlexDirection(VendorPrefix::WebKit),
-    "flex-wrap: wrap",
+    "\"flex-wrap\": wrap",
   );
 }

@@ -25,7 +25,7 @@
 //!
 //! assert_eq!(
 //!   rule.to_typst_string(PrinterOptions::default()).unwrap(),
-//!   ".foo {\n  color: rgb(255, 0, 0);\n}"
+//!   "\".foo\": {\n  \"color\": rgb(255, 0, 0),\n}"
 //! );
 //! ```
 //!

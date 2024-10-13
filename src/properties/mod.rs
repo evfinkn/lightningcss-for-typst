@@ -71,7 +71,7 @@
 //!
 //! assert_eq!(
 //!   background.to_css_string(false, PrinterOptions::default()).unwrap(),
-//!   r#"background: url("img.png") 20pt 10pt / 50pt 100pt fixed"#
+//!   r#""background": url("img.png") 20pt 10pt / 50pt 100pt fixed"#
 //! );
 //! ```
 //!
@@ -853,14 +853,18 @@ macro_rules! define_properties {
             (unparsed.property_id.name(), prefix)
           },
           Custom(custom) => {
+            dest.write_char('"')?;
             custom.name.to_typst(dest)?;
+            dest.write_char('"')?;
             dest.delim(':', false)?;
             self.value_to_css(dest)?;
             write_important!();
             return Ok(())
           }
         };
+        dest.write_char('"')?;
         dest.write_str(name)?;
+        dest.write_char('"')?;
         dest.delim(':', false)?;
         self.value_to_css(dest)?;
         write_important!();

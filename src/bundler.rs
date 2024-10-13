@@ -1001,12 +1001,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      .b {
-        color: rgb(0, 128, 0);
+      ".b": {
+        "color": rgb(0, 128, 0),
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1029,13 +1029,13 @@ mod tests {
       res,
       indoc! { r#"
       @media print {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1058,13 +1058,13 @@ mod tests {
       res,
       indoc! { r#"
       @supports (color: green) {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1088,14 +1088,14 @@ mod tests {
       indoc! { r#"
       @supports (color: green) {
         @media print {
-          .b {
-            color: rgb(0, 128, 0);
+          ".b": {
+            "color": rgb(0, 128, 0),
           }
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1119,13 +1119,13 @@ mod tests {
       res,
       indoc! { r#"
       @media print, screen {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1149,13 +1149,13 @@ mod tests {
       res,
       indoc! { r#"
       @supports (color: red) or (foo: bar) {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1182,19 +1182,19 @@ mod tests {
       res,
       indoc! { r#"
       @media print and (color) {
-        .c {
-          color: rgb(0, 128, 0);
+        ".c": {
+          "color": rgb(0, 128, 0),
         }
       }
 
       @media print {
-        .b {
-          color: rgb(255, 255, 0);
+        ".b": {
+          "color": rgb(255, 255, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1220,12 +1220,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      .c {
-        color: rgb(0, 128, 0);
+      ".c": {
+        "color": rgb(0, 128, 0),
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1247,12 +1247,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      .b {
-        color: rgb(0, 128, 0);
+      ".b": {
+        "color": rgb(0, 128, 0),
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1274,12 +1274,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      .b {
-        color: rgb(0, 128, 0);
+      ".b": {
+        "color": rgb(0, 128, 0),
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1308,13 +1308,13 @@ mod tests {
       res,
       indoc! { r#"
       @media print {
-        .a {
-          color: rgb(0, 128, 0);
+        ".a": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1337,13 +1337,13 @@ mod tests {
       res,
       indoc! { r#"
       @layer foo {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1366,13 +1366,13 @@ mod tests {
       res,
       indoc! { r#"
       @layer {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1399,19 +1399,19 @@ mod tests {
       res,
       indoc! { r#"
       @layer foo.bar {
-        .c {
-          color: rgb(0, 128, 0);
+        ".c": {
+          "color": rgb(0, 128, 0),
         }
       }
 
       @layer foo {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1434,8 +1434,8 @@ mod tests {
       res,
       indoc! { r#"
       @layer foo {
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
       }
     "#}
@@ -1480,22 +1480,22 @@ mod tests {
       @layer foo.qux, foo.baz;
 
       @layer foo.baz {
-        div {
-          background: rgb(255, 255, 0);
+        "div": {
+          "background": rgb(255, 255, 0),
         }
       }
 
       @layer foo {
         @layer qux {
-          div {
-            background: rgb(0, 128, 0);
+          "div": {
+            "background": rgb(0, 128, 0),
           }
         }
       }
 
       @layer bar {
-        div {
-          background: rgb(255, 0, 0);
+        "div": {
+          "background": rgb(255, 0, 0),
         }
       }
     "#}
@@ -1525,27 +1525,27 @@ mod tests {
     );
     assert_eq!(
       res,
-      indoc! { r#"
+      indoc! { r##"
       @media (width >= 1000pt) {
         @layer bar {
-          #box {
-            background: rgb(0, 128, 0);
+          "#box": {
+            "background": rgb(0, 128, 0),
           }
         }
       }
 
       @layer baz {
-        #box {
-          background: rgb(128, 0, 128);
+        "#box": {
+          "background": rgb(128, 0, 128),
         }
       }
 
       @layer bar {
-        #box {
-          background: rgb(255, 255, 0);
+        "#box": {
+          "background": rgb(255, 255, 0),
         }
       }
-    "#}
+    "##}
     );
 
     error_test(
@@ -1656,17 +1656,17 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      body {
-        background: rgb(255, 0, 0);
+      "body": {
+        "background": rgb(255, 0, 0),
       }
 
-      body {
-        background: rgb(255, 255, 255);
-        color: rgb(0, 0, 0);
+      "body": {
+        "background": rgb(255, 255, 255),
+        "color": rgb(0, 0, 0),
       }
 
-      body {
-        color: rgb(255, 0, 0);
+      "body": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1692,12 +1692,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-      body {
-        background: rgb(255, 0, 0);
+      "body": {
+        "background": rgb(255, 0, 0),
       }
 
-      body {
-        background: rgb(0, 128, 0);
+      "body": {
+        "background": rgb(0, 128, 0),
       }
     "#}
     );
@@ -1717,12 +1717,12 @@ mod tests {
     assert_eq!(
       res,
       indoc! { r#"
-        .b {
-          color: rgb(0, 128, 0);
+        ".b": {
+          "color": rgb(0, 128, 0),
         }
 
-        .a {
-          color: rgb(255, 0, 0);
+        ".a": {
+          "color": rgb(255, 0, 0),
         }
       "# }
     );
@@ -1805,12 +1805,12 @@ mod tests {
     assert_eq!(
       code,
       indoc! { r#"
-      ._9z6RGq_a {
-        color: rgb(0, 128, 0);
+      "._9z6RGq_a": {
+        "color": rgb(0, 128, 0),
       }
 
-      ._6lixEq_a {
-        color: rgb(255, 0, 0);
+      "._6lixEq_a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1840,20 +1840,20 @@ mod tests {
     assert_eq!(
       code,
       indoc! { r#"
-      ._8Cs9ZG_x {
-        background: rgb(0, 128, 0);
+      "._8Cs9ZG_x": {
+        "background": rgb(0, 128, 0),
       }
 
-      ._8Cs9ZG_y {
-        font: Helvetica;
+      "._8Cs9ZG_y": {
+        "font": Helvetica,
       }
 
-      ._6lixEq_a {
-        color: rgb(255, 0, 0);
+      "._6lixEq_a": {
+        "color": rgb(255, 0, 0),
       }
 
-      ._6lixEq_b {
-        color: rgb(255, 255, 0);
+      "._6lixEq_b": {
+        "color": rgb(255, 255, 0),
       }
     "#}
     );
@@ -1882,12 +1882,12 @@ mod tests {
     assert_eq!(
       code,
       indoc! { r#"
-      ._8Cs9ZG_a {
-        background: rgb(255, 0, 0);
+      "._8Cs9ZG_a": {
+        "background": rgb(255, 0, 0),
       }
 
-      ._6lixEq_a {
-        background: rgb(255, 0, 0);
+      "._6lixEq_a": {
+        "background": rgb(255, 0, 0),
       }
     "#}
     );
@@ -1928,20 +1928,20 @@ mod tests {
     assert_eq!(
       code,
       indoc! { r#"
-      ._8Cs9ZG_b {
-        --_8Cs9ZG_bg: red;
-        --_8Cs9ZG_fallback: yellow;
-        --_8Cs9ZG_opacity: .5;
+      "._8Cs9ZG_b": {
+        "--_8Cs9ZG_bg": red,
+        "--_8Cs9ZG_fallback": yellow,
+        "--_8Cs9ZG_opacity": .5,
       }
 
-      .GbJUva_env {
-        --GbJUva_env-fallback: 20pt;
+      ".GbJUva_env": {
+        "--GbJUva_env-fallback": 20pt,
       }
 
-      ._6lixEq_a {
-        background: var(--_8Cs9ZG_bg, var(--_8Cs9ZG_fallback));
-        color: rgb(255 255 255 / var(--_8Cs9ZG_opacity));
-        width: env(--_6lixEq_env, var(--GbJUva_env-fallback));
+      "._6lixEq_a": {
+        "background": var(--_8Cs9ZG_bg, var(--_8Cs9ZG_fallback)),
+        "color": rgb(255 255 255 / var(--_8Cs9ZG_opacity)),
+        "width": env(--_6lixEq_env, var(--GbJUva_env-fallback)),
       }
     "#}
     );
@@ -1955,12 +1955,12 @@ mod tests {
 
     // Hashes are stable between project roots.
     let expected = indoc! { r#"
-    .dyGcAa_b {
-      background: rgb(255, 255, 0);
+    ".dyGcAa_b": {
+      "background": rgb(255, 255, 0),
     }
 
-    .CK9avG_a {
-      background: rgb(255, 255, 255);
+    ".CK9avG_a": {
+      "background": rgb(255, 255, 255),
     }
   "#};
 
@@ -2025,12 +2025,12 @@ mod tests {
     assert_eq!(
       code,
       indoc! { r#"
-      .do5n2W-a {
-        color: rgb(0, 128, 0);
+      ".do5n2W-a": {
+        "color": rgb(0, 128, 0),
       }
 
-      .pP97eq-a {
-        color: rgb(255, 0, 0);
+      ".pP97eq-a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
@@ -2106,12 +2106,12 @@ mod tests {
       indoc! { r#"
       /*! Copyright 2023 Someone awesome */
       /*! Copyright 2023 Someone else */
-      .b {
-        color: rgb(0, 128, 0);
+      ".b": {
+        "color": rgb(0, 128, 0),
       }
 
-      .a {
-        color: rgb(255, 0, 0);
+      ".a": {
+        "color": rgb(255, 0, 0),
       }
     "#}
     );
