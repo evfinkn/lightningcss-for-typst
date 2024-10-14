@@ -24,7 +24,6 @@ use smallvec::SmallVec;
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TrackSizing<'i> {
   /// No explicit grid tracks.
   None,
@@ -39,7 +38,6 @@ pub enum TrackSizing<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TrackList<'i> {
   /// A list of line names.
   pub line_names: Vec<CustomIdentList<'i>>,
@@ -53,7 +51,6 @@ pub struct TrackList<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TrackListItem<'i> {
   /// A track size.
   TrackSize(TrackSize),
@@ -67,7 +64,6 @@ pub enum TrackListItem<'i> {
 /// See [TrackListItem](TrackListItem).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TrackSize {
   /// An explicit track breadth.
@@ -93,7 +89,6 @@ impl Default for TrackSize {
 /// in the `grid-auto-rows` and `grid-auto-columns` properties.
 #[derive(Debug, Clone, PartialEq, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TrackSizeList(pub SmallVec<[TrackSize; 1]>);
 
@@ -102,7 +97,6 @@ pub struct TrackSizeList(pub SmallVec<[TrackSize; 1]>);
 /// See [TrackSize](TrackSize).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TrackBreadth {
   /// An explicit length.
@@ -124,7 +118,6 @@ pub enum TrackBreadth {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TrackRepeat<'i> {
   /// The repeat count.
   pub count: RepeatCount,
@@ -140,7 +133,6 @@ pub struct TrackRepeat<'i> {
 /// See [TrackRepeat](TrackRepeat).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum RepeatCount {
   /// The number of times to repeat.
@@ -490,7 +482,6 @@ impl ToTypst for TrackSizeList {
 /// A value for the [grid-template-areas](https://drafts.csswg.org/css-grid-2/#grid-template-areas-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum GridTemplateAreas {
   /// No named grid areas.
@@ -658,7 +649,6 @@ impl GridTemplateAreas {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GridTemplate<'i> {
   /// The grid template rows.
   pub rows: TrackSizing<'i>,
@@ -897,7 +887,6 @@ bitflags! {
     const Dense  = 0b10;
   }
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 struct SerializedGridAutoFlow {
   /// The direction of the auto flow.
   direction: AutoFlowDirection,
@@ -931,26 +920,9 @@ impl From<SerializedGridAutoFlow> for GridAutoFlow {
     flow
   }
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum AutoFlowDirection {
   Row,
   Column,
-}
-
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for GridAutoFlow {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    SerializedGridAutoFlow::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "GridAutoFlow".into()
-  }
 }
 
 impl Default for GridAutoFlow {
@@ -1044,7 +1016,6 @@ impl ToTypst for GridAutoFlow {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Grid<'i> {
   /// Explicit grid template rows.
   pub rows: TrackSizing<'i>,
@@ -1227,7 +1198,6 @@ impl_shorthand! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum GridLine<'i> {
   /// Automatic placement.
   Auto,

@@ -241,35 +241,10 @@ impl<'a> fmt::Debug for CowArcStr<'a> {
   }
 }
 
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for CowArcStr<'a> {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    String::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "String".into()
-  }
-}
-
-#[cfg(feature = "visitor")]
-impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for CowArcStr<'i> {
-  const CHILD_TYPES: VisitTypes = VisitTypes::empty();
-  fn visit_children(&mut self, _: &mut V) -> Result<(), V::Error> {
-    Ok(())
-  }
-}
-
 /// A quoted CSS string.
 #[derive(Clone, Eq, Ord, Hash, Debug)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CSSString<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for CSSString<'i> {

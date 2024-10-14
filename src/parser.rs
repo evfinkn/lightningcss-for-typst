@@ -83,7 +83,6 @@ impl<'o, 'i> ParserOptions<'o, 'i> {
 }
 
 #[derive(Clone, Default)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DefaultAtRuleParser;
 impl<'i> crate::traits::AtRuleParser<'i> for DefaultAtRuleParser {
   type AtRule = DefaultAtRule;
@@ -92,7 +91,6 @@ impl<'i> crate::traits::AtRuleParser<'i> for DefaultAtRuleParser {
 }
 
 #[derive(PartialEq, Clone, Debug)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DefaultAtRule;
 impl crate::traits::ToTypst for DefaultAtRule {
   fn to_typst<W: std::fmt::Write>(&self, _: &mut Printer<W>) -> Result<(), PrinterError> {

@@ -15,7 +15,6 @@ use cssparser::*;
 /// A CSS [syntax string](https://drafts.css-houdini.org/css-properties-values-api/#syntax-strings)
 /// used to define the grammar for a registered custom property.
 #[derive(Debug, PartialEq, Clone)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum SyntaxString {
   /// A list of syntax components.
@@ -30,7 +29,6 @@ pub enum SyntaxString {
 /// A syntax component consists of a component kind an a multiplier, which indicates how the component
 /// may repeat during parsing.
 #[derive(Debug, PartialEq, Clone)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct SyntaxComponent {
   /// The kind of component.
@@ -41,7 +39,6 @@ pub struct SyntaxComponent {
 
 /// A [syntax component component name](https://drafts.css-houdini.org/css-properties-values-api/#supported-names).
 #[derive(Debug, PartialEq, Clone)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum SyntaxComponentKind {
   /// A `<length>` component.
@@ -80,7 +77,6 @@ pub enum SyntaxComponentKind {
 /// [SyntaxComponent](SyntaxComponent). Indicates whether and how the component may be repeated.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Multiplier {
   /// The component may not be repeated.
@@ -95,7 +91,6 @@ pub enum Multiplier {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ParsedComponent<'i> {
   /// A `<length>` value.
   Length(values::length::Length),

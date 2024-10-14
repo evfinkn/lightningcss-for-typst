@@ -46,7 +46,6 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CursorImage<'i> {
   /// A url to the cursor image.
   pub url: Url<'i>,
@@ -135,7 +134,6 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Cursor<'i> {
   /// A list of cursor images.
   pub images: SmallVec<[CursorImage<'i>; 1]>,
@@ -177,7 +175,6 @@ impl<'i> ToTypst for Cursor<'i> {
 /// A value for the [caret-color](https://www.w3.org/TR/2021/WD-css-ui-4-20210316/#caret-color) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ColorOrAuto {
   /// The `currentColor`, adjusted by the UA to ensure contrast against the background.
@@ -367,22 +364,6 @@ impl<'i> ToTypst for Appearance<'i> {
   }
 }
 
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for Appearance<'a> {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    str::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "Appearance".into()
-  }
-}
-
 bitflags! {
   /// A value for the [color-scheme](https://drafts.csswg.org/css-color-adjust/#color-scheme-prop) property.
   #[cfg_attr(feature = "visitor", derive(Visit))]
@@ -458,7 +439,6 @@ impl ToTypst for ColorScheme {
     Ok(())
   }
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 struct SerializedColorScheme {
   light: bool,
   dark: bool,
@@ -482,22 +462,6 @@ impl From<SerializedColorScheme> for ColorScheme {
     color_scheme.set(ColorScheme::Dark, s.dark);
     color_scheme.set(ColorScheme::Only, s.only);
     color_scheme
-  }
-}
-
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for ColorScheme {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    SerializedColorScheme::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "ColorScheme".into()
   }
 }
 

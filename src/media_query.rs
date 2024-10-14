@@ -23,7 +23,6 @@ use std::collections::{HashMap, HashSet};
 #[derive(Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_media_list, MEDIA_QUERIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct MediaList<'i> {
   /// The list of media queries.
   pub media_queries: Vec<MediaQuery<'i>>,
@@ -214,28 +213,11 @@ impl<'i> Parse<'i> for MediaType<'i> {
   }
 }
 
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for MediaType<'a> {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    str::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "MediaType".into()
-  }
-}
-
 /// A [media query](https://drafts.csswg.org/mediaqueries/#media).
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_media_query, MEDIA_QUERIES))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct MediaQuery<'i> {
   /// The qualifier for this query.
   pub qualifier: Option<Qualifier>,
@@ -432,7 +414,6 @@ enum_property! {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaCondition<'i> {
   /// A media feature, implicitly parenthesized.
   Feature(MediaFeature<'i>),
@@ -714,7 +695,6 @@ impl<'i> ToTypst for MediaCondition<'i> {
 /// A [comparator](https://drafts.csswg.org/mediaqueries/#typedef-mf-comparison) within a media query.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum MediaFeatureComparison {
   /// `=`
@@ -774,7 +754,6 @@ impl MediaFeatureComparison {
   visit(<'i, ContainerSizeFeatureId>)
 )]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum QueryFeature<'i, FeatureId> {
   /// A plain media feature, e.g. `(min-width: 240px)`.
   Plain {
@@ -993,7 +972,6 @@ impl<'i, FeatureId: FeatureToCss> ToTypst for QueryFeature<'i, FeatureId> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaFeatureName<'i, FeatureId> {
   /// A standard media query feature identifier.
   Standard(FeatureId),
@@ -1331,7 +1309,6 @@ where
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_media_feature_value, MEDIA_QUERIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaFeatureValue<'i> {
   /// A length value.
   Length(Length),

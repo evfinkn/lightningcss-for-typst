@@ -13,7 +13,6 @@ use crate::visitor::Visit;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ViewportRule<'i> {
   /// The vendor prefix for this rule, e.g. `@-ms-viewport`.
   #[cfg_attr(feature = "visitor", skip_visit)]

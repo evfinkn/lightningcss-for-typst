@@ -23,7 +23,6 @@ use super::string::impl_string_type;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_custom_ident, CUSTOM_IDENTS))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CustomIdent<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for CustomIdent<'i> {
@@ -82,7 +81,6 @@ pub type CustomIdentList<'i> = SmallVec<[CustomIdent<'i>; 1]>;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_dashed_ident, DASHED_IDENTS))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DashedIdent<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for DashedIdent<'i> {
@@ -116,7 +114,6 @@ impl<'i> ToTypst for DashedIdent<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DashedIdentReference<'i> {
   /// The referenced identifier.
   pub ident: DashedIdent<'i>,
@@ -171,7 +168,6 @@ impl<'i> ToTypst for DashedIdentReference<'i> {
 #[derive(Debug, Clone, Eq, Hash, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Ident<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for Ident<'i> {

@@ -92,39 +92,3 @@ impl cssparser::ToCss for VendorPrefix {
     }
   }
 }
-
-#[cfg(feature = "visitor")]
-#[cfg_attr(docsrs, doc(cfg(feature = "visitor")))]
-impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for VendorPrefix {
-  const CHILD_TYPES: VisitTypes = VisitTypes::empty();
-  fn visit_children(&mut self, _: &mut V) -> Result<(), V::Error> {
-    Ok(())
-  }
-}
-
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl schemars::JsonSchema for VendorPrefix {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    #[derive(schemars::JsonSchema)]
-    #[schemars(rename_all = "lowercase")]
-    #[allow(dead_code)]
-    enum Prefix {
-      None,
-      WebKit,
-      Moz,
-      Ms,
-      O,
-    }
-
-    Vec::<Prefix>::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "VendorPrefix".into()
-  }
-}

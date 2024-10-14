@@ -46,7 +46,6 @@ impl IsCompatible for LengthPercentage {
 /// Either a [`<length-percentage>`](https://www.w3.org/TR/css-values-4/#typedef-length-percentage), or the `auto` keyword.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum LengthPercentageOrAuto {
   /// The `auto` keyword.
@@ -291,41 +290,6 @@ macro_rules! define_length_units {
     }
 
     impl_try_from_angle!(LengthValue);
-
-    #[cfg(feature = "jsonschema")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-    impl schemars::JsonSchema for LengthValue {
-      fn is_referenceable() -> bool {
-        true
-      }
-
-      fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-        #[derive(schemars::JsonSchema)]
-        #[schemars(rename_all = "lowercase")]
-        #[allow(dead_code)]
-        enum LengthUnit {
-          $(
-            $(#[$meta])*
-            $name,
-          )+
-        }
-
-        #[derive(schemars::JsonSchema)]
-        #[allow(dead_code)]
-        struct LengthValue {
-          /// The length unit.
-          unit: LengthUnit,
-          /// The length value.
-          value: CSSNumber
-        }
-
-        LengthValue::json_schema(gen)
-      }
-
-      fn schema_name() -> String {
-        "LengthValue".into()
-      }
-    }
   };
 }
 
@@ -547,7 +511,6 @@ impl LengthValue {
 /// A CSS [`<length>`](https://www.w3.org/TR/css-values-4/#lengths) value, with support for `calc()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Length {
   /// An explicitly specified length value.
@@ -825,7 +788,6 @@ impl_try_from_angle!(Length);
 /// Either a [`<length>`](https://www.w3.org/TR/css-values-4/#lengths) or a [`<number>`](https://www.w3.org/TR/css-values-4/#numbers).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum LengthOrNumber {
   /// A number.

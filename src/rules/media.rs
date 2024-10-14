@@ -13,7 +13,6 @@ use crate::visitor::Visit;
 /// A [@media](https://drafts.csswg.org/css-conditional-3/#at-media) rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct MediaRule<'i, R = DefaultAtRule> {
   /// The media query list.

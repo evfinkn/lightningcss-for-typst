@@ -16,7 +16,6 @@ use cssparser::*;
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum SVGPaint<'i> {
   /// A URL reference to a paint server element, e.g. `linearGradient`, `radialGradient`, and `pattern`.
   Url {
@@ -40,7 +39,6 @@ pub enum SVGPaint<'i> {
 /// See [SVGPaint](SVGPaint).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum SVGPaintFallback {
   /// No fallback.
@@ -117,7 +115,6 @@ enum_property! {
 /// A value for the [stroke-dasharray](https://www.w3.org/TR/SVG2/painting.html#StrokeDashing) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum StrokeDasharray {
   /// No dashing is used.
@@ -178,7 +175,6 @@ impl ToTypst for StrokeDasharray {
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Marker<'i> {
   /// No marker.
   None,
@@ -189,7 +185,6 @@ pub enum Marker<'i> {
 /// A value for the [color-interpolation](https://www.w3.org/TR/SVG2/painting.html#ColorInterpolation) property.
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ColorInterpolation {
   /// The UA can choose between sRGB or linearRGB.
@@ -203,7 +198,6 @@ pub enum ColorInterpolation {
 /// A value for the [color-rendering](https://www.w3.org/TR/SVG2/painting.html#ColorRendering) property.
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ColorRendering {
   /// The UA can choose a tradeoff between speed and quality.
@@ -217,7 +211,6 @@ pub enum ColorRendering {
 /// A value for the [shape-rendering](https://www.w3.org/TR/SVG2/painting.html#ShapeRendering) property.
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ShapeRendering {
   /// The UA can choose an appropriate tradeoff.
@@ -233,7 +226,6 @@ pub enum ShapeRendering {
 /// A value for the [text-rendering](https://www.w3.org/TR/SVG2/painting.html#TextRendering) property.
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TextRendering {
   /// The UA can choose an appropriate tradeoff.
@@ -249,7 +241,6 @@ pub enum TextRendering {
 /// A value for the [image-rendering](https://www.w3.org/TR/SVG2/painting.html#ImageRendering) property.
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ImageRendering {
   /// The UA can choose a tradeoff between speed and quality.

@@ -36,7 +36,6 @@ use std::fmt::Write;
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "visitor", visit(visit_color, COLORS))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum CssColor {
   /// The [`currentColor`](https://www.w3.org/TR/css-color-4/#currentcolor-color) keyword.
@@ -60,7 +59,6 @@ pub enum CssColor {
 /// A color in a LAB color space, including the `lab()`, `lch()`, `oklab()`, and `oklch()` functions.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum LABColor {
   /// A `lab()` color.
   LAB(LAB),
@@ -75,7 +73,6 @@ pub enum LABColor {
 /// A color in a predefined color space, e.g. `display-p3`.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum PredefinedColor {
   /// A color in the `srgb` color space.
   SRGB(SRGB),
@@ -100,7 +97,6 @@ pub enum PredefinedColor {
 /// are any `none` components, which are represented as NaN.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FloatColor {
   /// An RGB color.
   RGB(SRGB),
@@ -1279,7 +1275,6 @@ macro_rules! define_colorspace {
   ) => {
     $(#[$outer])*
     #[derive(Debug, Clone, Copy, PartialEq)] #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     pub struct $name {
       $(#[$a_meta])*
       pub $a: f32,
@@ -3354,7 +3349,6 @@ impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for RGB
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[css(case = lower)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 /// A CSS [system color](https://drafts.csswg.org/css-color/#css-system-colors) keyword.
 pub enum SystemColor {

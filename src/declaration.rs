@@ -50,7 +50,6 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_declaration_block, PROPERTIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DeclarationBlock<'i> {
   /// A list of `!important` declarations in the block.
   pub important_declarations: Vec<Property<'i>>,

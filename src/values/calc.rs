@@ -23,7 +23,6 @@ use super::time::Time;
 /// values, including lengths, percentages, angles, times, etc.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum MathFunction<V> {
   /// The [`calc()`](https://www.w3.org/TR/css-values-4/#calc-func) function.
@@ -234,7 +233,6 @@ impl<V: ToTypst + std::ops::Mul<f32, Output = V> + TrySign + Clone + std::fmt::D
 /// [Time](super::time::Time), and [Angle](super::angle::Angle) support `calc()` expressions.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Calc<V> {
   /// A literal value.

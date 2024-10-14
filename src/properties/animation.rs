@@ -28,7 +28,6 @@ use super::{LengthPercentage, LengthPercentageOrAuto};
 #[derive(Debug, Clone, PartialEq, Parse)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum AnimationName<'i> {
   /// The `none` keyword.
   None,
@@ -84,7 +83,6 @@ pub type AnimationNameList<'i> = SmallVec<[AnimationName<'i>; 1]>;
 /// A value for the [animation-iteration-count](https://drafts.csswg.org/css-animations/#animation-iteration-count) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationIterationCount {
   /// The animation will repeat the specified number of times.
@@ -170,7 +168,6 @@ enum_property! {
 /// A value for the [animation-timeline](https://drafts.csswg.org/css-animations-2/#animation-timeline) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationTimeline<'i> {
   /// The animation’s timeline is a DocumentTimeline, more specifically the default document timeline.
@@ -194,7 +191,6 @@ impl<'i> Default for AnimationTimeline<'i> {
 /// The [scroll()](https://drafts.csswg.org/scroll-animations-1/#scroll-notation) function.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ScrollTimeline {
   /// Specifies which element to use as the scroll container.
@@ -296,7 +292,6 @@ impl Default for ScrollAxis {
 /// The [view()](https://drafts.csswg.org/scroll-animations-1/#view-notation) function.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ViewTimeline {
   /// Specifies which axis of the scroll container to use as the progress for the timeline.
@@ -359,7 +354,6 @@ impl ToTypst for ViewTimeline {
 /// A [view progress timeline range](https://drafts.csswg.org/scroll-animations/#view-timelines-ranges)
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TimelineRangeName {
   /// Represents the full range of the view progress timeline.
@@ -381,7 +375,6 @@ pub enum TimelineRangeName {
 /// or [animation-range-end](https://drafts.csswg.org/scroll-animations/#animation-range-end) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationAttachmentRange {
   /// The start of the animation’s attachment range is the start of its associated timeline.
@@ -442,7 +435,6 @@ impl Default for AnimationAttachmentRange {
 /// A value for the [animation-range-start](https://drafts.csswg.org/scroll-animations/#animation-range-start) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRangeStart(pub AnimationAttachmentRange);
 
@@ -465,7 +457,6 @@ impl ToTypst for AnimationRangeStart {
 /// A value for the [animation-range-end](https://drafts.csswg.org/scroll-animations/#animation-range-end) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRangeEnd(pub AnimationAttachmentRange);
 
@@ -488,7 +479,6 @@ impl ToTypst for AnimationRangeEnd {
 /// A value for the [animation-range](https://drafts.csswg.org/scroll-animations/#animation-range) shorthand property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRange {
   /// The start of the animation's attachment range.

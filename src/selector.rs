@@ -26,7 +26,6 @@ use std::fmt;
 
 mod private {
   #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-  #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
   pub struct Selectors;
 
   #[cfg(feature = "into_owned")]
@@ -368,7 +367,6 @@ enum_property! {
 
 /// A pseudo class.
 #[derive(Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PseudoClass<'i> {
   // https://drafts.csswg.org/selectors-4/#linguistic-pseudos
@@ -523,7 +521,6 @@ pub enum PseudoClass<'i> {
 
 /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo class.
 #[derive(Clone, Eq, PartialEq, Hash)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitScrollbarPseudoClass {
   /// :horizontal
@@ -822,7 +819,6 @@ impl<'i> PseudoClass<'i> {
 
 /// A pseudo element.
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PseudoElement<'i> {
   /// The [::after](https://drafts.csswg.org/css-pseudo-4/#selectordef-after) pseudo element.
@@ -897,7 +893,6 @@ pub enum PseudoElement<'i> {
 
 /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo element.
 #[derive(PartialEq, Eq, Clone, Debug, Hash)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitScrollbarPseudoElement {
   /// ::-webkit-scrollbar
@@ -924,22 +919,6 @@ pub enum ViewTransitionPartName<'i> {
   All,
   /// <custom-ident>
   Name(CustomIdent<'i>),
-}
-
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for ViewTransitionPartName<'a> {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    str::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "ViewTransitionPartName".into()
-  }
 }
 
 impl<'i> Parse<'i> for ViewTransitionPartName<'i> {

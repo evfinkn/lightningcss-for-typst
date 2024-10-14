@@ -18,7 +18,6 @@ use cssparser::*;
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ListStyleType<'i> {
   /// No marker.
   None,
@@ -48,7 +47,6 @@ impl IsCompatible for ListStyleType<'_> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum CounterStyle<'i> {
   /// A predefined counter style name.
   Predefined(PredefinedCounterStyle),
@@ -264,7 +262,6 @@ impl Default for SymbolsType {
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Symbol<'i> {
   /// A string.
   String(CSSString<'i>),

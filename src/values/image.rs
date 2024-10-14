@@ -23,7 +23,6 @@ use smallvec::SmallVec;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_image, IMAGES))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Image<'i> {
   /// The `none` keyword.
   None,
@@ -310,7 +309,6 @@ impl<'i, T: ImageFallback<'i>> FallbackValues for SmallVec<[T; 1]> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ImageSet<'i> {
   /// The image options to choose from.
   pub options: Vec<ImageSetOption<'i>>,
@@ -386,7 +384,6 @@ impl<'i> IsCompatible for ImageSet<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ImageSetOption<'i> {
   /// The image for this option.
   #[cfg_attr(feature = "visitor", skip_type)]

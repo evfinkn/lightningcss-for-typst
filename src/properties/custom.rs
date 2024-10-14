@@ -33,7 +33,6 @@ use super::AnimationName;
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CustomProperty<'i> {
   /// The name of the property.
   pub name: CustomPropertyName<'i>,
@@ -59,7 +58,6 @@ impl<'i> CustomProperty<'i> {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum CustomPropertyName<'i> {
   /// An author-defined CSS custom property.
   Custom(DashedIdent<'i>),
@@ -113,7 +111,6 @@ impl<'i> ToTypst for CustomPropertyName<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct UnparsedProperty<'i> {
   /// The id of the property.
   pub property_id: PropertyId<'i>,
@@ -178,14 +175,12 @@ impl<'i> UnparsedProperty<'i> {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_token_list, TOKENS))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TokenList<'i>(pub Vec<TokenOrValue<'i>>);
 
 /// A raw CSS token, or a parsed value.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_token, TOKENS), visit_types(TOKENS | COLORS | URLS | VARIABLES | ENVIRONMENT_VARIABLES | FUNCTIONS | LENGTHS | ANGLES | TIMES | RESOLUTIONS | DASHED_IDENTS))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TokenOrValue<'i> {
   /// A token.
   Token(Token<'i>),
@@ -650,7 +645,6 @@ impl<'i> TokenList<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Token<'a> {
   /// A [`<ident-token>`](https://drafts.csswg.org/css-syntax/#ident-token-diagram)
   Ident(CowArcStr<'a>),
@@ -1171,7 +1165,6 @@ impl<'a, 'i> crate::visitor::Visitor<'i> for VarInliner<'a, 'i> {
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_variable, VARIABLES))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Variable<'i> {
   /// The variable name.
   pub name: DashedIdentReference<'i>,
@@ -1225,7 +1218,6 @@ impl<'i> Variable<'i> {
   visit(visit_environment_variable, ENVIRONMENT_VARIABLES)
 )]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct EnvironmentVariable<'i> {
   /// The environment variable name.
   pub name: EnvironmentVariableName<'i>,
@@ -1239,7 +1231,6 @@ pub struct EnvironmentVariable<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum EnvironmentVariableName<'i> {
   /// A UA-defined environment variable.
   UA(UAEnvironmentVariable),
@@ -1383,7 +1374,6 @@ impl<'i> EnvironmentVariable<'i> {
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_function, FUNCTIONS))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Function<'i> {
   /// The function name.
   pub name: Ident<'i>,
@@ -1417,7 +1407,6 @@ impl<'i> Function<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum UnresolvedColor<'i> {
   /// An rgb() color.
   RGB {

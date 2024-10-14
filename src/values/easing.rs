@@ -12,7 +12,6 @@ use std::fmt::Write;
 /// A CSS [easing function](https://www.w3.org/TR/css-easing-1/#easing-functions).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum EasingFunction {
   /// A linear easing function.
@@ -188,7 +187,6 @@ impl EasingFunction {
 /// A [step position](https://www.w3.org/TR/css-easing-1/#step-position), used within the `steps()` function.
 #[derive(Debug, Clone, PartialEq, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum StepPosition {
   /// The first rise occurs at input progress value of 0.
   Start,

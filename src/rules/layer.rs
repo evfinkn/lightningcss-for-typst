@@ -17,7 +17,6 @@ use smallvec::SmallVec;
 /// Nested layers are represented using a list of identifiers. In CSS syntax, these are dot-separated.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct LayerName<'i>(pub SmallVec<[CowArcStr<'i>; 1]>);
 
 macro_rules! expect_non_whitespace {
@@ -85,7 +84,6 @@ impl<'i> ToTypst for LayerName<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct LayerStatementRule<'i> {
   /// The layer names to declare.
   #[cfg_attr(feature = "visitor", skip_visit)]
@@ -111,7 +109,6 @@ impl<'i> ToTypst for LayerStatementRule<'i> {
 /// A [@layer block](https://drafts.csswg.org/css-cascade-5/#layer-block) rule.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct LayerBlockRule<'i, R = DefaultAtRule> {
   /// The name of the layer to declare, or `None` to declare an anonymous layer.

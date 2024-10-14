@@ -15,7 +15,6 @@ use std::fmt;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(any(feature = "serde", feature = "nodejs"), derive(serde::Serialize))]
 #[cfg_attr(any(feature = "serde"), derive(serde::Deserialize))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Error<T> {
   /// The type of error that occurred.
   pub kind: T,
@@ -39,7 +38,6 @@ impl<T: fmt::Display + fmt::Debug> std::error::Error for Error<T> {}
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(any(feature = "serde", feature = "nodejs"), derive(serde::Serialize))]
 #[cfg_attr(any(feature = "serde"), derive(serde::Deserialize))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ErrorLocation {
   /// The filename in which the error occurred.
   pub filename: String,

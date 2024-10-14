@@ -20,7 +20,6 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct FontPaletteValuesRule<'i> {
   /// The name of the font palette.
   pub name: DashedIdent<'i>,
@@ -37,7 +36,6 @@ pub struct FontPaletteValuesRule<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FontPaletteValuesProperty<'i> {
   /// The `font-family` property.
   FontFamily(FontFamily<'i>),
@@ -53,7 +51,6 @@ pub enum FontPaletteValuesProperty<'i> {
 /// property in an `@font-palette-values` rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum BasePalette {
   /// A light color palette as defined within the font.
@@ -68,7 +65,6 @@ pub enum BasePalette {
 /// property in an `@font-palette-values` rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct OverrideColors {
   /// The index of the color within the palette to override.

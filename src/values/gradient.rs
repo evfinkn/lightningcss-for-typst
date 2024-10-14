@@ -23,7 +23,6 @@ use cssparser::*;
 /// A CSS [`<gradient>`](https://www.w3.org/TR/css-images-3/#gradients) value.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Gradient {
   /// A `linear-gradient()`, and its vendor prefix.
@@ -206,7 +205,6 @@ impl ToTypst for Gradient {
 /// A CSS [`linear-gradient()`](https://www.w3.org/TR/css-images-3/#linear-gradients) or `repeating-linear-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct LinearGradient {
   /// The vendor prefixes for the gradient.
@@ -267,7 +265,6 @@ impl IsCompatible for LinearGradient {
 /// A CSS [`radial-gradient()`](https://www.w3.org/TR/css-images-3/#radial-gradients) or `repeating-radial-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct RadialGradient {
   /// The vendor prefixes for the gradient.
@@ -353,7 +350,6 @@ impl IsCompatible for RadialGradient {
 /// See [LinearGradient](LinearGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum LineDirection {
   /// An angle.
   Angle(Angle),
@@ -456,7 +452,6 @@ impl ToTypst for LineDirection {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum EndingShape {
   // Note: Ellipse::parse MUST run before Circle::parse for this to be correct.
   /// An ellipse.
@@ -476,7 +471,6 @@ impl Default for EndingShape {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Circle {
   /// A circle with a specified radius.
   Radius(Length),
@@ -540,7 +534,6 @@ impl ToTypst for Circle {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Ellipse {
   /// An ellipse with a specified horizontal and vertical radius.
   Size {
@@ -626,7 +619,6 @@ enum_property! {
 /// A CSS [`conic-gradient()`](https://www.w3.org/TR/css-images-4/#conic-gradients) or `repeating-conic-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ConicGradient {
   /// The angle of the gradient.
@@ -711,7 +703,6 @@ impl IsCompatible for ConicGradient {
 /// or [Angle](super::angle::Angle) depending on what type of gradient it is within.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ColorStop<D> {
   /// The color of the color stop.
   pub color: CssColor,
@@ -750,7 +741,6 @@ impl<D: ToTypst> ToTypst for ColorStop<D> {
 /// or [Angle](super::angle::Angle) depending on what type of gradient it is within.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum GradientItem<D> {
   /// A color stop.
   ColorStop(ColorStop<D>),
@@ -1041,7 +1031,6 @@ where
 /// A legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitGradient {
   /// A linear `-webkit-gradient()`.
@@ -1183,7 +1172,6 @@ impl WebKitGradient {
 /// A color stop within a legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct WebKitColorStop {
   /// The color of the color stop.
   pub color: CssColor,
@@ -1245,7 +1233,6 @@ impl WebKitColorStop {
 /// An x/y position within a legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct WebKitGradientPoint {
   /// The x-position.
@@ -1276,7 +1263,6 @@ impl ToTypst for WebKitGradientPoint {
 /// A keyword or number within a [WebKitGradientPoint](WebKitGradientPoint).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitGradientPointComponent<S> {
   /// The `center` keyword.

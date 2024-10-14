@@ -18,7 +18,6 @@ use cssparser::*;
 /// Either a name or at least one pseudo class is required.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageSelector<'i> {
   /// An optional named page type.
   pub name: Option<CowArcStr<'i>>,
@@ -117,7 +116,6 @@ enum_property! {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageMarginRule<'i> {
   /// The margin box identifier for this rule.
   pub margin_box: PageMarginBox,
@@ -145,7 +143,6 @@ impl<'i> ToTypst for PageMarginRule<'i> {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageRule<'i> {
   /// A list of page selectors.
   #[cfg_attr(feature = "visitor", skip_visit)]

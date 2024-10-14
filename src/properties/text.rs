@@ -95,7 +95,6 @@ impl ToTypst for TextTransformOther {
     Ok(())
   }
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 struct SerializedTextTransformOther {
   /// Puts all typographic character units in full-width form.
@@ -126,26 +125,9 @@ impl From<SerializedTextTransformOther> for TextTransformOther {
   }
 }
 
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for TextTransformOther {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    SerializedTextTransformOther::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "TextTransformOther".into()
-  }
-}
-
 /// A value for the [text-transform](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#text-transform-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextTransform {
   /// How case should be transformed.
@@ -341,7 +323,6 @@ enum_property! {
 /// and [letter-spacing](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#letter-spacing-property) properties.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Spacing {
   /// No additional spacing is applied.
@@ -353,7 +334,6 @@ pub enum Spacing {
 /// A value for the [text-indent](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#text-indent-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextIndent {
   /// The amount to indent.
@@ -426,7 +406,6 @@ impl ToTypst for TextIndent {
 /// A value for the [text-size-adjust](https://w3c.github.io/csswg-drafts/css-size-adjust/#adjustment-control) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TextSizeAdjust {
   /// Use the default size adjustment when displaying on a small device.
@@ -543,18 +522,15 @@ impl ToTypst for TextDecorationLine {
     Ok(())
   }
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum SerializedTextDecorationLine {
   Exclusive(ExclusiveTextDecorationLine),
   Other(Vec<OtherTextDecorationLine>),
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum ExclusiveTextDecorationLine {
   None,
   SpellingError,
   GrammarError,
 }
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum OtherTextDecorationLine {
   Underline,
   Overline,
@@ -620,22 +596,6 @@ impl From<SerializedTextDecorationLine> for TextDecorationLine {
   }
 }
 
-#[cfg(feature = "jsonschema")]
-#[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
-impl<'a> schemars::JsonSchema for TextDecorationLine {
-  fn is_referenceable() -> bool {
-    true
-  }
-
-  fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-    SerializedTextDecorationLine::json_schema(gen)
-  }
-
-  fn schema_name() -> String {
-    "TextDecorationLine".into()
-  }
-}
-
 enum_property! {
   /// A value for the [text-decoration-style](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-decoration-style-property) property.
   pub enum TextDecorationStyle {
@@ -661,7 +621,6 @@ impl Default for TextDecorationStyle {
 /// A value for the [text-decoration-thickness](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-decoration-width-property) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TextDecorationThickness {
   /// The UA chooses an appropriate thickness for text decoration lines.
@@ -820,7 +779,6 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TextEmphasisStyle<'i> {
   /// No emphasis.
   None,
@@ -987,7 +945,6 @@ enum_property! {
 /// A value for the [text-emphasis-position](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-emphasis-position-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextEmphasisPosition {
   /// The vertical position.
@@ -1303,7 +1260,6 @@ impl<'i> PropertyHandler<'i> for TextDecorationHandler<'i> {
 /// A value for the [text-shadow](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-shadow-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextShadow {
   /// The color of the text shadow.

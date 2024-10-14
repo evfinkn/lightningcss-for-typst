@@ -108,7 +108,6 @@ pub(crate) struct StyleContext<'a, 'i> {
 /// A source location.
 #[derive(PartialEq, Eq, Debug, Clone, Copy)]
 #[cfg_attr(any(feature = "serde", feature = "nodejs"), derive(serde::Serialize))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct Location {
   /// The index of the source file within the source map.
@@ -255,7 +254,6 @@ impl<'i, T> CssRule<'i, T> {
 
 /// A list of CSS rules.
 #[derive(Debug, PartialEq, Clone, Default)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct CssRuleList<'i, R = DefaultAtRule>(
   pub Vec<CssRule<'i, R>>,

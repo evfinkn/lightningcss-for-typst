@@ -15,7 +15,6 @@ use cssparser::*;
 /// as used in the `background-position` property, gradients, masks, etc.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct Position {
   /// The x-position.
@@ -282,7 +281,6 @@ impl IsCompatible for Position {
 /// This type is generic over side keywords.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PositionComponent<S> {
   /// The `center` keyword.

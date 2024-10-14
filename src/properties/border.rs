@@ -25,7 +25,6 @@ use cssparser::*;
 /// A value for the [border-width](https://www.w3.org/TR/css-backgrounds-3/#border-width) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum BorderSideWidth {
   /// A UA defined `thin` value.
@@ -94,7 +93,6 @@ impl IsCompatible for LineStyle {
 /// A generic type that represents the `border` and `outline` shorthand properties.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GenericBorder<S, const P: u8> {
   /// The width of the border.
   pub width: BorderSideWidth,

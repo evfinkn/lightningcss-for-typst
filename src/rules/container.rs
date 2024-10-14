@@ -21,7 +21,6 @@ use crate::visitor::Visit;
 /// A [@container](https://drafts.csswg.org/css-contain-3/#container-rule) rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ContainerRule<'i, R = DefaultAtRule> {
   /// The name of the container.
@@ -39,7 +38,6 @@ pub struct ContainerRule<'i, R = DefaultAtRule> {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ContainerCondition<'i> {
   /// A size container feature, implicitly parenthesized.
   Feature(ContainerSizeFeature<'i>),
@@ -93,7 +91,6 @@ impl FeatureToCss for ContainerSizeFeatureId {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum StyleQuery<'i> {
   /// A style feature, implicitly parenthesized.
   Feature(Property<'i>),
@@ -230,7 +227,6 @@ impl<'i> ToTypst for StyleQuery<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ContainerName<'i>(pub CustomIdent<'i>);
 
 impl<'i> Parse<'i> for ContainerName<'i> {
