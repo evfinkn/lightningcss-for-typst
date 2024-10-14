@@ -4,10 +4,6 @@ use crate::traits::{Parse, ToTypst};
 #[cfg(feature = "visitor")]
 use crate::visitor::{Visit, VisitTypes, Visitor};
 use cssparser::{serialize_string, CowRcStr};
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Deserializer};
-#[cfg(any(feature = "serde", feature = "nodejs"))]
-use serde::{Serialize, Serializer};
 use std::borrow::{Borrow, Cow};
 use std::cmp;
 use std::fmt;
@@ -245,24 +241,6 @@ impl<'a> fmt::Debug for CowArcStr<'a> {
   }
 }
 
-#[cfg(any(feature = "nodejs", feature = "serde"))]
-impl<'a> Serialize for CowArcStr<'a> {
-  fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-    self.as_ref().serialize(serializer)
-  }
-}
-
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'a, 'de: 'a> Deserialize<'de> for CowArcStr<'a> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: Deserializer<'de>,
-  {
-    deserializer.deserialize_str(CowArcStrVisitor)
-  }
-}
-
 #[cfg(feature = "jsonschema")]
 #[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
 impl<'a> schemars::JsonSchema for CowArcStr<'a> {
@@ -279,39 +257,6 @@ impl<'a> schemars::JsonSchema for CowArcStr<'a> {
   }
 }
 
-#[cfg(feature = "serde")]
-struct CowArcStrVisitor;
-
-#[cfg(feature = "serde")]
-impl<'de> serde::de::Visitor<'de> for CowArcStrVisitor {
-  type Value = CowArcStr<'de>;
-
-  fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-    formatter.write_str("a CowArcStr")
-  }
-
-  fn visit_borrowed_str<E>(self, v: &'de str) -> Result<Self::Value, E>
-  where
-    E: serde::de::Error,
-  {
-    Ok(v.into())
-  }
-
-  fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
-  where
-    E: serde::de::Error,
-  {
-    Ok(v.to_owned().into())
-  }
-
-  fn visit_string<E>(self, v: String) -> Result<Self::Value, E>
-  where
-    E: serde::de::Error,
-  {
-    Ok(v.into())
-  }
-}
-
 #[cfg(feature = "visitor")]
 impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for CowArcStr<'i> {
   const CHILD_TYPES: VisitTypes = VisitTypes::empty();
@@ -324,9 +269,8 @@ impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for Cow
 #[derive(Clone, Eq, Ord, Hash, Debug)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct CSSString<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub CowArcStr<'i>);
+pub struct CSSString<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for CSSString<'i> {
   fn parse<'t>(

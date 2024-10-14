@@ -25,31 +25,21 @@ use cssparser::*;
 /// A CSS [style rule](https://drafts.csswg.org/css-syntax/#style-rules).
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct StyleRule<'i, R = DefaultAtRule> {
   /// The selectors for the style rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub selectors: SelectorList<'i>,
   /// A vendor prefix override, used during selector printing.
-  #[cfg_attr(feature = "serde", serde(skip, default = "VendorPrefix::empty"))]
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub vendor_prefix: VendorPrefix,
   /// The declarations within the style rule.
-  #[cfg_attr(feature = "serde", serde(default))]
   pub declarations: DeclarationBlock<'i>,
   /// Nested rules within the style rule.
-  #[cfg_attr(feature = "serde", serde(default = "default_rule_list::<R>"))]
   pub rules: CssRuleList<'i, R>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub loc: Location,
-}
-
-#[cfg(feature = "serde")]
-fn default_rule_list<'i, R>() -> CssRuleList<'i, R> {
-  CssRuleList(Vec::new())
 }
 
 impl<'i, T: Clone> StyleRule<'i, T> {
@@ -282,6 +272,7 @@ impl<'a, 'i, T: ToTypst> StyleRule<'i, T> {
             dest.newline()?;
             decl.to_css(dest, $important)?;
             if i != len - 1 || !dest.minify || (supports_nesting && !self.rules.0.is_empty()) {
+              // dest.write_char(';')?;
               dest.write_char(',')?;
             }
 

@@ -36,22 +36,12 @@ use std::fmt::Write;
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "visitor", visit(visit_color, COLORS))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(untagged, rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum CssColor {
   /// The [`currentColor`](https://www.w3.org/TR/css-color-4/#currentcolor-color) keyword.
-  #[cfg_attr(feature = "serde", serde(with = "CurrentColor"))]
   CurrentColor,
   /// An value in the RGB color space, including values parsed as hex colors, or the `rgb()`, `hsl()`, and `hwb()` functions.
-  #[cfg_attr(
-    feature = "serde",
-    serde(serialize_with = "serialize_rgba", deserialize_with = "deserialize_rgba")
-  )]
   #[cfg_attr(feature = "jsonschema", schemars(with = "RGBColor"))]
   RGBA(RGBA),
   /// A value in a LAB color space, including the `lab()`, `lch()`, `oklab()`, and `oklch()` functions.
@@ -62,109 +52,14 @@ pub enum CssColor {
   Float(Box<FloatColor>),
   /// The [`light-dark()`](https://drafts.csswg.org/css-color-5/#light-dark) function.
   #[cfg_attr(feature = "visitor", skip_type)]
-  #[cfg_attr(feature = "serde", serde(with = "LightDark"))]
   LightDark(Box<CssColor>, Box<CssColor>),
   /// A [system color](https://drafts.csswg.org/css-color/#css-system-colors) keyword.
   System(SystemColor),
 }
 
-#[cfg(feature = "serde")]
-#[derive(serde::Serialize, serde::Deserialize)]
-#[serde(tag = "type", rename_all = "lowercase")]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-enum CurrentColor {
-  CurrentColor,
-}
-
-#[cfg(feature = "serde")]
-impl CurrentColor {
-  fn serialize<S>(serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    serde::Serialize::serialize(&CurrentColor::CurrentColor, serializer)
-  }
-
-  fn deserialize<'de, D>(deserializer: D) -> Result<(), D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    use serde::Deserialize;
-    let _: CurrentColor = Deserialize::deserialize(deserializer)?;
-    Ok(())
-  }
-}
-
-// Convert RGBA to SRGB to serialize so we get a tagged struct.
-#[cfg(feature = "serde")]
-#[derive(serde::Serialize, serde::Deserialize)]
-#[serde(tag = "type", rename_all = "lowercase")]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-enum RGBColor {
-  RGB(SRGB),
-}
-
-#[cfg(feature = "serde")]
-fn serialize_rgba<S>(rgba: &RGBA, serializer: S) -> Result<S::Ok, S::Error>
-where
-  S: serde::Serializer,
-{
-  use serde::Serialize;
-  RGBColor::RGB(rgba.into()).serialize(serializer)
-}
-
-#[cfg(feature = "serde")]
-fn deserialize_rgba<'de, D>(deserializer: D) -> Result<RGBA, D::Error>
-where
-  D: serde::Deserializer<'de>,
-{
-  use serde::Deserialize;
-  match RGBColor::deserialize(deserializer)? {
-    RGBColor::RGB(srgb) => Ok(srgb.into()),
-  }
-}
-
-// For AST serialization.
-#[cfg(feature = "serde")]
-#[derive(serde::Serialize, serde::Deserialize)]
-#[serde(tag = "type", rename_all = "kebab-case")]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-enum LightDark {
-  LightDark { light: CssColor, dark: CssColor },
-}
-
-#[cfg(feature = "serde")]
-impl<'de> LightDark {
-  pub fn serialize<S>(light: &Box<CssColor>, dark: &Box<CssColor>, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    let wrapper = LightDark::LightDark {
-      light: (**light).clone(),
-      dark: (**dark).clone(),
-    };
-    serde::Serialize::serialize(&wrapper, serializer)
-  }
-
-  pub fn deserialize<D>(deserializer: D) -> Result<(Box<CssColor>, Box<CssColor>), D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let v: LightDark = serde::Deserialize::deserialize(deserializer)?;
-    match v {
-      LightDark::LightDark { light, dark } => Ok((Box::new(light), Box::new(dark))),
-    }
-  }
-}
-
 /// A color in a LAB color space, including the `lab()`, `lch()`, `oklab()`, and `oklch()` functions.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum LABColor {
   /// A `lab()` color.
@@ -180,32 +75,23 @@ pub enum LABColor {
 /// A color in a predefined color space, e.g. `display-p3`.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(tag = "type"))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum PredefinedColor {
   /// A color in the `srgb` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "srgb"))]
   SRGB(SRGB),
   /// A color in the `srgb-linear` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "srgb-linear"))]
   SRGBLinear(SRGBLinear),
   /// A color in the `display-p3` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "display-p3"))]
   DisplayP3(P3),
   /// A color in the `a98-rgb` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "a98-rgb"))]
   A98(A98),
   /// A color in the `prophoto-rgb` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "prophoto-rgb"))]
   ProPhoto(ProPhoto),
   /// A color in the `rec2020` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "rec2020"))]
   Rec2020(Rec2020),
   /// A color in the `xyz-d50` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "xyz-d50"))]
   XYZd50(XYZd50),
   /// A color in the `xyz-d65` color space.
-  #[cfg_attr(feature = "serde", serde(rename = "xyz-d65"))]
   XYZd65(XYZd65),
 }
 
@@ -214,11 +100,6 @@ pub enum PredefinedColor {
 /// are any `none` components, which are represented as NaN.
 #[derive(Debug, Clone, Copy, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FloatColor {
   /// An RGB color.
@@ -1398,7 +1279,6 @@ macro_rules! define_colorspace {
   ) => {
     $(#[$outer])*
     #[derive(Debug, Clone, Copy, PartialEq)] #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     pub struct $name {
       $(#[$a_meta])*
@@ -1450,39 +1330,12 @@ define_colorspace! {
   /// A color in the [`sRGB`](https://www.w3.org/TR/css-color-4/#predefined-sRGB) color space.
   pub struct SRGB {
     /// The red component.
-    #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_rgb_component", deserialize_with = "deserialize_rgb_component"))]
     r: Percentage,
     /// The green component.
-    #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_rgb_component", deserialize_with = "deserialize_rgb_component"))]
     g: Percentage,
     /// The blue component.
-    #[cfg_attr(feature = "serde", serde(serialize_with = "serialize_rgb_component", deserialize_with = "deserialize_rgb_component"))]
     b: Percentage
   }
-}
-
-// serialize RGB components in the 0-255 range as it is more common.
-#[cfg(feature = "serde")]
-fn serialize_rgb_component<S>(v: &f32, serializer: S) -> Result<S::Ok, S::Error>
-where
-  S: serde::Serializer,
-{
-  let v = if !v.is_nan() {
-    (v * 255.0).round().max(0.0).min(255.0)
-  } else {
-    *v
-  };
-
-  serializer.serialize_f32(v)
-}
-
-#[cfg(feature = "serde")]
-fn deserialize_rgb_component<'de, D>(deserializer: D) -> Result<f32, D::Error>
-where
-  D: serde::Deserializer<'de>,
-{
-  let v: f32 = serde::Deserialize::deserialize(deserializer)?;
-  Ok(v / 255.0)
 }
 
 // Copied from an older version of cssparser.
@@ -3501,11 +3354,6 @@ impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for RGB
 #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
 #[css(case = lower)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 /// A CSS [system color](https://drafts.csswg.org/css-color/#css-system-colors) keyword.

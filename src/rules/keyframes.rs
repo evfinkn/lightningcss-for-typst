@@ -26,16 +26,10 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct KeyframesRule<'i> {
   /// The animation name.
   /// <keyframes-name> = <custom-ident> | <string>
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: KeyframesName<'i>,
   /// A list of keyframes in the animation.
   pub keyframes: Vec<Keyframe<'i>>,
@@ -51,19 +45,12 @@ pub struct KeyframesRule<'i> {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum KeyframesName<'i> {
   /// `<custom-ident>` of a `@keyframes` name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Ident(CustomIdent<'i>),
 
   /// `<string>` of a `@keyframes` name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Custom(CowArcStr<'i>),
 }
 
@@ -269,11 +256,6 @@ impl<'i> ToTypst for KeyframesRule<'i> {
 /// A percentage of a given timeline range
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TimelineRangePercentage {
@@ -295,11 +277,6 @@ impl<'i> Parse<'i> for TimelineRangePercentage {
 /// within an `@keyframes` rule.
 #[derive(Debug, PartialEq, Clone, Parse)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum KeyframeSelector {
@@ -352,13 +329,11 @@ impl ToTypst for KeyframeSelector {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Keyframe<'i> {
   /// A list of keyframe selectors to associate with the declarations in this keyframe.
   pub selectors: Vec<KeyframeSelector>,
   /// The declarations for this keyframe.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub declarations: DeclarationBlock<'i>,
 }
 

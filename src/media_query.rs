@@ -4,8 +4,6 @@ use crate::macros::enum_property;
 use crate::parser::starts_with_ignore_ascii_case;
 use crate::printer::Printer;
 use crate::properties::custom::EnvironmentVariable;
-#[cfg(feature = "visitor")]
-use crate::rules::container::ContainerSizeFeatureId;
 use crate::rules::custom_media::CustomMediaRule;
 use crate::rules::Location;
 use crate::stylesheet::ParserOptions;
@@ -16,31 +14,18 @@ use crate::values::number::{CSSInteger, CSSNumber};
 use crate::values::string::CowArcStr;
 use crate::values::{length::Length, ratio::Ratio, resolution::Resolution};
 use crate::vendor_prefix::VendorPrefix;
-#[cfg(feature = "visitor")]
-use crate::visitor::Visit;
 use bitflags::bitflags;
 use cssparser::*;
-#[cfg(feature = "into_owned")]
-use static_self::IntoOwned;
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
-
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
 
 /// A [media query list](https://drafts.csswg.org/mediaqueries/#mq-list).
 #[derive(Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_media_list, MEDIA_QUERIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct MediaList<'i> {
   /// The list of media queries.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub media_queries: Vec<MediaQuery<'i>>,
 }
 
@@ -188,11 +173,6 @@ enum_property! {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case", into = "CowArcStr", from = "CowArcStr")
-)]
 pub enum MediaType<'i> {
   /// Matches all devices.
   All,
@@ -202,7 +182,6 @@ pub enum MediaType<'i> {
   /// Matches all devices that aren’t matched by print.
   Screen,
   /// An unknown media type.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Custom(CowArcStr<'i>),
 }
 
@@ -256,13 +235,11 @@ impl<'a> schemars::JsonSchema for MediaType<'a> {
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_media_query, MEDIA_QUERIES))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize), serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct MediaQuery<'i> {
   /// The qualifier for this query.
   pub qualifier: Option<Qualifier>,
   /// The media type for this query, that can be known, unknown, or "all".
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub media_type: MediaType<'i>,
   /// The condition that this media query contains. This cannot have `or`
   /// in the first level.
@@ -441,49 +418,6 @@ impl<'i> ToTypst for MediaQuery<'i> {
   }
 }
 
-#[cfg(feature = "serde")]
-#[derive(serde::Deserialize)]
-#[serde(untagged)]
-#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-enum MediaQueryOrRaw<'i> {
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
-  MediaQuery {
-    qualifier: Option<Qualifier>,
-    #[cfg_attr(feature = "serde", serde(borrow))]
-    media_type: MediaType<'i>,
-    condition: Option<MediaCondition<'i>>,
-  },
-  Raw {
-    raw: CowArcStr<'i>,
-  },
-}
-
-#[cfg(feature = "serde")]
-impl<'i, 'de: 'i> serde::Deserialize<'de> for MediaQuery<'i> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let mq = MediaQueryOrRaw::deserialize(deserializer)?;
-    match mq {
-      MediaQueryOrRaw::MediaQuery {
-        qualifier,
-        media_type,
-        condition,
-      } => Ok(MediaQuery {
-        qualifier,
-        media_type,
-        condition,
-      }),
-      MediaQueryOrRaw::Raw { raw } => {
-        let res =
-          MediaQuery::parse_string(raw.as_ref()).map_err(|_| serde::de::Error::custom("Could not parse value"))?;
-        Ok(res.into_owned())
-      }
-    }
-  }
-}
-
 enum_property! {
   /// A binary `and` or `or` operator.
   pub enum Operator {
@@ -498,19 +432,12 @@ enum_property! {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaCondition<'i> {
   /// A media feature, implicitly parenthesized.
-  #[cfg_attr(feature = "serde", serde(borrow, with = "ValueWrapper::<MediaFeature>"))]
   Feature(MediaFeature<'i>),
   /// A negation of a condition.
   #[cfg_attr(feature = "visitor", skip_type)]
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<Box<MediaCondition>>"))]
   Not(Box<MediaCondition<'i>>),
   /// A set of joint operations.
   #[cfg_attr(feature = "visitor", skip_type)]
@@ -787,11 +714,6 @@ impl<'i> ToTypst for MediaCondition<'i> {
 /// A [comparator](https://drafts.csswg.org/mediaqueries/#typedef-mf-comparison) within a media query.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum MediaFeatureComparison {
@@ -852,17 +774,11 @@ impl MediaFeatureComparison {
   visit(<'i, ContainerSizeFeatureId>)
 )]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum QueryFeature<'i, FeatureId> {
   /// A plain media feature, e.g. `(min-width: 240px)`.
   Plain {
     /// The name of the feature.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     name: MediaFeatureName<'i, FeatureId>,
     /// The feature value.
     value: MediaFeatureValue<'i>,
@@ -882,7 +798,6 @@ pub enum QueryFeature<'i, FeatureId> {
     value: MediaFeatureValue<'i>,
   },
   /// An interval, e.g. `(120px < width < 240px)`.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   Interval {
     /// The name of the feature.
     name: MediaFeatureName<'i, FeatureId>,
@@ -1078,13 +993,11 @@ impl<'i, FeatureId: FeatureToCss> ToTypst for QueryFeature<'i, FeatureId> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(untagged))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaFeatureName<'i, FeatureId> {
   /// A standard media query feature identifier.
   Standard(FeatureId),
   /// A custom author-defined environment variable.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Custom(DashedIdent<'i>),
   /// An unknown environment variable.
   Unknown(Ident<'i>),
@@ -1418,11 +1331,6 @@ where
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_media_feature_value, MEDIA_QUERIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum MediaFeatureValue<'i> {
   /// A length value.
@@ -1438,7 +1346,6 @@ pub enum MediaFeatureValue<'i> {
   /// A ratio.
   Ratio(Ratio),
   /// An identifier.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Ident(Ident<'i>),
   /// An environment variable reference.
   Env(EnvironmentVariable<'i>),

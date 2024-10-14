@@ -20,17 +20,9 @@ use crate::vendor_prefix::VendorPrefix;
 use crate::visitor::Visit;
 use cssparser::*;
 
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
-
 /// A CSS [`<gradient>`](https://www.w3.org/TR/css-images-3/#gradients) value.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Gradient {
@@ -47,7 +39,6 @@ pub enum Gradient {
   /// A `repeating-conic-gradient()`.
   RepeatingConic(ConicGradient),
   /// A legacy `-webkit-gradient()`.
-  #[cfg_attr(feature = "serde", serde(rename = "webkit-gradient"))]
   WebKitGradient(WebKitGradient),
 }
 
@@ -215,11 +206,6 @@ impl ToTypst for Gradient {
 /// A CSS [`linear-gradient()`](https://www.w3.org/TR/css-images-3/#linear-gradients) or `repeating-linear-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct LinearGradient {
@@ -281,11 +267,6 @@ impl IsCompatible for LinearGradient {
 /// A CSS [`radial-gradient()`](https://www.w3.org/TR/css-images-3/#radial-gradients) or `repeating-radial-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct RadialGradient {
@@ -372,21 +353,13 @@ impl IsCompatible for RadialGradient {
 /// See [LinearGradient](LinearGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum LineDirection {
   /// An angle.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<Angle>"))]
   Angle(Angle),
   /// A horizontal position keyword, e.g. `left` or `right.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<HorizontalPositionKeyword>"))]
   Horizontal(HorizontalPositionKeyword),
   /// A vertical posision keyword, e.g. `top` or `bottom`.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<VerticalPositionKeyword>"))]
   Vertical(VerticalPositionKeyword),
   /// A corner, e.g. `bottom left` or `top right`.
   Corner {
@@ -483,11 +456,6 @@ impl ToTypst for LineDirection {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum EndingShape {
   // Note: Ellipse::parse MUST run before Circle::parse for this to be correct.
@@ -508,11 +476,6 @@ impl Default for EndingShape {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Circle {
   /// A circle with a specified radius.
@@ -577,11 +540,6 @@ impl ToTypst for Circle {
 /// See [RadialGradient](RadialGradient).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Ellipse {
   /// An ellipse with a specified horizontal and vertical radius.
@@ -592,7 +550,6 @@ pub enum Ellipse {
     y: LengthPercentage,
   },
   /// A shape extent keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<ShapeExtent>"))]
   Extent(ShapeExtent),
 }
 
@@ -669,7 +626,6 @@ enum_property! {
 /// A CSS [`conic-gradient()`](https://www.w3.org/TR/css-images-4/#conic-gradients) or `repeating-conic-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ConicGradient {
@@ -755,7 +711,6 @@ impl IsCompatible for ConicGradient {
 /// or [Angle](super::angle::Angle) depending on what type of gradient it is within.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ColorStop<D> {
   /// The color of the color stop.
@@ -795,23 +750,11 @@ impl<D: ToTypst> ToTypst for ColorStop<D> {
 /// or [Angle](super::angle::Angle) depending on what type of gradient it is within.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum GradientItem<D> {
   /// A color stop.
   ColorStop(ColorStop<D>),
   /// A color interpolation hint.
-  #[cfg_attr(
-    feature = "serde",
-    serde(
-      bound(serialize = "D: serde::Serialize", deserialize = "D: serde::Deserialize<'de>"),
-      with = "ValueWrapper::<D>"
-    )
-  )]
   Hint(D),
 }
 
@@ -1098,11 +1041,6 @@ where
 /// A legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "kind", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitGradient {
@@ -1245,7 +1183,6 @@ impl WebKitGradient {
 /// A color stop within a legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct WebKitColorStop {
   /// The color of the color stop.
@@ -1308,7 +1245,6 @@ impl WebKitColorStop {
 /// An x/y position within a legacy `-webkit-gradient()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct WebKitGradientPoint {
@@ -1340,11 +1276,6 @@ impl ToTypst for WebKitGradientPoint {
 /// A keyword or number within a [WebKitGradientPoint](WebKitGradientPoint).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitGradientPointComponent<S> {

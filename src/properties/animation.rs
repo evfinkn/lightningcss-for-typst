@@ -28,20 +28,13 @@ use super::{LengthPercentage, LengthPercentageOrAuto};
 #[derive(Debug, Clone, PartialEq, Parse)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum AnimationName<'i> {
   /// The `none` keyword.
   None,
   /// An identifier of a `@keyframes` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Ident(CustomIdent<'i>),
   /// A `<string>` name of a `@keyframes` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   String(CSSString<'i>),
 }
 
@@ -91,11 +84,6 @@ pub type AnimationNameList<'i> = SmallVec<[AnimationName<'i>; 1]>;
 /// A value for the [animation-iteration-count](https://drafts.csswg.org/css-animations/#animation-iteration-count) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationIterationCount {
@@ -182,11 +170,6 @@ enum_property! {
 /// A value for the [animation-timeline](https://drafts.csswg.org/css-animations-2/#animation-timeline) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationTimeline<'i> {
@@ -195,7 +178,6 @@ pub enum AnimationTimeline<'i> {
   /// The animation is not associated with a timeline.
   None,
   /// A timeline referenced by name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   DashedIdent(DashedIdent<'i>),
   /// The scroll() function.
   Scroll(ScrollTimeline),
@@ -212,7 +194,6 @@ impl<'i> Default for AnimationTimeline<'i> {
 /// The [scroll()](https://drafts.csswg.org/scroll-animations-1/#scroll-notation) function.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ScrollTimeline {
@@ -315,7 +296,6 @@ impl Default for ScrollAxis {
 /// The [view()](https://drafts.csswg.org/scroll-animations-1/#view-notation) function.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ViewTimeline {
@@ -379,11 +359,6 @@ impl ToTypst for ViewTimeline {
 /// A [view progress timeline range](https://drafts.csswg.org/scroll-animations/#view-timelines-ranges)
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TimelineRangeName {
@@ -406,17 +381,14 @@ pub enum TimelineRangeName {
 /// or [animation-range-end](https://drafts.csswg.org/scroll-animations/#animation-range-end) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(rename_all = "lowercase"))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AnimationAttachmentRange {
   /// The start of the animation’s attachment range is the start of its associated timeline.
   Normal,
   /// The animation attachment range starts at the specified point on the timeline measuring from the start of the timeline.
-  #[cfg_attr(feature = "serde", serde(untagged))]
   LengthPercentage(LengthPercentage),
   /// The animation attachment range starts at the specified point on the timeline measuring from the start of the specified named timeline range.
-  #[cfg_attr(feature = "serde", serde(untagged))]
   TimelineRange {
     /// The name of the timeline range.
     name: TimelineRangeName,
@@ -470,7 +442,6 @@ impl Default for AnimationAttachmentRange {
 /// A value for the [animation-range-start](https://drafts.csswg.org/scroll-animations/#animation-range-start) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRangeStart(pub AnimationAttachmentRange);
@@ -494,7 +465,6 @@ impl ToTypst for AnimationRangeStart {
 /// A value for the [animation-range-end](https://drafts.csswg.org/scroll-animations/#animation-range-end) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRangeEnd(pub AnimationAttachmentRange);
@@ -518,7 +488,6 @@ impl ToTypst for AnimationRangeEnd {
 /// A value for the [animation-range](https://drafts.csswg.org/scroll-animations/#animation-range) shorthand property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct AnimationRange {
@@ -581,7 +550,6 @@ define_list_shorthand! {
   /// A value for the [animation](https://drafts.csswg.org/css-animations/#animation) shorthand property.
   pub struct Animation<'i>(VendorPrefix) {
     /// The animation name.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     name: AnimationName(AnimationName<'i>, VendorPrefix),
     /// The animation duration.
     duration: AnimationDuration(Time, VendorPrefix),

@@ -20,13 +20,11 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct FontPaletteValuesRule<'i> {
   /// The name of the font palette.
   pub name: DashedIdent<'i>,
   /// Declarations in the `@font-palette-values` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub properties: Vec<FontPaletteValuesProperty<'i>>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]
@@ -39,15 +37,9 @@ pub struct FontPaletteValuesRule<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FontPaletteValuesProperty<'i> {
   /// The `font-family` property.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   FontFamily(FontFamily<'i>),
   /// The `base-palette` property.
   BasePalette(BasePalette),
@@ -61,11 +53,6 @@ pub enum FontPaletteValuesProperty<'i> {
 /// property in an `@font-palette-values` rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum BasePalette {
@@ -81,7 +68,6 @@ pub enum BasePalette {
 /// property in an `@font-palette-values` rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct OverrideColors {

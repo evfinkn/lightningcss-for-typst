@@ -46,11 +46,9 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CursorImage<'i> {
   /// A url to the cursor image.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub url: Url<'i>,
   /// The location in the image where the mouse pointer appears.
   pub hotspot: Option<(CSSNumber, CSSNumber)>,
@@ -137,11 +135,9 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Cursor<'i> {
   /// A list of cursor images.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub images: SmallVec<[CursorImage<'i>; 1]>,
   /// A pre-defined cursor.
   pub keyword: CursorKeyword,
@@ -181,11 +177,6 @@ impl<'i> ToTypst for Cursor<'i> {
 /// A value for the [caret-color](https://www.w3.org/TR/2021/WD-css-ui-4-20210316/#caret-color) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ColorOrAuto {
@@ -376,29 +367,6 @@ impl<'i> ToTypst for Appearance<'i> {
   }
 }
 
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'i> serde::Serialize for Appearance<'i> {
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    serializer.serialize_str(self.to_str())
-  }
-}
-
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'i, 'de: 'i> serde::Deserialize<'de> for Appearance<'i> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let s = CowArcStr::deserialize(deserializer)?;
-    Ok(Self::from_str(s.as_ref()).unwrap_or_else(|| Appearance::NonStandard(s)))
-  }
-}
-
 #[cfg(feature = "jsonschema")]
 #[cfg_attr(docsrs, doc(cfg(feature = "jsonschema")))]
 impl<'a> schemars::JsonSchema for Appearance<'a> {
@@ -418,7 +386,6 @@ impl<'a> schemars::JsonSchema for Appearance<'a> {
 bitflags! {
   /// A value for the [color-scheme](https://drafts.csswg.org/css-color-adjust/#color-scheme-prop) property.
   #[cfg_attr(feature = "visitor", derive(Visit))]
-  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(from = "SerializedColorScheme", into = "SerializedColorScheme"))]
   #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
   #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Clone, Copy)]
   pub struct ColorScheme: u8 {
@@ -491,8 +458,6 @@ impl ToTypst for ColorScheme {
     Ok(())
   }
 }
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 struct SerializedColorScheme {
   light: bool,

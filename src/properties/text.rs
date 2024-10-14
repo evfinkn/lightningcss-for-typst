@@ -51,7 +51,6 @@ bitflags! {
   ///
   /// All combinations of flags is supported.
   #[cfg_attr(feature = "visitor", derive(Visit))]
-  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(from = "SerializedTextTransformOther", into = "SerializedTextTransformOther"))]
   #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Clone, Copy)]
   pub struct TextTransformOther: u8 {
     /// Puts all typographic character units in full-width form.
@@ -96,12 +95,6 @@ impl ToTypst for TextTransformOther {
     Ok(())
   }
 }
-
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 struct SerializedTextTransformOther {
@@ -152,14 +145,12 @@ impl<'a> schemars::JsonSchema for TextTransformOther {
 /// A value for the [text-transform](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#text-transform-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextTransform {
   /// How case should be transformed.
   pub case: TextTransformCase,
   /// How ideographic characters should be transformed.
-  #[cfg_attr(feature = "serde", serde(flatten))]
   pub other: TextTransformOther,
 }
 
@@ -350,11 +341,6 @@ enum_property! {
 /// and [letter-spacing](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#letter-spacing-property) properties.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Spacing {
@@ -367,11 +353,6 @@ pub enum Spacing {
 /// A value for the [text-indent](https://www.w3.org/TR/2021/CRD-css-text-3-20210422/#text-indent-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextIndent {
@@ -445,11 +426,6 @@ impl ToTypst for TextIndent {
 /// A value for the [text-size-adjust](https://w3c.github.io/csswg-drafts/css-size-adjust/#adjustment-control) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TextSizeAdjust {
@@ -466,7 +442,6 @@ bitflags! {
   ///
   /// Multiple lines may be specified by combining the flags.
   #[cfg_attr(feature = "visitor", derive(Visit))]
-  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(from = "SerializedTextDecorationLine", into = "SerializedTextDecorationLine"))]
   #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
   #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Clone, Copy)]
   pub struct TextDecorationLine: u8 {
@@ -568,31 +543,17 @@ impl ToTypst for TextDecorationLine {
     Ok(())
   }
 }
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(untagged))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum SerializedTextDecorationLine {
   Exclusive(ExclusiveTextDecorationLine),
   Other(Vec<OtherTextDecorationLine>),
 }
-
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum ExclusiveTextDecorationLine {
   None,
   SpellingError,
   GrammarError,
 }
-
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum OtherTextDecorationLine {
   Underline,
@@ -700,11 +661,6 @@ impl Default for TextDecorationStyle {
 /// A value for the [text-decoration-thickness](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-decoration-width-property) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TextDecorationThickness {
@@ -864,11 +820,6 @@ enum_property! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TextEmphasisStyle<'i> {
   /// No emphasis.
@@ -881,10 +832,6 @@ pub enum TextEmphasisStyle<'i> {
     shape: Option<TextEmphasisShape>,
   },
   /// Display the given string as marks.
-  #[cfg_attr(
-    feature = "serde",
-    serde(borrow, with = "crate::serialization::ValueWrapper::<CSSString>")
-  )]
   String(CSSString<'i>),
 }
 
@@ -950,7 +897,6 @@ define_shorthand! {
   /// A value for the [text-emphasis](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-emphasis-property) shorthand property.
   pub struct TextEmphasis<'i>(VendorPrefix) {
     /// The text emphasis style.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     style: TextEmphasisStyle(TextEmphasisStyle<'i>, VendorPrefix),
     /// The text emphasis color.
     color: TextEmphasisColor(CssColor, VendorPrefix),
@@ -1041,7 +987,6 @@ enum_property! {
 /// A value for the [text-emphasis-position](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-emphasis-position-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextEmphasisPosition {
@@ -1358,11 +1303,6 @@ impl<'i> PropertyHandler<'i> for TextDecorationHandler<'i> {
 /// A value for the [text-shadow](https://www.w3.org/TR/2020/WD-css-text-decor-4-20200506/#text-shadow-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TextShadow {

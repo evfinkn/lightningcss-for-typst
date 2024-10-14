@@ -19,25 +19,16 @@ use bitflags::bitflags;
 use cssparser::*;
 use smallvec::SmallVec;
 
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
-
 /// A [track sizing](https://drafts.csswg.org/css-grid-2/#track-sizing) value
 /// for the `grid-template-rows` and `grid-template-columns` properties.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TrackSizing<'i> {
   /// No explicit grid tracks.
   None,
   /// A list of grid tracks.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   TrackList(TrackList<'i>),
 }
 
@@ -48,15 +39,9 @@ pub enum TrackSizing<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TrackList<'i> {
   /// A list of line names.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub line_names: Vec<CustomIdentList<'i>>,
   /// A list of grid track items.
   pub items: Vec<TrackListItem<'i>>,
@@ -68,17 +53,11 @@ pub struct TrackList<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TrackListItem<'i> {
   /// A track size.
   TrackSize(TrackSize),
   /// A `repeat()` function.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   TrackRepeat(TrackRepeat<'i>),
 }
 
@@ -88,16 +67,10 @@ pub enum TrackListItem<'i> {
 /// See [TrackListItem](TrackListItem).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TrackSize {
   /// An explicit track breadth.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<TrackBreadth>"))]
   TrackBreadth(TrackBreadth),
   /// The `minmax()` function.
   MinMax {
@@ -107,7 +80,6 @@ pub enum TrackSize {
     max: TrackBreadth,
   },
   /// The `fit-content()` function.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<LengthPercentage>"))]
   FitContent(LengthPercentage),
 }
 
@@ -121,7 +93,6 @@ impl Default for TrackSize {
 /// in the `grid-auto-rows` and `grid-auto-columns` properties.
 #[derive(Debug, Clone, PartialEq, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TrackSizeList(pub SmallVec<[TrackSize; 1]>);
@@ -131,11 +102,6 @@ pub struct TrackSizeList(pub SmallVec<[TrackSize; 1]>);
 /// See [TrackSize](TrackSize).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum TrackBreadth {
@@ -158,17 +124,11 @@ pub enum TrackBreadth {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TrackRepeat<'i> {
   /// The repeat count.
   pub count: RepeatCount,
   /// The line names to repeat.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub line_names: Vec<CustomIdentList<'i>>,
   /// The track sizes to repeat.
   pub track_sizes: Vec<TrackSize>,
@@ -180,11 +140,6 @@ pub struct TrackRepeat<'i> {
 /// See [TrackRepeat](TrackRepeat).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum RepeatCount {
@@ -535,11 +490,6 @@ impl ToTypst for TrackSizeList {
 /// A value for the [grid-template-areas](https://drafts.csswg.org/css-grid-2/#grid-template-areas-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum GridTemplateAreas {
@@ -708,11 +658,9 @@ impl GridTemplateAreas {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GridTemplate<'i> {
   /// The grid template rows.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub rows: TrackSizing<'i>,
   /// The grid template columns.
   pub columns: TrackSizing<'i>,
@@ -938,7 +886,6 @@ bitflags! {
   /// The `Row` or `Column` flags may be combined with the `Dense` flag, but the `Row` and `Column` flags may
   /// not be combined.
   #[cfg_attr(feature = "visitor", derive(Visit))]
-  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(from = "SerializedGridAutoFlow", into = "SerializedGridAutoFlow"))]
   #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
   #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug, Clone, Copy)]
   pub struct GridAutoFlow: u8 {
@@ -950,8 +897,6 @@ bitflags! {
     const Dense  = 0b10;
   }
 }
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 struct SerializedGridAutoFlow {
   /// The direction of the auto flow.
@@ -986,12 +931,6 @@ impl From<SerializedGridAutoFlow> for GridAutoFlow {
     flow
   }
 }
-
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 enum AutoFlowDirection {
   Row,
@@ -1105,15 +1044,9 @@ impl ToTypst for GridAutoFlow {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Grid<'i> {
   /// Explicit grid template rows.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub rows: TrackSizing<'i>,
   /// Explicit grid template columns.
   pub columns: TrackSizing<'i>,
@@ -1294,11 +1227,6 @@ impl_shorthand! {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum GridLine<'i> {
   /// Automatic placement.
@@ -1313,7 +1241,6 @@ pub enum GridLine<'i> {
     /// A line number.
     index: CSSInteger,
     /// A line name to filter by.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     name: Option<CustomIdent<'i>>,
   },
   /// A grid span based on the Nth grid line from the opposite edge, optionally filtered by line name.
@@ -1463,7 +1390,6 @@ define_shorthand! {
   /// A value for the [grid-row](https://drafts.csswg.org/css-grid-2/#propdef-grid-row) shorthand property.
   pub struct GridRow<'i> {
     /// The starting line.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     start: GridRowStart(GridLine<'i>),
     /// The ending line.
     end: GridRowEnd(GridLine<'i>),
@@ -1474,7 +1400,6 @@ define_shorthand! {
   /// A value for the [grid-row](https://drafts.csswg.org/css-grid-2/#propdef-grid-column) shorthand property.
   pub struct GridColumn<'i> {
     /// The starting line.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     start: GridColumnStart(GridLine<'i>),
     /// The ending line.
     end: GridColumnEnd(GridLine<'i>),
@@ -1488,7 +1413,6 @@ define_shorthand! {
   /// A value for the [grid-area](https://drafts.csswg.org/css-grid-2/#propdef-grid-area) shorthand property.
   pub struct GridArea<'i> {
     /// The grid row start placement.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     row_start: GridRowStart(GridLine<'i>),
     /// The grid column start placement.
     column_start: GridColumnStart(GridLine<'i>),

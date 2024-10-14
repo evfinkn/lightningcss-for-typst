@@ -50,18 +50,11 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_declaration_block, PROPERTIES))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DeclarationBlock<'i> {
   /// A list of `!important` declarations in the block.
-  #[cfg_attr(feature = "serde", serde(borrow, default))]
   pub important_declarations: Vec<Property<'i>>,
   /// A list of normal declarations in the block.
-  #[cfg_attr(feature = "serde", serde(default))]
   pub declarations: Vec<Property<'i>>,
 }
 

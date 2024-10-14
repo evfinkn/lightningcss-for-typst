@@ -15,18 +15,10 @@ use crate::vendor_prefix::VendorPrefix;
 use crate::visitor::Visit;
 use cssparser::*;
 
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
-
 /// A [`<baseline-position>`](https://www.w3.org/TR/css-align-3/#typedef-baseline-position) value,
 /// as used in the alignment properties.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum BaselinePosition {
   /// The first baseline.
@@ -113,21 +105,14 @@ enum_property! {
 /// A value for the [align-content](https://www.w3.org/TR/css-align-3/#propdef-align-content) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AlignContent {
   /// Default alignment.
   Normal,
   /// A baseline position.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<BaselinePosition>"))]
   BaselinePosition(BaselinePosition),
   /// A content distribution keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<ContentDistribution>"))]
   ContentDistribution(ContentDistribution),
   /// A content position keyword.
   ContentPosition {
@@ -141,18 +126,12 @@ pub enum AlignContent {
 /// A value for the [justify-content](https://www.w3.org/TR/css-align-3/#propdef-justify-content) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum JustifyContent {
   /// Default justification.
   Normal,
   /// A content distribution keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<ContentDistribution>"))]
   ContentDistribution(ContentDistribution),
   /// A content position keyword.
   ContentPosition {
@@ -326,11 +305,6 @@ enum_property! {
 /// A value for the [align-self](https://www.w3.org/TR/css-align-3/#align-self-property) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AlignSelf {
@@ -341,7 +315,6 @@ pub enum AlignSelf {
   /// Item is stretched.
   Stretch,
   /// A baseline position keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<BaselinePosition>"))]
   BaselinePosition(BaselinePosition),
   /// A self position keyword.
   SelfPosition {
@@ -355,11 +328,6 @@ pub enum AlignSelf {
 /// A value for the [justify-self](https://www.w3.org/TR/css-align-3/#justify-self-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum JustifySelf {
@@ -370,7 +338,6 @@ pub enum JustifySelf {
   /// Item is stretched.
   Stretch,
   /// A baseline position keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<BaselinePosition>"))]
   BaselinePosition(BaselinePosition),
   /// A self position keyword.
   SelfPosition {
@@ -529,11 +496,6 @@ impl ToTypst for PlaceSelf {
 /// A value for the [align-items](https://www.w3.org/TR/css-align-3/#align-items-property) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AlignItems {
@@ -542,7 +504,6 @@ pub enum AlignItems {
   /// Items are stretched.
   Stretch,
   /// A baseline position keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<BaselinePosition>"))]
   BaselinePosition(BaselinePosition),
   /// A self position keyword.
   SelfPosition {
@@ -556,11 +517,6 @@ pub enum AlignItems {
 /// A legacy justification keyword, as used in the `justify-items` property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum LegacyJustify {
   /// Left justify.
@@ -624,11 +580,6 @@ impl ToTypst for LegacyJustify {
 /// A value for the [justify-items](https://www.w3.org/TR/css-align-3/#justify-items-property) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum JustifyItems {
@@ -637,7 +588,6 @@ pub enum JustifyItems {
   /// Items are stretched.
   Stretch,
   /// A baseline position keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<BaselinePosition>"))]
   BaselinePosition(BaselinePosition),
   /// A self position keyword, with optional overflow position.
   SelfPosition {
@@ -657,7 +607,6 @@ pub enum JustifyItems {
     overflow: Option<OverflowPosition>,
   },
   /// A legacy justification keyword.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<LegacyJustify>"))]
   Legacy(LegacyJustify),
 }
 
@@ -798,11 +747,6 @@ impl ToTypst for PlaceItems {
 /// `column-gap` and `row-gap` properties.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum GapValue {

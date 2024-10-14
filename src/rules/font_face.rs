@@ -21,11 +21,9 @@ use std::fmt::Write;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct FontFaceRule<'i> {
   /// Declarations in the `@font-face` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub properties: Vec<FontFaceProperty<'i>>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]
@@ -38,15 +36,9 @@ pub struct FontFaceRule<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FontFaceProperty<'i> {
   /// The `src` property.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Source(Vec<Source<'i>>),
   /// The `font-family` property.
   FontFamily(FontFamily<'i>),
@@ -67,17 +59,11 @@ pub enum FontFaceProperty<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Source<'i> {
   /// A `url()` with optional format metadata.
   Url(UrlSource<'i>),
   /// The `local()` function.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Local(FontFamily<'i>),
 }
 
@@ -121,13 +107,11 @@ impl<'i> ToTypst for Source<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct UrlSource<'i> {
   /// The URL.
   pub url: Url<'i>,
   /// Optional `format()` function.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub format: Option<FontFormat<'i>>,
   /// Optional `tech()` function.
   pub tech: Vec<FontTechnology>,
@@ -182,11 +166,6 @@ impl<'i> ToTypst for UrlSource<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum FontFormat<'i> {
   /// [src](https://drafts.csswg.org/css-fonts/#font-format-definitions)
@@ -199,14 +178,12 @@ pub enum FontFormat<'i> {
   /// An OpenType font.
   OpenType,
   /// An Embedded OpenType (.eot) font.
-  #[cfg_attr(feature = "serde", serde(rename = "embedded-opentype"))]
   EmbeddedOpenType,
   /// OpenType Collection.
   Collection,
   /// An SVG font.
   SVG,
   /// An unknown format.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   String(CowArcStr<'i>),
 }
 
@@ -298,7 +275,6 @@ enum_property! {
 /// Cannot be empty. Can represent a single code point when start == end.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct UnicodeRange {
@@ -374,11 +350,6 @@ impl ToTypst for UnicodeRange {
 /// A value for the [font-style](https://w3c.github.io/csswg-drafts/css-fonts/#descdef-font-face-font-style) descriptor in an `@font-face` rule.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum FontStyle {
@@ -387,7 +358,7 @@ pub enum FontStyle {
   /// Italic font style.
   Italic,
   /// Oblique font style, with a custom angle.
-  Oblique(#[cfg_attr(feature = "serde", serde(default = "FontStyle::default_oblique_angle"))] Size2D<Angle>),
+  Oblique(Size2D<Angle>),
 }
 
 impl Default for FontStyle {

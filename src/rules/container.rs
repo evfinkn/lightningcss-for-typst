@@ -12,8 +12,6 @@ use crate::media_query::{
 use crate::parser::DefaultAtRule;
 use crate::printer::Printer;
 use crate::properties::{Property, PropertyId};
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
 use crate::targets::{Features, Targets};
 use crate::traits::{Parse, ToTypst};
 use crate::values::ident::CustomIdent;
@@ -23,12 +21,10 @@ use crate::visitor::Visit;
 /// A [@container](https://drafts.csswg.org/css-contain-3/#container-rule) rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ContainerRule<'i, R = DefaultAtRule> {
   /// The name of the container.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: Option<ContainerName<'i>>,
   /// The container condition.
   pub condition: ContainerCondition<'i>,
@@ -43,19 +39,12 @@ pub struct ContainerRule<'i, R = DefaultAtRule> {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ContainerCondition<'i> {
   /// A size container feature, implicitly parenthesized.
-  #[cfg_attr(feature = "serde", serde(borrow, with = "ValueWrapper::<ContainerSizeFeature>"))]
   Feature(ContainerSizeFeature<'i>),
   /// A negation of a condition.
   #[cfg_attr(feature = "visitor", skip_type)]
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<Box<ContainerCondition>>"))]
   Not(Box<ContainerCondition<'i>>),
   /// A set of joint operations.
   #[cfg_attr(feature = "visitor", skip_type)]
@@ -66,7 +55,6 @@ pub enum ContainerCondition<'i> {
     conditions: Vec<ContainerCondition<'i>>,
   },
   /// A style query.
-  #[cfg_attr(feature = "serde", serde(borrow, with = "ValueWrapper::<StyleQuery>"))]
   Style(StyleQuery<'i>),
 }
 
@@ -105,19 +93,12 @@ impl FeatureToCss for ContainerSizeFeatureId {
 #[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum StyleQuery<'i> {
   /// A style feature, implicitly parenthesized.
-  #[cfg_attr(feature = "serde", serde(borrow, with = "ValueWrapper::<Property>"))]
   Feature(Property<'i>),
   /// A negation of a condition.
   #[cfg_attr(feature = "visitor", skip_type)]
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<Box<StyleQuery>>"))]
   Not(Box<StyleQuery<'i>>),
   /// A set of joint operations.
   #[cfg_attr(feature = "visitor", skip_type)]
@@ -249,9 +230,8 @@ impl<'i> ToTypst for StyleQuery<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct ContainerName<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub CustomIdent<'i>);
+pub struct ContainerName<'i>(pub CustomIdent<'i>);
 
 impl<'i> Parse<'i> for ContainerName<'i> {
   fn parse<'t>(input: &mut Parser<'i, 't>) -> Result<Self, ParseError<'i, ParserError<'i>>> {

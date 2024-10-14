@@ -44,9 +44,6 @@ pub mod vendor_prefix;
 #[cfg_attr(docsrs, doc(cfg(feature = "visitor")))]
 pub mod visitor;
 
-#[cfg(feature = "serde")]
-mod serialization;
-
 #[cfg(test)]
 mod tests {
   use crate::css_modules::{CssModuleExport, CssModuleExports, CssModuleReference, CssModuleReferences};

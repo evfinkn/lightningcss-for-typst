@@ -10,7 +10,6 @@ macro_rules! enum_property {
   ) => {
     #[derive(Debug, Clone, Copy, PartialEq, Parse, ToTypst)]
     #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(rename_all = "kebab-case"))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
     $(#[$outer])*
@@ -44,13 +43,11 @@ macro_rules! enum_property {
   ) => {
     $(#[$outer])*
     #[derive(Debug, Clone, Copy, PartialEq)] #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
     $vis enum $name {
       $(
         $(#[$meta])*
-        #[cfg_attr(feature = "serde", serde(rename = $str))]
         $id,
       )+
     }
@@ -341,7 +338,6 @@ macro_rules! define_shorthand {
     $(#[$outer])*
     #[derive(Debug, Clone, PartialEq)]
     #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(rename_all = "camelCase"))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
     pub struct $name$(<$l>)? {
@@ -569,7 +565,6 @@ macro_rules! define_list_shorthand {
     $(#[$outer])*
     #[derive(Debug, Clone, PartialEq)]
     #[cfg_attr(feature = "visitor", derive(Visit))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(rename_all = "camelCase"))]
     #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
     #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
     pub struct $name$(<$l>)? {

@@ -17,11 +17,6 @@ use crate::visitor::Visit;
 /// }
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct ScopeRule<'i, R = DefaultAtRule> {
@@ -30,7 +25,6 @@ pub struct ScopeRule<'i, R = DefaultAtRule> {
   /// A selector list used to identify any scoping limits.
   pub scope_end: Option<SelectorList<'i>>,
   /// Nested rules within the `@scope` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub rules: CssRuleList<'i, R>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]

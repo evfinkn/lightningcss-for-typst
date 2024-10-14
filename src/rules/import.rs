@@ -17,11 +17,9 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ImportRule<'i> {
   /// The url to import.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub url: CowArcStr<'i>,
   /// An optional cascade layer name, or `None` for an anonymous layer.
@@ -30,7 +28,6 @@ pub struct ImportRule<'i> {
   /// An optional `supports()` condition.
   pub supports: Option<SupportsCondition<'i>>,
   /// A media query.
-  #[cfg_attr(feature = "serde", serde(default))]
   pub media: MediaList<'i>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]

@@ -23,17 +23,11 @@ use smallvec::SmallVec;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_image, IMAGES))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Image<'i> {
   /// The `none` keyword.
   None,
   /// A `url()`.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Url(Url<'i>),
   /// A gradient.
   Gradient(Box<Gradient>),
@@ -316,15 +310,9 @@ impl<'i, T: ImageFallback<'i>> FallbackValues for SmallVec<[T; 1]> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ImageSet<'i> {
   /// The image options to choose from.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub options: Vec<ImageSetOption<'i>>,
   /// The vendor prefix for the `image-set()` function.
   pub vendor_prefix: VendorPrefix,
@@ -398,11 +386,6 @@ impl<'i> IsCompatible for ImageSet<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct ImageSetOption<'i> {
   /// The image for this option.
@@ -411,7 +394,6 @@ pub struct ImageSetOption<'i> {
   /// The resolution of the image.
   pub resolution: Resolution,
   /// The mime type of the image.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub file_type: Option<CowArcStr<'i>>,
 }
 

@@ -106,11 +106,6 @@ impl Default for GeometryBox {
 /// A value for the [mask-clip](https://www.w3.org/TR/css-masking-1/#the-mask-clip) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum MaskClip {
@@ -201,7 +196,6 @@ define_list_shorthand! {
   /// A value for the [mask](https://www.w3.org/TR/css-masking-1/#the-mask) shorthand property.
   pub struct Mask<'i>(VendorPrefix) {
     /// The mask image.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     image: MaskImage(Image<'i>, VendorPrefix),
     /// The position of the mask.
     position: MaskPosition(Position, VendorPrefix),
@@ -372,20 +366,13 @@ impl<'i> ImageFallback<'i> for Mask<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ClipPath<'i> {
   /// No clip path.
   None,
   /// A url reference to an SVG path element.
-  #[cfg_attr(feature = "serde", serde(borrow, with = "crate::serialization::ValueWrapper::<Url>"))]
   Url(Url<'i>),
   /// A basic shape, positioned according to the reference box.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   Shape {
     /// A basic shape.
     shape: Box<BasicShape>,
@@ -393,7 +380,6 @@ pub enum ClipPath<'i> {
     reference_box: GeometryBox,
   },
   /// A reference box.
-  #[cfg_attr(feature = "serde", serde(with = "crate::serialization::ValueWrapper::<GeometryBox>"))]
   Box(GeometryBox),
 }
 
@@ -471,7 +457,6 @@ define_shorthand! {
   #[derive(Default)]
   pub struct MaskBorder<'i> {
     /// The mask image.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     source: MaskBorderSource(Image<'i>),
     /// The offsets that define where the image is sliced.
     slice: MaskBorderSlice(BorderImageSlice),

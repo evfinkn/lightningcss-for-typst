@@ -23,9 +23,8 @@ use super::string::impl_string_type;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_custom_ident, CUSTOM_IDENTS))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct CustomIdent<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub CowArcStr<'i>);
+pub struct CustomIdent<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for CustomIdent<'i> {
   fn parse<'t>(input: &mut Parser<'i, 't>) -> Result<Self, ParseError<'i, ParserError<'i>>> {
@@ -83,9 +82,8 @@ pub type CustomIdentList<'i> = SmallVec<[CustomIdent<'i>; 1]>;
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_dashed_ident, DASHED_IDENTS))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct DashedIdent<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub CowArcStr<'i>);
+pub struct DashedIdent<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for DashedIdent<'i> {
   fn parse<'t>(input: &mut Parser<'i, 't>) -> Result<Self, ParseError<'i, ParserError<'i>>> {
@@ -108,21 +106,6 @@ impl<'i> ToTypst for DashedIdent<'i> {
   }
 }
 
-#[cfg(feature = "serde")]
-impl<'i, 'de: 'i> serde::Deserialize<'de> for DashedIdent<'i> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let ident = CowArcStr::deserialize(deserializer)?;
-    if !ident.starts_with("--") {
-      return Err(serde::de::Error::custom("Dashed idents must start with --"));
-    }
-
-    Ok(DashedIdent(ident))
-  }
-}
-
 /// A CSS [`<dashed-ident>`](https://www.w3.org/TR/css-values-4/#dashed-idents) reference.
 ///
 /// Dashed idents are used in cases where an identifier can be either author defined _or_ CSS-defined.
@@ -133,11 +116,9 @@ impl<'i, 'de: 'i> serde::Deserialize<'de> for DashedIdent<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DashedIdentReference<'i> {
   /// The referenced identifier.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub ident: DashedIdent<'i>,
   /// CSS modules extension: the filename where the variable is defined.
   /// Only enabled when the CSS modules `dashed_idents` option is turned on.
@@ -190,9 +171,8 @@ impl<'i> ToTypst for DashedIdentReference<'i> {
 #[derive(Debug, Clone, Eq, Hash, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct Ident<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub CowArcStr<'i>);
+pub struct Ident<'i>(pub CowArcStr<'i>);
 
 impl<'i> Parse<'i> for Ident<'i> {
   fn parse<'t>(input: &mut Parser<'i, 't>) -> Result<Self, ParseError<'i, ParserError<'i>>> {

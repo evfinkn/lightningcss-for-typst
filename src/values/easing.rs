@@ -12,11 +12,6 @@ use std::fmt::Write;
 /// A CSS [easing function](https://www.w3.org/TR/css-easing-1/#easing-functions).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum EasingFunction {
@@ -46,7 +41,6 @@ pub enum EasingFunction {
     /// The number of intervals in the function.
     count: CSSInteger,
     /// The step position.
-    #[cfg_attr(feature = "serde", serde(default))]
     position: StepPosition,
   },
 }
@@ -194,11 +188,6 @@ impl EasingFunction {
 /// A [step position](https://www.w3.org/TR/css-easing-1/#step-position), used within the `steps()` function.
 #[derive(Debug, Clone, PartialEq, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum StepPosition {
   /// The first rise occurs at input progress value of 0.

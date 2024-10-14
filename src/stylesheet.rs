@@ -61,18 +61,12 @@ pub use crate::printer::PseudoClasses;
 /// ```
 #[derive(Debug)]
 #[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
-#[cfg_attr(
   feature = "jsonschema",
   derive(schemars::JsonSchema),
   schemars(rename = "StyleSheet", bound = "T: schemars::JsonSchema")
 )]
 pub struct StyleSheet<'i, 'o, T = DefaultAtRule> {
   /// A list of top-level rules within the style sheet.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub rules: CssRuleList<'i, T>,
   /// A list of file names for all source files included within the style sheet.
   /// Sources are referenced by index in the `loc` property of each rule.
@@ -83,9 +77,7 @@ pub struct StyleSheet<'i, 'o, T = DefaultAtRule> {
   pub license_comments: Vec<CowArcStr<'i>>,
   /// A list of content hashes for all source files included within the style sheet.
   /// This is only set if CSS modules are enabled and the pattern includes [content-hash].
-  #[cfg_attr(feature = "serde", serde(skip))]
   pub(crate) content_hashes: Option<Vec<String>>,
-  #[cfg_attr(feature = "serde", serde(skip))]
   /// The options the style sheet was originally parsed with.
   options: ParserOptions<'o, 'i>,
 }

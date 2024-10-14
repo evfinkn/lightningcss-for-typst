@@ -92,7 +92,6 @@ impl<'i> crate::traits::AtRuleParser<'i> for DefaultAtRuleParser {
 }
 
 #[derive(PartialEq, Clone, Debug)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct DefaultAtRule;
 impl crate::traits::ToTypst for DefaultAtRule {

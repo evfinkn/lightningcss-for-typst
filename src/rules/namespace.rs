@@ -13,15 +13,12 @@ use crate::visitor::Visit;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct NamespaceRule<'i> {
   /// An optional namespace prefix to declare, or `None` to declare the default namespace.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub prefix: Option<Ident<'i>>,
   /// The url of the namespace.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub url: CSSString<'i>,
   /// The location of the rule in the source file.

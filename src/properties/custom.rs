@@ -28,18 +28,14 @@ use cssparser::color::parse_hash_color;
 use cssparser::*;
 
 use super::AnimationName;
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
 
 /// A CSS custom property, representing any unknown property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct CustomProperty<'i> {
   /// The name of the property.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: CustomPropertyName<'i>,
   /// The property value, stored as a raw token list.
   pub value: TokenList<'i>,
@@ -63,11 +59,9 @@ impl<'i> CustomProperty<'i> {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize), serde(untagged))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum CustomPropertyName<'i> {
   /// An author-defined CSS custom property.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Custom(DashedIdent<'i>),
   /// An unknown CSS property.
   Unknown(Ident<'i>),
@@ -111,18 +105,6 @@ impl<'i> ToTypst for CustomPropertyName<'i> {
   }
 }
 
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'i, 'de: 'i> serde::Deserialize<'de> for CustomPropertyName<'i> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let name = CowArcStr::deserialize(deserializer)?;
-    Ok(name.into())
-  }
-}
-
 /// A known property with an unparsed value.
 ///
 /// This type is used when the value of a known property could not
@@ -131,17 +113,11 @@ impl<'i, 'de: 'i> serde::Deserialize<'de> for CustomPropertyName<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct UnparsedProperty<'i> {
   /// The id of the property.
   pub property_id: PropertyId<'i>,
   /// The property value, stored as a raw token list.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub value: TokenList<'i>,
 }
 
@@ -202,23 +178,16 @@ impl<'i> UnparsedProperty<'i> {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_token_list, TOKENS))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
-pub struct TokenList<'i>(#[cfg_attr(feature = "serde", serde(borrow))] pub Vec<TokenOrValue<'i>>);
+pub struct TokenList<'i>(pub Vec<TokenOrValue<'i>>);
 
 /// A raw CSS token, or a parsed value.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit), visit(visit_token, TOKENS), visit_types(TOKENS | COLORS | URLS | VARIABLES | ENVIRONMENT_VARIABLES | FUNCTIONS | LENGTHS | ANGLES | TIMES | RESOLUTIONS | DASHED_IDENTS))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum TokenOrValue<'i> {
   /// A token.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Token(Token<'i>),
   /// A parsed CSS color.
   Color(CssColor),
@@ -681,50 +650,38 @@ impl<'i> TokenList<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Token<'a> {
   /// A [`<ident-token>`](https://drafts.csswg.org/css-syntax/#ident-token-diagram)
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
-  Ident(#[cfg_attr(feature = "serde", serde(borrow))] CowArcStr<'a>),
+  Ident(CowArcStr<'a>),
 
   /// A [`<at-keyword-token>`](https://drafts.csswg.org/css-syntax/#at-keyword-token-diagram)
   ///
   /// The value does not include the `@` marker.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   AtKeyword(CowArcStr<'a>),
 
   /// A [`<hash-token>`](https://drafts.csswg.org/css-syntax/#hash-token-diagram) with the type flag set to "unrestricted"
   ///
   /// The value does not include the `#` marker.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   Hash(CowArcStr<'a>),
 
   /// A [`<hash-token>`](https://drafts.csswg.org/css-syntax/#hash-token-diagram) with the type flag set to "id"
   ///
   /// The value does not include the `#` marker.
-  #[cfg_attr(feature = "serde", serde(rename = "id-hash", with = "ValueWrapper::<CowArcStr>"))]
   IDHash(CowArcStr<'a>), // Hash that is a valid ID selector.
 
   /// A [`<string-token>`](https://drafts.csswg.org/css-syntax/#string-token-diagram)
   ///
   /// The value does not include the quotes.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   String(CowArcStr<'a>),
 
   /// A [`<url-token>`](https://drafts.csswg.org/css-syntax/#url-token-diagram)
   ///
   /// The value does not include the `url(` `)` markers.  Note that `url( <string-token> )` is represented by a
   /// `Function` token.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   UnquotedUrl(CowArcStr<'a>),
 
   /// A `<delim-token>`
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<char>"))]
   Delim(char),
 
   /// A [`<number-token>`](https://drafts.csswg.org/css-syntax/#number-token-diagram)
@@ -732,30 +689,25 @@ pub enum Token<'a> {
     /// Whether the number had a `+` or `-` sign.
     ///
     /// This is used is some cases like the <An+B> micro syntax. (See the `parse_nth` function.)
-    #[cfg_attr(feature = "serde", serde(skip))]
     has_sign: bool,
 
     /// The value as a float
     value: f32,
 
     /// If the origin source did not include a fractional part, the value as an integer.
-    #[cfg_attr(feature = "serde", serde(skip))]
     int_value: Option<i32>,
   },
 
   /// A [`<percentage-token>`](https://drafts.csswg.org/css-syntax/#percentage-token-diagram)
   Percentage {
     /// Whether the number had a `+` or `-` sign.
-    #[cfg_attr(feature = "serde", serde(skip))]
     has_sign: bool,
 
     /// The value as a float, divided by 100 so that the nominal range is 0.0 to 1.0.
-    #[cfg_attr(feature = "serde", serde(rename = "value"))]
     unit_value: f32,
 
     /// If the origin source did not include a fractional part, the value as an integer.
     /// It is **not** divided by 100.
-    #[cfg_attr(feature = "serde", serde(skip))]
     int_value: Option<i32>,
   },
 
@@ -764,14 +716,12 @@ pub enum Token<'a> {
     /// Whether the number had a `+` or `-` sign.
     ///
     /// This is used is some cases like the <An+B> micro syntax. (See the `parse_nth` function.)
-    #[cfg_attr(feature = "serde", serde(skip))]
     has_sign: bool,
 
     /// The value as a float
     value: f32,
 
     /// If the origin source did not include a fractional part, the value as an integer.
-    #[cfg_attr(feature = "serde", serde(skip))]
     int_value: Option<i32>,
 
     /// The unit, e.g. "px" in `12px`
@@ -779,7 +729,6 @@ pub enum Token<'a> {
   },
 
   /// A [`<whitespace-token>`](https://drafts.csswg.org/css-syntax/#whitespace-token-diagram)
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   WhiteSpace(CowArcStr<'a>),
 
   /// A comment.
@@ -788,7 +737,6 @@ pub enum Token<'a> {
   /// But we do, because we can (borrowed &str makes it cheap).
   ///
   /// The value does not include the `/*` `*/` markers.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   Comment(CowArcStr<'a>),
 
   /// A `:` `<colon-token>`
@@ -816,17 +764,14 @@ pub enum Token<'a> {
   SubstringMatch,
 
   /// A `<!--` [`<CDO-token>`](https://drafts.csswg.org/css-syntax/#CDO-token-diagram)
-  #[cfg_attr(feature = "serde", serde(rename = "cdo"))]
   CDO,
 
   /// A `-->` [`<CDC-token>`](https://drafts.csswg.org/css-syntax/#CDC-token-diagram)
-  #[cfg_attr(feature = "serde", serde(rename = "cdc"))]
   CDC,
 
   /// A [`<function-token>`](https://drafts.csswg.org/css-syntax/#function-token-diagram)
   ///
   /// The value (name) does not include the `(` marker.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   Function(CowArcStr<'a>),
 
   /// A `<(-token>`
@@ -841,13 +786,11 @@ pub enum Token<'a> {
   /// A `<bad-url-token>`
   ///
   /// This token always indicates a parse error.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   BadUrl(CowArcStr<'a>),
 
   /// A `<bad-string-token>`
   ///
   /// This token always indicates a parse error.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<CowArcStr>"))]
   BadString(CowArcStr<'a>),
 
   /// A `<)-token>`
@@ -1228,11 +1171,9 @@ impl<'a, 'i> crate::visitor::Visitor<'i> for VarInliner<'a, 'i> {
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_variable, VARIABLES))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Variable<'i> {
   /// The variable name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: DashedIdentReference<'i>,
   /// A fallback value in case the variable is not defined.
   pub fallback: Option<TokenList<'i>>,
@@ -1284,14 +1225,11 @@ impl<'i> Variable<'i> {
   visit(visit_environment_variable, ENVIRONMENT_VARIABLES)
 )]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct EnvironmentVariable<'i> {
   /// The environment variable name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: EnvironmentVariableName<'i>,
   /// Optional indices into the dimensions of the environment variable.
-  #[cfg_attr(feature = "serde", serde(default))]
   pub indices: Vec<CSSInteger>,
   /// A fallback value in case the variable is not defined.
   pub fallback: Option<TokenList<'i>>,
@@ -1301,24 +1239,13 @@ pub struct EnvironmentVariable<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum EnvironmentVariableName<'i> {
   /// A UA-defined environment variable.
-  #[cfg_attr(
-    feature = "serde",
-    serde(with = "crate::serialization::ValueWrapper::<UAEnvironmentVariable>")
-  )]
   UA(UAEnvironmentVariable),
   /// A custom author-defined environment variable.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   Custom(DashedIdentReference<'i>),
   /// An unknown environment variable.
-  #[cfg_attr(feature = "serde", serde(with = "crate::serialization::ValueWrapper::<CustomIdent>"))]
   Unknown(CustomIdent<'i>),
 }
 
@@ -1456,11 +1383,9 @@ impl<'i> EnvironmentVariable<'i> {
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 #[cfg_attr(feature = "visitor", visit(visit_function, FUNCTIONS))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Function<'i> {
   /// The function name.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: Ident<'i>,
   /// The function arguments.
   pub arguments: TokenList<'i>,
@@ -1492,11 +1417,6 @@ impl<'i> Function<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum UnresolvedColor<'i> {
   /// An rgb() color.
@@ -1508,7 +1428,6 @@ pub enum UnresolvedColor<'i> {
     /// The blue component.
     b: f32,
     /// The unresolved alpha component.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     alpha: TokenList<'i>,
   },
   /// An hsl() color.
@@ -1520,11 +1439,9 @@ pub enum UnresolvedColor<'i> {
     /// The lightness component.
     l: f32,
     /// The unresolved alpha component.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     alpha: TokenList<'i>,
   },
   /// The light-dark() function.
-  #[cfg_attr(feature = "serde", serde(rename = "light-dark"))]
   LightDark {
     /// The light value.
     light: TokenList<'i>,

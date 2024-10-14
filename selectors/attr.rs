@@ -50,11 +50,6 @@ impl<'i, Impl: SelectorImpl<'i>> AttrSelectorWithOptionalNamespace<'i, Impl> {
 
 #[derive(Clone, Eq, PartialEq, Hash)]
 #[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
-#[cfg_attr(
   feature = "jsonschema",
   derive(schemars::JsonSchema),
   schemars(rename = "NamespaceConstraint")
@@ -104,11 +99,6 @@ impl<AttrValue> AttrSelectorOperation<AttrValue> {
 }
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum AttrSelectorOperator {
@@ -167,11 +157,6 @@ impl AttrSelectorOperator {
 pub static SELECTOR_WHITESPACE: &[char] = &[' ', '\t', '\n', '\r', '\x0C'];
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum ParsedCaseSensitivity {

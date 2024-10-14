@@ -18,17 +18,11 @@ use cssparser::*;
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum ListStyleType<'i> {
   /// No marker.
   None,
   /// An explicit marker string.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   String(CSSString<'i>),
   /// A named counter style.
   CounterStyle(CounterStyle<'i>),
@@ -54,29 +48,15 @@ impl IsCompatible for ListStyleType<'_> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum CounterStyle<'i> {
   /// A predefined counter style name.
-  #[cfg_attr(
-    feature = "serde",
-    serde(with = "crate::serialization::ValueWrapper::<PredefinedCounterStyle>")
-  )]
   Predefined(PredefinedCounterStyle),
   /// A custom counter style name.
-  #[cfg_attr(
-    feature = "serde",
-    serde(borrow, with = "crate::serialization::ValueWrapper::<CustomIdent>")
-  )]
   Name(CustomIdent<'i>),
   /// An inline [`symbols()`](https://www.w3.org/TR/css-counter-styles-3/#symbols-function) definition.
   Symbols {
     /// The counter system.
-    #[cfg_attr(feature = "serde", serde(default))]
     system: SymbolsType,
     /// The symbols.
     symbols: Vec<Symbol<'i>>,
@@ -284,15 +264,9 @@ impl Default for SymbolsType {
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Symbol<'i> {
   /// A string.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   String(CSSString<'i>),
   /// An image.
   Image(Image<'i>),
@@ -333,7 +307,6 @@ shorthand_property! {
   /// A value for the [list-style](https://www.w3.org/TR/2020/WD-css-lists-3-20201117/#list-style-property) shorthand property.
   pub struct ListStyle<'i> {
     /// The list style type.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     list_style_type: ListStyleType(ListStyleType<'i>),
     /// The list marker image.
     image: ListStyleImage(Image<'i>),

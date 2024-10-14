@@ -14,10 +14,6 @@ extern crate fxhash;
 extern crate log;
 extern crate phf;
 extern crate precomputed_hash;
-#[cfg(feature = "jsonschema")]
-extern crate schemars;
-#[cfg(feature = "serde")]
-extern crate serde;
 extern crate smallvec;
 #[cfg(feature = "into_owned")]
 extern crate static_self;
@@ -32,9 +28,6 @@ pub mod parser;
 pub mod sink;
 mod tree;
 pub mod visitor;
-
-#[cfg(all(feature = "serde"))]
-mod serialization;
 
 pub use crate::nth_index_cache::NthIndexCache;
 pub use crate::parser::{Parser, SelectorImpl, SelectorList};

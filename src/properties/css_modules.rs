@@ -15,11 +15,9 @@ use smallvec::SmallVec;
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct Composes<'i> {
   /// A list of class names to compose.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub names: CustomIdentList<'i>,
   /// Where the class names are composed from.
   pub from: Option<Specifier<'i>>,
@@ -33,17 +31,11 @@ pub struct Composes<'i> {
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum Specifier<'i> {
   /// The referenced name is global.
   Global,
   /// The referenced name comes from the specified file.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   File(CowArcStr<'i>),
   /// The referenced name comes from a source index (used during bundling).
   SourceIndex(u32),

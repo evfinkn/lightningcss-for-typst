@@ -23,7 +23,6 @@ use std::f32::consts::PI;
 /// A value for the [transform](https://www.w3.org/TR/2019/CR-css-transforms-1-20190214/#propdef-transform) property.
 #[derive(Debug, Clone, PartialEq, Default)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(transparent))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct TransformList(pub Vec<Transform>);
@@ -164,11 +163,6 @@ impl TransformList {
 /// An individual [transform function](https://www.w3.org/TR/2019/CR-css-transforms-1-20190214/#two-d-transform-functions).
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Transform {
@@ -219,7 +213,6 @@ pub enum Transform {
 /// A 2D matrix.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[allow(missing_docs)]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
@@ -259,7 +252,6 @@ impl Matrix<f32> {
 /// A 3D matrix.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[allow(missing_docs)]
 pub struct Matrix3d<T> {
@@ -1415,11 +1407,6 @@ enum_property! {
 /// A value for the [perspective](https://drafts.csswg.org/css-transforms-2/#perspective-property) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Perspective {
@@ -1432,11 +1419,6 @@ pub enum Perspective {
 /// A value for the [translate](https://drafts.csswg.org/css-transforms-2/#propdef-translate) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Translate {
@@ -1444,7 +1426,6 @@ pub enum Translate {
   None,
 
   /// The x, y, and z translations.
-  #[cfg_attr(feature = "serde", serde(untagged))]
   XYZ {
     /// The x translation.
     x: LengthPercentage,
@@ -1518,7 +1499,6 @@ impl Translate {
 /// A value for the [rotate](https://drafts.csswg.org/css-transforms-2/#propdef-rotate) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct Rotate {
@@ -1605,11 +1585,6 @@ impl Rotate {
 /// A value for the [scale](https://drafts.csswg.org/css-transforms-2/#propdef-scale) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "lowercase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Scale {
@@ -1617,7 +1592,6 @@ pub enum Scale {
   None,
 
   /// Scale on the x, y, and z axis.
-  #[cfg_attr(feature = "serde", serde(untagged))]
   XYZ {
     /// Scale on the x axis.
     x: NumberOrPercentage,

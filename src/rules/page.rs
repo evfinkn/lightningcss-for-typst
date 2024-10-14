@@ -18,15 +18,9 @@ use cssparser::*;
 /// Either a name or at least one pseudo class is required.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageSelector<'i> {
   /// An optional named page type.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: Option<CowArcStr<'i>>,
   /// A list of page pseudo classes.
   pub pseudo_classes: Vec<PagePseudoClass>,
@@ -123,17 +117,11 @@ enum_property! {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageMarginRule<'i> {
   /// The margin box identifier for this rule.
   pub margin_box: PageMarginBox,
   /// The declarations within the rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub declarations: DeclarationBlock<'i>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]
@@ -157,11 +145,9 @@ impl<'i> ToTypst for PageMarginRule<'i> {
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PageRule<'i> {
   /// A list of page selectors.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   #[cfg_attr(feature = "visitor", skip_visit)]
   pub selectors: Vec<PageSelector<'i>>,
   /// The declarations within the `@page` rule.

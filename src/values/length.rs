@@ -46,11 +46,6 @@ impl IsCompatible for LengthPercentage {
 /// Either a [`<length-percentage>`](https://www.w3.org/TR/css-values-4/#typedef-length-percentage), or the `auto` keyword.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum LengthPercentageOrAuto {
@@ -95,7 +90,6 @@ macro_rules! define_length_units {
     #[derive(Debug, Clone, PartialEq)]
     #[cfg_attr(feature = "visitor", derive(Visit))]
     #[cfg_attr(feature = "visitor", visit(visit_length, LENGTHS))]
-    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize), serde(tag = "unit", content = "value", rename_all = "kebab-case"))]
     #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
     pub enum LengthValue {
       $(
@@ -553,11 +547,6 @@ impl LengthValue {
 /// A CSS [`<length>`](https://www.w3.org/TR/css-values-4/#lengths) value, with support for `calc()`.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Length {
@@ -836,11 +825,6 @@ impl_try_from_angle!(Length);
 /// Either a [`<length>`](https://www.w3.org/TR/css-values-4/#lengths) or a [`<number>`](https://www.w3.org/TR/css-values-4/#numbers).
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum LengthOrNumber {

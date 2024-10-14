@@ -51,7 +51,6 @@ impl IsCompatible for BorderImageRepeatKeyword {
 /// A value for the [border-image-repeat](https://www.w3.org/TR/css-backgrounds-3/#border-image-repeat) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct BorderImageRepeat {
@@ -104,11 +103,6 @@ impl IsCompatible for BorderImageRepeat {
 /// A value for the [border-image-width](https://www.w3.org/TR/css-backgrounds-3/#border-image-width) property.
 #[derive(Debug, Clone, PartialEq, Parse, ToTypst)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", content = "value", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum BorderImageSideWidth {
@@ -138,7 +132,6 @@ impl IsCompatible for BorderImageSideWidth {
 /// A value for the [border-image-slice](https://www.w3.org/TR/css-backgrounds-3/#border-image-slice) property.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct BorderImageSlice {
@@ -192,7 +185,6 @@ define_shorthand! {
   #[derive(Default)]
   pub struct BorderImage<'i>(VendorPrefix) {
     /// The border image.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     source: BorderImageSource(Image<'i>),
     /// The offsets that define where the image is sliced.
     slice: BorderImageSlice(BorderImageSlice),

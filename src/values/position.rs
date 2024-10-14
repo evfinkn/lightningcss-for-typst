@@ -11,14 +11,10 @@ use crate::traits::{IsCompatible, Parse, ToTypst, Zero};
 use crate::visitor::Visit;
 use cssparser::*;
 
-#[cfg(feature = "serde")]
-use crate::serialization::ValueWrapper;
-
 /// A CSS [`<position>`](https://www.w3.org/TR/css3-values/#position) value,
 /// as used in the `background-position` property, gradients, masks, etc.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct Position {
@@ -286,18 +282,12 @@ impl IsCompatible for Position {
 /// This type is generic over side keywords.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "type", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PositionComponent<S> {
   /// The `center` keyword.
   Center,
   /// A length or percentage from the top-left corner of the box.
-  #[cfg_attr(feature = "serde", serde(with = "ValueWrapper::<LengthPercentage>"))]
   Length(LengthPercentage),
   /// A side keyword with an optional offset.
   Side {

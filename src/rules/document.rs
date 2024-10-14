@@ -15,12 +15,10 @@ use crate::visitor::Visit;
 /// is allowed since Firefox was the only browser that ever implemented this rule.
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub struct MozDocumentRule<'i, R = DefaultAtRule> {
   /// Nested rules within the `@-moz-document` rule.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub rules: CssRuleList<'i, R>,
   /// The location of the rule in the source file.
   #[cfg_attr(feature = "visitor", skip_visit)]

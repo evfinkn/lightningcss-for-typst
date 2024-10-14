@@ -93,62 +93,6 @@ impl cssparser::ToCss for VendorPrefix {
   }
 }
 
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl serde::Serialize for VendorPrefix {
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    let mut values = Vec::new();
-    if *self != VendorPrefix::None {
-      if self.contains(VendorPrefix::None) {
-        values.push("none");
-      }
-      if self.contains(VendorPrefix::WebKit) {
-        values.push("webkit");
-      }
-      if self.contains(VendorPrefix::Moz) {
-        values.push("moz");
-      }
-      if self.contains(VendorPrefix::Ms) {
-        values.push("ms");
-      }
-      if self.contains(VendorPrefix::O) {
-        values.push("o");
-      }
-    }
-    values.serialize(serializer)
-  }
-}
-
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'de> serde::Deserialize<'de> for VendorPrefix {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    use crate::values::string::CowArcStr;
-    let values = Vec::<CowArcStr<'de>>::deserialize(deserializer)?;
-    if values.is_empty() {
-      return Ok(VendorPrefix::None);
-    }
-    let mut res = VendorPrefix::empty();
-    for value in values {
-      res |= match value.as_ref() {
-        "none" => VendorPrefix::None,
-        "webkit" => VendorPrefix::WebKit,
-        "moz" => VendorPrefix::Moz,
-        "ms" => VendorPrefix::Ms,
-        "o" => VendorPrefix::O,
-        _ => continue,
-      };
-    }
-    Ok(res)
-  }
-}
-
 #[cfg(feature = "visitor")]
 #[cfg_attr(docsrs, doc(cfg(feature = "visitor")))]
 impl<'i, V: ?Sized + Visitor<'i, T>, T: Visit<'i, T, V>> Visit<'i, T, V> for VendorPrefix {

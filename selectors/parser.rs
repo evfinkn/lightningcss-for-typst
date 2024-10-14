@@ -256,13 +256,6 @@ macro_rules! with_bounds {
     }
 }
 
-#[cfg(feature = "serde")]
-with_bounds! {
-    [Clone + PartialEq + Eq + std::hash::Hash]
-    [From<CowRcStr<'i>> + From<std::borrow::Cow<'i, str>> + AsRef<str>]
-}
-
-#[cfg(not(feature = "serde"))]
 with_bounds! {
     [Clone + PartialEq + Eq + std::hash::Hash]
     [From<CowRcStr<'i>>]
@@ -361,14 +354,6 @@ pub trait Parser<'i> {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(bound(
-    serialize = "Impl::NonTSPseudoClass: serde::Serialize, Impl::PseudoElement: serde::Serialize, Impl::VendorPrefix: serde::Serialize",
-    deserialize = "Impl::NonTSPseudoClass: serde::Deserialize<'de>, Impl::PseudoElement: serde::Deserialize<'de>, Impl::VendorPrefix: serde::Deserialize<'de>"
-  ))
-)]
-#[cfg_attr(
   feature = "jsonschema",
   derive(schemars::JsonSchema),
   schemars(
@@ -377,7 +362,7 @@ pub trait Parser<'i> {
   )
 )]
 pub struct SelectorList<'i, Impl: SelectorImpl<'i>>(
-  #[cfg_attr(feature = "serde", serde(borrow))] pub SmallVec<[Selector<'i, Impl>; 1]>,
+  pub SmallVec<[Selector<'i, Impl>; 1]>,
 );
 
 #[cfg(feature = "into_owned")]
@@ -922,12 +907,6 @@ impl<'i, Impl: SelectorImpl<'i>> Selector<'i, Impl> {
     Selector(spec, components)
   }
 
-  #[cfg(feature = "serde")]
-  #[inline]
-  pub(crate) fn new(spec: SpecificityAndFlags, components: Vec<Component<'i, Impl>>) -> Self {
-    Selector(spec, components)
-  }
-
   /// Returns count of simple selectors and combinators in the Selector.
   #[inline]
   pub fn len(&self) -> usize {
@@ -1141,11 +1120,6 @@ impl<'a, 'i, Impl: SelectorImpl<'i>> Iterator for AncestorIter<'a, 'i, Impl> {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum Combinator {
@@ -1734,34 +1708,6 @@ impl<'i, Impl: SelectorImpl<'i>> Debug for AttrSelectorWithOptionalNamespace<'i,
 impl<'i, Impl: SelectorImpl<'i>> Debug for LocalName<'i, Impl> {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     self.to_css(f)
-  }
-}
-
-#[cfg(feature = "serde")]
-impl<'i, Impl: SelectorImpl<'i>> serde::Serialize for LocalName<'i, Impl>
-where
-  Impl::LocalName: serde::Serialize,
-{
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    self.name.serialize(serializer)
-  }
-}
-
-#[cfg(feature = "serde")]
-impl<'i, 'de: 'i, Impl: SelectorImpl<'i>> serde::Deserialize<'de> for LocalName<'i, Impl>
-where
-  Impl::LocalName: serde::Deserialize<'de>,
-{
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let name = Impl::LocalName::deserialize(deserializer)?;
-    let lower_name = to_ascii_lowercase(name.as_ref().to_string().into()).into();
-    Ok(LocalName { name, lower_name })
   }
 }
 

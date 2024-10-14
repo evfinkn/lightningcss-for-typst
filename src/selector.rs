@@ -24,9 +24,6 @@ use parcel_selectors::{
 use std::collections::HashSet;
 use std::fmt;
 
-#[cfg(feature = "serde")]
-use crate::serialization::*;
-
 mod private {
   #[derive(Debug, Clone, PartialEq, Eq, Hash)]
   #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
@@ -371,11 +368,6 @@ enum_property! {
 
 /// A pseudo class.
 #[derive(Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "kind", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PseudoClass<'i> {
@@ -383,7 +375,6 @@ pub enum PseudoClass<'i> {
   /// The [:lang()](https://drafts.csswg.org/selectors-4/#the-lang-pseudo) pseudo class.
   Lang {
     /// A list of language codes.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     languages: Vec<CowArcStr<'i>>,
   },
   /// The [:dir()](https://drafts.csswg.org/selectors-4/#the-dir-pseudo) pseudo class.
@@ -429,7 +420,6 @@ pub enum PseudoClass<'i> {
   VolumeLocked,
 
   /// The [:fullscreen](https://fullscreen.spec.whatwg.org/#:fullscreen-pseudo-class) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   Fullscreen(VendorPrefix),
 
   // https://drafts.csswg.org/selectors/#display-state-pseudos
@@ -451,7 +441,6 @@ pub enum PseudoClass<'i> {
 
   // https://drafts.csswg.org/selectors-4/#location
   /// The [:any-link](https://drafts.csswg.org/selectors-4/#the-any-link-pseudo) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   AnyLink(VendorPrefix),
   /// The [:link](https://drafts.csswg.org/selectors-4/#link-pseudo) pseudo class.
   Link,
@@ -470,13 +459,10 @@ pub enum PseudoClass<'i> {
   /// The [:disabled](https://drafts.csswg.org/selectors-4/#disabled-pseudo) pseudo class.
   Disabled,
   /// The [:read-only](https://drafts.csswg.org/selectors-4/#read-only-pseudo) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   ReadOnly(VendorPrefix),
   /// The [:read-write](https://drafts.csswg.org/selectors-4/#read-write-pseudo) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   ReadWrite(VendorPrefix),
   /// The [:placeholder-shown](https://drafts.csswg.org/selectors-4/#placeholder) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   PlaceholderShown(VendorPrefix),
   /// The [:default](https://drafts.csswg.org/selectors-4/#the-default-pseudo) pseudo class.
   Default,
@@ -504,7 +490,6 @@ pub enum PseudoClass<'i> {
   UserInvalid,
 
   /// The [:autofill](https://html.spec.whatwg.org/multipage/semantics-other.html#selector-autofill) pseudo class.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   Autofill(VendorPrefix),
 
   // CSS modules
@@ -521,10 +506,6 @@ pub enum PseudoClass<'i> {
 
   /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo class.
   // https://webkit.org/blog/363/styling-scrollbars/
-  #[cfg_attr(
-    feature = "serde",
-    serde(rename = "webkit-scrollbar", with = "ValueWrapper::<WebKitScrollbarPseudoClass>")
-  )]
   WebKitScrollbar(WebKitScrollbarPseudoClass),
   /// An unknown pseudo class.
   Custom {
@@ -542,11 +523,6 @@ pub enum PseudoClass<'i> {
 
 /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo class.
 #[derive(Clone, Eq, PartialEq, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitScrollbarPseudoClass {
@@ -846,11 +822,6 @@ impl<'i> PseudoClass<'i> {
 
 /// A pseudo element.
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(tag = "kind", rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum PseudoElement<'i> {
@@ -863,24 +834,16 @@ pub enum PseudoElement<'i> {
   /// The [::first-letter](https://drafts.csswg.org/css-pseudo-4/#first-letter-pseudo) pseudo element.
   FirstLetter,
   /// The [::selection](https://drafts.csswg.org/css-pseudo-4/#selectordef-selection) pseudo element.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   Selection(VendorPrefix),
   /// The [::placeholder](https://drafts.csswg.org/css-pseudo-4/#placeholder-pseudo) pseudo element.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   Placeholder(VendorPrefix),
   ///  The [::marker](https://drafts.csswg.org/css-pseudo-4/#marker-pseudo) pseudo element.
   Marker,
   /// The [::backdrop](https://fullscreen.spec.whatwg.org/#::backdrop-pseudo-element) pseudo element.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   Backdrop(VendorPrefix),
   /// The [::file-selector-button](https://drafts.csswg.org/css-pseudo-4/#file-selector-button-pseudo) pseudo element.
-  #[cfg_attr(feature = "serde", serde(with = "PrefixWrapper"))]
   FileSelectorButton(VendorPrefix),
   /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo element.
-  #[cfg_attr(
-    feature = "serde",
-    serde(rename = "webkit-scrollbar", with = "ValueWrapper::<WebKitScrollbarPseudoElement>")
-  )]
   WebKitScrollbar(WebKitScrollbarPseudoElement),
   /// The [::cue](https://w3c.github.io/webvtt/#the-cue-pseudo-element) pseudo element.
   Cue,
@@ -899,25 +862,21 @@ pub enum PseudoElement<'i> {
   /// The [::view-transition](https://w3c.github.io/csswg-drafts/css-view-transitions-1/#view-transition) pseudo element.
   ViewTransition,
   /// The [::view-transition-group()](https://w3c.github.io/csswg-drafts/css-view-transitions-1/#view-transition-group-pt-name-selector) functional pseudo element.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   ViewTransitionGroup {
     /// A part name selector.
     part_name: ViewTransitionPartName<'i>,
   },
   /// The [::view-transition-image-pair()](https://w3c.github.io/csswg-drafts/css-view-transitions-1/#view-transition-image-pair-pt-name-selector) functional pseudo element.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   ViewTransitionImagePair {
     /// A part name selector.
     part_name: ViewTransitionPartName<'i>,
   },
   /// The [::view-transition-old()](https://w3c.github.io/csswg-drafts/css-view-transitions-1/#view-transition-old-pt-name-selector) functional pseudo element.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   ViewTransitionOld {
     /// A part name selector.
     part_name: ViewTransitionPartName<'i>,
   },
   /// The [::view-transition-new()](https://w3c.github.io/csswg-drafts/css-view-transitions-1/#view-transition-new-pt-name-selector) functional pseudo element.
-  #[cfg_attr(feature = "serde", serde(rename_all = "camelCase"))]
   ViewTransitionNew {
     /// A part name selector.
     part_name: ViewTransitionPartName<'i>,
@@ -925,7 +884,6 @@ pub enum PseudoElement<'i> {
   /// An unknown pseudo element.
   Custom {
     /// The name of the pseudo element.
-    #[cfg_attr(feature = "serde", serde(borrow))]
     name: CowArcStr<'i>,
   },
   /// An unknown functional pseudo element.
@@ -939,11 +897,6 @@ pub enum PseudoElement<'i> {
 
 /// A [webkit scrollbar](https://webkit.org/blog/363/styling-scrollbars/) pseudo element.
 #[derive(PartialEq, Eq, Clone, Debug, Hash)]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "kebab-case")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
 pub enum WebKitScrollbarPseudoElement {
@@ -971,36 +924,6 @@ pub enum ViewTransitionPartName<'i> {
   All,
   /// <custom-ident>
   Name(CustomIdent<'i>),
-}
-
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'i> serde::Serialize for ViewTransitionPartName<'i> {
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::Serializer,
-  {
-    match self {
-      ViewTransitionPartName::All => serializer.serialize_str("*"),
-      ViewTransitionPartName::Name(name) => serializer.serialize_str(&name.0),
-    }
-  }
-}
-
-#[cfg(feature = "serde")]
-#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-impl<'i, 'de: 'i> serde::Deserialize<'de> for ViewTransitionPartName<'i> {
-  fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-  where
-    D: serde::Deserializer<'de>,
-  {
-    let s = CowArcStr::deserialize(deserializer)?;
-    if s == "*" {
-      Ok(ViewTransitionPartName::All)
-    } else {
-      Ok(ViewTransitionPartName::Name(CustomIdent(s)))
-    }
-  }
 }
 
 #[cfg(feature = "jsonschema")]

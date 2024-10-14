@@ -19,15 +19,9 @@ use cssparser::*;
 #[derive(Debug, PartialEq, Clone)]
 #[cfg_attr(feature = "visitor", derive(Visit))]
 #[cfg_attr(feature = "into_owned", derive(static_self::IntoOwned))]
-#[cfg_attr(
-  feature = "serde",
-  derive(serde::Serialize, serde::Deserialize),
-  serde(rename_all = "camelCase")
-)]
 #[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct PropertyRule<'i> {
   /// The name of the custom property to declare.
-  #[cfg_attr(feature = "serde", serde(borrow))]
   pub name: DashedIdent<'i>,
   /// A syntax string to specify the grammar for the custom property.
   #[cfg_attr(feature = "visitor", skip_visit)]
